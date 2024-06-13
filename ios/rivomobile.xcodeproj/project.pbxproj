@@ -8,12 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* rivomobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* rivomobileTests.m */; };
+		095A4E2BE5C14DC1BB3F8564 /* Nunito-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6549E3F8B878456892E69D09 /* Nunito-BlackItalic.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-rivomobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-rivomobile.a */; };
+		100A4682BEE747CCBAF8B2CC /* Nunito-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4C2E7E3CD563468FA9686E8D /* Nunito-SemiBoldItalic.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		14D470BC3CDB4CCC84E92593 /* Nunito-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 271476F8DBBE4A33A1237266 /* Nunito-ExtraLightItalic.ttf */; };
+		163128773CD84595B60951EB /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C4D8D4448FD4162BC214E2E /* Nunito-Bold.ttf */; };
+		3585B197B6F04682A470E095 /* Nunito-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FDFD4A8605F1421E9B288455 /* Nunito-Italic.ttf */; };
+		476B9DCB8C46457CA2A8E2C0 /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F510082E39284A32A709463C /* Nunito-SemiBold.ttf */; };
+		4C6AEE16C3B94E52A6F90105 /* Nunito-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D3580E2D6BA4C2992A69E3F /* Nunito-MediumItalic.ttf */; };
+		554F85DE23234A33B0A46D5A /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FFC2212DB91841738059699D /* Nunito-Light.ttf */; };
 		7699B88040F8A987B510C191 /* libPods-rivomobile-rivomobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-rivomobile-rivomobileTests.a */; };
+		76BB08B90871F8EB47039D6C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */; };
+		7D1C2FD215824F10A45F4333 /* Nunito-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E08F39324FD340288CCD4E5B /* Nunito-ExtraLight.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		92DC20FA5FE54D58A72B442F /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CACF7DFA11A443819D46F8F9 /* Nunito-ExtraBold.ttf */; };
+		970A821AB22E474485276E10 /* Nunito-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8EA1B4DB7B8B42FD88BFECA2 /* Nunito-ExtraBoldItalic.ttf */; };
+		A27E26371737444699237919 /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4975D0D65984450CAD75DD78 /* Nunito-LightItalic.ttf */; };
+		AD873A373D1043528905470E /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 012042EF98184852A16031BD /* Nunito-Regular.ttf */; };
+		C45E4E63FA7A4C46ACE17344 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 72798B34F6024C459D4290C2 /* Nunito-BoldItalic.ttf */; };
+		D09AFD63D61141839D428089 /* Nunito-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3B9721607FFA451796620728 /* Nunito-Black.ttf */; };
+		E3B4DABE647A4C5982E6CDC2 /* Nunito-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1F28649DDCF547FD85A5EE51 /* Nunito-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,21 +47,38 @@
 		00E356EE1AD99517003FC87E /* rivomobileTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = rivomobileTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* rivomobileTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = rivomobileTests.m; sourceTree = "<group>"; };
+		012042EF98184852A16031BD /* Nunito-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Regular.ttf"; path = "../assets/fonts/Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* rivomobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = rivomobile.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = rivomobile/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = rivomobile/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = rivomobile/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rivomobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rivomobile/main.m; sourceTree = "<group>"; };
-	    13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-rivomobile-rivomobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rivomobile-rivomobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1F28649DDCF547FD85A5EE51 /* Nunito-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Medium.ttf"; path = "../assets/fonts/Nunito-Medium.ttf"; sourceTree = "<group>"; };
+		271476F8DBBE4A33A1237266 /* Nunito-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLightItalic.ttf"; path = "../assets/fonts/Nunito-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-rivomobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile.debug.xcconfig"; path = "Target Support Files/Pods-rivomobile/Pods-rivomobile.debug.xcconfig"; sourceTree = "<group>"; };
+		3B9721607FFA451796620728 /* Nunito-Black.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Black.ttf"; path = "../assets/fonts/Nunito-Black.ttf"; sourceTree = "<group>"; };
+		3C4D8D4448FD4162BC214E2E /* Nunito-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Bold.ttf"; path = "../assets/fonts/Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		3D3580E2D6BA4C2992A69E3F /* Nunito-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-MediumItalic.ttf"; path = "../assets/fonts/Nunito-MediumItalic.ttf"; sourceTree = "<group>"; };
+		4975D0D65984450CAD75DD78 /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-LightItalic.ttf"; path = "../assets/fonts/Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
+		4C2E7E3CD563468FA9686E8D /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBoldItalic.ttf"; path = "../assets/fonts/Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-rivomobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile.release.xcconfig"; path = "Target Support Files/Pods-rivomobile/Pods-rivomobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-rivomobile-rivomobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile-rivomobileTests.debug.xcconfig"; path = "Target Support Files/Pods-rivomobile-rivomobileTests/Pods-rivomobile-rivomobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-rivomobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rivomobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6549E3F8B878456892E69D09 /* Nunito-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BlackItalic.ttf"; path = "../assets/fonts/Nunito-BlackItalic.ttf"; sourceTree = "<group>"; };
+		72798B34F6024C459D4290C2 /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-BoldItalic.ttf"; path = "../assets/fonts/Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = rivomobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-rivomobile-rivomobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile-rivomobileTests.release.xcconfig"; path = "Target Support Files/Pods-rivomobile-rivomobileTests/Pods-rivomobile-rivomobileTests.release.xcconfig"; sourceTree = "<group>"; };
+		8EA1B4DB7B8B42FD88BFECA2 /* Nunito-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBoldItalic.ttf"; path = "../assets/fonts/Nunito-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
+		ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		CACF7DFA11A443819D46F8F9 /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraBold.ttf"; path = "../assets/fonts/Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
+		E08F39324FD340288CCD4E5B /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-ExtraLight.ttf"; path = "../assets/fonts/Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F510082E39284A32A709463C /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-SemiBold.ttf"; path = "../assets/fonts/Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
+		FDFD4A8605F1421E9B288455 /* Nunito-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Italic.ttf"; path = "../assets/fonts/Nunito-Italic.ttf"; sourceTree = "<group>"; };
+		FFC2212DB91841738059699D /* Nunito-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Nunito-Light.ttf"; path = "../assets/fonts/Nunito-Light.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +128,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */,
 			);
 			name = rivomobile;
 			sourceTree = "<group>";
@@ -124,6 +159,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				9CC86013CC9A4E85B13236B1 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -137,6 +173,30 @@
 				00E356EE1AD99517003FC87E /* rivomobileTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9CC86013CC9A4E85B13236B1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3B9721607FFA451796620728 /* Nunito-Black.ttf */,
+				6549E3F8B878456892E69D09 /* Nunito-BlackItalic.ttf */,
+				3C4D8D4448FD4162BC214E2E /* Nunito-Bold.ttf */,
+				72798B34F6024C459D4290C2 /* Nunito-BoldItalic.ttf */,
+				CACF7DFA11A443819D46F8F9 /* Nunito-ExtraBold.ttf */,
+				8EA1B4DB7B8B42FD88BFECA2 /* Nunito-ExtraBoldItalic.ttf */,
+				E08F39324FD340288CCD4E5B /* Nunito-ExtraLight.ttf */,
+				271476F8DBBE4A33A1237266 /* Nunito-ExtraLightItalic.ttf */,
+				FDFD4A8605F1421E9B288455 /* Nunito-Italic.ttf */,
+				FFC2212DB91841738059699D /* Nunito-Light.ttf */,
+				4975D0D65984450CAD75DD78 /* Nunito-LightItalic.ttf */,
+				1F28649DDCF547FD85A5EE51 /* Nunito-Medium.ttf */,
+				3D3580E2D6BA4C2992A69E3F /* Nunito-MediumItalic.ttf */,
+				012042EF98184852A16031BD /* Nunito-Regular.ttf */,
+				F510082E39284A32A709463C /* Nunito-SemiBold.ttf */,
+				4C2E7E3CD563468FA9686E8D /* Nunito-SemiBoldItalic.ttf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
@@ -245,6 +305,23 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				76BB08B90871F8EB47039D6C /* PrivacyInfo.xcprivacy in Resources */,
+				D09AFD63D61141839D428089 /* Nunito-Black.ttf in Resources */,
+				095A4E2BE5C14DC1BB3F8564 /* Nunito-BlackItalic.ttf in Resources */,
+				163128773CD84595B60951EB /* Nunito-Bold.ttf in Resources */,
+				C45E4E63FA7A4C46ACE17344 /* Nunito-BoldItalic.ttf in Resources */,
+				92DC20FA5FE54D58A72B442F /* Nunito-ExtraBold.ttf in Resources */,
+				970A821AB22E474485276E10 /* Nunito-ExtraBoldItalic.ttf in Resources */,
+				7D1C2FD215824F10A45F4333 /* Nunito-ExtraLight.ttf in Resources */,
+				14D470BC3CDB4CCC84E92593 /* Nunito-ExtraLightItalic.ttf in Resources */,
+				3585B197B6F04682A470E095 /* Nunito-Italic.ttf in Resources */,
+				554F85DE23234A33B0A46D5A /* Nunito-Light.ttf in Resources */,
+				A27E26371737444699237919 /* Nunito-LightItalic.ttf in Resources */,
+				E3B4DABE647A4C5982E6CDC2 /* Nunito-Medium.ttf in Resources */,
+				4C6AEE16C3B94E52A6F90105 /* Nunito-MediumItalic.ttf in Resources */,
+				AD873A373D1043528905470E /* Nunito-Regular.ttf in Resources */,
+				476B9DCB8C46457CA2A8E2C0 /* Nunito-SemiBold.ttf in Resources */,
+				100A4682BEE747CCBAF8B2CC /* Nunito-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -431,7 +508,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rivomobile.app/rivomobile";
 			};
@@ -455,7 +532,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/rivomobile.app/rivomobile";
 			};
@@ -468,6 +545,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CLP7SRURBN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = rivomobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -480,7 +558,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = rivomobile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -495,6 +573,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = CLP7SRURBN;
 				INFOPLIST_FILE = rivomobile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -506,7 +585,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = rivomobile;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -517,6 +596,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -544,6 +624,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				CXX = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -563,6 +644,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD = "";
+				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -582,7 +665,13 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 			};
 			name = Debug;
 		};
@@ -590,6 +679,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CC = "";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -617,6 +707,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				CXX = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = "";
@@ -629,6 +720,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD = "";
+				LDPLUSPLUS = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
 					"$(inherited)",
@@ -647,7 +740,13 @@
 					"-DFOLLY_CFG_NO_COROUTINES=1",
 					"-DFOLLY_HAVE_CLOCK_GETTIME=1",
 				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					" ",
+				);
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
+				USE_HERMES = true;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
