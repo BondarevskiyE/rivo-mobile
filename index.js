@@ -5,4 +5,7 @@ import './globals';
 import App from './App';
 import {name as appName} from './app.json';
 
+window.addEventListener = x => x;
+window.removeEventListener = x => x;
+
 AppRegistry.registerComponent(appName, () => App);

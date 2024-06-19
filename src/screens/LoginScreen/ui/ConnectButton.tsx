@@ -2,8 +2,8 @@ import React from 'react';
 
 import {Pressable, StyleSheet, Text} from 'react-native';
 
-import {GoogleIcon, TwitterIcon} from '../icons';
-import {Colors} from '../../constants';
+import {GoogleIcon, TwitterIcon} from '../../../shared/ui/icons';
+import {Colors, Fonts} from '../../../shared/constants';
 
 interface Props {
   onPress: () => void;
@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   buttonText: {
-    fontFamily: 'Nunito-Medium',
+    fontFamily: Fonts.medium,
     color: Colors.ui_white,
   },
   buttonIcon: {

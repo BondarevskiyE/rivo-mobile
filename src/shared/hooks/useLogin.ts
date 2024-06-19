@@ -28,14 +28,10 @@ import {
 
 // Chain
 import {arbitrum} from 'viem/chains';
+import {BUNDLER_RPC, PAYMASTER_RPC} from '../constants';
 
 const scheme = 'rivomobile';
 const redirectUrl = `${scheme}://openlogin`;
-
-const BUNDLER_RPC =
-  'https://rpc.zerodev.app/api/v2/bundler/b2fbf167-aa2f-49e8-b8e9-b878a8b8f2f1';
-const PAYMASTER_RPC =
-  'https://rpc.zerodev.app/api/v2/paymaster/b2fbf167-aa2f-49e8-b8e9-b878a8b8f2f1';
 
 const entryPoint = ENTRYPOINT_ADDRESS_V07;
 const chain = arbitrum;
@@ -49,7 +45,7 @@ const SdkInitParams = {
     twitter: {
       verifier: 'twitter', // get it from web3auth dashboard for auth0 configuration
       typeOfLogin: 'twitter' as TypeOfLogin,
-      clientId: 'fCZok3pKcSJQv67eNR0qFNY0ikzRlkMc', // get it from auth0 dashboard
+      clientId: 'K6NSh9IjJUgY53fk8Tcz6FBXZTWc0mvA', // get it from auth0 dashboard
     },
   },
 };
@@ -81,6 +77,7 @@ export const useLogin = () => {
   const [provider, setProvider] = useState<EthereumPrivateKeyProvider | null>(
     null,
   );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [AAClient, setAAClient] = useState<any>(null);
   const [walletAddress, setWalletAddress] = useState('');
 
@@ -116,9 +113,11 @@ export const useLogin = () => {
       // IMP START - Login
       await web3auth.login({
         loginProvider,
+        redirectUrl,
         extraLoginOptions,
       });
       if (web3auth.privKey) {
+        setIsLoading(true);
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
         // IMP END - Login
         setProvider(ethereumPrivateKeyProvider);
@@ -127,6 +126,7 @@ export const useLogin = () => {
           // @ts-ignore
           ethereumPrivateKeyProvider,
         );
+
         const publicClient = createPublicClient({
           transport: http(BUNDLER_RPC),
         });
@@ -166,6 +166,7 @@ export const useLogin = () => {
         setAAClient(kernelClient);
         setWalletAddress(kernelClient.account.address);
         setIsLoggedIn(true);
+        setIsLoading(false);
       }
     } catch (e: any) {
       console.log(e);
@@ -183,9 +184,17 @@ export const useLogin = () => {
 
     if (!web3auth.privKey) {
       setProvider(null);
-      setIsLoggedIn(false);
+      // setIsLoggedIn(false);
     }
   };
 
-  return {login, logout, provider, walletAddress, AAClient, isLoggedIn};
+  return {
+    login,
+    logout,
+    isLoading,
+    provider,
+    walletAddress,
+    AAClient,
+    isLoggedIn,
+  };
 };

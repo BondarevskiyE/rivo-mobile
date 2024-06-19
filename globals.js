@@ -6,6 +6,7 @@ global.location = {
 };
 
 global.process.version = 'v16.0.0';
+// global.event = require('custom-event-polyfill').default;
 if (!global.process.version) {
   global.process = require('process');
   console.log({process: global.process});

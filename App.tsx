@@ -1,7 +1,8 @@
 import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
 import Routes from './src/routes';
-import {Colors} from './src/constants';
+import {Colors} from './src/shared/constants';
+// import Providers from './src/appProviders';
 
 const App = () => {
   return (

@@ -4,14 +4,20 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
 
 // Chain
-import {useLogin} from '../../hooks';
-import {Colors, onboardingData} from '../../constants';
-import {ConnectButton} from '../../components/ConnectButton';
-import ExternalLink from '../../components/ExternalLink/ExternalLink';
-import {Slider} from '../../components/Slider/Slider';
+import {useLogin} from '../../shared/hooks';
+import {Colors, Fonts} from '../../shared/constants';
+import {onboardingData} from '../../shared/config';
+import {ConnectButton} from './ui/ConnectButton';
+import ExternalLink from '../../shared/ui/ExternalLink';
+import {Slider} from '../../shared/ui/Slider/Slider';
+import {CardCreating} from '../../widgets/CardCreating/CardCreating';
 
 const LoginScreen = () => {
-  const {login, logout, isLoggedIn, walletAddress} = useLogin();
+  const {login, isLoading, logout, isLoggedIn, walletAddress} = useLogin();
+
+  if (isLoading) {
+    return <CardCreating isLoading={isLoading} />;
+  }
 
   return (
     <View style={styles.container}>
@@ -22,17 +28,6 @@ const LoginScreen = () => {
         </View>
       ) : (
         <View style={styles.loggingContainer}>
-          {/* <Text style={styles.titleText}>
-            Welcome to Rivo, a decentralized wallet with built-in yields
-          </Text> */}
-          {/* <Image
-            source={Images.onboardingFirstSlide}
-            style={{
-              resizeMode: 'contain',
-
-              height: '100%',
-            }}
-          /> */}
           <Slider data={onboardingData} />
           <View>
             <ConnectButton
@@ -82,7 +77,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 28,
-    fontFamily: 'Nunito-ExtraBold',
+    fontFamily: Fonts.extraBold,
     textAlign: 'center',
   },
   loggingContainer: {
@@ -90,14 +85,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   captionText: {
-    fontFamily: 'Nunito-Bold',
+    fontFamily: Fonts.extraBold,
     fontSize: 13,
     color: Colors.grey_text,
     lineHeight: 18.2,
     marginTop: 20,
   },
   externalLink: {
-    fontFamily: 'Nunito-Bold',
+    fontFamily: Fonts.bold,
     fontSize: 13,
     color: Colors.blue_text,
   },

@@ -7,7 +7,7 @@ interface Props {
   style?: StyleProp<TextStyle>;
 }
 
-const ExternalLink: React.FC<Props> = ({url, children, style = {}}) => {
+export const ExternalLink: React.FC<Props> = ({url, children, style = {}}) => {
   const onPress = () =>
     Linking.canOpenURL(url).then(() => {
       Linking.openURL(url);
@@ -25,5 +25,3 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
-
-export default ExternalLink;

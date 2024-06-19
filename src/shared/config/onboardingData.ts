@@ -1,7 +1,7 @@
-import {Images} from '.';
-import {CardItem} from '../components/Slider/types';
+import {Images} from '../constants/ui';
+import {CardItem} from '../ui/Slider/types';
 
-export const data: CardItem[] = [
+export const onboardingData: CardItem[] = [
   {
     title: 'Welcome to Rivo, a decentralized wallet with built-in yields',
     image: Images.onboardingFirstSlide,
