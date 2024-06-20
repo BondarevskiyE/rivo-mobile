@@ -72,12 +72,18 @@ const ethereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
 
 const web3auth = new Web3Auth(WebBrowser, EncryptedStorage, SdkInitParams);
 
+export enum LOGIN_STEPS {
+  AUTH,
+  CARD_CREATING,
+}
+
 export const useLogin = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [provider, setProvider] = useState<EthereumPrivateKeyProvider | null>(
     null,
   );
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [step, setStep] = useState<LOGIN_STEPS>(LOGIN_STEPS.AUTH);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [AAClient, setAAClient] = useState<any>(null);
   const [walletAddress, setWalletAddress] = useState('');
 
@@ -90,7 +96,6 @@ export const useLogin = () => {
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
         // IMP END - SDK Initialization
         setProvider(ethereumPrivateKeyProvider);
-        setIsLoggedIn(true);
       }
     };
     init();
@@ -101,6 +106,7 @@ export const useLogin = () => {
       if (!web3auth.ready) {
         return;
       }
+      setIsLoading(true);
 
       const extraLoginOptions: ExtraLoginOptions =
         loginProvider === LOGIN_PROVIDER.TWITTER
@@ -117,7 +123,7 @@ export const useLogin = () => {
         extraLoginOptions,
       });
       if (web3auth.privKey) {
-        setIsLoading(true);
+        setStep(LOGIN_STEPS.CARD_CREATING);
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
         // IMP END - Login
         setProvider(ethereumPrivateKeyProvider);
@@ -192,6 +198,7 @@ export const useLogin = () => {
     login,
     logout,
     isLoading,
+    step,
     provider,
     walletAddress,
     AAClient,

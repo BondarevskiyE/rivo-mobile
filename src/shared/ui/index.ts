@@ -13,6 +13,7 @@ export const Colors = {
   ui_white: '#FFF',
   ui_grey_05: '#F2F2F2',
   ui_grey_20: '#CECCCA',
+  ui_gray_50: '#373737',
   ui_orange_05: '#D3CFCC',
   grey_text: '#838A91',
   blue_text: '#3B60E1',
@@ -38,8 +39,8 @@ export const Shadows = {
   innerText: {
     textShadowColor: '#00000040',
     textShadowOffset: {
-      width: 0,
-      height: -1.4,
+      width: 1,
+      height: -0.4,
     },
     textShadowRadius: -4.4,
   },

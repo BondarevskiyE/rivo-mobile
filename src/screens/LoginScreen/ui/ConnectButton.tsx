@@ -1,9 +1,9 @@
 import React from 'react';
 
-import {Pressable, StyleSheet, Text} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import {GoogleIcon, TwitterIcon} from '../../../shared/ui/icons';
-import {Colors, Fonts} from '../../../shared/constants';
+import {GoogleIcon, TwitterIcon} from '@/shared/ui/icons';
+import {Button} from '@/shared/ui/components';
 
 interface Props {
   onPress: () => void;
@@ -13,32 +13,17 @@ interface Props {
 
 export const ConnectButton = ({onPress, text, icon}: Props) => {
   return (
-    <Pressable style={styles.button} onPress={onPress}>
+    <Button text={text} onPress={onPress}>
       {icon === 'google' ? (
         <GoogleIcon style={styles.buttonIcon} />
       ) : (
         <TwitterIcon style={styles.buttonIcon} />
       )}
-      <Text style={styles.buttonText}>{text}</Text>
-    </Pressable>
+    </Button>
   );
 };
 
 const styles = StyleSheet.create({
-  button: {
-    position: 'relative',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 8,
-    backgroundColor: Colors.ui_dark_blue,
-    borderRadius: 18,
-    height: 48,
-    alignSelf: 'stretch',
-  },
-  buttonText: {
-    fontFamily: Fonts.medium,
-    color: Colors.ui_white,
-  },
   buttonIcon: {
     position: 'absolute',
     left: 16,

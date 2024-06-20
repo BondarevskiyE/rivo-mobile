@@ -4,19 +4,20 @@ import {StyleSheet, Text, View, Button} from 'react-native';
 import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
 
 // Chain
-import {useLogin} from '../../shared/hooks';
-import {Colors, Fonts} from '../../shared/constants';
-import {onboardingData} from '../../shared/config';
+import {useLogin} from '@/shared/hooks';
+import {Colors, Fonts} from '@/shared/ui';
+import {onboardingData} from '@/shared/config';
 import {ConnectButton} from './ui/ConnectButton';
-import ExternalLink from '../../shared/ui/ExternalLink';
-import {Slider} from '../../shared/ui/Slider/Slider';
-import {CardCreating} from '../../widgets/CardCreating/CardCreating';
+import {ExternalLink, Slider} from '@/shared/ui/components';
+import {CardCreating} from '@/widgets/CardCreating';
+import {LOGIN_STEPS} from '@/shared/hooks/useLogin';
 
 const LoginScreen = () => {
-  const {login, isLoading, logout, isLoggedIn, walletAddress} = useLogin();
+  const {login, isLoading, step, logout, isLoggedIn, walletAddress} =
+    useLogin();
 
-  if (isLoading) {
-    return <CardCreating isLoading={isLoading} />;
+  if (step === LOGIN_STEPS.CARD_CREATING) {
+    return <CardCreating isLoading={isLoading} walletAddress={walletAddress} />;
   }
 
   return (

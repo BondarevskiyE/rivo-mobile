@@ -9,7 +9,7 @@ import {
   Animated,
 } from 'react-native';
 import {CardItem} from './types';
-import {Fonts} from '../../constants';
+import {Fonts} from '@/shared/ui';
 
 interface Props {
   item: CardItem;

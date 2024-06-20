@@ -1,5 +1,5 @@
-import {Images} from '../constants/ui';
-import {CardItem} from '../ui/Slider/types';
+import {Images} from '../ui';
+import {CardItem} from '@/shared/ui/components/Slider/types';
 
 export const onboardingData: CardItem[] = [
   {
