@@ -1,0 +1,189 @@
+import React, {useEffect, useRef, useState} from 'react';
+import {DialPad} from '@/entities/PasswordKeyboard/DialPad';
+import {View, StyleSheet, Animated} from 'react-native';
+import {Colors, Fonts} from '@/shared/ui';
+
+interface Props {
+  onPinCodeFulfilled: (pinCode: string) => void;
+  isError: boolean;
+  pinCodeLength?: number;
+}
+
+const getDotBackgroundColor = (isSelected: boolean, isError: boolean) => {
+  if (isError) {
+    return Colors.error_red;
+  }
+
+  return isSelected ? Colors.ui_dark_blue : Colors.ui_grey_10;
+};
+
+export const PasswordKeyboard: React.FC<Props> = ({
+  onPinCodeFulfilled,
+  isError,
+  pinCodeLength = 4,
+}) => {
+  const [pinCode, setPinCode] = useState<(string | number)[]>([]);
+
+  const wrongCodeAnimationValue = useRef(new Animated.Value(0)).current;
+  const wrongCodeErrorOpacityValue = useRef(new Animated.Value(0)).current;
+
+  const isPinCodeFulfilled = pinCode.length === pinCodeLength;
+
+  const onPressSymbol = (symbol: string | number) => {
+    console.log('symbol: ', symbol);
+    if (symbol === 'del') {
+      setPinCode(prevCode => prevCode.slice(0, prevCode.length - 1));
+      return;
+    }
+
+    if (isPinCodeFulfilled) {
+      return;
+    }
+
+    if (Number.isInteger(+symbol)) {
+      setPinCode(prevCode => [...prevCode, symbol]);
+    }
+  };
+
+  const startWrongPasswordAnimation = () => {
+    Animated.timing(wrongCodeErrorOpacityValue, {
+      toValue: 1,
+      useNativeDriver: true,
+      duration: 100,
+    }).start();
+
+    Animated.sequence([
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: -30,
+        useNativeDriver: true,
+        duration: 100,
+      }),
+      // Animated.delay(50),
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: 60,
+        useNativeDriver: true,
+        duration: 100,
+      }),
+      // Animated.delay(50),
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: -45,
+        useNativeDriver: true,
+        duration: 100,
+      }),
+      // Animated.delay(50),
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: 30,
+        useNativeDriver: true,
+        duration: 100,
+      }),
+      // Animated.delay(50),
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: -15,
+        useNativeDriver: true,
+        duration: 100,
+      }),
+      // Animated.delay(50),
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: 0,
+        useNativeDriver: true,
+        duration: 100,
+      }),
+    ]).start();
+  };
+
+  useEffect(() => {
+    if (isError) {
+      startWrongPasswordAnimation();
+      return;
+    }
+
+    Animated.timing(wrongCodeErrorOpacityValue, {
+      toValue: 0,
+      useNativeDriver: true,
+      duration: 100,
+    }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isError]);
+
+  useEffect(() => {
+    if (isPinCodeFulfilled) {
+      setPinCode([]);
+      onPinCodeFulfilled(pinCode.join(''));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPinCodeFulfilled]);
+
+  return (
+    <>
+      <Animated.View
+        style={[
+          styles.lowerBlock,
+          {transform: [{translateX: wrongCodeAnimationValue}]},
+        ]}>
+        <View>
+          <View style={styles.dotsContainer}>
+            {[...Array(pinCodeLength).keys()].map(index => {
+              const isSelected = !!pinCode[index];
+
+              return (
+                <View
+                  key={index}
+                  style={[
+                    styles.dot,
+                    {
+                      height: isSelected ? 16.8 : 14,
+                      width: isSelected ? 16.8 : 14,
+                      backgroundColor: getDotBackgroundColor(
+                        isSelected,
+                        isError,
+                      ),
+                    },
+                  ]}
+                />
+              );
+            })}
+          </View>
+          <Animated.Text
+            style={[styles.errorText, {opacity: wrongCodeErrorOpacityValue}]}>
+            Wrong passcode. Try again
+          </Animated.Text>
+        </View>
+        <DialPad onPress={onPressSymbol} />
+      </Animated.View>
+    </>
+  );
+};
+
+const styles = StyleSheet.create({
+  title: {
+    fontSize: 28,
+    height: 68,
+    fontFamily: Fonts.extraBold,
+    lineHeight: 33.6,
+    textAlign: 'center',
+    marginTop: 60,
+  },
+  errorText: {
+    fontFamily: Fonts.bold,
+    fontSize: 16,
+    marginTop: 12,
+    color: Colors.error_red,
+  },
+  lowerBlock: {
+    // height: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  dotsContainer: {
+    flexDirection: 'row',
+    gap: 24,
+    height: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 60,
+  },
+  dot: {
+    borderRadius: 22,
+    backgroundColor: 'black',
+  },
+});

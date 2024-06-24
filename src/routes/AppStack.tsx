@@ -1,21 +1,29 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import {HomeScreen} from '../screens';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const Stack = createStackNavigator();
+import {HomeScreen, SettingsScreen} from '@/screens';
+
+import {useLoginStore} from '@/store/useLoginStore';
+import {PassCode} from '@/widgets/PassCode/PassCode';
+
+const Tab = createBottomTabNavigator();
 
 export const AppStack = () => {
+  const isPassCodeEntered = useLoginStore(state => state.isPassCodeEntered);
+
+  if (!isPassCodeEntered) {
+    return <PassCode />;
+  }
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
-      <Stack.Navigator
+      <Tab.Navigator
         screenOptions={{
-          gestureEnabled: true,
           headerShown: false,
-          ...TransitionPresets.SlideFromRightIOS,
         }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
+        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Settings" component={SettingsScreen} />
+      </Tab.Navigator>
     </SafeAreaView>
   );
 };

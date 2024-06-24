@@ -12,11 +12,13 @@ export const Colors = {
   //UI Neutrals
   ui_white: '#FFF',
   ui_grey_05: '#F2F2F2',
+  ui_grey_10: '#DBDBDB',
+  ui_grey_15: '#D3CFCC',
   ui_grey_20: '#CECCCA',
   ui_gray_50: '#373737',
-  ui_orange_05: '#D3CFCC',
   grey_text: '#838A91',
   blue_text: '#3B60E1',
+  error_red: '#D93232',
 
   ui_black: '#000000',
 

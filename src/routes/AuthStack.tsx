@@ -1,6 +1,6 @@
 import React from 'react';
 import {createStackNavigator, TransitionPresets} from '@react-navigation/stack';
-import {LoginScreen} from '../screens';
+import {LoginScreen} from '@/screens';
 
 const Stack = createStackNavigator();
 

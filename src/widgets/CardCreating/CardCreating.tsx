@@ -14,11 +14,8 @@ import {defaultAddress, randomRevealCharachtersSet} from './constant';
 import {Button} from '@/shared/ui/components';
 import {Tooltip} from '@/shared/ui/components/Tooltip';
 import {ConfettiAnimation} from '@/shared/ui/lottie';
-
-interface Props {
-  isLoading: boolean;
-  walletAddress: string;
-}
+import {useUserStore} from '@/store/useUserStore';
+import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 
 const tooltipText =
   'Did you know? Rivo is non-custodial wallet, meaning that no-one has access to your funds';
@@ -28,7 +25,12 @@ const animate_state = {
   end: 10,
 };
 
-export const CardCreating = ({isLoading, walletAddress}: Props) => {
+export const CardCreating = () => {
+  const isLoading = useLoginStore(state => state.isLoading);
+  const setLoginStep = useLoginStore(state => state.setLoginStep);
+
+  const walletAddress = useUserStore(state => state.walletAddress);
+
   const characters = useRandomReveal({
     isPlaying: isLoading && !walletAddress,
     duration: 100,
@@ -130,7 +132,7 @@ export const CardCreating = ({isLoading, walletAddress}: Props) => {
 
   const textColor = colorFillingAnimation.interpolate({
     inputRange,
-    outputRange: [Colors.ui_orange_05, '#d37c26'],
+    outputRange: [Colors.ui_grey_15, '#d37c26'],
   });
 
   const cardBorderColor = colorFillingAnimation.interpolate({
@@ -142,6 +144,10 @@ export const CardCreating = ({isLoading, walletAddress}: Props) => {
     inputRange,
     outputRange: [-150, 400],
   });
+
+  const handleContinue = () => {
+    setLoginStep(LOGIN_STEPS.PASSCODE_REGISTRATION);
+  };
 
   const titleText = isLoading
     ? 'Creating your wallet...'
@@ -240,9 +246,7 @@ export const CardCreating = ({isLoading, walletAddress}: Props) => {
           <Tooltip text={tooltipText} />
         </Animated.View>
       </View>
-      {isWalletReady && (
-        <Button text="Continue" onPress={() => console.log(123)} />
-      )}
+      {isWalletReady && <Button text="Continue" onPress={handleContinue} />}
       {isWalletReady && (
         <View style={styles.confettiContainer}>
           <ConfettiAnimation loop={false} />

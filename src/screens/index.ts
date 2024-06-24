@@ -1,3 +1,3 @@
-export {default as AuthScreen} from './AuthScreen';
-export {default as HomeScreen} from './HomeScreen';
-export {default as LoginScreen} from './LoginScreen';
+export {HomeScreen} from './HomeScreen';
+export {LoginScreen} from './LoginScreen';
+export {SettingsScreen} from './SettingsScreen';

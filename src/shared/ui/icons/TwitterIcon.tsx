@@ -1,7 +1,7 @@
 import * as React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import Svg, {Path, SvgProps} from 'react-native-svg';
 
-export const TwitterIcon = (props: any) => (
+export const TwitterIcon = (props: SvgProps) => (
   <Svg width={20} height={20} fill="none" {...props}>
     <Path
       fill="#1DA1F2"

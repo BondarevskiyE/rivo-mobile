@@ -5,12 +5,14 @@ import {AppStack} from './AppStack';
 import {AuthStack} from './AuthStack';
 
 import {createStackNavigator} from '@react-navigation/stack';
+import {useUserStore} from '@/store/useUserStore';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
 export const Router = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = useUserStore(state => state.isLoggedIn);
+
   return (
     <NavigationContainer>
       <Stack.Navigator

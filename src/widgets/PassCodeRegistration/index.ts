@@ -1,0 +1,1 @@
+export {PassCodeRegistration} from './PassCodeRegistration';

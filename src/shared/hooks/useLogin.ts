@@ -12,7 +12,6 @@ import * as WebBrowser from '@toruslabs/react-native-web-browser';
 import EncryptedStorage from 'react-native-encrypted-storage';
 
 import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider';
-// import {ethers} from 'ethers';
 
 import {signerToEcdsaValidator} from '@zerodev/ecdsa-validator';
 import {
@@ -20,15 +19,17 @@ import {
   ENTRYPOINT_ADDRESS_V07,
 } from 'permissionless';
 import {createPublicClient, http} from 'viem';
+import {arbitrum} from 'viem/chains';
 import {
   createKernelAccount,
   createKernelAccountClient,
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk';
 
-// Chain
-import {arbitrum} from 'viem/chains';
 import {BUNDLER_RPC, PAYMASTER_RPC} from '../constants';
+
+import {useUserStore} from '@/store/useUserStore';
+import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 
 const scheme = 'rivomobile';
 const redirectUrl = `${scheme}://openlogin`;
@@ -72,20 +73,15 @@ const ethereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
 
 const web3auth = new Web3Auth(WebBrowser, EncryptedStorage, SdkInitParams);
 
-export enum LOGIN_STEPS {
-  AUTH,
-  CARD_CREATING,
-}
-
 export const useLogin = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [provider, setProvider] = useState<EthereumPrivateKeyProvider | null>(
     null,
   );
-  const [step, setStep] = useState<LOGIN_STEPS>(LOGIN_STEPS.AUTH);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [AAClient, setAAClient] = useState<any>(null);
-  const [walletAddress, setWalletAddress] = useState('');
+
+  const {setIsLoggedIn, setUserInfo, setWalletAddress} = useUserStore();
+
+  const {setIsLoading, setLoginStep} = useLoginStore();
 
   useEffect(() => {
     const init = async () => {
@@ -106,6 +102,7 @@ export const useLogin = () => {
       if (!web3auth.ready) {
         return;
       }
+      setLoginStep(LOGIN_STEPS.AUTH);
       setIsLoading(true);
 
       const extraLoginOptions: ExtraLoginOptions =
@@ -123,7 +120,12 @@ export const useLogin = () => {
         extraLoginOptions,
       });
       if (web3auth.privKey) {
-        setStep(LOGIN_STEPS.CARD_CREATING);
+        const user = web3auth.userInfo();
+        setUserInfo({
+          name: user?.name || '',
+          email: user?.email || '',
+        });
+        setLoginStep(LOGIN_STEPS.CARD_CREATING);
         await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
         // IMP END - Login
         setProvider(ethereumPrivateKeyProvider);
@@ -171,7 +173,6 @@ export const useLogin = () => {
 
         setAAClient(kernelClient);
         setWalletAddress(kernelClient.account.address);
-        setIsLoggedIn(true);
         setIsLoading(false);
       }
     } catch (e: any) {
@@ -190,18 +191,16 @@ export const useLogin = () => {
 
     if (!web3auth.privKey) {
       setProvider(null);
-      // setIsLoggedIn(false);
+      setIsLoggedIn(false);
+      setUserInfo({});
+      setWalletAddress('');
     }
   };
 
   return {
     login,
     logout,
-    isLoading,
-    step,
     provider,
-    walletAddress,
     AAClient,
-    isLoggedIn,
   };
 };

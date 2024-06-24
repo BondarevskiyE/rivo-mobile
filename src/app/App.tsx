@@ -1,10 +1,12 @@
 import React from 'react';
 import {SafeAreaView, StatusBar} from 'react-native';
-import Routes from './src/routes';
+import Routes from '@/routes';
 import {Colors} from '@/shared/ui';
-// import Providers from './src/appProviders';
+import {useAppState} from '@/shared/hooks/useAppState';
 
 const App = () => {
+  useAppState();
+
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: Colors.ui_background}}>
       <StatusBar backgroundColor={Colors.ui_background} />
