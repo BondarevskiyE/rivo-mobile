@@ -5,6 +5,7 @@ export enum LOGIN_STEPS {
   AUTH,
   CARD_CREATING,
   PASSCODE_REGISTRATION,
+  ENABLE_NOTIFICATIONS,
 }
 
 interface LoginState {

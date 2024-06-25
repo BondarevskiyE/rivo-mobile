@@ -5,12 +5,24 @@ import {Pressable, StyleSheet, Text, Animated} from 'react-native';
 import {Colors, Fonts} from '@/shared/ui';
 import {withChildren} from '@/shared/types';
 
+export enum ButtonType {
+  PRIMAL,
+  SECONDARY,
+}
+
 type Props = {
   onPress: () => void;
   text: string;
+  type?: ButtonType;
 } & withChildren;
 
-export const Button = ({onPress, text, children, ...props}: Props) => {
+export const Button = ({
+  onPress,
+  text,
+  type = ButtonType.PRIMAL,
+  children,
+  ...props
+}: Props) => {
   const animated = useRef(new Animated.Value(1)).current;
   const fadeIn = () => {
     Animated.timing(animated, {
@@ -27,15 +39,21 @@ export const Button = ({onPress, text, children, ...props}: Props) => {
     }).start();
   };
 
+  const isPrimalType = type === ButtonType.PRIMAL;
+
+  const backgroundColor = isPrimalType ? Colors.ui_dark_blue : 'transparent';
+  const color = isPrimalType ? Colors.ui_white : Colors.ui_dark_blue;
+
   return (
     <Pressable
       onPress={onPress}
       onPressIn={fadeIn}
       onPressOut={fadeOut}
       {...props}>
-      <Animated.View style={[styles.button, {opacity: animated}]}>
+      <Animated.View
+        style={[styles.button, {backgroundColor, opacity: animated}]}>
         {children}
-        {text && <Text style={styles.buttonText}>{text}</Text>}
+        {text && <Text style={[styles.buttonText, {color}]}>{text}</Text>}
       </Animated.View>
     </Pressable>
   );
@@ -47,14 +65,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
-    backgroundColor: Colors.ui_dark_blue,
+    // backgroundColor: Colors.ui_dark_blue,
     borderRadius: 18,
     height: 48,
     alignSelf: 'stretch',
   },
   buttonText: {
     fontFamily: Fonts.medium,
-    color: Colors.ui_white,
+    // color: Colors.ui_white,
   },
   buttonIcon: {
     position: 'absolute',

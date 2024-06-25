@@ -49,10 +49,11 @@ export const Shadows = {
 };
 
 export const Images = {
-  onboardingFirstSlide: require('../../../assets/images/onboarding-first-slide.png'),
-  onboardingSecondSlide: require('../../../assets/images/onboarding-second-slide.png'),
-  cardCat: require('../../../assets/images/card-cat.png'),
-  cardCatOrange: require('../../../assets/images/card-cat-orange.png'),
+  onboardingFirstSlide: require('../../../assets/images/onboarding/first-slide.png'),
+  onboardingSecondSlide: require('../../../assets/images/onboarding/second-slide.png'),
+  cardCat: require('../../../assets/images/card/card-cat.png'),
+  cardCatOrange: require('../../../assets/images/card/card-cat-orange.png'),
+  enableNotifications: require('../../../assets/images/enable-notifications.png'),
 };
 
 export const Icons = {};

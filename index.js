@@ -2,10 +2,10 @@ import {AppRegistry} from 'react-native';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import './globals';
-import App from './src/app/App';
+import {App} from './src/app';
 import {name as appName} from './app.json';
+import {createBackgroundEventHandler} from '@/shared/lib/notifee';
 
-window.addEventListener = x => x;
-window.removeEventListener = x => x;
+createBackgroundEventHandler();
 
 AppRegistry.registerComponent(appName, () => App);

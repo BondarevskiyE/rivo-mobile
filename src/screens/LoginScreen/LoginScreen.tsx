@@ -11,11 +11,12 @@ import {CardCreating} from '@/widgets/CardCreating';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
 import {PassCodeRegistration} from '@/widgets/PassCodeRegistration';
+import {EnableNotifications} from '@/widgets/EnableNotifications';
 
 export const LoginScreen = () => {
   const {login} = useLogin();
   const loginStep = useLoginStore(state => state.loginStep);
-  // const loginStep = LOGIN_STEPS.PASSCODE_REGISTRATION;
+  // const loginStep = LOGIN_STEPS.ENABLE_NOTIFICATIONS;
 
   if (loginStep === LOGIN_STEPS.CARD_CREATING) {
     return <CardCreating />;
@@ -23,6 +24,10 @@ export const LoginScreen = () => {
 
   if (loginStep === LOGIN_STEPS.PASSCODE_REGISTRATION) {
     return <PassCodeRegistration />;
+  }
+
+  if (loginStep === LOGIN_STEPS.ENABLE_NOTIFICATIONS) {
+    return <EnableNotifications />;
   }
 
   return (

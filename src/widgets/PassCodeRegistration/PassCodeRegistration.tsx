@@ -22,7 +22,6 @@ export const PassCodeRegistration: React.FC = () => {
   const user = useUserStore(state => state.userInfo);
 
   const setLoginStep = useLoginStore(state => state.setLoginStep);
-  const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
   );
@@ -69,8 +68,7 @@ export const PassCodeRegistration: React.FC = () => {
           (await saveCredentialsWithBiometry(user?.email, pinCode));
       }
       await saveCredentialsWithPassword(user?.email, pinCode);
-      setIsloggedIn(true);
-      setLoginStep(LOGIN_STEPS.NONE);
+      setLoginStep(LOGIN_STEPS.ENABLE_NOTIFICATIONS);
       setIsPassCodeEntered(true);
       return;
     }
