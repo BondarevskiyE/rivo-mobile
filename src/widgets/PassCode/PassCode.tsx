@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import {View, StyleSheet, Text, Image} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
@@ -74,6 +74,14 @@ export const PassCode: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.avatarContainer}>
+        <Image
+          source={{
+            uri: 'https://upload.wikimedia.org/wikipedia/ru/9/94/%D0%93%D0%B8%D0%B3%D0%B0%D1%87%D0%B0%D0%B4.jpg?20220906144212',
+          }}
+          style={styles.avatar}
+        />
+      </View>
       <Text style={styles.title}>Enter your pin code</Text>
 
       <PasswordKeyboard
@@ -92,14 +100,23 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.ui_background,
     paddingHorizontal: 25,
+    paddingTop: 50,
+  },
+  avatarContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  avatar: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
   },
   title: {
     fontSize: 28,
-    height: 68,
     fontFamily: Fonts.extraBold,
     lineHeight: 33.6,
     textAlign: 'center',
-    marginTop: 60,
   },
   errorText: {
     fontFamily: Fonts.bold,
