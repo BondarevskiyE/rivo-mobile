@@ -8,7 +8,7 @@ interface SettingsState {
   setIsBiometryEnabled: (bool: boolean) => void;
 }
 
-export const useUserStore = create<SettingsState>()(
+export const useSettingsStore = create<SettingsState>()(
   persist(
     set => ({
       isBiometryEnabled: false,

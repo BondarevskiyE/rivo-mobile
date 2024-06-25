@@ -12,6 +12,7 @@ import {
   saveCredentialsWithPassword,
   isBiometrySupportedType,
 } from '@/shared/lib/keychain';
+import {useSettingsStore} from '@/store/useSettingsStore';
 
 export const PassCodeRegistration: React.FC = () => {
   const [storedPassCode, setStoredPassCode] = useState<string>('');
@@ -24,6 +25,9 @@ export const PassCodeRegistration: React.FC = () => {
   const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
+  );
+  const setIsBiometryEnabled = useSettingsStore(
+    state => state.setIsBiometryEnabled,
   );
 
   const onPinCodeFulfilled = async (pinCode: string) => {
@@ -58,6 +62,9 @@ export const PassCodeRegistration: React.FC = () => {
           resolveButtonText: 'Allow',
           rejectButtonText: "Don't Allow",
         });
+
+        setIsBiometryEnabled(isBiometryEnabled);
+
         isBiometryEnabled &&
           (await saveCredentialsWithBiometry(user?.email, pinCode));
       }

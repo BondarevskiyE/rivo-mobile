@@ -14,11 +14,11 @@ export const getDialPadSymbols = ({withBiometry, withExit}: Params) => {
     '7',
     '8',
     '9',
-    // show biometry icons if needed
-    withBiometry ? 'biometry' : '',
-    '0',
     // show exit icons if needed
-    withExit ? 'exit' : 'del',
+    withExit ? 'exit' : '',
+    '0',
+    // show biometry icons if needed
+    withBiometry ? 'biometry' : 'del',
   ];
   return dialPadSymbols;
 };

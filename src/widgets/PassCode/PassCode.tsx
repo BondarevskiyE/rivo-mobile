@@ -6,11 +6,13 @@ import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
 import {PasswordKeyboard} from '@/entities/PasswordKeyboard';
 import {PINCODE_LENGTH} from '@/shared/constants';
+import {AsyncAlert} from '@/shared/ui/components';
 import {
   getCredentialsWithBiometry,
   getCredentialsWithPassword,
 } from '@/shared/lib/keychain';
 import {useLogin} from '@/shared/hooks';
+import {useSettingsStore} from '@/store/useSettingsStore';
 
 export const PassCode: React.FC = () => {
   //* REMOVE THIS */
@@ -21,6 +23,7 @@ export const PassCode: React.FC = () => {
 
   const setLoginStep = useLoginStore(state => state.setLoginStep);
   const setIsLoggedIn = useUserStore(state => state.setIsLoggedIn);
+  const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
@@ -58,8 +61,15 @@ export const PassCode: React.FC = () => {
     }
   };
 
-  const onExit = () => {
-    logout();
+  const onExit = async () => {
+    const isUserConfirmed = await AsyncAlert({
+      title: 'Are you sure you want to exit?',
+      resolveButtonText: 'Exit',
+      rejectButtonText: 'No',
+    });
+    if (isUserConfirmed) {
+      logout();
+    }
   };
 
   return (
@@ -68,7 +78,7 @@ export const PassCode: React.FC = () => {
 
       <PasswordKeyboard
         onPinCodeFulfilled={onPinCodeFulfilled}
-        onClickBiometry={onClickBiometry}
+        onClickBiometry={isBiometryEnabled ? onClickBiometry : undefined}
         onExit={onExit}
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}

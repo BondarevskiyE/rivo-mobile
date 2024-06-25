@@ -13,7 +13,6 @@ type Props = {
 export const Button = ({onPress, text, children, ...props}: Props) => {
   const animated = useRef(new Animated.Value(1)).current;
   const fadeIn = () => {
-    console.log(13213);
     Animated.timing(animated, {
       toValue: 0.8,
       duration: 100,

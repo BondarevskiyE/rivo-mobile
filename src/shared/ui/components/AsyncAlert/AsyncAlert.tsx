@@ -2,9 +2,9 @@ import {Alert} from 'react-native';
 
 interface Params {
   title: string;
-  message: string;
   resolveButtonText: string;
   rejectButtonText: string;
+  message?: string;
 }
 
 export const AsyncAlert = async ({
@@ -12,22 +12,22 @@ export const AsyncAlert = async ({
   message,
   resolveButtonText,
   rejectButtonText,
-}: Params) =>
+}: Params): Promise<boolean> =>
   new Promise(resolve => {
     Alert.alert(
       title,
       message,
       [
         {
-          text: resolveButtonText,
-          onPress: () => {
-            resolve(true);
-          },
-        },
-        {
           text: rejectButtonText,
           onPress: () => {
             resolve(false);
+          },
+        },
+        {
+          text: resolveButtonText,
+          onPress: () => {
+            resolve(true);
           },
         },
       ],
