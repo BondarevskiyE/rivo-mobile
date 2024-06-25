@@ -6,6 +6,8 @@ import {Colors, Fonts} from '@/shared/ui';
 interface Props {
   onPinCodeFulfilled: (pinCode: string) => void;
   isError: boolean;
+  onClickBiometry?: () => void;
+  onExit?: () => void;
   pinCodeLength?: number;
 }
 
@@ -19,6 +21,8 @@ const getDotBackgroundColor = (isSelected: boolean, isError: boolean) => {
 
 export const PasswordKeyboard: React.FC<Props> = ({
   onPinCodeFulfilled,
+  onClickBiometry,
+  onExit,
   isError,
   pinCodeLength = 4,
 }) => {
@@ -29,10 +33,19 @@ export const PasswordKeyboard: React.FC<Props> = ({
 
   const isPinCodeFulfilled = pinCode.length === pinCodeLength;
 
-  const onPressSymbol = (symbol: string | number) => {
-    console.log('symbol: ', symbol);
+  const onPressSymbol = async (symbol: string | number) => {
     if (symbol === 'del') {
       setPinCode(prevCode => prevCode.slice(0, prevCode.length - 1));
+      return;
+    }
+
+    if (!!onClickBiometry && symbol === 'biometry') {
+      onClickBiometry();
+      return;
+    }
+
+    if (!!onExit && symbol === 'exit') {
+      onExit();
       return;
     }
 
@@ -148,7 +161,11 @@ export const PasswordKeyboard: React.FC<Props> = ({
             Wrong passcode. Try again
           </Animated.Text>
         </View>
-        <DialPad onPress={onPressSymbol} />
+        <DialPad
+          onPress={onPressSymbol}
+          withBiometry={!!onClickBiometry}
+          withExit={!!onExit}
+        />
       </Animated.View>
     </>
   );

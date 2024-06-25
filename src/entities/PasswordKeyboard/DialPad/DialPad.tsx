@@ -1,13 +1,21 @@
 import React from 'react';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {dialPadSymbols} from './constant';
+
 import {DialPadSymbol} from './DialPadSymbol';
+import {getDialPadSymbols} from './lib';
 
 interface Props {
   onPress: (symbol: string | number) => void;
+  withBiometry?: boolean;
+  withExit?: boolean;
 }
 
-export const DialPad = ({onPress}: Props) => {
+export const DialPad = ({
+  onPress,
+  withBiometry = false,
+  withExit = false,
+}: Props) => {
+  const dialPadSymbols = getDialPadSymbols({withBiometry, withExit});
   return (
     <View style={styles.container}>
       <FlatList
@@ -29,7 +37,6 @@ export const DialPad = ({onPress}: Props) => {
 const styles = StyleSheet.create({
   container: {
     maxHeight: '65%',
-    // height: 'auto',
     overflow: 'visible',
   },
   list: {

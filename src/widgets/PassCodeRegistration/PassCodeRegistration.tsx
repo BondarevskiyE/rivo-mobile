@@ -1,12 +1,17 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
-import * as Keychain from 'react-native-keychain';
+import {View, StyleSheet, Text, Alert} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
 import {PasswordKeyboard} from '@/entities/PasswordKeyboard';
+import {AsyncAlert} from '@/shared/ui/components';
 import {PINCODE_LENGTH} from '@/shared/constants';
+import {
+  saveCredentialsWithBiometry,
+  saveCredentialsWithPassword,
+  isBiometrySupportedType,
+} from '@/shared/lib/keychain';
 
 export const PassCodeRegistration: React.FC = () => {
   const [storedPassCode, setStoredPassCode] = useState<string>('');
@@ -28,10 +33,35 @@ export const PassCodeRegistration: React.FC = () => {
       return;
     }
 
+    // unachievable, here just for ocassion when user cannot sign up
+    if (!user?.email) {
+      Alert.alert('login error', 'You need to login again', [
+        {
+          text: 'OK',
+          onPress: () => {
+            setLoginStep(LOGIN_STEPS.AUTH);
+          },
+        },
+      ]);
+      return;
+    }
+
     const isPassCodesMatch = pinCode === storedPassCode;
 
-    if (isPassCodesMatch && user?.email) {
-      await Keychain.setGenericPassword(user?.email, pinCode);
+    if (isPassCodesMatch) {
+      const biometryType = await isBiometrySupportedType();
+
+      if (biometryType) {
+        const isBiometryEnabled = await AsyncAlert({
+          title: `Enable ${biometryType}?`,
+          message: 'Short and complete sentence',
+          resolveButtonText: 'Allow',
+          rejectButtonText: "Don't Allow",
+        });
+        isBiometryEnabled &&
+          (await saveCredentialsWithBiometry(user?.email, pinCode));
+      }
+      await saveCredentialsWithPassword(user?.email, pinCode);
       setIsloggedIn(true);
       setLoginStep(LOGIN_STEPS.NONE);
       setIsPassCodeEntered(true);

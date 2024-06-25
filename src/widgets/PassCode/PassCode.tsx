@@ -1,14 +1,22 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-import * as Keychain from 'react-native-keychain';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
 import {PasswordKeyboard} from '@/entities/PasswordKeyboard';
 import {PINCODE_LENGTH} from '@/shared/constants';
+import {
+  getCredentialsWithBiometry,
+  getCredentialsWithPassword,
+} from '@/shared/lib/keychain';
+import {useLogin} from '@/shared/hooks';
 
 export const PassCode: React.FC = () => {
+  //* REMOVE THIS */
+  const {logout} = useLogin();
+  //* REMOVE THIS*/
+
   const [isError, setIsError] = useState<boolean>(false);
 
   const setLoginStep = useLoginStore(state => state.setLoginStep);
@@ -19,8 +27,9 @@ export const PassCode: React.FC = () => {
   );
 
   const onPinCodeFulfilled = async (pinCode: string) => {
-    const credentials = await Keychain.getGenericPassword();
+    const credentials = await getCredentialsWithPassword();
 
+    // if we can't get passcode we return the user to auth screen
     if (!credentials) {
       setIsLoggedIn(false);
       setLoginStep(LOGIN_STEPS.AUTH);
@@ -41,12 +50,26 @@ export const PassCode: React.FC = () => {
     }, 1500);
   };
 
+  const onClickBiometry = async () => {
+    const credentials = await getCredentialsWithBiometry();
+
+    if (credentials) {
+      setIsPassCodeEntered(true);
+    }
+  };
+
+  const onExit = () => {
+    logout();
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Enter your pin code</Text>
 
       <PasswordKeyboard
         onPinCodeFulfilled={onPinCodeFulfilled}
+        onClickBiometry={onClickBiometry}
+        onExit={onExit}
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}
       />

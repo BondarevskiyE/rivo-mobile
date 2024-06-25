@@ -30,6 +30,7 @@ import {BUNDLER_RPC, PAYMASTER_RPC} from '../constants';
 
 import {useUserStore} from '@/store/useUserStore';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {resetCredentials} from '../lib/keychain';
 
 const scheme = 'rivomobile';
 const redirectUrl = `${scheme}://openlogin`;
@@ -188,6 +189,8 @@ export const useLogin = () => {
     // IMP START - Logout
     await web3auth.logout();
     // IMP END - Logout
+
+    resetCredentials();
 
     if (!web3auth.privKey) {
       setProvider(null);

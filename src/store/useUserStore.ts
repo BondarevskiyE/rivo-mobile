@@ -16,10 +16,7 @@ export const useUserStore = create<UserState>()(
   persist(
     set => ({
       isLoggedIn: false,
-      userInfo: {
-        name: 'Egor Bondarevskii',
-        email: 'test@test.ru',
-      },
+      userInfo: {},
       walletAddress: '',
       setIsLoggedIn: (bool: boolean) => set({isLoggedIn: bool}),
       setUserInfo: (user: Record<string, string>) => {
