@@ -71,31 +71,31 @@ export const PasswordKeyboard: React.FC<Props> = ({
         useNativeDriver: true,
         duration: 100,
       }),
-      // Animated.delay(50),
+      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: 60,
         useNativeDriver: true,
         duration: 100,
       }),
-      // Animated.delay(50),
+      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: -45,
         useNativeDriver: true,
         duration: 100,
       }),
-      // Animated.delay(50),
+      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: 30,
         useNativeDriver: true,
         duration: 100,
       }),
-      // Animated.delay(50),
+      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: -15,
         useNativeDriver: true,
         duration: 100,
       }),
-      // Animated.delay(50),
+      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: 0,
         useNativeDriver: true,
@@ -128,12 +128,9 @@ export const PasswordKeyboard: React.FC<Props> = ({
 
   return (
     <>
-      <Animated.View
-        style={[
-          styles.lowerBlock,
-          {transform: [{translateX: wrongCodeAnimationValue}]},
-        ]}>
-        <View>
+      <View style={styles.container}>
+        <Animated.View
+          style={{transform: [{translateX: wrongCodeAnimationValue}]}}>
           <View style={styles.dotsContainer}>
             {[...Array(pinCodeLength).keys()].map(index => {
               const isSelected = !!pinCode[index];
@@ -160,18 +157,23 @@ export const PasswordKeyboard: React.FC<Props> = ({
             style={[styles.errorText, {opacity: wrongCodeErrorOpacityValue}]}>
             Wrong passcode. Try again
           </Animated.Text>
-        </View>
+        </Animated.View>
         <DialPad
           onPress={onPressSymbol}
           withBiometry={!!onClickBiometry}
           withExit={!!onExit}
         />
-      </Animated.View>
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   title: {
     fontSize: 28,
     height: 68,
@@ -185,11 +187,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 12,
     color: Colors.error_red,
-  },
-  lowerBlock: {
-    // height: '100%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   dotsContainer: {
     flexDirection: 'row',

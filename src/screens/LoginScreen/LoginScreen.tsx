@@ -16,7 +16,7 @@ import {EnableNotifications} from '@/widgets/EnableNotifications';
 export const LoginScreen = () => {
   const {login} = useLogin();
   const loginStep = useLoginStore(state => state.loginStep);
-  // const loginStep = LOGIN_STEPS.ENABLE_NOTIFICATIONS;
+  // const loginStep = LOGIN_STEPS.PASSCODE_REGISTRATION;
 
   if (loginStep === LOGIN_STEPS.CARD_CREATING) {
     return <CardCreating />;

@@ -36,10 +36,13 @@ export const DialPad = ({
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: '65%',
+    flex: 1,
+    justifyContent: 'flex-end',
     overflow: 'visible',
+    paddingBottom: 30,
   },
   list: {
+    flexGrow: 0,
     overflow: 'visible',
   },
 });
