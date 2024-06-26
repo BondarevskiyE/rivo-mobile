@@ -1,6 +1,6 @@
 import notifee, {AndroidAction, EventType} from '@notifee/react-native';
 
-export const createBackgroundEventHandler = () => {
+export const createBackgroundEventNotificationsHandler = () => {
   return notifee.onBackgroundEvent(async ({type, detail}) => {
     const {notification, pressAction} = detail;
     if (

@@ -1,9 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
-
-import {useLogin} from '@/shared/hooks';
 import {onboardingData} from '@/shared/config';
 import {ConnectButton} from './ui/ConnectButton';
 import {ExternalLink, Slider} from '@/shared/ui/components';
@@ -14,8 +11,8 @@ import {PassCodeRegistration} from '@/widgets/PassCodeRegistration';
 import {EnableNotifications} from '@/widgets/EnableNotifications';
 
 export const LoginScreen = () => {
-  const {login} = useLogin();
   const loginGoogle = useLoginStore(state => state.loginGoogle);
+  const loginX = useLoginStore(state => state.loginX);
 
   const loginStep = useLoginStore(state => state.loginStep);
   // const loginStep = LOGIN_STEPS.PASSCODE_REGISTRATION;
@@ -43,7 +40,7 @@ export const LoginScreen = () => {
             icon="google"
           />
           <ConnectButton
-            onPress={() => login(LOGIN_PROVIDER.TWITTER)}
+            onPress={loginX}
             text="Continue with X"
             icon="twitter"
           />

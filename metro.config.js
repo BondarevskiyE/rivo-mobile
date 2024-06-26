@@ -12,7 +12,7 @@ const config = {
       url: require.resolve('url'),
       zlib: require.resolve('browserify-zlib'),
       path: require.resolve('path'),
-      crypto: require.resolve('crypto-browserify'),
+      // crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('readable-stream'),
       buffer: require.resolve('buffer'),
     },

@@ -4,12 +4,19 @@ import Routes from '@/routes';
 import {Colors} from '@/shared/ui';
 import {useAppState} from '@/shared/hooks/useAppState';
 import {registerForegroundService} from '@/shared/lib/notifee';
+import {subscribeTwitterListener} from '@/shared/lib/twitter';
 
 export const App = () => {
   useAppState();
 
   useEffect(() => {
     registerForegroundService();
+
+    const twitterListener = subscribeTwitterListener();
+
+    return () => {
+      twitterListener.remove();
+    };
   }, []);
 
   return (

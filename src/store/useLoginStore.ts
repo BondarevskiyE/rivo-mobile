@@ -2,6 +2,7 @@ import {create} from 'zustand';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useUserStore} from './useUserStore';
 import {resetKeychainCredentials} from '@/shared/lib/keychain';
+import {signInWithTwitter} from '@/shared/lib/twitter';
 
 GoogleSignin.configure({
   offlineAccess: true,
@@ -28,6 +29,8 @@ interface LoginState {
   setLoginStep: (step: LOGIN_STEPS) => void;
 
   loginGoogle: () => void;
+  loginX: () => void;
+
   logout: () => void;
 }
 
@@ -61,6 +64,28 @@ export const useLoginStore = create<LoginState>()(set => ({
       return true;
     } catch (error) {
       console.log(`Google login error: ${error}`);
+      return false;
+    }
+  },
+  loginX: async () => {
+    try {
+      // set({loginStep: LOGIN_STEPS.AUTH, isLoading: true});
+      signInWithTwitter();
+
+      // const {setUserInfo, setWalletAddress} = useUserStore.getState();
+
+      // setUserInfo(userInfo.user);
+
+      // set({loginStep: LOGIN_STEPS.CARD_CREATING});
+
+      // setTimeout(() => {
+      //   setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response
+      //   set({isLoading: false});
+      // }, 3000);
+
+      return true;
+    } catch (error) {
+      console.log(`X login error: ${error}`);
       return false;
     }
   },
