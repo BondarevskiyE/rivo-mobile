@@ -1,7 +1,7 @@
 import {resetCredentialsWithBiometry} from './biometry';
 import {resetCredentialsWithPassword} from './password';
 
-export const resetCredentials = async () => {
+export const resetKeychainCredentials = async () => {
   const isResetedBiometry = await resetCredentialsWithBiometry();
   const isResetedPassword = await resetCredentialsWithPassword();
   return isResetedBiometry && isResetedPassword;

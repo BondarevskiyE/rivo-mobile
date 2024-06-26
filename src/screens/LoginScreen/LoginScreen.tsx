@@ -15,6 +15,8 @@ import {EnableNotifications} from '@/widgets/EnableNotifications';
 
 export const LoginScreen = () => {
   const {login} = useLogin();
+  const loginGoogle = useLoginStore(state => state.loginGoogle);
+
   const loginStep = useLoginStore(state => state.loginStep);
   // const loginStep = LOGIN_STEPS.PASSCODE_REGISTRATION;
 
@@ -36,7 +38,7 @@ export const LoginScreen = () => {
         <Slider data={onboardingData} />
         <View>
           <ConnectButton
-            onPress={() => login(LOGIN_PROVIDER.GOOGLE)}
+            onPress={loginGoogle}
             text="Continue with Google"
             icon="google"
           />

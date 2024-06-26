@@ -11,18 +11,14 @@ import {
   getCredentialsWithBiometry,
   getCredentialsWithPassword,
 } from '@/shared/lib/keychain';
-import {useLogin} from '@/shared/hooks';
 import {useSettingsStore} from '@/store/useSettingsStore';
 
 export const PassCode: React.FC = () => {
-  //* REMOVE THIS */
-  const {logout} = useLogin();
-  //* REMOVE THIS*/
-
   const [isError, setIsError] = useState<boolean>(false);
 
   const setLoginStep = useLoginStore(state => state.setLoginStep);
   const setIsLoggedIn = useUserStore(state => state.setIsLoggedIn);
+  const logout = useLoginStore(state => state.logout);
   const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
 
   const setIsPassCodeEntered = useLoginStore(

@@ -1,12 +1,12 @@
 import React from 'react';
 import {Button, StyleSheet, Text, View, ScrollView} from 'react-native';
 
-import {useLogin} from '@/shared/hooks';
 import {Colors} from '@/shared/ui';
 import {useUserStore} from '@/store/useUserStore';
+import {useLoginStore} from '@/store/useLoginStore';
 
 export const HomeScreen = () => {
-  const {logout} = useLogin();
+  const logout = useLoginStore(state => state.logout);
 
   const walletAddress = useUserStore(state => state.walletAddress);
 
