@@ -7,6 +7,12 @@ import {
   Text,
   View,
 } from 'react-native';
+import ReAnimated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+  withDelay,
+} from 'react-native-reanimated';
 import LinearGradient from 'react-native-linear-gradient';
 import {useRandomReveal} from 'react-random-reveal';
 import {Colors, Fonts, Images} from '@/shared/ui';
@@ -16,6 +22,7 @@ import {Tooltip} from '@/shared/ui/components/Tooltip';
 import {ConfettiAnimation} from '@/shared/ui/lottie';
 import {useUserStore} from '@/store/useUserStore';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {CardShineIcon} from '@/shared/ui/icons';
 
 const tooltipText =
   'Did you know? Rivo is non-custodial wallet, meaning that no-one has access to your funds';
@@ -43,9 +50,9 @@ export const CardCreating = () => {
   const cardScaleAnimation = useRef(
     new Animated.Value(animate_state.start),
   ).current;
-  const tooltipScaleAnimation = useRef(
-    new Animated.Value(animate_state.start),
-  ).current;
+
+  const tooltipScaleAnimation = useSharedValue(0);
+
   const colorFillingAnimation = useRef(
     new Animated.Value(animate_state.start),
   ).current;
@@ -99,12 +106,10 @@ export const CardCreating = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    Animated.timing(tooltipScaleAnimation, {
-      toValue: 1,
-      useNativeDriver: true,
-      duration: 200,
-      delay: 1500,
-    }).start();
+    tooltipScaleAnimation.value = withDelay(
+      1500,
+      withTiming(1, {duration: 200}),
+    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -145,6 +150,10 @@ export const CardCreating = () => {
     outputRange: [-150, 400],
   });
 
+  const tooltipScaleAnimatedStyles = useAnimatedStyle(() => ({
+    transform: [{scale: tooltipScaleAnimation.value}],
+  }));
+
   const handleContinue = () => {
     setLoginStep(LOGIN_STEPS.PASSCODE_REGISTRATION);
   };
@@ -171,13 +180,7 @@ export const CardCreating = () => {
               styles.shineGradientContainer,
               {transform: [{translateX: shineGradientTranslateX}]},
             ]}>
-            <LinearGradient
-              start={{x: 82.0972, y: 36.3509}}
-              end={{x: 150.104, y: 31.9895}}
-              locations={[0.1, 0.5, 0.9]}
-              colors={['#FFFFFF', 'rgba(255, 255, 255, 0.4)', '#FFFFFF']}
-              style={styles.shineGradient}
-            />
+            <CardShineIcon />
           </Animated.View>
           <ImageBackground
             source={Images.cardCat}
@@ -238,13 +241,10 @@ export const CardCreating = () => {
           </ImageBackground>
         </Animated.View>
         <Text style={styles.title}>{titleText}</Text>
-        <Animated.View
-          style={[
-            styles.tooltipContainer,
-            {transform: [{scale: tooltipScaleAnimation}]},
-          ]}>
+        <ReAnimated.View
+          style={[styles.tooltipContainer, tooltipScaleAnimatedStyles]}>
           <Tooltip text={tooltipText} />
-        </Animated.View>
+        </ReAnimated.View>
       </View>
       {isWalletReady && <Button text="Continue" onPress={handleContinue} />}
       {isWalletReady && (
@@ -320,10 +320,10 @@ const styles = StyleSheet.create({
   },
   shineGradientContainer: {
     position: 'absolute',
-    top: -10,
-    left: 0,
+    top: -50,
+    left: -50,
     width: 75,
-    height: '110%',
+    height: '100%',
     zIndex: 3,
   },
   shineGradient: {
@@ -337,6 +337,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginTop: 19,
+    transformOrigin: 'top',
   },
   confettiContainer: {
     position: 'absolute',
