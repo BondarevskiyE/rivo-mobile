@@ -16,6 +16,8 @@ import {useSettingsStore} from '@/store/useSettingsStore';
 export const PassCode: React.FC = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
+  const user = useUserStore(state => state.userInfo);
+
   const setLoginStep = useLoginStore(state => state.setLoginStep);
   const setIsLoggedIn = useUserStore(state => state.setIsLoggedIn);
   const logout = useLoginStore(state => state.logout);
@@ -73,7 +75,7 @@ export const PassCode: React.FC = () => {
       <View style={styles.avatarContainer}>
         <Image
           source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/ru/9/94/%D0%93%D0%B8%D0%B3%D0%B0%D1%87%D0%B0%D0%B4.jpg?20220906144212',
+            uri: user?.photo || '',
           }}
           style={styles.avatar}
         />

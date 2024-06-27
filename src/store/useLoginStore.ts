@@ -3,6 +3,7 @@ import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useUserStore} from './useUserStore';
 import {resetKeychainCredentials} from '@/shared/lib/keychain';
 import {signInWithTwitter} from '@/shared/lib/twitter';
+import {LOGIN_PROVIDER} from './types';
 
 GoogleSignin.configure({
   offlineAccess: true,
@@ -52,7 +53,7 @@ export const useLoginStore = create<LoginState>()(set => ({
 
       const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
-      setUserInfo(userInfo.user);
+      setUserInfo({...userInfo.user, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
       set({loginStep: LOGIN_STEPS.CARD_CREATING});
 
@@ -69,19 +70,23 @@ export const useLoginStore = create<LoginState>()(set => ({
   },
   loginX: async () => {
     try {
-      // set({loginStep: LOGIN_STEPS.AUTH, isLoading: true});
-      signInWithTwitter();
+      set({loginStep: LOGIN_STEPS.AUTH, isLoading: true});
+      const user = await signInWithTwitter();
 
-      // const {setUserInfo, setWalletAddress} = useUserStore.getState();
+      if (!user) {
+        throw new Error('Twitter oauth login error');
+      }
 
-      // setUserInfo(userInfo.user);
+      const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
-      // set({loginStep: LOGIN_STEPS.CARD_CREATING});
+      setUserInfo({...user, loginProvider: LOGIN_PROVIDER.TWITTER});
 
-      // setTimeout(() => {
-      //   setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response
-      //   set({isLoading: false});
-      // }, 3000);
+      set({loginStep: LOGIN_STEPS.CARD_CREATING});
+
+      setTimeout(() => {
+        setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response
+        set({isLoading: false});
+      }, 3000);
 
       return true;
     } catch (error) {
