@@ -4,11 +4,13 @@ import {StyleSheet, Text, View} from 'react-native';
 import {onboardingData} from '@/shared/config';
 import {ConnectButton} from './ui/ConnectButton';
 import {ExternalLink, Slider} from '@/shared/ui/components';
-import {CardCreating} from '@/widgets/CardCreating';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
-import {PassCodeRegistration} from '@/widgets/PassCodeRegistration';
-import {EnableNotifications} from '@/widgets/EnableNotifications';
+import {
+  CardCreating,
+  PassCodeRegistration,
+  EnableNotifications,
+} from '@/widgets/login';
 
 export const LoginScreen = () => {
   const loginGoogle = useLoginStore(state => state.loginGoogle);
@@ -41,7 +43,7 @@ export const LoginScreen = () => {
           />
           <ConnectButton
             onPress={loginX}
-            text="Continue with X"
+            text="Continue with Twitter"
             icon="twitter"
           />
           <Text style={styles.captionText}>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 28,
-    fontFamily: Fonts.extraBold,
+    fontFamily: Fonts.bold,
     textAlign: 'center',
   },
   loggingContainer: {
@@ -85,14 +87,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   captionText: {
-    fontFamily: Fonts.extraBold,
+    fontFamily: Fonts.bold,
     fontSize: 13,
     color: Colors.grey_text,
     lineHeight: 18.2,
     marginTop: 20,
   },
   externalLink: {
-    fontFamily: Fonts.bold,
+    fontFamily: Fonts.semiBold,
     fontSize: 13,
     color: Colors.blue_text,
   },

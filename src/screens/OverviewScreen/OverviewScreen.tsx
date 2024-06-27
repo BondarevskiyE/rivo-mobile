@@ -1,9 +1,20 @@
 import React from 'react';
-import {Button, StyleSheet, Text, View, ScrollView} from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
 
 import {Colors} from '@/shared/ui';
 import {useUserStore} from '@/store/useUserStore';
 import {useLoginStore} from '@/store/useLoginStore';
+import {Header} from '@/widgets/overview';
+import {CardWallet} from '@/entities';
+
+const {height} = Dimensions.get('screen');
 
 export const OverviewScreen = () => {
   const logout = useLoginStore(state => state.logout);
@@ -11,23 +22,31 @@ export const OverviewScreen = () => {
   const walletAddress = useUserStore(state => state.walletAddress);
 
   return (
-    <ScrollView style={styles.Container}>
-      <View style={styles.Wrapper}>
+    <View style={styles.container}>
+      <Header />
+
+      <ScrollView>
+        <View style={styles.cardWalletContainer}>
+          <CardWallet />
+        </View>
         <Button title="Log Out" onPress={logout} />
         <Text>{`address: ${walletAddress}`}</Text>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  Container: {
+  container: {
     backgroundColor: Colors.ui_background,
+    height,
+    paddingTop: 7,
+    paddingHorizontal: 12,
+    paddingBottom: 20,
   },
-  Wrapper: {
-    backgroundColor: Colors.ui_background,
-    flex: 1,
-    padding: 40,
-    width: '100%',
+  cardWalletContainer: {
+    width: '73%',
+    alignSelf: 'center',
+    marginVertical: 40,
   },
 });

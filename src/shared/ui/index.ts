@@ -22,6 +22,9 @@ export const Colors = {
 
   ui_beige_30: '#eae2dd',
 
+  ui_orange_20: '#feefe5',
+  ui_orange_40: '#C17830',
+  ui_orange_45: '#AB6927',
   ui_orange_80: '#F95E00',
 
   ui_black: '#000000',
@@ -35,11 +38,10 @@ export const Colors = {
   ui_dark_blue: '#252E4C',
 };
 export const Fonts = {
-  light: 'Nunito-Light',
-  regular: 'Nunito-Regular',
-  medium: 'Nunito-Medium',
-  bold: 'Nunito-Bold',
-  extraBold: 'Nunito-ExtraBold',
+  regular: 'OpenRundle-Regular',
+  medium: 'OpenRundle-Medium',
+  semiBold: 'OpenRundle-SemiBold',
+  bold: 'OpenRundle-Bold',
 };
 
 export const Shadows = {
@@ -59,6 +61,7 @@ export const Images = {
   cardCat: require('../../../assets/images/card/card-cat.png'),
   cardCatOrange: require('../../../assets/images/card/card-cat-orange.png'),
   enableNotifications: require('../../../assets/images/enable-notifications.png'),
+  userCard: require('../../../assets/images/card/user-card.png'),
 };
 
 export const Icons = {};

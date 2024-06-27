@@ -50,10 +50,18 @@ export const Slider: React.FC<Props> = ({data}) => {
     setTimeout(() => {
       const newSlideIndex = currentSlideIndex + 1;
 
-      if (sliderRef.current && newSlideIndex <= data.length - 1) {
+      if (!sliderRef.current) {
+        return;
+      }
+
+      if (newSlideIndex <= data.length - 1) {
         setCurrentSlideIndex(newSlideIndex);
 
         sliderRef.current.scrollToIndex({index: newSlideIndex});
+      } else {
+        setCurrentSlideIndex(0);
+
+        sliderRef.current.scrollToIndex({index: 0});
       }
     }, SLIDE_CHANGING_TIME);
   }, [currentSlideIndex, data]);

@@ -20,7 +20,7 @@ export const useSettingsStore = create<SettingsState>()(
       setIsBiometryEnabled: (bool: boolean) => set({isBiometryEnabled: bool}),
     }),
     {
-      name: 'settings-state',
+      name: 'settings-store',
       storage: createJSONStorage(() => AsyncStorage),
     },
   ),

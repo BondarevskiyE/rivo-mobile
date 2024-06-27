@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontFamily: Fonts.extraBold,
+    fontFamily: Fonts.bold,
     textAlign: 'center',
   },
   content: {

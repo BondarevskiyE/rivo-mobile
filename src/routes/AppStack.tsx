@@ -14,8 +14,8 @@ import {
 } from '@/screens';
 
 import {useLoginStore} from '@/store/useLoginStore';
-import {PassCode} from '@/widgets/PassCode/PassCode';
-import {TabBar} from '@/entities';
+import {PassCode} from '@/widgets/enter/';
+import {TabBar} from '@/widgets/layout';
 import {Colors} from '@/shared/ui';
 
 export enum TABS {
