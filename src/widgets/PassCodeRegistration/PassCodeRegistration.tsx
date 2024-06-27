@@ -4,7 +4,7 @@ import {View, StyleSheet, Text, Alert} from 'react-native';
 import {Colors, Fonts} from '@/shared/ui';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
-import {PasswordKeyboard} from '@/entities/PasswordKeyboard';
+import {PasswordKeyboard} from '@/entities';
 import {AsyncAlert} from '@/shared/ui/components';
 import {PINCODE_LENGTH} from '@/shared/constants';
 import {

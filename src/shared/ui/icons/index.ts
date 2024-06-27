@@ -4,3 +4,8 @@ export {DeleteSymbolIcon} from './DeleteSymbolIcon';
 export {FaceIdIcon} from './FaceIdIcon';
 export {ExitIcon} from './ExitIcon';
 export {CardShineIcon} from './CardShineIcon';
+export {WalletIcon} from './WalletIcon';
+export {LightingIcon} from './LightingIcon';
+export {PlusIcon} from './PlusIcon';
+export {ChartsIcon} from './ChartsIcon';
+export {BellIcon} from './BellIcon';

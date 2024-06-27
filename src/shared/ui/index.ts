@@ -20,7 +20,12 @@ export const Colors = {
   blue_text: '#3B60E1',
   error_red: '#D93232',
 
+  ui_beige_30: '#eae2dd',
+
+  ui_orange_80: '#F95E00',
+
   ui_black: '#000000',
+  transparent: 'transparent',
 
   // background
   ui_light_selected_bg: '#E7F5FF',

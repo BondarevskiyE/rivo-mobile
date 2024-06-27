@@ -1,11 +1,35 @@
 import React from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {
+  BottomTabBarProps,
+  createBottomTabNavigator,
+} from '@react-navigation/bottom-tabs';
 
-import {HomeScreen, SettingsScreen} from '@/screens';
+import {
+  OverviewScreen,
+  LightingScreen,
+  PlusScreen,
+  ChartsScreen,
+  NotificationsScreen,
+} from '@/screens';
 
 import {useLoginStore} from '@/store/useLoginStore';
 import {PassCode} from '@/widgets/PassCode/PassCode';
+import {TabBar} from '@/entities';
+import {Colors} from '@/shared/ui';
+
+export enum TABS {
+  OVERVIEW = 'overview',
+  LIGHTING = 'lighting',
+  PLUS = 'plus',
+  CHARTS = 'charts',
+  NOTIFICATIONS = 'notifications',
+}
+
+// is is here to fix warnings
+const CustomTabBar = (props: BottomTabBarProps) => {
+  return <TabBar {...props} />;
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -15,14 +39,19 @@ export const AppStack = () => {
   if (!isPassCodeEntered) {
     return <PassCode />;
   }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <Tab.Navigator
+        tabBar={CustomTabBar}
         screenOptions={{
           headerShown: false,
         }}>
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
+        <Tab.Screen name={TABS.OVERVIEW} component={OverviewScreen} />
+        <Tab.Screen name={TABS.LIGHTING} component={LightingScreen} />
+        <Tab.Screen name={TABS.PLUS} component={PlusScreen} />
+        <Tab.Screen name={TABS.CHARTS} component={ChartsScreen} />
+        <Tab.Screen name={TABS.NOTIFICATIONS} component={NotificationsScreen} />
       </Tab.Navigator>
     </SafeAreaView>
   );
@@ -33,6 +62,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
-    backgroundColor: '#281034',
+    backgroundColor: Colors.ui_background,
   },
 });

@@ -5,7 +5,7 @@ import {Colors} from '@/shared/ui';
 import {useUserStore} from '@/store/useUserStore';
 import {useLoginStore} from '@/store/useLoginStore';
 
-export const HomeScreen = () => {
+export const OverviewScreen = () => {
   const logout = useLoginStore(state => state.logout);
 
   const walletAddress = useUserStore(state => state.walletAddress);
