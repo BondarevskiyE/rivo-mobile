@@ -2,7 +2,7 @@ import * as Keychain from 'react-native-keychain';
 
 export const KEYCHAIN_BIOMETRY_SERVICE_NAME = 'biometry-pincode';
 
-export const isBiometrySupportedType = async () => {
+export const getBiometrySupportedType = async () => {
   try {
     const biometryType = await Keychain.getSupportedBiometryType();
     return biometryType;

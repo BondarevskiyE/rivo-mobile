@@ -1,20 +1,20 @@
 import notifee, {AuthorizationStatus} from '@notifee/react-native';
-import {StyleSheet, Text, View, Dimensions, Image, Linking} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {Button} from '@/shared/ui/components';
 import {ButtonType} from '@/shared/ui/components/Button/Button';
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {useIsMounted} from '@/shared/hooks';
 
 const {width} = Dimensions.get('screen');
 
 export const EnableNotifications = () => {
-  const [isUserClickedButton, setIsUserClickedButton] =
-    useState<boolean>(false);
+  const isMounted = useIsMounted();
 
   const setIsNotificationsEnabled = useSettingsStore(
     state => state.setIsNotificationsEnabled,
@@ -25,26 +25,16 @@ export const EnableNotifications = () => {
   const setLoginStep = useLoginStore(state => state.setLoginStep);
 
   const onClickEnableNotifications = async () => {
-    !isUserClickedButton && setIsUserClickedButton(true);
-
     const notificationsPermisions = await notifee.requestPermission();
 
-    if (
+    const isAuthorized =
       notificationsPermisions.authorizationStatus ===
-      AuthorizationStatus.AUTHORIZED
-    ) {
+      AuthorizationStatus.AUTHORIZED;
+
+    if (isAuthorized) {
       setIsNotificationsEnabled(true);
     }
 
-    // if user rejected enabling notifications in the first time we need to redirect them to settings app
-    if (
-      notificationsPermisions.authorizationStatus ===
-        AuthorizationStatus.DENIED &&
-      isUserClickedButton
-    ) {
-      Linking.openURL('app-settings:');
-      return;
-    }
     setIsloggedIn(true);
     setLoginStep(LOGIN_STEPS.NONE);
   };
@@ -52,6 +42,33 @@ export const EnableNotifications = () => {
   const onFinishRegistration = () => {
     setIsloggedIn(true);
   };
+
+  const checkPermissions = async () => {
+    const permissions = await notifee.getNotificationSettings();
+
+    // true if it is the first user entering
+    const isFirstEntering =
+      permissions.authorizationStatus === AuthorizationStatus.NOT_DETERMINED;
+
+    if (permissions.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
+      setIsNotificationsEnabled(true);
+    }
+
+    if (!isFirstEntering) {
+      setIsloggedIn(true);
+      setLoginStep(LOGIN_STEPS.NONE);
+    }
+  };
+
+  useEffect(() => {
+    // if the uses has already authorized permissions we pass them to the homescreen
+    checkPermissions();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>

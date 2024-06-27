@@ -10,7 +10,7 @@ import {PINCODE_LENGTH} from '@/shared/constants';
 import {
   saveCredentialsWithBiometry,
   saveCredentialsWithPassword,
-  isBiometrySupportedType,
+  getBiometrySupportedType,
 } from '@/shared/lib/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
 
@@ -52,7 +52,7 @@ export const PassCodeRegistration: React.FC = () => {
     const isPassCodesMatch = pinCode === storedPassCode;
 
     if (isPassCodesMatch) {
-      const biometryType = await isBiometrySupportedType();
+      const biometryType = await getBiometrySupportedType();
 
       if (biometryType) {
         const isBiometryEnabled = await AsyncAlert({

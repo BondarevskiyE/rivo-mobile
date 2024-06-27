@@ -73,12 +73,14 @@ export const PassCode: React.FC = () => {
   return (
     <View style={styles.container}>
       <View style={styles.avatarContainer}>
-        <Image
-          source={{
-            uri: user?.photo || '',
-          }}
-          style={styles.avatar}
-        />
+        {user?.photo && (
+          <Image
+            source={{
+              uri: user?.photo,
+            }}
+            style={styles.avatar}
+          />
+        )}
       </View>
       <Text style={styles.title}>Enter your pin code</Text>
 

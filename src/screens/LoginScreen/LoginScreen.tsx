@@ -15,7 +15,7 @@ export const LoginScreen = () => {
   const loginX = useLoginStore(state => state.loginX);
 
   const loginStep = useLoginStore(state => state.loginStep);
-  // const loginStep = LOGIN_STEPS.PASSCODE_REGISTRATION;
+  // const loginStep = LOGIN_STEPS.ENABLE_NOTIFICATIONS;
 
   if (loginStep === LOGIN_STEPS.CARD_CREATING) {
     return <CardCreating />;
