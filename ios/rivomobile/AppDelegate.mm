@@ -26,10 +26,7 @@
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  if ([GIDSignIn.sharedInstance handleURL:url]) {
-    return 'YES';
-  }
-  return [RCTLinkingManager application:application openURL:url options:options];
+  return [RCTLinkingManager application:application openURL:url options:options] || [GIDSignIn.sharedInstance handleURL:url];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
