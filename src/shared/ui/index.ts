@@ -38,10 +38,10 @@ export const Colors = {
   ui_dark_blue: '#252E4C',
 };
 export const Fonts = {
-  regular: 'OpenRundle-Regular',
-  medium: 'OpenRundle-Medium',
-  semiBold: 'OpenRundle-SemiBold',
-  bold: 'OpenRundle-Bold',
+  regular: 'OpenRunde-Regular',
+  medium: 'OpenRunde-Medium',
+  semiBold: 'OpenRunde-Semibold',
+  bold: 'OpenRunde-Bold',
 };
 
 export const Shadows = {

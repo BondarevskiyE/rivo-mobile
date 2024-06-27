@@ -9,16 +9,16 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* rivomobileTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* rivomobileTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-rivomobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-rivomobile.a */; };
+		138A2CB14AC64BC187A475FF /* OpenRunde-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 685645DAEEDD400A9899A86F /* OpenRunde-Regular.otf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		31C4FBE18E4647129ECC4CEC /* OpenRunde-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */; };
+		39B08135C084411DB81DDDF5 /* OpenRunde-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 19D2867E9F754AF8810DE816 /* OpenRunde-Semibold.otf */; };
+		3EECC8E42D24473284A2180C /* OpenRunde-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 32EA80A76BBA4FBDA2F8F71F /* OpenRunde-Medium.otf */; };
 		7699B88040F8A987B510C191 /* libPods-rivomobile-rivomobileTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-rivomobile-rivomobileTests.a */; };
 		76BB08B90871F8EB47039D6C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		31C4FBE18E4647129ECC4CEC /* OpenRunde-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */; };
-		3EECC8E42D24473284A2180C /* OpenRunde-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 32EA80A76BBA4FBDA2F8F71F /* OpenRunde-Medium.otf */; };
-		138A2CB14AC64BC187A475FF /* OpenRunde-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 685645DAEEDD400A9899A86F /* OpenRunde-Regular.otf */; };
-		39B08135C084411DB81DDDF5 /* OpenRunde-Semibold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 19D2867E9F754AF8810DE816 /* OpenRunde-Semibold.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,19 +42,19 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rivomobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rivomobile/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		19D2867E9F754AF8810DE816 /* OpenRunde-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Semibold.otf"; path = "../assets/fonts/OpenRunde-Semibold.otf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-rivomobile-rivomobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rivomobile-rivomobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		32EA80A76BBA4FBDA2F8F71F /* OpenRunde-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Medium.otf"; path = "../assets/fonts/OpenRunde-Medium.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-rivomobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile.debug.xcconfig"; path = "Target Support Files/Pods-rivomobile/Pods-rivomobile.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-rivomobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile.release.xcconfig"; path = "Target Support Files/Pods-rivomobile/Pods-rivomobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-rivomobile-rivomobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile-rivomobileTests.debug.xcconfig"; path = "Target Support Files/Pods-rivomobile-rivomobileTests/Pods-rivomobile-rivomobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-rivomobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rivomobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		685645DAEEDD400A9899A86F /* OpenRunde-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Regular.otf"; path = "../assets/fonts/OpenRunde-Regular.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = rivomobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-rivomobile-rivomobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile-rivomobileTests.release.xcconfig"; path = "Target Support Files/Pods-rivomobile-rivomobileTests/Pods-rivomobile-rivomobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Bold.otf"; path = "../assets/fonts/OpenRunde-Bold.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */ = {isa = PBXFileReference; name = "OpenRunde-Bold.otf"; path = "../assets/fonts/OpenRunde-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		32EA80A76BBA4FBDA2F8F71F /* OpenRunde-Medium.otf */ = {isa = PBXFileReference; name = "OpenRunde-Medium.otf"; path = "../assets/fonts/OpenRunde-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		685645DAEEDD400A9899A86F /* OpenRunde-Regular.otf */ = {isa = PBXFileReference; name = "OpenRunde-Regular.otf"; path = "../assets/fonts/OpenRunde-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		19D2867E9F754AF8810DE816 /* OpenRunde-Semibold.otf */ = {isa = PBXFileReference; name = "OpenRunde-Semibold.otf"; path = "../assets/fonts/OpenRunde-Semibold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
