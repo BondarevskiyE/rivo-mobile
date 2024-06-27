@@ -3,6 +3,8 @@
 #import <React/RCTBundleURLProvider.h>
 
 #import <GoogleSignIn/GoogleSignIn.h>
+#import <React/RCTLinkingManager.h>
+
 
 @implementation AppDelegate
 
@@ -14,6 +16,20 @@
   self.initialProps = @{};
 
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
+}
+
+// - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
+//   return [GIDSignIn.sharedInstance handleURL:url];
+// }
+
+- (BOOL)application:(UIApplication *)application
+   openURL:(NSURL *)url
+   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  if ([GIDSignIn.sharedInstance handleURL:url]) {
+    return 'YES';
+  }
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

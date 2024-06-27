@@ -22,14 +22,17 @@
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
 	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.235832681635-3gr6a373koj6vl0ek64vlvtm6u4vrtjb</string>
-			</array>
-		</dict>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLName</key>
+		<string>rivomobile</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>rivomobile</string>
+		<string>com.googleusercontent.apps.235832681635-3gr6a373koj6vl0ek64vlvtm6u4vrtjb</string>
+		</array>
+	</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
