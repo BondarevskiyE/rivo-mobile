@@ -2,15 +2,11 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {onboardingData} from '@/shared/config';
-import {ConnectButton} from './ui/ConnectButton';
-import {ExternalLink, Slider} from '@/shared/ui/components';
+import {ConnectButton} from './components/ConnectButton';
+import {ExternalLink, Slider} from '@/components';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
-import {
-  CardCreating,
-  PassCodeRegistration,
-  EnableNotifications,
-} from '@/widgets/login';
+import {CardCreating, PassCodeRegistration, EnableNotifications} from './views';
 
 export const LoginScreen = () => {
   const loginGoogle = useLoginStore(state => state.loginGoogle);
@@ -87,11 +83,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   captionText: {
-    fontFamily: Fonts.bold,
-    fontSize: 13,
+    fontFamily: Fonts.semiBold,
+    fontSize: 12, // FIX to 13px
     color: Colors.grey_text,
     lineHeight: 18.2,
     marginTop: 20,
+    textAlign: 'center',
   },
   externalLink: {
     fontFamily: Fonts.semiBold,

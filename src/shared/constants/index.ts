@@ -1,5 +1,3 @@
-export * from './urls';
-
 export const PINCODE_LENGTH = 4;
 
 export const DEFAULT_USER_PHOTO =

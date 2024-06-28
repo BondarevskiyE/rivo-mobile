@@ -11,8 +11,8 @@ import {
 import {Colors} from '@/shared/ui';
 import {useUserStore} from '@/store/useUserStore';
 import {useLoginStore} from '@/store/useLoginStore';
-import {Header} from '@/widgets/overview';
-import {CardWallet} from '@/entities';
+import {Header} from './components';
+import {CardWallet} from '@/components';
 
 const {height} = Dimensions.get('screen');
 

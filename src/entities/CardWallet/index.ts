@@ -1,1 +1,0 @@
-export {CardWallet} from './CardWallet';
