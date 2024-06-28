@@ -1,13 +1,19 @@
 import {Images} from '../ui';
-import {CardItem} from '@/components/Slider/types';
 
-export const onboardingData: CardItem[] = [
+export const onboardingData = [
   {
-    title: 'Welcome to Rivo, a decentralized wallet with built-in yields',
-    image: Images.onboardingFirstSlide,
+    title: 'Finish quick tutorial',
+    points: 240,
+    image: Images.onboardingTask1,
   },
   {
-    title: 'Receive benefits of DeFi in the coolest interface ever existed',
-    image: Images.onboardingSecondSlide,
+    title: 'Top up your Cash Account',
+    points: 200,
+    image: Images.onboardingTask2,
+  },
+  {
+    title: 'Invest in your first strategy',
+    points: 200,
+    image: Images.onboardingTask3,
   },
 ];

@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {Button} from '@/components';
-import {ButtonType} from '@/components/general/Button/Button';
+import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import React, {useEffect} from 'react';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
@@ -93,7 +93,7 @@ export const EnableNotifications = () => {
         <Button
           text="Not now"
           onPress={onFinishRegistration}
-          type={ButtonType.SECONDARY}
+          type={BUTTON_TYPE.SECONDARY}
         />
       </View>
     </View>

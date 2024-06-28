@@ -40,7 +40,7 @@ export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
+    position: 'absolute',
     width: 'auto',
     alignSelf: 'center',
     bottom: 20,

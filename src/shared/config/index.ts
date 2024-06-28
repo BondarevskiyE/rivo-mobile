@@ -1,1 +1,1 @@
-export * from './onboardingData';
+export * from './authSliderData';

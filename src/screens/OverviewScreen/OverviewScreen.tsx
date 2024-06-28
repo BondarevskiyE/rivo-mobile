@@ -1,36 +1,25 @@
 import React from 'react';
-import {
-  Button,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Dimensions,
-} from 'react-native';
+import {StyleSheet, View, ScrollView, Dimensions} from 'react-native';
 
-import {Colors} from '@/shared/ui';
-import {useUserStore} from '@/store/useUserStore';
-import {useLoginStore} from '@/store/useLoginStore';
 import {Header} from './components';
 import {CardWallet} from '@/components';
+import {OnboardingTasks} from '@/components/onboarding';
+import {CashAccount, StrategiesList} from './components';
 
-const {height} = Dimensions.get('screen');
+const {height} = Dimensions.get('window');
 
 export const OverviewScreen = () => {
-  const logout = useLoginStore(state => state.logout);
-
-  const walletAddress = useUserStore(state => state.walletAddress);
-
   return (
     <View style={styles.container}>
       <Header />
 
-      <ScrollView>
+      <ScrollView style={styles.scroll}>
         <View style={styles.cardWalletContainer}>
           <CardWallet />
         </View>
-        <Button title="Log Out" onPress={logout} />
-        <Text>{`address: ${walletAddress}`}</Text>
+        <OnboardingTasks />
+        <CashAccount />
+        <StrategiesList />
       </ScrollView>
     </View>
   );
@@ -38,9 +27,9 @@ export const OverviewScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.ui_background,
+    // flex: 1,
+    // backgroundColor: Colors.ui_background,
     height,
-    paddingTop: 7,
     paddingHorizontal: 12,
     paddingBottom: 20,
   },
@@ -48,5 +37,8 @@ const styles = StyleSheet.create({
     width: '73%',
     alignSelf: 'center',
     marginVertical: 40,
+  },
+  scroll: {
+    overflow: 'visible',
   },
 });

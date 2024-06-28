@@ -3,6 +3,7 @@ import {useUserStore} from '@/store/useUserStore';
 import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {PointsCounter} from '@/components/PointsCounter';
+import {Colors} from '@/shared/ui';
 
 export const Header = () => {
   const user = useUserStore(state => state.userInfo);
@@ -24,7 +25,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    zIndex: 2,
+    borderStartColor: Colors.ui_beige_30,
   },
   photo: {
     width: 32,

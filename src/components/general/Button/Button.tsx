@@ -1,25 +1,57 @@
 import React, {useRef} from 'react';
 
-import {Pressable, StyleSheet, Text, Animated} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  Animated,
+  ViewStyle,
+  StyleProp,
+} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {withChildren} from '@/shared/types';
 
-export enum ButtonType {
+const getColor = (type: BUTTON_TYPE) => {
+  switch (type) {
+    case BUTTON_TYPE.ACTION:
+      return Colors.ui_orange_80;
+    case BUTTON_TYPE.PRIMAL:
+      return Colors.ui_white;
+    case BUTTON_TYPE.SECONDARY:
+      return Colors.ui_dark_blue;
+  }
+};
+
+const getBackgroundColor = (type: BUTTON_TYPE) => {
+  switch (type) {
+    case BUTTON_TYPE.ACTION:
+      return Colors.ui_orange_25;
+    case BUTTON_TYPE.PRIMAL:
+      return Colors.ui_dark_blue;
+    case BUTTON_TYPE.SECONDARY:
+      return Colors.transparent;
+  }
+};
+
+export enum BUTTON_TYPE {
   PRIMAL,
   SECONDARY,
+  ACTION,
 }
 
 type Props = {
   onPress: () => void;
   text: string;
-  type?: ButtonType;
+  style?: StyleProp<ViewStyle>;
+  type?: BUTTON_TYPE;
 } & withChildren;
 
 export const Button = ({
   onPress,
   text,
-  type = ButtonType.PRIMAL,
+  type = BUTTON_TYPE.PRIMAL,
+  style,
   children,
   ...props
 }: Props) => {
@@ -39,10 +71,8 @@ export const Button = ({
     }).start();
   };
 
-  const isPrimalType = type === ButtonType.PRIMAL;
-
-  const backgroundColor = isPrimalType ? Colors.ui_dark_blue : 'transparent';
-  const color = isPrimalType ? Colors.ui_white : Colors.ui_dark_blue;
+  const backgroundColor = getBackgroundColor(type);
+  const color = getColor(type);
 
   return (
     <Pressable
@@ -51,7 +81,7 @@ export const Button = ({
       onPressOut={fadeOut}
       {...props}>
       <Animated.View
-        style={[styles.button, {backgroundColor, opacity: animated}]}>
+        style={[styles.button, style, {backgroundColor, opacity: animated}]}>
         {children}
         {text && <Text style={[styles.buttonText, {color}]}>{text}</Text>}
       </Animated.View>
@@ -65,14 +95,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
-    // backgroundColor: Colors.ui_dark_blue,
     borderRadius: 18,
     height: 48,
     alignSelf: 'stretch',
   },
   buttonText: {
     fontFamily: Fonts.medium,
-    // color: Colors.ui_white,
   },
   buttonIcon: {
     position: 'absolute',

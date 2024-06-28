@@ -19,9 +19,9 @@ export const Tooltip = ({text}: Props) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    maxWidth: 219,
+    maxWidth: 243,
     height: 91,
-    backgroundColor: Colors.ui_gray_50,
+    backgroundColor: Colors.ui_grey_90,
     borderRadius: 13,
     paddingHorizontal: 8,
     paddingVertical: 10,

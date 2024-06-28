@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
-import {onboardingData} from '@/shared/config';
+import {authSliderData} from '@/shared/config';
 import {ConnectButton} from './components/ConnectButton';
 import {ExternalLink, Slider} from '@/components';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
@@ -30,7 +30,7 @@ export const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.loggingContainer}>
-        <Slider data={onboardingData} />
+        <Slider data={authSliderData} />
         <View>
           <ConnectButton
             onPress={loginGoogle}

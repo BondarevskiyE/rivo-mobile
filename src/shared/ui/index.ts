@@ -13,9 +13,14 @@ export const Colors = {
   ui_white: '#FFF',
   ui_grey_05: '#F2F2F2',
   ui_grey_10: '#DBDBDB',
+  ui_grey_13: '#d9d9d9',
   ui_grey_15: '#D3CFCC',
   ui_grey_20: '#CECCCA',
-  ui_gray_50: '#373737',
+
+  ui_grey_70: '#888888',
+  ui_grey_75: '#4d4d4d',
+  ui_grey_90: '#373737',
+
   grey_text: '#838A91',
   blue_text: '#3B60E1',
   error_red: '#D93232',
@@ -23,10 +28,17 @@ export const Colors = {
   ui_beige_30: '#eae2dd',
 
   ui_orange_20: '#feefe5',
+  ui_orange_25: '#f9e8df',
   ui_orange_40: '#C17830',
   ui_orange_45: '#AB6927',
+  ui_orange_70: '#FA8112',
   ui_orange_80: '#F95E00',
 
+  ui_green_50: '#5CB924',
+
+  ui_purple_50: '#2A254C',
+
+  ui_black_80: '#111111',
   ui_black: '#000000',
   transparent: 'transparent',
 
@@ -56,12 +68,17 @@ export const Shadows = {
 };
 
 export const Images = {
-  onboardingFirstSlide: require('../../../assets/images/onboarding/first-slide.png'),
-  onboardingSecondSlide: require('../../../assets/images/onboarding/second-slide.png'),
+  authFirstSlide: require('../../../assets/images/auth-slider/first-slide.png'),
+  authSecondSlide: require('../../../assets/images/auth-slider/second-slide.png'),
+
   cardCat: require('../../../assets/images/card/card-cat.png'),
   cardCatOrange: require('../../../assets/images/card/card-cat-orange.png'),
   enableNotifications: require('../../../assets/images/enable-notifications.png'),
   userCard: require('../../../assets/images/card/user-card.png'),
+
+  onboardingTask1: require('../../../assets/images/onboarding/task-mountains.png'),
+  onboardingTask2: require('../../../assets/images/onboarding/task-sea.png'),
+  onboardingTask3: require('../../../assets/images/onboarding/task-japan.png'),
 };
 
 export const Icons = {};
