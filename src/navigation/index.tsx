@@ -6,18 +6,12 @@ import {AuthStack} from './AuthStack';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {useUserStore} from '@/store/useUserStore';
-import {useIsMounted} from '@/shared/hooks';
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
 export const Router = () => {
-  const isMounted = useIsMounted();
   const isLoggedIn = useUserStore(state => state.isLoggedIn);
-
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <NavigationContainer>
