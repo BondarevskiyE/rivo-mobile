@@ -31,6 +31,12 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
   const user = useUserStore(state => state.userInfo);
 
   const cardAnimationStyles = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      cardAnimationValue.value,
+      [1, 0],
+      [0, 1],
+      Extrapolation.EXTEND,
+    ),
     transform: [
       {
         translateY: interpolate(
@@ -83,7 +89,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     zIndex: 2,
     borderStartColor: Colors.ui_beige_30,
-    overflow: 'hidden',
+    // overflow: 'hidden',
   },
   card: {
     position: 'absolute',
