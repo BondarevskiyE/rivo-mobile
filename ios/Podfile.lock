@@ -1004,11 +1004,29 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-quick-crypto (0.6.1):
+  - react-native-quick-crypto (0.7.0-rc.10):
+    - DoubleConversion
+    - glog
+    - hermes-engine
     - OpenSSL-Universal
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
     - React
-    - React-callinvoker
+    - React-Codegen
     - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - react-native-safe-area-context (4.10.4):
     - React-Core
   - react-native-web-browser (1.1.0):
@@ -1612,7 +1630,7 @@ SPEC CHECKSUMS:
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-quick-base64: a74c4b2607b9de016877a8edb776b6ac59785809
-  react-native-quick-crypto: 455c1b411db006dba1026a30681ececb19180187
+  react-native-quick-crypto: 8595b00c720afcb6986a2e8d0b4ac026d53c4fb3
   react-native-safe-area-context: 399a5859f6acbdf67f671c69b53113f535f3b5b0
   react-native-web-browser: 087b454e1e94b58b40ba73f54251d77486144d19
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1

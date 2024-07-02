@@ -42,18 +42,18 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = rivomobile/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = rivomobile/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		19D2867E9F754AF8810DE816 /* OpenRunde-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Semibold.otf"; path = "../assets/fonts/OpenRunde-Semibold.otf"; sourceTree = "<group>"; };
+		19D2867E9F754AF8810DE816 /* OpenRunde-Semibold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Semibold.otf"; path = "../assets/fonts/OpenRunde-Semibold.otf"; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-rivomobile-rivomobileTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rivomobile-rivomobileTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32EA80A76BBA4FBDA2F8F71F /* OpenRunde-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Medium.otf"; path = "../assets/fonts/OpenRunde-Medium.otf"; sourceTree = "<group>"; };
+		32EA80A76BBA4FBDA2F8F71F /* OpenRunde-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Medium.otf"; path = "../assets/fonts/OpenRunde-Medium.otf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-rivomobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile.debug.xcconfig"; path = "Target Support Files/Pods-rivomobile/Pods-rivomobile.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-rivomobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile.release.xcconfig"; path = "Target Support Files/Pods-rivomobile/Pods-rivomobile.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-rivomobile-rivomobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile-rivomobileTests.debug.xcconfig"; path = "Target Support Files/Pods-rivomobile-rivomobileTests/Pods-rivomobile-rivomobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5DCACB8F33CDC322A6C60F78 /* libPods-rivomobile.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-rivomobile.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		685645DAEEDD400A9899A86F /* OpenRunde-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Regular.otf"; path = "../assets/fonts/OpenRunde-Regular.otf"; sourceTree = "<group>"; };
+		685645DAEEDD400A9899A86F /* OpenRunde-Regular.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Regular.otf"; path = "../assets/fonts/OpenRunde-Regular.otf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = rivomobile/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-rivomobile-rivomobileTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rivomobile-rivomobileTests.release.xcconfig"; path = "Target Support Files/Pods-rivomobile-rivomobileTests/Pods-rivomobile-rivomobileTests.release.xcconfig"; sourceTree = "<group>"; };
 		ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Bold.otf"; path = "../assets/fonts/OpenRunde-Bold.otf"; sourceTree = "<group>"; };
+		C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Bold.otf"; path = "../assets/fonts/OpenRunde-Bold.otf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -244,6 +244,9 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+				EC99AD252C3291E900A309FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -903,6 +906,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		EC99AD252C3291E900A309FD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 83CBB9F71A601CBA00E9B192 /* Project object */;
 }

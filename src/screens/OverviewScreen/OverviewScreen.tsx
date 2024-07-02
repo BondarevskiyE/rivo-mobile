@@ -10,28 +10,30 @@ const {height} = Dimensions.get('window');
 
 export const OverviewScreen = () => {
   return (
-    <View style={styles.container}>
+    <>
       <Header />
 
-      <ScrollView style={styles.scroll}>
-        <View style={styles.cardWalletContainer}>
-          <CardWallet />
+      <ScrollView style={styles.container}>
+        <View style={styles.scroll}>
+          <View style={styles.cardWalletContainer}>
+            <CardWallet />
+          </View>
+          <OnboardingTasks />
+          <CashAccount />
+          <StrategiesList />
         </View>
-        <OnboardingTasks />
-        <CashAccount />
-        <StrategiesList />
       </ScrollView>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    // flex: 1,
+    flex: 1,
     // backgroundColor: Colors.ui_background,
     height,
     paddingHorizontal: 12,
-    paddingBottom: 20,
+    // paddingBottom: 20,
   },
   cardWalletContainer: {
     width: '73%',
@@ -39,6 +41,7 @@ const styles = StyleSheet.create({
     marginVertical: 40,
   },
   scroll: {
-    overflow: 'visible',
+    // overflow: 'visible',
+    paddingBottom: 100,
   },
 });

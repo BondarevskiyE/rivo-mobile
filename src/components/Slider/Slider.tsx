@@ -47,7 +47,9 @@ export const Slider: React.FC<Props> = ({data}) => {
   }).current;
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
+      clearTimeout(timeout);
+
       const newSlideIndex = currentSlideIndex + 1;
 
       if (!sliderRef.current) {
@@ -64,6 +66,10 @@ export const Slider: React.FC<Props> = ({data}) => {
         sliderRef.current.scrollToIndex({index: 0});
       }
     }, SLIDE_CHANGING_TIME);
+
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [currentSlideIndex, data]);
 
   const handleOnViewableItemsChanged = useRef(

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "235832681635",
+    "project_id": "rivo-test",
+    "storage_bucket": "rivo-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235832681635:android:6cc2a78c8cef8306248b16",
+        "android_client_info": {
+          "package_name": "com.rivomobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "235832681635-vm3mhtc0vijs97nun07stoqtiqsn2uag.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rivomobile",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "235832681635-c6jual4ctgrd7nvikti309cp8d7dqcmn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsnmKhnPhK5xPrtu_BQoJUdi_7hZ8mYvg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "235832681635-c6jual4ctgrd7nvikti309cp8d7dqcmn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "235832681635-3gr6a373koj6vl0ek64vlvtm6u4vrtjb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.rivomobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
