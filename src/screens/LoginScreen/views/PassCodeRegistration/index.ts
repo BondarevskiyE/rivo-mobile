@@ -1,1 +1,0 @@
-export {PassCodeRegistration} from './PassCodeRegistration';

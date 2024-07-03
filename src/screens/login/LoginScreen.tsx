@@ -4,28 +4,31 @@ import {StyleSheet, Text, View} from 'react-native';
 import {authSliderData} from '@/shared/config';
 import {ConnectButton} from './components/ConnectButton';
 import {ExternalLink, Slider} from '@/components';
-import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
-import {CardCreating, PassCodeRegistration, EnableNotifications} from './views';
 
-export const LoginScreen = () => {
+import {AUTH_SCREENS, AuthStackProps} from '@/navigation/AuthStack';
+import {StackScreenProps} from '@react-navigation/stack';
+
+type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.LOGIN>;
+
+export const LoginScreen: React.FC<Props> = ({navigation}) => {
   const loginGoogle = useLoginStore(state => state.loginGoogle);
   const loginX = useLoginStore(state => state.loginX);
 
-  const loginStep = useLoginStore(state => state.loginStep);
-  // const loginStep = LOGIN_STEPS.ENABLE_NOTIFICATIONS;
+  const authGoogle = async () => {
+    const isAuthenticated = await loginGoogle();
+    if (isAuthenticated) {
+      navigation.navigate(AUTH_SCREENS.CARD_CREATING);
+    }
+  };
 
-  if (loginStep === LOGIN_STEPS.CARD_CREATING) {
-    return <CardCreating />;
-  }
-
-  if (loginStep === LOGIN_STEPS.PASSCODE_REGISTRATION) {
-    return <PassCodeRegistration />;
-  }
-
-  if (loginStep === LOGIN_STEPS.ENABLE_NOTIFICATIONS) {
-    return <EnableNotifications />;
-  }
+  const authX = async () => {
+    const isAuthenticated = await loginX();
+    if (isAuthenticated) {
+      navigation.navigate(AUTH_SCREENS.CARD_CREATING);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -33,12 +36,12 @@ export const LoginScreen = () => {
         <Slider data={authSliderData} />
         <View style={styles.lowerBlock}>
           <ConnectButton
-            onPress={loginGoogle}
+            onPress={authGoogle}
             text="Continue with Google"
             icon="google"
           />
           <ConnectButton
-            onPress={loginX}
+            onPress={authX}
             text="Continue with Twitter"
             icon="twitter"
           />

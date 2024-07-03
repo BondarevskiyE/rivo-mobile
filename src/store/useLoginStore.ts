@@ -13,39 +13,27 @@ GoogleSignin.configure({
     '235832681635-c6jual4ctgrd7nvikti309cp8d7dqcmn.apps.googleusercontent.com',
 });
 
-export enum LOGIN_STEPS {
-  NONE,
-  AUTH,
-  CARD_CREATING,
-  PASSCODE_REGISTRATION,
-  ENABLE_NOTIFICATIONS,
-}
-
 interface LoginState {
   isLoading: boolean;
-  loginStep: LOGIN_STEPS;
   isPassCodeEntered: boolean;
   setIsPassCodeEntered: (bool: boolean) => void;
   setIsLoading: (bool: boolean) => void;
-  setLoginStep: (step: LOGIN_STEPS) => void;
 
-  loginGoogle: () => void;
-  loginX: () => void;
+  loginGoogle: () => Promise<boolean>;
+  loginX: () => Promise<boolean>;
 
   logout: () => void;
 }
 
 export const useLoginStore = create<LoginState>()(set => ({
   isLoading: false,
-  loginStep: LOGIN_STEPS.NONE,
   isPassCodeEntered: false,
   setIsPassCodeEntered: (bool: boolean) => set({isPassCodeEntered: bool}),
   setIsLoading: (bool: boolean) => set({isLoading: bool}),
-  setLoginStep: (step: LOGIN_STEPS) => set({loginStep: step}),
 
   loginGoogle: async () => {
     try {
-      set({loginStep: LOGIN_STEPS.AUTH, isLoading: true});
+      set({isLoading: true});
 
       await GoogleSignin.hasPlayServices();
 
@@ -55,7 +43,7 @@ export const useLoginStore = create<LoginState>()(set => ({
 
       setUserInfo({...userInfo.user, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
-      set({loginStep: LOGIN_STEPS.CARD_CREATING});
+      // set({loginStep: LOGIN_STEPS.CARD_CREATING});
 
       setTimeout(() => {
         setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response
@@ -70,7 +58,7 @@ export const useLoginStore = create<LoginState>()(set => ({
   },
   loginX: async () => {
     try {
-      set({loginStep: LOGIN_STEPS.AUTH, isLoading: true});
+      set({isLoading: true});
       const user = await signInWithTwitter();
 
       if (!user) {
@@ -80,8 +68,6 @@ export const useLoginStore = create<LoginState>()(set => ({
       const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
       setUserInfo({...user, loginProvider: LOGIN_PROVIDER.TWITTER});
-
-      set({loginStep: LOGIN_STEPS.CARD_CREATING});
 
       setTimeout(() => {
         setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response

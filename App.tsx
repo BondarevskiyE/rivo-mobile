@@ -1,10 +1,12 @@
 import React, {useEffect} from 'react';
 import {StatusBar} from 'react-native';
+
 import Routes from '@/navigation';
 import {Colors} from '@/shared/ui';
 import {useAppState} from '@/shared/hooks';
 import {registerForegroundService} from '@/shared/lib/notifee';
 import {subscribeTwitterListener} from '@/shared/lib/twitter';
+import {Providers} from '@/Providers';
 
 export const App = () => {
   useAppState();
@@ -20,9 +22,9 @@ export const App = () => {
   }, []);
 
   return (
-    <>
+    <Providers>
       <StatusBar backgroundColor={Colors.ui_background} />
       <Routes />
-    </>
+    </Providers>
   );
 };

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet, Text, Alert} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
-import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
 import {PasswordKeyboard, AsyncAlert} from '@/components';
 import {PINCODE_LENGTH} from '@/shared/constants';
@@ -12,15 +12,21 @@ import {
   getBiometrySupportedType,
 } from '@/shared/lib/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
+import {AuthStackProps, AUTH_SCREENS} from '@/navigation/AuthStack';
+import {StackScreenProps} from '@react-navigation/stack';
 
-export const PassCodeRegistration: React.FC = () => {
+type Props = StackScreenProps<
+  AuthStackProps,
+  AUTH_SCREENS.PASS_CODE_REGISTRATION
+>;
+
+export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
   const [storedPassCode, setStoredPassCode] = useState<string>('');
   const [isRepeating, setIsRepeating] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
 
-  const setLoginStep = useLoginStore(state => state.setLoginStep);
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
   );
@@ -41,7 +47,7 @@ export const PassCodeRegistration: React.FC = () => {
         {
           text: 'OK',
           onPress: () => {
-            setLoginStep(LOGIN_STEPS.AUTH);
+            navigation.navigate(AUTH_SCREENS.LOGIN);
           },
         },
       ]);
@@ -67,7 +73,7 @@ export const PassCodeRegistration: React.FC = () => {
           (await saveCredentialsWithBiometry(user?.email, pinCode));
       }
       await saveCredentialsWithPassword(user?.email, pinCode);
-      setLoginStep(LOGIN_STEPS.ENABLE_NOTIFICATIONS);
+      navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
       setIsPassCodeEntered(true);
       return;
     }

@@ -8,12 +8,18 @@ import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import React, {useEffect} from 'react';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
-import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
 import {useIsMounted} from '@/shared/hooks';
+import {AuthStackProps, AUTH_SCREENS} from '@/navigation/AuthStack';
+import {StackScreenProps} from '@react-navigation/stack';
+
+type Props = StackScreenProps<
+  AuthStackProps,
+  AUTH_SCREENS.ENABLE_NOTIFICATIONS
+>;
 
 const {width} = Dimensions.get('screen');
 
-export const EnableNotifications = () => {
+export const EnableNotificationsScreen: React.FC<Props> = () => {
   const isMounted = useIsMounted();
 
   const setIsNotificationsEnabled = useSettingsStore(
@@ -21,8 +27,6 @@ export const EnableNotifications = () => {
   );
 
   const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
-
-  const setLoginStep = useLoginStore(state => state.setLoginStep);
 
   const onClickEnableNotifications = async () => {
     const notificationsPermisions = await notifee.requestPermission();
@@ -36,7 +40,6 @@ export const EnableNotifications = () => {
     }
 
     setIsloggedIn(true);
-    setLoginStep(LOGIN_STEPS.NONE);
   };
 
   const onFinishRegistration = () => {
@@ -56,7 +59,6 @@ export const EnableNotifications = () => {
 
     if (!isFirstEntering) {
       setIsloggedIn(true);
-      setLoginStep(LOGIN_STEPS.NONE);
     }
   };
 

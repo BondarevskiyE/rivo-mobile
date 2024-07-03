@@ -21,8 +21,12 @@ import {Button} from '@/components';
 import {Tooltip} from '@/components/Tooltip';
 import {ConfettiAnimation} from '@/shared/ui/lottie';
 import {useUserStore} from '@/store/useUserStore';
-import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {useLoginStore} from '@/store/useLoginStore';
 import {CardShineIcon} from '@/shared/ui/icons';
+import {StackScreenProps} from '@react-navigation/stack';
+import {AUTH_SCREENS, AuthStackProps} from '@/navigation/AuthStack';
+
+type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.CARD_CREATING>;
 
 const tooltipText =
   'Did you know? Rivo is non-custodial wallet, meaning that no-one has access to your funds';
@@ -32,9 +36,8 @@ const animate_state = {
   end: 10,
 };
 
-export const CardCreating = () => {
+export const CardCreatingScreen: React.FC<Props> = ({navigation}) => {
   const isLoading = useLoginStore(state => state.isLoading);
-  const setLoginStep = useLoginStore(state => state.setLoginStep);
 
   const walletAddress = useUserStore(state => state.walletAddress);
 
@@ -155,7 +158,7 @@ export const CardCreating = () => {
   }));
 
   const handleContinue = () => {
-    setLoginStep(LOGIN_STEPS.PASSCODE_REGISTRATION);
+    navigation.navigate(AUTH_SCREENS.PASS_CODE_REGISTRATION);
   };
 
   const titleText = isLoading
