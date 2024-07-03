@@ -82,7 +82,7 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    paddingTop: 7,
+    paddingVertical: 7,
     paddingHorizontal: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     left: width / 2 - 26,
-    top: 0,
+    bottom: 7,
     width: 52,
     height: 32,
   },

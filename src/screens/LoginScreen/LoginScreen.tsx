@@ -31,7 +31,7 @@ export const LoginScreen = () => {
     <View style={styles.container}>
       <View style={styles.loggingContainer}>
         <Slider data={authSliderData} />
-        <View>
+        <View style={styles.lowerBlock}>
           <ConnectButton
             onPress={loginGoogle}
             text="Continue with Google"
@@ -70,8 +70,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingTop: 26,
     paddingBottom: 30,
-    paddingLeft: 12,
-    paddingRight: 12,
   },
   titleText: {
     fontSize: 28,
@@ -81,6 +79,10 @@ const styles = StyleSheet.create({
   loggingContainer: {
     height: '100%',
     justifyContent: 'space-between',
+  },
+  lowerBlock: {
+    paddingLeft: 12,
+    paddingRight: 12,
   },
   captionText: {
     fontFamily: Fonts.semiBold,

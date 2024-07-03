@@ -9,5 +9,5 @@ export {LightingIcon} from './LightingIcon';
 export {PlusIcon} from './PlusIcon';
 export {ChartsIcon} from './ChartsIcon';
 export {BellIcon} from './BellIcon';
-export {DollarIcon} from './DollarIcon';
-export {EthereumIcon} from './EthereumIcon';
+export {DollarIcon, DollarIconWithShadow} from './DollarIcon';
+export {EthereumIcon, EthereumIconWithShadow} from './EthereumIcon';

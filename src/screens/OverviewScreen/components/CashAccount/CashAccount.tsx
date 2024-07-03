@@ -1,6 +1,6 @@
 import {formatValue} from '@/shared/lib';
 import {Colors, Fonts} from '@/shared/ui';
-import {DollarIcon} from '@/shared/ui/icons';
+import {DollarIconWithShadow} from '@/shared/ui/icons';
 import {ArrowUpIcon} from '@/shared/ui/icons/ArrowUpIcon';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import React from 'react';
@@ -14,7 +14,14 @@ export const CashAccount = () => {
   return (
     <View style={styles.container}>
       <View style={styles.leftBlock}>
-        <DollarIcon color={Colors.ui_green_50} style={styles.dollarIcon} />
+        <DollarIconWithShadow
+          color={Colors.ui_green_50}
+          shadowColor={'rgba(92, 185, 36, 0.1)'}
+          width={36}
+          height={36}
+          distance={15}
+          style={styles.dollarIcon}
+        />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Cash Account</Text>
           <Text style={styles.subTitle}>4% APY from US Treasury</Text>

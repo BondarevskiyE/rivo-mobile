@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
@@ -16,7 +16,7 @@ import {
 import {useLoginStore} from '@/store/useLoginStore';
 import {PassCode} from '@/components/enter';
 import {TabBar} from './components';
-import {Colors} from '@/shared/ui';
+import LinearGradient from 'react-native-linear-gradient';
 
 export enum TABS {
   OVERVIEW = 'overview',
@@ -41,27 +41,40 @@ export const AppStack = () => {
   }
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
-      <Tab.Navigator
-        tabBar={CustomTabBar}
-        screenOptions={{
-          headerShown: false,
+    <View style={{position: 'relative', flex: 1}}>
+      <LinearGradient
+        colors={['rgba(255, 255, 255, 1)', 'rgba(238, 231, 231, 1)']}
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          top: 0,
+          height: '100%',
         }}>
-        <Tab.Screen name={TABS.OVERVIEW} component={OverviewScreen} />
-        <Tab.Screen name={TABS.LIGHTING} component={LightingScreen} />
-        <Tab.Screen name={TABS.PLUS} component={PlusScreen} />
-        <Tab.Screen name={TABS.CHARTS} component={ChartsScreen} />
-        <Tab.Screen name={TABS.NOTIFICATIONS} component={NotificationsScreen} />
-      </Tab.Navigator>
-    </SafeAreaView>
+        <SafeAreaView style={styles.safeAreaContainer}>
+          <Tab.Navigator
+            tabBar={CustomTabBar}
+            screenOptions={{
+              headerShown: false,
+            }}
+            sceneContainerStyle={{backgroundColor: 'transparent'}}>
+            <Tab.Screen name={TABS.OVERVIEW} component={OverviewScreen} />
+            <Tab.Screen name={TABS.LIGHTING} component={LightingScreen} />
+            <Tab.Screen name={TABS.PLUS} component={PlusScreen} />
+            <Tab.Screen name={TABS.CHARTS} component={ChartsScreen} />
+            <Tab.Screen
+              name={TABS.NOTIFICATIONS}
+              component={NotificationsScreen}
+            />
+          </Tab.Navigator>
+        </SafeAreaView>
+      </LinearGradient>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
-    // width: '100%',
-    // height: '100%',
-    backgroundColor: Colors.ui_background,
   },
 });

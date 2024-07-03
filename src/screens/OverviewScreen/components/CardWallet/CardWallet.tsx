@@ -5,7 +5,6 @@ import {useBalanceStore} from '@/store/useBalanceStore';
 import {useUserStore} from '@/store/useUserStore';
 import React from 'react';
 import {ImageBackground, StyleSheet, Text, View} from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
 
 export const CardWallet = () => {
   const userBalance = useBalanceStore(state => state.userBalance);

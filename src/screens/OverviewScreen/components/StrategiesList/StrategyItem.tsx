@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Strategy} from '@/shared/types';
 import {Colors, Fonts} from '@/shared/ui';
-import {DollarIcon, EthereumIcon} from '@/shared/ui/icons';
+import {DollarIconWithShadow, EthereumIconWithShadow} from '@/shared/ui/icons';
 import {Button} from '@/components';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
 
@@ -11,13 +11,21 @@ interface Props {
 }
 
 export const StrategyItem: React.FC<Props> = ({item}) => {
-  const Icon = item.logo === 'dollar' ? DollarIcon : EthereumIcon;
+  const Icon =
+    item.logo === 'dollar' ? DollarIconWithShadow : EthereumIconWithShadow;
 
   return (
     <View style={styles.container}>
       <View style={styles.upperBlock}>
         <View style={styles.titleBlock}>
-          <Icon color={Colors.ui_purple_50} style={styles.icon} />
+          <Icon
+            color={Colors.ui_purple_50}
+            style={styles.icon}
+            shadowColor={'rgba(42, 37, 76, 0.1)'}
+            width={36}
+            height={36}
+            distance={20}
+          />
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{`${item.apy}% APY`}</Text>
             <Text style={styles.subTitle}>{item.name}</Text>

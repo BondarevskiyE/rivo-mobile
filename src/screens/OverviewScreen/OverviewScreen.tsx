@@ -13,11 +13,10 @@ import ReAnimated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import RNFadedScrollView from 'rn-faded-scrollview';
 
-import {Header} from './components';
-import {CardWallet} from '@/components';
 import {OnboardingTasks} from '@/components/onboarding';
-import {CashAccount, StrategiesList} from './components';
+import {Header, CardWallet, CashAccount, StrategiesList} from './components';
 
 const {height} = Dimensions.get('window');
 
@@ -25,6 +24,15 @@ export const OverviewScreen = () => {
   const [isHideCard, setIsHideCard] = useState(false);
 
   const cardAnimationValue = useSharedValue(1);
+
+  useEffect(() => {
+    if (isHideCard) {
+      cardAnimationValue.value = withTiming(0, {duration: 200});
+      return;
+    }
+    cardAnimationValue.value = withTiming(1, {duration: 200});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isHideCard]);
 
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
@@ -63,20 +71,11 @@ export const OverviewScreen = () => {
     opacity: cardAnimationValue.value,
   }));
 
-  useEffect(() => {
-    if (isHideCard) {
-      cardAnimationValue.value = withTiming(0, {duration: 200});
-      return;
-    }
-    cardAnimationValue.value = withTiming(1, {duration: 200});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHideCard]);
-
   const cardHeightStyle = useAnimatedStyle(() => {
     const interpolatedHeight = interpolate(
       cardAnimationValue.value,
       [0, 1],
-      [0, 25],
+      [0, 156],
       {extrapolateRight: Extrapolation.CLAMP},
     );
     const interpolatedMarginTop = interpolate(
@@ -86,20 +85,25 @@ export const OverviewScreen = () => {
       {extrapolateRight: Extrapolation.CLAMP},
     );
     return {
-      height: `${interpolatedHeight}%`,
+      height: interpolatedHeight,
       marginTop: interpolatedMarginTop,
     };
   });
 
   return (
-    <>
+    <View style={{flex: 1}}>
       <Header cardAnimationValue={cardAnimationValue} />
-
-      <ReAnimated.ScrollView
+      <RNFadedScrollView
+        allowStartFade={false}
+        allowEndFade={false} // FIX remove if the list will be wider
+        horizontal={false}
+        fadeSize={30}
+        fadeColors={['rgba(248, 242, 239, 0)', 'rgba(248, 242, 239, 1)']}
         style={styles.container}
         onScroll={onHandleScroll}
+        showsVerticalScrollIndicator={false}
         bounces={false}>
-        <View style={styles.scroll}>
+        <View style={styles.scrollArea}>
           <ReAnimated.View
             style={[
               styles.cardWalletContainer,
@@ -113,8 +117,8 @@ export const OverviewScreen = () => {
           <CashAccount />
           <StrategiesList />
         </View>
-      </ReAnimated.ScrollView>
-    </>
+      </RNFadedScrollView>
+    </View>
   );
 };
 
@@ -123,16 +127,16 @@ const styles = StyleSheet.create({
     flex: 1,
     height,
     paddingHorizontal: 12,
+    position: 'relative',
+    backgroundColor: 'transparent',
   },
   cardWalletContainer: {
     width: '73%',
     alignSelf: 'center',
-    // marginBottom: 40,
-    // paddingTop: 20,
     marginVertical: 40,
     transformOrigin: 'top',
   },
-  scroll: {
-    paddingBottom: 100,
+  scrollArea: {
+    paddingBottom: 250,
   },
 });

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {SafeAreaView, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import Routes from '@/navigation';
 import {Colors} from '@/shared/ui';
 import {useAppState} from '@/shared/hooks';
@@ -20,9 +20,9 @@ export const App = () => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: Colors.ui_background}}>
+    <>
       <StatusBar backgroundColor={Colors.ui_background} />
       <Routes />
-    </SafeAreaView>
+    </>
   );
 };

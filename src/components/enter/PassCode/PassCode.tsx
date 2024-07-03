@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text, Image, SafeAreaView} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
@@ -71,7 +71,7 @@ export const PassCode: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
         {user?.photo && (
           <Image
@@ -91,7 +91,7 @@ export const PassCode: React.FC = () => {
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

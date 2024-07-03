@@ -1,5 +1,6 @@
 import * as React from 'react';
 import Svg, {SvgProps, Rect, Path} from 'react-native-svg';
+import {IconWithShadow, WithShadowProps} from './IconWithShadow';
 
 export const EthereumIcon = (props: SvgProps) => (
   <Svg width={36} height={36} fill="none" {...props}>
@@ -24,3 +25,11 @@ export const EthereumIcon = (props: SvgProps) => (
     />
   </Svg>
 );
+
+export const EthereumIconWithShadow = (props: WithShadowProps) => {
+  return (
+    <IconWithShadow {...props}>
+      <EthereumIcon {...props} />
+    </IconWithShadow>
+  );
+};
