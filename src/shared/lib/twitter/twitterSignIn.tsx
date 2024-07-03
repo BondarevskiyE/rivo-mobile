@@ -160,7 +160,9 @@ export const subscribeTwitterListener = () => {
       setUserInfo({...user, loginProvider: LOGIN_PROVIDER.TWITTER});
 
       setLoginStep(LOGIN_STEPS.CARD_CREATING);
-      setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX need address from backend api
+      setTimeout(() => {
+        setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1');
+      }, 3000); // FIX need address from backend api
       setIsLoading(false);
     }
   });
