@@ -54,7 +54,7 @@ export const SlideItem: React.FC<Props> = ({item, scrollX, index}) => {
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    width: width - 24,
+    width,
     height,
     alignItems: 'center',
     bottom: 0,
