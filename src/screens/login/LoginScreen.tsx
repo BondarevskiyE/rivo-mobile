@@ -2,8 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 
 import {authSliderData} from '@/shared/config';
-import {ConnectButton} from './components/ConnectButton';
-import {ExternalLink, Slider} from '@/components';
+import {ConnectButton, ExternalLink, Slider} from '@/components';
 import {useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
 

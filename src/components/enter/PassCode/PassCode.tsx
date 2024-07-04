@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, Text, Image, SafeAreaView} from 'react-native';
+import {View, StyleSheet, Text, Image} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
-import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
 import {PasswordKeyboard} from '@/components';
 import {PINCODE_LENGTH} from '@/shared/constants';
@@ -18,7 +18,6 @@ export const PassCode: React.FC = () => {
 
   const user = useUserStore(state => state.userInfo);
 
-  const setLoginStep = useLoginStore(state => state.setLoginStep);
   const setIsLoggedIn = useUserStore(state => state.setIsLoggedIn);
   const logout = useLoginStore(state => state.logout);
   const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
@@ -33,7 +32,6 @@ export const PassCode: React.FC = () => {
     // if we can't get passcode we return the user to auth screen
     if (!credentials) {
       setIsLoggedIn(false);
-      setLoginStep(LOGIN_STEPS.AUTH);
       return;
     }
 
@@ -71,7 +69,7 @@ export const PassCode: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.avatarContainer}>
         {user?.photo && (
           <Image
@@ -91,7 +89,7 @@ export const PassCode: React.FC = () => {
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -1,11 +1,21 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
+
+import {navigationRef} from './RootNavigation';
 
 import {AppStack} from './AppStack';
 import {AuthStack} from './AuthStack';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {useUserStore} from '@/store/useUserStore';
+
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: 'transparent',
+  },
+};
 
 const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
@@ -14,7 +24,7 @@ export const Router = () => {
   const isLoggedIn = useUserStore(state => state.isLoggedIn);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={navTheme} ref={navigationRef}>
       <Stack.Navigator
         screenOptions={{
           gestureEnabled: true,

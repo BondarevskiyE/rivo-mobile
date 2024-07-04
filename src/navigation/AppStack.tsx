@@ -1,5 +1,5 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import {
   BottomTabBarProps,
   createBottomTabNavigator,
@@ -17,8 +17,15 @@ import {useLoginStore} from '@/store/useLoginStore';
 import {PassCode} from '@/components/enter';
 import {TabBar} from './components';
 import LinearGradient from 'react-native-linear-gradient';
+import {createStackNavigator} from '@react-navigation/stack';
+import {Colors} from '@/shared/ui';
 
-export enum TABS {
+export enum APP_SCREENS {
+  HOME_SCREEN = 'home_screen',
+  PASS_CODE_SCREEN = 'pass_code_screen',
+}
+
+export enum HOME_SCREEN_TABS {
   OVERVIEW = 'overview',
   LIGHTING = 'lighting',
   PLUS = 'plus',
@@ -26,19 +33,39 @@ export enum TABS {
   NOTIFICATIONS = 'notifications',
 }
 
+export type AppStackProps = {
+  [APP_SCREENS.HOME_SCREEN]: undefined;
+  [APP_SCREENS.PASS_CODE_SCREEN]: undefined;
+};
+
 // is is here to fix warnings
 const CustomTabBar = (props: BottomTabBarProps) => {
   return <TabBar {...props} />;
 };
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+const TabsRoot = () => (
+  <Tab.Navigator
+    tabBar={CustomTabBar}
+    screenOptions={{
+      headerShown: false,
+    }}
+    sceneContainerStyle={{backgroundColor: 'transparent'}}>
+    <Tab.Screen name={HOME_SCREEN_TABS.OVERVIEW} component={OverviewScreen} />
+    <Tab.Screen name={HOME_SCREEN_TABS.LIGHTING} component={LightingScreen} />
+    <Tab.Screen name={HOME_SCREEN_TABS.PLUS} component={PlusScreen} />
+    <Tab.Screen name={HOME_SCREEN_TABS.CHARTS} component={ChartsScreen} />
+    <Tab.Screen
+      name={HOME_SCREEN_TABS.NOTIFICATIONS}
+      component={NotificationsScreen}
+    />
+  </Tab.Navigator>
+);
 
 export const AppStack = () => {
   const isPassCodeEntered = useLoginStore(state => state.isPassCodeEntered);
-
-  if (!isPassCodeEntered) {
-    return <PassCode />;
-  }
 
   return (
     <View style={{position: 'relative', flex: 1}}>
@@ -51,30 +78,34 @@ export const AppStack = () => {
           top: 0,
           height: '100%',
         }}>
-        <SafeAreaView style={styles.safeAreaContainer}>
-          <Tab.Navigator
-            tabBar={CustomTabBar}
+        <SafeAreaView
+          style={{
+            flex: 1,
+            backgroundColor: isPassCodeEntered
+              ? 'transparent'
+              : Colors.ui_background,
+          }}>
+          <Stack.Navigator
             screenOptions={{
               headerShown: false,
-            }}
-            sceneContainerStyle={{backgroundColor: 'transparent'}}>
-            <Tab.Screen name={TABS.OVERVIEW} component={OverviewScreen} />
-            <Tab.Screen name={TABS.LIGHTING} component={LightingScreen} />
-            <Tab.Screen name={TABS.PLUS} component={PlusScreen} />
-            <Tab.Screen name={TABS.CHARTS} component={ChartsScreen} />
-            <Tab.Screen
-              name={TABS.NOTIFICATIONS}
-              component={NotificationsScreen}
-            />
-          </Tab.Navigator>
+              gestureEnabled: false,
+              animationEnabled: false,
+            }}>
+            {isPassCodeEntered ? (
+              <Stack.Screen
+                name={APP_SCREENS.HOME_SCREEN}
+                component={TabsRoot}
+              />
+            ) : (
+              <Stack.Screen
+                name={APP_SCREENS.PASS_CODE_SCREEN}
+                component={PassCode}
+                options={{presentation: 'transparentModal'}}
+              />
+            )}
+          </Stack.Navigator>
         </SafeAreaView>
       </LinearGradient>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  safeAreaContainer: {
-    flex: 1,
-  },
-});

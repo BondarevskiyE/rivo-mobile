@@ -30,7 +30,7 @@ export const AuthStack = () => {
     <SafeAreaView style={styles.container}>
       <Stack.Navigator
         screenOptions={{
-          gestureEnabled: true,
+          gestureEnabled: false,
           headerShown: false,
           ...TransitionPresets.SlideFromRightIOS,
         }}>

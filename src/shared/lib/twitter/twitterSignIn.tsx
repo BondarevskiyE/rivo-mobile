@@ -4,10 +4,13 @@ import {Alert, Linking} from 'react-native';
 import Config from 'react-native-config';
 import {InAppBrowser} from 'react-native-inappbrowser-reborn';
 import crypto from 'react-native-quick-crypto';
+
+import * as RootNavigation from '@/navigation/RootNavigation';
 import {getDeepLink} from '../';
 import {useUserStore} from '@/store/useUserStore';
-import {LOGIN_STEPS, useLoginStore} from '@/store/useLoginStore';
+import {useLoginStore} from '@/store/useLoginStore';
 import {LOGIN_PROVIDER, User} from '@/store/types';
+import {AUTH_SCREENS} from '@/navigation/AuthStack';
 
 const CONSUMER_KEY = Config.TWITTER_CONSUMER_KEY;
 const CONSUMER_SECRET = Config.TWITTER_CONSUMER_SECRET;
@@ -155,11 +158,12 @@ export const subscribeTwitterListener = () => {
       }
 
       const {setUserInfo, setWalletAddress} = useUserStore.getState();
-      const {setLoginStep, setIsLoading} = useLoginStore.getState();
+      const {setIsLoading} = useLoginStore.getState();
 
       setUserInfo({...user, loginProvider: LOGIN_PROVIDER.TWITTER});
 
-      setLoginStep(LOGIN_STEPS.CARD_CREATING);
+      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING);
+
       setTimeout(() => {
         setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1');
       }, 3000); // FIX need address from backend api
