@@ -49,7 +49,6 @@ export const CashAccount = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
     paddingHorizontal: 16,
     paddingVertical: 18,
 

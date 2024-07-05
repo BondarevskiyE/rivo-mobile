@@ -1,0 +1,1395 @@
+diff --git a/lib/typescript/HighlightableElement.d.ts b/lib/typescript/HighlightableElement.d.ts
+index c1bb8e69d046ec9e1157ba7a0b6907ba03f433ef..15ac3238d6d7cb8f448349e75cbd0144c9eb31b0 100644
+--- a/lib/typescript/HighlightableElement.d.ts
++++ b/lib/typescript/HighlightableElement.d.ts
+@@ -1,8 +1,10 @@
+ import type { PropsWithChildren } from "react";
+ import React from "react";
+-import type { StyleProp, ViewStyle } from "react-native";
++import type { StyleProp, ViewStyle ,ScrollView} from "react-native";
+ import type { HighlightOptions } from "./context/context";
+ export declare type HighlightableElementProps = PropsWithChildren<{
++  scrollContainerRef?: React.MutableRefObject<ScrollView | null>;
++  scrollOffset?: number;
+     /**
+      * The id used by the HighlightOverlay to find this element.
+      * @since 1.0
+@@ -20,5 +22,5 @@ export declare type HighlightableElementProps = PropsWithChildren<{
+  *
+  * @since 1.0
+  */
+-declare const HighlightableElement: React.MemoExoticComponent<({ id, options, children, style }: HighlightableElementProps) => JSX.Element>;
++declare const HighlightableElement: React.MemoExoticComponent<({ id, options,scrollContainerRef, children, style }: HighlightableElementProps) => JSX.Element>;
+ export default HighlightableElement;
+diff --git a/src/FadeDuringHighlight.tsx b/src/FadeDuringHighlight.tsx
+index 67ffea0b2a32d7c77c14039653cd72b0ce867d35..d66523992e2d978aaddf5d96706434eba47b773c 100644
+--- a/src/FadeDuringHighlight.tsx
++++ b/src/FadeDuringHighlight.tsx
+@@ -1,15 +1,15 @@
+-import type { PropsWithChildren } from "react";
+-import React from "react";
+-import type { StyleProp, ViewStyle } from "react-native";
+-import { Pressable, StyleSheet, View } from "react-native";
+-import Animated from "react-native-reanimated";
++import type {PropsWithChildren} from 'react';
++import React from 'react';
++import type {StyleProp, ViewStyle} from 'react-native';
++import {Pressable, StyleSheet, View} from 'react-native';
++import Animated from 'react-native-reanimated';
+ 
+-import { useHighlightableElements } from "./context";
++import {useHighlightableElements} from './context';
+ 
+ const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+ 
+ export type FadeDuringHighlightProps = PropsWithChildren<{
+-	style?: StyleProp<ViewStyle>;
++  style?: StyleProp<ViewStyle>;
+ }>;
+ 
+ /**
+@@ -19,34 +19,36 @@ export type FadeDuringHighlightProps = PropsWithChildren<{
+  *
+  * @since 1.3
+  */
+-function FadeDuringHighlight({ children, style }: FadeDuringHighlightProps): JSX.Element {
+-	const [_, { getCurrentActiveOverlay }] = useHighlightableElements();
++function FadeDuringHighlight({
++  children,
++  style,
++}: FadeDuringHighlightProps): JSX.Element {
++  const [_, {getCurrentActiveOverlay}] = useHighlightableElements();
+ 
+-	const currentActiveOverlay = getCurrentActiveOverlay();
++  const currentActiveOverlay = getCurrentActiveOverlay();
+ 
+-	return (
+-		<View style={style}>
+-			{children}
+-			{currentActiveOverlay != null && (
+-				<AnimatedPressable
+-					entering={currentActiveOverlay.entering ?? undefined}
+-					exiting={currentActiveOverlay.exiting ?? undefined}
+-					onPress={currentActiveOverlay.onDismiss}
+-					style={StyleSheet.absoluteFill}
+-				>
+-					<View
+-						style={[
+-							StyleSheet.absoluteFill,
+-							{
+-								backgroundColor: currentActiveOverlay.color,
+-								opacity: currentActiveOverlay.opacity,
+-							},
+-						]}
+-					/>
+-				</AnimatedPressable>
+-			)}
+-		</View>
+-	);
++  return (
++    <View style={style}>
++      {children}
++      {currentActiveOverlay != null && (
++        <AnimatedPressable
++          entering={currentActiveOverlay.entering ?? undefined}
++          exiting={currentActiveOverlay.exiting ?? undefined}
++          onPress={currentActiveOverlay.onDismiss}
++          style={StyleSheet.absoluteFill}>
++          <View
++            style={[
++              StyleSheet.absoluteFill,
++              {
++                backgroundColor: currentActiveOverlay.color,
++                opacity: currentActiveOverlay.opacity,
++              },
++            ]}
++          />
++        </AnimatedPressable>
++      )}
++    </View>
++  );
+ }
+ 
+ export default FadeDuringHighlight;
+diff --git a/src/HighlightOverlay.tsx b/src/HighlightOverlay.tsx
+index 5e4af70d0c3a66fc5f5302eb96fc368eeb07c1c1..ce52c8433baa90a18b9678987d4e45f67509cf48 100644
+--- a/src/HighlightOverlay.tsx
++++ b/src/HighlightOverlay.tsx
+@@ -1,89 +1,89 @@
+-import React, { useEffect, useMemo, useState } from "react";
+-import { StyleSheet, View } from "react-native";
+-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+-import type { RectProps } from "react-native-svg";
+-import Svg, { ClipPath, Defs, Path, Rect } from "react-native-svg";
++import React, {useEffect, useMemo, useState} from 'react';
++import {StyleSheet, View} from 'react-native';
++import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
++import type {RectProps} from 'react-native-svg';
++import Svg, {ClipPath, Defs, Path, Rect} from 'react-native-svg';
+ 
+-import constructClipPath from "./constructClipPath";
+-import { useHighlightableElements } from "./context";
+-import type { Bounds } from "./context/context";
++import constructClipPath from './constructClipPath';
++import {useHighlightableElements} from './context';
++import type {Bounds} from './context/context';
+ 
+ const AnimatedSvg = Animated.createAnimatedComponent(Svg);
+ 
+ const DEFAULT_OVERLAY_STYLE: Required<OverlayStyle> = {
+-	color: "black",
+-	opacity: 0.7,
++  color: 'black',
++  opacity: 0.7,
+ };
+ 
+ export type OverlayStyle = {
+-	/**
+-	 * The color of the overlay. Should not include alpha in the color, use `opacity` prop for that.
+-	 *
+-	 * @default "black"
+-	 * @since 1.3
+-	 */
+-	color?: string;
+-
+-	/**
+-	 * The opacity of the overlay color.
+-	 *
+-	 * @default 0.7
+-	 * @since 1.3
+-	 */
+-	opacity?: number;
++  /**
++   * The color of the overlay. Should not include alpha in the color, use `opacity` prop for that.
++   *
++   * @default "black"
++   * @since 1.3
++   */
++  color?: string;
++
++  /**
++   * The opacity of the overlay color.
++   *
++   * @default 0.7
++   * @since 1.3
++   */
++  opacity?: number;
+ };
+ 
+-export type EnteringAnimation = Animated.AnimateProps<RectProps>["entering"];
++export type EnteringAnimation = Animated.AnimateProps<RectProps>['entering'];
+ 
+ export type HighlightOverlayProps = {
+-	/**
+-	 * The id of the highlighted element. If `undefined`, `null`, or if the id does not exist,
+-	 * the overlay is hidden.
+-	 *
+-	 * @since 1.0
+-	 */
+-	highlightedElementId?: string | null;
+-
+-	/**
+-	 * Called when the highlight is requesting to be dismissed. This is usually when the overlay
+-	 * (non-highlighted) part of the screen is pressed. The exact behavior is decided by each
+-	 * HighlightableElement.
+-	 *
+-	 * @since 1.0
+-	 */
+-	onDismiss: () => void;
+-
+-	/**
+-	 * The style of the overlay.
+-	 *
+-	 * @default { color: "black", opacity: 0.7 }
+-	 * @since 1.3
+-	 */
+-	overlayStyle?: OverlayStyle;
+-
+-	/**
+-	 * The animation when the overlay is entering the screen. Defaults to `FadeIn`.
+-	 * Set to `null` (not `undefined`!) to disable animation.
+-	 *
+-	 * @default FadeIn
+-	 * @example
+-	 * import { FadeIn } from "react-native-reanimated";
+-	 * <HighlightOverlay entering={FadeIn} />
+-	 * @since 1.3
+-	 */
+-	entering?: EnteringAnimation | null;
+-
+-	/**
+-	 * The animation when the overlay is exiting the screen. Defaults to `FadeOut`.
+-	 * Set to `null` (not `undefined`!) to disable animation.
+-	 *
+-	 * @default undefined
+-	 * @example
+-	 * import { FadeOut } from "react-native-reanimated";
+-	 * <HighlightOverlay exiting={FadeOut} />
+-	 * @since 1.3
+-	 */
+-	exiting?: EnteringAnimation | null;
++  /**
++   * The id of the highlighted element. If `undefined`, `null`, or if the id does not exist,
++   * the overlay is hidden.
++   *
++   * @since 1.0
++   */
++  highlightedElementId?: string | null;
++
++  /**
++   * Called when the highlight is requesting to be dismissed. This is usually when the overlay
++   * (non-highlighted) part of the screen is pressed. The exact behavior is decided by each
++   * HighlightableElement.
++   *
++   * @since 1.0
++   */
++  onDismiss: () => void;
++
++  /**
++   * The style of the overlay.
++   *
++   * @default { color: "black", opacity: 0.7 }
++   * @since 1.3
++   */
++  overlayStyle?: OverlayStyle;
++
++  /**
++   * The animation when the overlay is entering the screen. Defaults to `FadeIn`.
++   * Set to `null` (not `undefined`!) to disable animation.
++   *
++   * @default FadeIn
++   * @example
++   * import { FadeIn } from "react-native-reanimated";
++   * <HighlightOverlay entering={FadeIn} />
++   * @since 1.3
++   */
++  entering?: EnteringAnimation | null;
++
++  /**
++   * The animation when the overlay is exiting the screen. Defaults to `FadeOut`.
++   * Set to `null` (not `undefined`!) to disable animation.
++   *
++   * @default undefined
++   * @example
++   * import { FadeOut } from "react-native-reanimated";
++   * <HighlightOverlay exiting={FadeOut} />
++   * @since 1.3
++   */
++  exiting?: EnteringAnimation | null;
+ };
+ 
+ /**
+@@ -97,81 +97,92 @@ export type HighlightOverlayProps = {
+  * @since 1.0
+  */
+ const HighlightOverlay = React.memo(
+-	({
+-		highlightedElementId,
+-		onDismiss,
+-		overlayStyle = DEFAULT_OVERLAY_STYLE,
+-		entering = FadeIn,
+-		exiting = FadeOut,
+-	}: HighlightOverlayProps) => {
+-		const [elements, { setCurrentActiveOverlay }] = useHighlightableElements();
+-		const [parentSize, setParentSize] = useState<Bounds | null>();
+-
+-		const highlightedElementData = useMemo(
+-			() => (highlightedElementId != null ? elements[highlightedElementId] : null),
+-			[elements, highlightedElementId]
+-		);
+-
+-		const hasContent = highlightedElementData != null && parentSize != null;
+-		const clickThrough = highlightedElementData?.options?.clickthroughHighlight ?? true;
+-		const { color = DEFAULT_OVERLAY_STYLE.color, opacity = DEFAULT_OVERLAY_STYLE.opacity } =
+-			overlayStyle;
+-
+-		useEffect(() => {
+-			setCurrentActiveOverlay(
+-				highlightedElementId == null
+-					? null
+-					: { color, opacity, entering, exiting, onDismiss }
+-			);
+-			// Dependency array should NOT include `onDismiss` prop
+-			// eslint-disable-next-line react-hooks/exhaustive-deps
+-		}, [color, entering, exiting, highlightedElementId, opacity, setCurrentActiveOverlay]);
+-
+-		return (
+-			<View
+-				style={StyleSheet.absoluteFill}
+-				onLayout={({ nativeEvent: { layout } }) => setParentSize(layout)}
+-				pointerEvents="box-none"
+-			>
+-				{hasContent && (
+-					<AnimatedSvg
+-						key={highlightedElementId}
+-						pointerEvents={clickThrough ? "none" : "auto"}
+-						onPress={!clickThrough ? onDismiss : undefined}
+-						entering={entering ?? undefined}
+-						exiting={exiting ?? FadeOut}
+-						style={StyleSheet.absoluteFill}
+-					>
+-						<Defs>
+-							{Object.entries(elements).map(([id, element]) => (
+-								<ClipPath key={id} id={id}>
+-									<Path
+-										d={constructClipPath(element, parentSize)}
+-										clipRule="evenodd"
+-									/>
+-								</ClipPath>
+-							))}
+-						</Defs>
+-						<Rect
+-							x={0}
+-							y={0}
+-							width="100%"
+-							height="100%"
+-							clipPath={`#${highlightedElementId}`}
+-							fill={color}
+-							fillOpacity={opacity}
+-						/>
+-					</AnimatedSvg>
+-				)}
+-			</View>
+-		);
+-	},
+-	(prevProps, nextProps) =>
+-		// We need this here so we don't check the `onDismiss` prop.
+-		prevProps.highlightedElementId === nextProps.highlightedElementId &&
+-		prevProps.overlayStyle?.color === nextProps.overlayStyle?.color &&
+-		prevProps.overlayStyle?.opacity === nextProps.overlayStyle?.opacity &&
+-		prevProps.entering === nextProps.entering
++  ({
++    highlightedElementId,
++    onDismiss,
++    overlayStyle = DEFAULT_OVERLAY_STYLE,
++    entering = FadeIn,
++    exiting = FadeOut,
++  }: HighlightOverlayProps) => {
++    const [elements, {setCurrentActiveOverlay, setHighlightedElementId}] =
++      useHighlightableElements();
++    const [parentSize, setParentSize] = useState<Bounds | null>();
++
++    const highlightedElementData = useMemo(
++      () =>
++        highlightedElementId != null ? elements[highlightedElementId] : null,
++      [elements, highlightedElementId],
++    );
++
++    const hasContent = highlightedElementData != null && parentSize != null;
++    const clickThrough =
++      highlightedElementData?.options?.clickthroughHighlight ?? true;
++    const {
++      color = DEFAULT_OVERLAY_STYLE.color,
++      opacity = DEFAULT_OVERLAY_STYLE.opacity,
++    } = overlayStyle;
++
++    useEffect(() => {
++      setHighlightedElementId(highlightedElementId || null);
++      setCurrentActiveOverlay(
++        highlightedElementId == null
++          ? null
++          : {color, opacity, entering, exiting, onDismiss},
++      );
++      // Dependency array should NOT include `onDismiss` prop
++      // eslint-disable-next-line react-hooks/exhaustive-deps
++    }, [
++      color,
++      entering,
++      exiting,
++      highlightedElementId,
++      opacity,
++      setCurrentActiveOverlay,
++    ]);
++
++    return (
++      <View
++        style={StyleSheet.absoluteFill}
++        onLayout={({nativeEvent: {layout}}) => setParentSize(layout)}
++        pointerEvents="box-none">
++        {hasContent && (
++          <AnimatedSvg
++            key={highlightedElementId}
++            pointerEvents={clickThrough ? 'none' : 'auto'}
++            onPress={!clickThrough ? onDismiss : undefined}
++            entering={entering ?? undefined}
++            exiting={exiting ?? FadeOut}
++            style={StyleSheet.absoluteFill}>
++            <Defs>
++              {Object.entries(elements).map(([id, element]) => (
++                <ClipPath key={id} id={id}>
++                  <Path
++                    d={constructClipPath(element, parentSize)}
++                    clipRule="evenodd"
++                  />
++                </ClipPath>
++              ))}
++            </Defs>
++            <Rect
++              x={0}
++              y={0}
++              width="100%"
++              height="100%"
++              clipPath={`#${highlightedElementId}`}
++              fill={color}
++              fillOpacity={opacity}
++            />
++          </AnimatedSvg>
++        )}
++      </View>
++    );
++  },
++  (prevProps, nextProps) =>
++    // We need this here so we don't check the `onDismiss` prop.
++    prevProps.highlightedElementId === nextProps.highlightedElementId &&
++    prevProps.overlayStyle?.color === nextProps.overlayStyle?.color &&
++    prevProps.overlayStyle?.opacity === nextProps.overlayStyle?.opacity &&
++    prevProps.entering === nextProps.entering,
+ );
+ 
+ export default HighlightOverlay;
+diff --git a/src/HighlightableElement.tsx b/src/HighlightableElement.tsx
+index 848e96b7f776eb0d00d46dfc1cdc282923f87477..ca8f84a05e067658dce4719da6fea7527546e8f5 100644
+--- a/src/HighlightableElement.tsx
++++ b/src/HighlightableElement.tsx
+@@ -1,23 +1,25 @@
+-import type { PropsWithChildren } from "react";
+-import React, { useEffect, useRef } from "react";
+-import type { HostComponent, StyleProp, ViewStyle } from "react-native";
+-import { View } from "react-native";
++import type {PropsWithChildren} from 'react';
++import React, {useEffect, useRef} from 'react';
++import type {StyleProp, ViewStyle, ScrollView} from 'react-native';
++import {View} from 'react-native';
+ 
+-import { useHighlightableElements } from "./context";
+-import type { HighlightOptions } from "./context/context";
++import {useHighlightableElements} from './context';
++import type {HighlightOptions} from './context/context';
+ 
+ export type HighlightableElementProps = PropsWithChildren<{
+-	/**
+-	 * The id used by the HighlightOverlay to find this element.
+-	 * @since 1.0
+-	 */
+-	id: string;
+-	/**
+-	 * The options that decide how this element should look. If left undefined, it only highlights the element.
+-	 * @since 1.2
+-	 */
+-	options?: HighlightOptions;
+-	style?: StyleProp<ViewStyle>;
++  scrollContainerRef?: React.MutableRefObject<ScrollView | null>;
++  scrollOffset?: number;
++  /**
++   * The id used by the HighlightOverlay to find this element.
++   * @since 1.0
++   */
++  id: string;
++  /**
++   * The options that decide how this element should look. If left undefined, it only highlights the element.
++   * @since 1.2
++   */
++  options?: HighlightOptions;
++  style?: StyleProp<ViewStyle>;
+ }>;
+ 
+ /**
+@@ -26,46 +28,72 @@ export type HighlightableElementProps = PropsWithChildren<{
+  * @since 1.0
+  */
+ const HighlightableElement = React.memo(
+-	({ id, options, children, style }: HighlightableElementProps) => {
+-		const ref = useRef<View | null>(null);
++  ({
++    id,
++    options,
++    children,
++    scrollContainerRef,
++    scrollOffset,
++    style,
++  }: HighlightableElementProps) => {
++    const ref = useRef<View | null>(null);
+ 
+-		const [_, { addElement, getRootRef }] = useHighlightableElements();
+-		const rootRef = getRootRef();
++    const [_, {addElement, clearElements, getRootRef, highlightedElementId}] =
++      useHighlightableElements();
++    const rootRef = getRootRef();
+ 
+-		useEffect(() => {
+-			const refVal = ref.current;
+-			if (refVal == null || rootRef == null) {
+-				return;
+-			}
++    useEffect(() => {
++      const refVal = ref.current;
++      if (refVal == null || rootRef == null || !highlightedElementId) {
++        clearElements();
++        return;
++      }
+ 
+-			const timeoutId = setTimeout(() => {
+-				ref.current?.measureLayout(
+-					// This is a typing error on ReactNative's part. 'rootRef' is a valid reference.
+-					rootRef as unknown as HostComponent<unknown>,
+-					(x, y, width, height) => {
+-						addElement(id, children, { x, y, width, height }, options);
+-					},
+-					() => {
+-						ref.current?.measureInWindow((x, y, width, height) => {
+-							addElement(id, children, { x, y, width, height }, options);
+-						});
+-					}
+-				);
+-			}, 0);
++      const timeoutTime = scrollContainerRef ? 500 : 0;
++      const timeoutId = setTimeout(() => {
++        ref.current?.measureInWindow((x, y, width, height) => {
++          addElement(id, children, {x, y, width, height}, options);
++        });
++      }, timeoutTime);
+ 
+-			return () => {
+-				clearTimeout(timeoutId);
+-			};
+-			// We don't want to re-run this effect when addElement or removeElement changes.
+-			// eslint-disable-next-line react-hooks/exhaustive-deps
+-		}, [id, children, rootRef]);
++      return () => {
++        clearTimeout(timeoutId);
++      };
++      // We don't want to re-run this effect when addElement or removeElement changes.
++      // eslint-disable-next-line react-hooks/exhaustive-deps
++    }, [id, highlightedElementId, children, rootRef]);
+ 
+-		return (
+-			<View collapsable={false} ref={ref} style={style}>
+-				{children}
+-			</View>
+-		);
+-	}
++    useEffect(() => {
++      if (highlightedElementId === id) {
++        const timeoutId = setTimeout(() => {
++          if (scrollContainerRef) {
++            ref.current?.measureLayout(
++              scrollContainerRef?.current?.getInnerViewNode(),
++              (x, y, width, height) => {
++                const offset = (scrollOffset || 0) - height;
++                const posY = y - offset;
++
++                scrollContainerRef.current?.scrollTo({
++                  y: posY,
++                  animated: true,
++                });
++              },
++            );
++          }
++        }, 0);
++        return () => {
++          clearTimeout(timeoutId);
++        };
++      }
++      // eslint-disable-next-line react-hooks/exhaustive-deps
++    }, [highlightedElementId, scrollContainerRef, scrollOffset]);
++
++    return (
++      <View collapsable={false} ref={ref} style={style}>
++        {children}
++      </View>
++    );
++  },
+ );
+ 
+ export default HighlightableElement;
+diff --git a/src/constructClipPath.ts b/src/constructClipPath.ts
+index 958849ace7bda718608650e3e42fbb67f5cfd3f4..8e2076c88e72aeaf88a2285c3b59f6f25cd070aa 100644
+--- a/src/constructClipPath.ts
++++ b/src/constructClipPath.ts
+@@ -1,107 +1,115 @@
+-import type { Bounds, ElementsRecord, HighlightOffset } from "./context/context";
++import type {Bounds, ElementsRecord, HighlightOffset} from './context/context';
+ 
+-const NO_OFFSET: HighlightOffset = { x: 0, y: 0 };
++const NO_OFFSET: HighlightOffset = {x: 0, y: 0};
+ 
+ type ElementBounds = {
+-	startX: number;
+-	startY: number;
+-	endX: number;
+-	endY: number;
++  startX: number;
++  startY: number;
++  endX: number;
++  endY: number;
+ };
+ 
+ const M = (x: number, y: number) => `M ${x} ${y}`;
+ const L = (x: number, y: number) => `L ${x} ${y}`;
+ const arc = (toX: number, toY: number, radius: number) =>
+-	`A ${radius},${radius} 0 0 0 ${toX},${toY}`;
+-const z = "z";
++  `A ${radius},${radius} 0 0 0 ${toX},${toY}`;
++const z = 'z';
+ 
+ const filledSquare = (parentBounds: ElementBounds): string =>
+-	[
+-		M(parentBounds.startX, parentBounds.startY),
+-		L(parentBounds.startX, parentBounds.endY),
+-		L(parentBounds.endX, parentBounds.endY),
+-		L(parentBounds.endX, parentBounds.startY),
+-		z,
+-	].join(" ");
++  [
++    M(parentBounds.startX, parentBounds.startY),
++    L(parentBounds.startX, parentBounds.endY),
++    L(parentBounds.endX, parentBounds.endY),
++    L(parentBounds.endX, parentBounds.startY),
++    z,
++  ].join(' ');
+ 
+-const constructClipPath = (data: ElementsRecord[string], containerSize: Bounds): string => {
+-	const parentBounds = {
+-		startX: 0,
+-		startY: 0,
+-		endX: containerSize.width,
+-		endY: containerSize.height,
+-	};
++const constructClipPath = (
++  data: ElementsRecord[string],
++  containerSize: Bounds,
++): string => {
++  const parentBounds = {
++    startX: 0,
++    startY: 0,
++    endX: containerSize.width,
++    endY: containerSize.height,
++  };
+ 
+-	const { x: offsetX = 0, y: offsetY = 0 } = data.options?.offset ?? NO_OFFSET;
++  const {x: offsetX = 0, y: offsetY = 0} = data.options?.offset ?? NO_OFFSET;
+ 
+-	switch (data.options?.mode) {
+-		case "circle": {
+-			const {
+-				bounds: { x, y, width, height },
+-				options: { padding = 0 },
+-			} = data;
+-			const radius = Math.max(width, height) / 2;
+-			return constructCircularPath(
+-				parentBounds,
+-				{ cx: x + width / 2 + offsetX, cy: y + height / 2 + offsetY },
+-				radius + padding
+-			);
+-		}
+-		case "custom": {
+-			return constructCustomPath(data.options.createPath(data.bounds), parentBounds);
+-		}
+-		case "rectangle": // !Fallthrough
+-		default: {
+-			const padding = data.options?.padding ?? 0;
+-			const borderRadius = data.options?.borderRadius ?? 0;
++  switch (data.options?.mode) {
++    case 'circle': {
++      const {
++        bounds: {x, y, width, height},
++        options: {padding = 0},
++      } = data;
++      const radius = Math.max(width, height) / 2;
++      return constructCircularPath(
++        parentBounds,
++        {cx: x + width / 2 + offsetX, cy: y + height / 2 + offsetY},
++        radius + padding,
++      );
++    }
++    case 'custom': {
++      return constructCustomPath(
++        data.options.createPath(data.bounds),
++        parentBounds,
++      );
++    }
++    case 'rectangle': // !Fallthrough
++    default: {
++      const padding = data.options?.padding ?? 0;
++      const borderRadius = data.options?.borderRadius ?? 0;
+ 
+-			const startX = data.bounds.x - padding + offsetX;
+-			const endX = startX + data.bounds.width + padding * 2;
+-			const startY = data.bounds.y - padding + offsetY;
+-			const endY = startY + data.bounds.height + padding * 2;
+-			return constructRectangularPath(
+-				parentBounds,
+-				{ startX, startY, endX, endY },
+-				borderRadius
+-			);
+-		}
+-	}
++      const startX = data.bounds.x - padding + offsetX;
++      const endX = startX + data.bounds.width + padding * 2;
++      const startY = data.bounds.y - padding + offsetY;
++      const endY = startY + data.bounds.height + padding * 2;
++      return constructRectangularPath(
++        parentBounds,
++        {startX, startY, endX, endY},
++        borderRadius,
++      );
++    }
++  }
+ };
+ 
+ const constructRectangularPath = (
+-	parentBounds: ElementBounds,
+-	{ startX, startY, endX, endY }: ElementBounds,
+-	borderRadius: number
++  parentBounds: ElementBounds,
++  {startX, startY, endX, endY}: ElementBounds,
++  borderRadius: number,
+ ): string => {
+-	return [
+-		filledSquare(parentBounds),
+-		M(startX, startY + borderRadius),
+-		L(startX, endY - borderRadius),
+-		arc(startX + borderRadius, endY, borderRadius),
+-		L(endX - borderRadius, endY),
+-		arc(endX, endY - borderRadius, borderRadius),
+-		L(endX, startY + borderRadius),
+-		arc(endX - borderRadius, startY, borderRadius),
+-		L(startX + borderRadius, startY),
+-		arc(startX, startY + borderRadius, borderRadius),
+-	].join(" ");
++  return [
++    filledSquare(parentBounds),
++    M(startX, startY + borderRadius),
++    L(startX, endY - borderRadius),
++    arc(startX + borderRadius, endY, borderRadius),
++    L(endX - borderRadius, endY),
++    arc(endX, endY - borderRadius, borderRadius),
++    L(endX, startY + borderRadius),
++    arc(endX - borderRadius, startY, borderRadius),
++    L(startX + borderRadius, startY),
++    arc(startX, startY + borderRadius, borderRadius),
++  ].join(' ');
+ };
+ 
+ const constructCircularPath = (
+-	parentBounds: ElementBounds,
+-	{ cx, cy }: { cx: number; cy: number },
+-	radius: number
++  parentBounds: ElementBounds,
++  {cx, cy}: {cx: number; cy: number},
++  radius: number,
+ ): string => {
+-	return [
+-		filledSquare(parentBounds),
+-		M(cx, cy),
+-		`m ${-radius} 0`,
+-		`a ${radius},${radius} 0 1,0 ${radius * 2},0`,
+-		`a ${radius},${radius} 0 1,0 ${-radius * 2},0`,
+-	].join(" ");
++  return [
++    filledSquare(parentBounds),
++    M(cx, cy),
++    `m ${-radius} 0`,
++    `a ${radius},${radius} 0 1,0 ${radius * 2},0`,
++    `a ${radius},${radius} 0 1,0 ${-radius * 2},0`,
++  ].join(' ');
+ };
+ 
+-const constructCustomPath = (userDefinedPath: string, parentBounds: ElementBounds): string =>
+-	[filledSquare(parentBounds), userDefinedPath].join(" ");
++const constructCustomPath = (
++  userDefinedPath: string,
++  parentBounds: ElementBounds,
++): string => [filledSquare(parentBounds), userDefinedPath].join(' ');
+ 
+ export default constructClipPath;
+diff --git a/src/context/HighlightableElementProvider.tsx b/src/context/HighlightableElementProvider.tsx
+index a840939ba1b4e797e1955376b3ff3c59985c4ec5..248f6dabf10ae0a062a536866da28f2448826115 100644
+--- a/src/context/HighlightableElementProvider.tsx
++++ b/src/context/HighlightableElementProvider.tsx
+@@ -1,30 +1,32 @@
+-import type { PropsWithChildren } from "react";
+-import React, { useCallback, useMemo, useState } from "react";
+-import { StyleSheet, View } from "react-native";
+-import isEqual from "lodash.isequal";
++import type {PropsWithChildren} from 'react';
++import React, {useCallback, useMemo, useState} from 'react';
++import {StyleSheet, View} from 'react-native';
++// import isEqual from 'lodash.isequal';
+ 
+ import type {
+-	AddElement,
+-	ElementsRecord,
+-	GetCurrentActiveOverlay,
+-	OverlayData,
+-	RemoveElement,
+-	RootRefGetter,
+-} from "./context";
+-import HighlightableElementContext from "./context";
++  AddElement,
++  ClearElements,
++  ElementsRecord,
++  GetCurrentActiveOverlay,
++  OverlayData,
++  RemoveElement,
++  RootRefGetter,
++  SetHighlightedElementId,
++} from './context';
++import HighlightableElementContext from './context';
+ 
+ export type HighlightableElementProviderProps = PropsWithChildren<{
+-	/**
+-	 * The reference to the root of the DOM. If (and only if) this is left as undefined,
+-	 * this component will instantiate a View as a child and use that as the root instead.
+-	 * You usually don't need to set this, unless either:
+-	 *  - The wrapper we provide is making your app look weird. This can happen when you use
+-	 *    tab bars / headers / etc.
+-	 *  - You have several providers for whatever reason (you probably shouldn't).
+-	 *
+-	 * @since 1.0
+-	 */
+-	rootRef?: React.Component<unknown> | null;
++  /**
++   * The reference to the root of the DOM. If (and only if) this is left as undefined,
++   * this component will instantiate a View as a child and use that as the root instead.
++   * You usually don't need to set this, unless either:
++   *  - The wrapper we provide is making your app look weird. This can happen when you use
++   *    tab bars / headers / etc.
++   *  - You have several providers for whatever reason (you probably shouldn't).
++   *
++   * @since 1.0
++   */
++  rootRef?: React.Component<unknown> | null;
+ }>;
+ 
+ /**
+@@ -40,90 +42,113 @@ export type HighlightableElementProviderProps = PropsWithChildren<{
+  * @since 1.0
+  */
+ function HighlightableElementProvider({
+-	rootRef: externalRootRef,
+-	children,
++  rootRef: externalRootRef,
++  children,
+ }: HighlightableElementProviderProps): JSX.Element {
+-	const [rootRef, setRootRef] = useState<React.Component<unknown> | null>(
+-		externalRootRef ?? null
+-	);
+-	const [elements, setElements] = useState<ElementsRecord>({});
+-	const [currentActiveOverlay, setCurrentActiveOverlay] = useState<OverlayData | null>(null);
++  const [rootRef, setRootRef] = useState<React.Component<unknown> | null>(
++    externalRootRef ?? null,
++  );
++  const [highlightedId, setHighlightedId] = useState<string | null>(null);
+ 
+-	const addElement = useCallback<AddElement>(
+-		(id, node, bounds, options) => {
+-			if (
+-				elements[id] == null ||
+-				!isEqual(bounds, elements[id].bounds) ||
+-				!isEqual(options, elements[id].options)
+-			) {
+-				setElements((oldElements) => ({ ...oldElements, [id]: { node, bounds, options } }));
+-			}
+-		},
+-		[elements]
+-	);
++  const [elements, setElements] = useState<ElementsRecord>({});
++  const [currentActiveOverlay, setCurrentActiveOverlay] =
++    useState<OverlayData | null>(null);
+ 
+-	const removeElement: RemoveElement = useCallback<RemoveElement>((id) => {
+-		setElements((oldElements) => {
+-			delete oldElements[id];
+-			return { ...oldElements };
+-		});
+-	}, []);
++  const setHighlightedElementId = useCallback<SetHighlightedElementId>(
++    (id: string | null) => {
++      setHighlightedId(id);
++    },
++    [],
++  );
+ 
+-	const getRootRef = useCallback<RootRefGetter>(
+-		() => externalRootRef ?? rootRef,
+-		[externalRootRef, rootRef]
+-	);
++  const addElement = useCallback<AddElement>(
++    (id, node, bounds, options) => {
++      // if (
++      // 	!isEqual(bounds, elements[id].bounds) ||
++      // 	!isEqual(options, elements[id].options)
++      // ) {
++      setElements(oldElements => ({
++        ...oldElements,
++        [id]: {node, bounds, options},
++      }));
++      // }
++    },
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    [elements],
++  );
+ 
+-	const getCurrentActiveOverlay = useCallback<GetCurrentActiveOverlay>(
+-		() => currentActiveOverlay,
+-		[currentActiveOverlay]
+-	);
++  const removeElement: RemoveElement = useCallback<RemoveElement>(id => {
++    setElements(oldElements => {
++      delete oldElements[id];
++      return {...oldElements};
++    });
++  }, []);
+ 
+-	const contextValue = useMemo(
+-		() =>
+-			Object.freeze([
+-				elements,
+-				{
+-					addElement,
+-					removeElement,
+-					rootRef: externalRootRef ?? rootRef,
+-					getRootRef,
+-					setCurrentActiveOverlay,
+-					getCurrentActiveOverlay,
+-				},
+-			] as const),
+-		[
+-			addElement,
+-			elements,
+-			externalRootRef,
+-			getCurrentActiveOverlay,
+-			getRootRef,
+-			removeElement,
+-			rootRef,
+-		]
+-	);
++  const clearElements: ClearElements = useCallback<ClearElements>(() => {
++    setElements({});
++  }, []);
+ 
+-	if (externalRootRef == null) {
+-		return (
+-			<HighlightableElementContext.Provider value={contextValue}>
+-				<View style={styles.rootWrapper} ref={setRootRef} collapsable={false}>
+-					{children}
+-				</View>
+-			</HighlightableElementContext.Provider>
+-		);
+-	} else {
+-		return (
+-			<HighlightableElementContext.Provider value={contextValue}>
+-				{children}
+-			</HighlightableElementContext.Provider>
+-		);
+-	}
++  const getRootRef = useCallback<RootRefGetter>(
++    () => externalRootRef ?? rootRef,
++    [externalRootRef, rootRef],
++  );
++
++  const getCurrentActiveOverlay = useCallback<GetCurrentActiveOverlay>(
++    () => currentActiveOverlay,
++    [currentActiveOverlay],
++  );
++
++  const contextValue = useMemo(
++    () =>
++      Object.freeze([
++        elements,
++        {
++          highlightedElementId: highlightedId,
++          setHighlightedElementId,
++          addElement,
++          clearElements,
++          removeElement,
++          rootRef: externalRootRef ?? rootRef,
++          getRootRef,
++          setCurrentActiveOverlay,
++          getCurrentActiveOverlay,
++        },
++      ] as const),
++    [
++      highlightedId,
++      setHighlightedElementId,
++      addElement,
++      clearElements,
++      elements,
++      externalRootRef,
++      getCurrentActiveOverlay,
++      getRootRef,
++      removeElement,
++      rootRef,
++    ],
++  );
++
++  if (externalRootRef == null) {
++    return (
++      <HighlightableElementContext.Provider value={contextValue}>
++        <View style={styles.rootWrapper} ref={setRootRef} collapsable={false}>
++          {children}
++        </View>
++      </HighlightableElementContext.Provider>
++    );
++  } else {
++    return (
++      <HighlightableElementContext.Provider value={contextValue}>
++        {children}
++      </HighlightableElementContext.Provider>
++    );
++  }
+ }
+ 
+ const styles = StyleSheet.create({
+-	rootWrapper: {
+-		flex: 1,
+-	},
++  rootWrapper: {
++    flex: 1,
++  },
+ });
+ 
+ export default HighlightableElementProvider;
+diff --git a/src/context/context.ts b/src/context/context.ts
+index 2ac3fbbeac4816655f77ae90aa8472ae60e53519..7320f05b8179683004a73efd155434c84afe6cd8 100644
+--- a/src/context/context.ts
++++ b/src/context/context.ts
+@@ -1,102 +1,106 @@
+-import React from "react";
++import React from 'react';
+ 
+-import type { HighlightOverlayProps, OverlayStyle } from "../HighlightOverlay";
++import type {HighlightOverlayProps, OverlayStyle} from '../HighlightOverlay';
+ 
+ export type OverlayData = {
+-	entering: HighlightOverlayProps["entering"];
+-	exiting: HighlightOverlayProps["exiting"];
+-	onDismiss: HighlightOverlayProps["onDismiss"];
++  entering: HighlightOverlayProps['entering'];
++  exiting: HighlightOverlayProps['exiting'];
++  onDismiss: HighlightOverlayProps['onDismiss'];
+ } & Required<OverlayStyle>;
+ 
+ export type HighlightOffset = {
+-	x: number;
+-	y: number;
++  x: number;
++  y: number;
+ };
+ 
+ export type HighlightOptions = CommonOptions &
+-	(RectangleOptions | CircleOptions | CustomHighlightOptions);
++  (RectangleOptions | CircleOptions | CustomHighlightOptions);
+ 
+ export type CommonOptions = {
+-	/**
+-	 * If true, allows the user to click elements inside the highlight. Otherwise clicking inside the
+-	 * highlight will act the same as clicking outside the highlight, calling `onDismiss`.
+-	 * @default true
+-	 * @since 1.0
+-	 */
+-	// Typo - should be clickThrough (click-through is hyphenated).
+-	clickthroughHighlight?: boolean;
+-
+-	/**
+-	 * If you want your highlight to be offset slightly from its original position you can manually
+-	 * specify an offset here. Especially useful if your highlight is inside of a scroll view
+-	 * (see example project).
+-	 *
+-	 * @since 1.3
+-	 */
+-	offset?: HighlightOffset;
++  /**
++   * If true, allows the user to click elements inside the highlight. Otherwise clicking inside the
++   * highlight will act the same as clicking outside the highlight, calling `onDismiss`.
++   * @default true
++   * @since 1.0
++   */
++  // Typo - should be clickThrough (click-through is hyphenated).
++  clickthroughHighlight?: boolean;
++
++  /**
++   * If you want your highlight to be offset slightly from its original position you can manually
++   * specify an offset here. Especially useful if your highlight is inside of a scroll view
++   * (see example project).
++   *
++   * @since 1.3
++   */
++  offset?: HighlightOffset;
+ };
+ 
+ export type RectangleOptions = {
+-	mode: "rectangle" | undefined;
+-	/**
+-	 * The border radius of the rectangle.
+-	 * @default 0
+-	 * @since 1.0
+-	 */
+-	borderRadius?: number;
+-	/**
+-	 * The padding of the rectangle.
+-	 * @default 0
+-	 * @since 1.0
+-	 */
+-	padding?: number;
++  mode: 'rectangle' | undefined;
++  /**
++   * The border radius of the rectangle.
++   * @default 0
++   * @since 1.0
++   */
++  borderRadius?: number;
++  /**
++   * The padding of the rectangle.
++   * @default 0
++   * @since 1.0
++   */
++  padding?: number;
+ };
+ 
+ export type CircleOptions = {
+-	mode: "circle";
+-	/**
+-	 * The padding of the circle.
+-	 * @default 0
+-	 * @since 1.0
+-	 */
+-	padding?: number;
++  mode: 'circle';
++  /**
++   * The padding of the circle.
++   * @default 0
++   * @since 1.0
++   */
++  padding?: number;
+ };
+ 
+ export type CustomHighlightOptions = {
+-	mode: "custom";
+-	/**
+-	 * Should return a valid SVG path.
+-	 * @param bounds the bounds of the element that is being highlighted
+-	 * @since 1.4
+-	 */
+-	createPath: (bounds: Bounds) => string;
++  mode: 'custom';
++  /**
++   * Should return a valid SVG path.
++   * @param bounds the bounds of the element that is being highlighted
++   * @since 1.4
++   */
++  createPath: (bounds: Bounds) => string;
+ };
+ 
+ export type Bounds = {
+-	x: number;
+-	y: number;
+-	width: number;
+-	height: number;
++  x: number;
++  y: number;
++  width: number;
++  height: number;
+ };
+ 
+ export type ElementsRecord = Record<
+-	string,
+-	{
+-		node: React.ReactNode;
+-		bounds: Bounds;
+-		options?: HighlightOptions;
+-	}
++  string,
++  {
++    node: React.ReactNode;
++    bounds: Bounds;
++    options?: HighlightOptions;
++  }
+ >;
+ 
+ export type AddElement = (
+-	id: string,
+-	node: React.ReactNode,
+-	bounds: Bounds,
+-	options?: HighlightOptions
++  id: string,
++  node: React.ReactNode,
++  bounds: Bounds,
++  options?: HighlightOptions,
+ ) => void;
+ 
++export type SetHighlightedElementId = (id: string | null) => void;
++
+ export type RemoveElement = (id: string) => void;
+ 
++export type ClearElements = () => void;
++
+ export type RootRefGetter = () => React.Component<unknown> | null;
+ 
+ export type SetCurrentActiveOverlay = (data: OverlayData | null) => void;
+@@ -104,57 +108,73 @@ export type SetCurrentActiveOverlay = (data: OverlayData | null) => void;
+ export type GetCurrentActiveOverlay = () => OverlayData | null;
+ 
+ export type HighlightableElementContextType = readonly [
+-	/**
+-	 * @since 1.0
+-	 */
+-	elements: Readonly<ElementsRecord>,
+-	actions: {
+-		/**
+-		 * @since 1.0
+-		 */
+-		readonly addElement: AddElement;
+-		/**
+-		 * @since 1.0
+-		 */
+-		readonly removeElement: RemoveElement;
+-		/**
+-		 * @deprecated since version `1.3`, use `getRootRef()` instead.
+-		 */
+-		readonly rootRef: React.Component<unknown> | null;
+-		/**
+-		 * @returns the reference to the root element used to calculate offsets for the highlights.
+-		 * @since 1.3
+-		 */
+-		readonly getRootRef: RootRefGetter;
+-		/**
+-		 * Sets the data for the current active overlay. Set `null` when no overlay is active.
+-		 * @since 1.3
+-		 */
+-		readonly setCurrentActiveOverlay: SetCurrentActiveOverlay;
+-		/**
+-		 * Get the data for the current active overlay, or `null` when no overlay is active.
+-		 * @since 1.3
+-		 */
+-		readonly getCurrentActiveOverlay: GetCurrentActiveOverlay;
+-	}
++  /**
++   * @since 1.0
++   */
++  elements: Readonly<ElementsRecord>,
++  actions: {
++    /**
++     * @since 1.0
++     */
++    readonly highlightedElementId: string | null;
++    /**
++     * @since 1.0
++     */
++    readonly setHighlightedElementId: SetHighlightedElementId;
++    /**
++     * @since 1.0
++     */
++    readonly addElement: AddElement;
++    /**
++     * @since 1.0
++     */
++    readonly removeElement: RemoveElement;
++    /**
++     * @since 1.0
++     */
++    readonly clearElements: ClearElements;
++    /**
++     * @deprecated since version `1.3`, use `getRootRef()` instead.
++     */
++    readonly rootRef: React.Component<unknown> | null;
++    /**
++     * @returns the reference to the root element used to calculate offsets for the highlights.
++     * @since 1.3
++     */
++    readonly getRootRef: RootRefGetter;
++    /**
++     * Sets the data for the current active overlay. Set `null` when no overlay is active.
++     * @since 1.3
++     */
++    readonly setCurrentActiveOverlay: SetCurrentActiveOverlay;
++    /**
++     * Get the data for the current active overlay, or `null` when no overlay is active.
++     * @since 1.3
++     */
++    readonly getCurrentActiveOverlay: GetCurrentActiveOverlay;
++  },
+ ];
+ 
+ const unimplemented = (name: string) => () => {
+-	throw new Error(
+-		`No implementation for '${name}' found! Did you forget to wrap your app in <HighlightableElementProvider />?`
+-	);
++  throw new Error(
++    `No implementation for '${name}' found! Did you forget to wrap your app in <HighlightableElementProvider />?`,
++  );
+ };
+ 
+-const HighlightableElementContext = React.createContext<HighlightableElementContextType>([
+-	{},
+-	{
+-		addElement: unimplemented("addElement"),
+-		removeElement: unimplemented("removeElement"),
+-		rootRef: null,
+-		getRootRef: unimplemented("getRootRef"),
+-		setCurrentActiveOverlay: unimplemented("setCurrentActiveOverlay"),
+-		getCurrentActiveOverlay: unimplemented("getCurrentActiveOverlay"),
+-	},
+-]);
++const HighlightableElementContext =
++  React.createContext<HighlightableElementContextType>([
++    {},
++    {
++      highlightedElementId: null,
++      clearElements: unimplemented('clearElements'),
++      setHighlightedElementId: unimplemented('setHighlightedElementId'),
++      addElement: unimplemented('addElement'),
++      removeElement: unimplemented('removeElement'),
++      rootRef: null,
++      getRootRef: unimplemented('getRootRef'),
++      setCurrentActiveOverlay: unimplemented('setCurrentActiveOverlay'),
++      getCurrentActiveOverlay: unimplemented('getCurrentActiveOverlay'),
++    },
++  ]);
+ 
+ export default HighlightableElementContext;
+diff --git a/src/context/index.ts b/src/context/index.ts
+index a6326b6d7cf0c91efa8665ed7452c20e6c90c1a3..0bd3eec36cecf9a34b7e02acb2b849b5eb745613 100644
+--- a/src/context/index.ts
++++ b/src/context/index.ts
+@@ -1,5 +1,3 @@
+-export {
+-	default as HighlightableElementProvider,
+-	HighlightableElementProviderProps,
+-} from "./HighlightableElementProvider";
+-export { default as useHighlightableElements } from "./useHighlightableElements";
++export {default as HighlightableElementProvider} from './HighlightableElementProvider';
++export type {HighlightableElementProviderProps} from './HighlightableElementProvider';
++export {default as useHighlightableElements} from './useHighlightableElements';
+diff --git a/src/context/useHighlightableElements.ts b/src/context/useHighlightableElements.ts
+index 5a96cabd64f1064c0b91daa970700df5145427a7..2a3644ae1727a7096257d43ff9d859d50c41f5e8 100644
+--- a/src/context/useHighlightableElements.ts
++++ b/src/context/useHighlightableElements.ts
+@@ -1,9 +1,9 @@
+-import { useContext } from "react";
++import {useContext} from 'react';
+ 
+-import HighlightableElementContext from "./context";
+-import type { HighlightableElementContextType } from "./context";
++import HighlightableElementContext from './context';
++import type {HighlightableElementContextType} from './context';
+ 
+ const useHighlightableElements = (): HighlightableElementContextType =>
+-	useContext(HighlightableElementContext);
++  useContext(HighlightableElementContext);
+ 
+ export default useHighlightableElements;
+diff --git a/src/index.ts b/src/index.ts
+index e9e05f4a5cf87ae6da23476e37e7a50ef7872d1a..b01e2404489e1738be847031c06f897f990c0bee 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -1,4 +1,4 @@
+-export { HighlightableElementProvider } from "./context";
+-export { default as HighlightableElement } from "./HighlightableElement";
+-export { default as HighlightOverlay } from "./HighlightOverlay";
+-export { default as FadeDuringHighlight } from "./FadeDuringHighlight";
++export {HighlightableElementProvider} from './context';
++export {default as HighlightableElement} from './HighlightableElement';
++export {default as HighlightOverlay} from './HighlightOverlay';
++export {default as FadeDuringHighlight} from './FadeDuringHighlight';

@@ -8,7 +8,6 @@ import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import React, {useEffect} from 'react';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
-import {useIsMounted} from '@/shared/hooks';
 import {AuthStackProps, AUTH_SCREENS} from '@/navigation/AuthStack';
 import {StackScreenProps} from '@react-navigation/stack';
 
@@ -20,8 +19,6 @@ type Props = StackScreenProps<
 const {width} = Dimensions.get('screen');
 
 export const EnableNotificationsScreen: React.FC<Props> = () => {
-  const isMounted = useIsMounted();
-
   const setIsNotificationsEnabled = useSettingsStore(
     state => state.setIsNotificationsEnabled,
   );
@@ -67,10 +64,6 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
     checkPermissions();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (!isMounted) {
-    return null;
-  }
 
   return (
     <View style={styles.container}>

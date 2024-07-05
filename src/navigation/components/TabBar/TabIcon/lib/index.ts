@@ -1,4 +1,4 @@
-import {TABS} from '@/navigation/AppStack';
+import {HOME_SCREEN_TABS} from '@/navigation/AppStack';
 import {
   BellIcon,
   ChartsIcon,
@@ -7,17 +7,17 @@ import {
   WalletIcon,
 } from '@/shared/ui/icons';
 
-export const getIconByName = (tabName: TABS) => {
+export const getIconByName = (tabName: HOME_SCREEN_TABS) => {
   switch (tabName) {
-    case TABS.OVERVIEW:
+    case HOME_SCREEN_TABS.OVERVIEW:
       return WalletIcon;
-    case TABS.LIGHTING:
+    case HOME_SCREEN_TABS.LIGHTING:
       return LightingIcon;
-    case TABS.PLUS:
+    case HOME_SCREEN_TABS.PLUS:
       return PlusIcon;
-    case TABS.CHARTS:
+    case HOME_SCREEN_TABS.CHARTS:
       return ChartsIcon;
-    case TABS.NOTIFICATIONS:
+    case HOME_SCREEN_TABS.NOTIFICATIONS:
       return BellIcon;
   }
 };

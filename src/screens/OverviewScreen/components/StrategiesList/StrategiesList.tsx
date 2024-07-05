@@ -24,7 +24,6 @@ export const StrategiesList = () => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 12,
     borderRadius: 24,
     overflow: 'hidden',
   },

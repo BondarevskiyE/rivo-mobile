@@ -21,11 +21,6 @@
     "@tanstack/react-query": "^5.45.1",
     "@tanstack/react-query-persist-client": "^5.45.1",
     "@toruslabs/react-native-web-browser": "^1.1.0",
-    "@web3auth/ethereum-provider": "^8.6.2",
-    "@web3auth/react-native-sdk": "^6.0.0",
-    "@zerodev/ecdsa-validator": "^5.2.3",
-    "@zerodev/sdk": "^5.2.19",
-    "@zerodev/wagmi": "^4.6.4",
     "axios": "^1.7.2",
     "custom-event-polyfill": "^1.0.7",
     "ethers": "^6.13.0",
@@ -38,6 +33,7 @@
     "react-native-device-info": "^11.1.0",
     "react-native-encrypted-storage": "^4.0.3",
     "react-native-gesture-handler": "^2.16.2",
+    "react-native-highlight-overlay": "^1.4.0",
     "react-native-inappbrowser-reborn": "^3.7.0",
     "react-native-keychain": "^8.2.0",
     "react-native-linear-gradient": "^2.8.3",
@@ -50,8 +46,6 @@
     "react-native-shadow-2": "^7.1.0",
     "react-random-reveal": "^2.0.0",
     "rn-faded-scrollview": "^1.0.13",
-    "viem": "2.x",
-    "wagmi": "^2.10.2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
@@ -79,7 +73,6 @@
     "prettier": "2.8.8",
     "process": "^0.11.10",
     "react-native-get-random-values": "^1.11.0",
-    "react-native-snap-carousel-new": "^3.9.2",
     "react-native-svg": "^15.3.0",
     "react-native-url-polyfill": "^2.0.0",
     "readable-stream": "^4.5.2",
@@ -90,5 +83,8 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.6.4",
+  "resolutions": {
+    "react-native-highlight-overlay@^1.4.0": "patch:react-native-highlight-overlay@npm%3A1.4.0#./.yarn/patches/react-native-highlight-overlay-npm-1.4.0-79a8c0f479.patch"
+  }
 }

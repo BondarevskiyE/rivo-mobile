@@ -11,10 +11,10 @@ import {
   PlusScreen,
   ChartsScreen,
   NotificationsScreen,
+  PassCodeScreen,
 } from '@/screens';
 
 import {useLoginStore} from '@/store/useLoginStore';
-import {PassCode} from '@/components/enter';
 import {TabBar} from './components';
 import LinearGradient from 'react-native-linear-gradient';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -38,13 +38,13 @@ export type AppStackProps = {
   [APP_SCREENS.PASS_CODE_SCREEN]: undefined;
 };
 
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
 // is is here to fix warnings
 const CustomTabBar = (props: BottomTabBarProps) => {
   return <TabBar {...props} />;
 };
-
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const TabsRoot = () => (
   <Tab.Navigator
@@ -99,7 +99,7 @@ export const AppStack = () => {
             ) : (
               <Stack.Screen
                 name={APP_SCREENS.PASS_CODE_SCREEN}
-                component={PassCode}
+                component={PassCodeScreen}
                 options={{presentation: 'transparentModal'}}
               />
             )}

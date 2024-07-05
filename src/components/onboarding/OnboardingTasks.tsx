@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {useUserStore} from '@/store/useUserStore';
 import {onboardingData} from '@/shared/config/onboardingData';
@@ -14,6 +14,8 @@ import ReAnimated, {
   withSequence,
   withTiming,
 } from 'react-native-reanimated';
+
+import {openOnboardingModal} from '@/modal-manager';
 
 const SHINE_INTERVAL_TIME = 5000;
 
@@ -40,6 +42,12 @@ export const OnboardingTasks = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onPressTask = () => {
+    if (onboardingStepNumber === 1) {
+      openOnboardingModal();
+    }
+  };
+
   const shineGradientStyles = useAnimatedStyle(() => ({
     transform: [
       {
@@ -54,7 +62,7 @@ export const OnboardingTasks = () => {
   }));
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPressTask}>
       <ImageBackground source={stepData.image} style={styles.backgroundImage}>
         <ReAnimated.View
           style={[styles.shineGradientContainer, shineGradientStyles]}>
@@ -80,7 +88,7 @@ export const OnboardingTasks = () => {
             ]}>{`+${stepData.points} points`}</GradientText>
         </View>
       </ImageBackground>
-    </View>
+    </Pressable>
   );
 };
 

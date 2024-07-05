@@ -13,7 +13,7 @@ import {
 } from '@/shared/lib/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
 
-export const PassCode: React.FC = () => {
+export const PassCodeScreen: React.FC = () => {
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);

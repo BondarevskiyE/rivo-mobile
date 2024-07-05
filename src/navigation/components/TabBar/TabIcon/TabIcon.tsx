@@ -1,4 +1,4 @@
-import {TABS} from '@/navigation/AppStack';
+import {HOME_SCREEN_TABS} from '@/navigation/AppStack';
 import React from 'react';
 import {View, Pressable, StyleSheet} from 'react-native';
 import {getIconByName} from './lib';
@@ -6,13 +6,13 @@ import {Colors} from '@/shared/ui';
 
 interface Props {
   onPress: () => void;
-  tabName: TABS;
+  tabName: HOME_SCREEN_TABS;
   isFocused: boolean;
 }
 
 export const TabIcon: React.FC<Props> = ({onPress, tabName, isFocused}) => {
   const Icon = getIconByName(tabName);
-  const isPlusTab = tabName === TABS.PLUS;
+  const isPlusTab = tabName === HOME_SCREEN_TABS.PLUS;
 
   const backgroundColor = isFocused ? Colors.ui_white : Colors.transparent;
   const iconColor = isFocused ? '#2E221A' : '#C5B1A7';

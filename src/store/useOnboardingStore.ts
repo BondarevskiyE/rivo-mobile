@@ -2,6 +2,7 @@ import {create} from 'zustand';
 
 export enum HIGHLIGHT_ELEMENTS {
   CASH_ACCOUNT = 'cash_account',
+  STRATEGIES_LIST = 'strategies_list',
 }
 
 interface OnboardingState {

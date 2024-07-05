@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   StyleSheet,
   View,
   Dimensions,
   NativeSyntheticEvent,
   NativeScrollEvent,
+  ScrollView,
 } from 'react-native';
 import ReAnimated, {
   Extrapolation,
@@ -13,15 +14,20 @@ import ReAnimated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {HighlightableElement} from 'react-native-highlight-overlay';
 import RNFadedScrollView from 'rn-faded-scrollview';
 
 import {OnboardingTasks} from '@/components/onboarding';
 import {Header, CardWallet, CashAccount, StrategiesList} from './components';
+import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
 
 const {height} = Dimensions.get('window');
 
 export const OverviewScreen = () => {
+  const scrollViewRef = useRef<ScrollView>(null);
+
   const [isHideCard, setIsHideCard] = useState(false);
+  const [scrollViewHeight, setScrollViewHeight] = useState(0);
 
   const cardAnimationValue = useSharedValue(1);
 
@@ -37,11 +43,13 @@ export const OverviewScreen = () => {
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
 
-    if (!!offsetY && !isHideCard) {
+    if (offsetY > 100 && !isHideCard) {
+      setScrollViewHeight(event.nativeEvent.layoutMeasurement.height);
       setIsHideCard(true);
     }
 
-    if (offsetY === 0) {
+    if (offsetY < 100 && isHideCard) {
+      setScrollViewHeight(event.nativeEvent.layoutMeasurement.height);
       setIsHideCard(false);
     }
   };
@@ -71,30 +79,11 @@ export const OverviewScreen = () => {
     opacity: cardAnimationValue.value,
   }));
 
-  const cardHeightStyle = useAnimatedStyle(() => {
-    const interpolatedHeight = interpolate(
-      cardAnimationValue.value,
-      [0, 1],
-      [0, 156],
-      {extrapolateRight: Extrapolation.CLAMP},
-    );
-    const interpolatedMarginTop = interpolate(
-      cardAnimationValue.value,
-      [0, 1],
-      [0, 40],
-      {extrapolateRight: Extrapolation.CLAMP},
-    );
-    return {
-      height: interpolatedHeight,
-      marginTop: interpolatedMarginTop,
-    };
-  });
-
   return (
     <View style={{flex: 1}}>
       <Header cardAnimationValue={cardAnimationValue} />
       <RNFadedScrollView
-        allowStartFade={false}
+        allowStartFade
         allowEndFade={false} // FIX remove if the list will be wider
         horizontal={false}
         fadeSize={30}
@@ -102,20 +91,44 @@ export const OverviewScreen = () => {
         style={styles.container}
         onScroll={onHandleScroll}
         showsVerticalScrollIndicator={false}
-        bounces={false}>
+        bounces={false}
+        ref={scrollViewRef}>
         <View style={styles.scrollArea}>
           <ReAnimated.View
             style={[
               styles.cardWalletContainer,
               cardScaleStyles,
               cardOpacityStyle,
-              cardHeightStyle,
             ]}>
             <CardWallet />
           </ReAnimated.View>
           <OnboardingTasks />
-          <CashAccount />
-          <StrategiesList />
+
+          <HighlightableElement
+            id={HIGHLIGHT_ELEMENTS.CASH_ACCOUNT}
+            scrollContainerRef={scrollViewRef}
+            scrollOffset={scrollViewHeight - 313}
+            options={{
+              mode: 'rectangle',
+              borderRadius: 24,
+              clickthroughHighlight: false,
+            }}
+            style={styles.cashAccountContainer}>
+            <CashAccount />
+          </HighlightableElement>
+
+          <HighlightableElement
+            id={HIGHLIGHT_ELEMENTS.STRATEGIES_LIST}
+            scrollContainerRef={scrollViewRef}
+            scrollOffset={scrollViewHeight - 313}
+            options={{
+              mode: 'rectangle',
+              borderRadius: 24,
+              clickthroughHighlight: false,
+            }}
+            style={styles.strategiesListContainer}>
+            <StrategiesList />
+          </HighlightableElement>
         </View>
       </RNFadedScrollView>
     </View>
@@ -132,11 +145,18 @@ const styles = StyleSheet.create({
   },
   cardWalletContainer: {
     width: '73%',
+    height: 156,
     alignSelf: 'center',
-    marginVertical: 40,
+    marginVertical: 37,
     transformOrigin: 'top',
   },
   scrollArea: {
-    paddingBottom: 250,
+    paddingBottom: 450,
+  },
+  cashAccountContainer: {
+    marginTop: 20,
+  },
+  strategiesListContainer: {
+    marginTop: 12,
   },
 });

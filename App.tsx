@@ -7,6 +7,7 @@ import {useAppState} from '@/shared/hooks';
 import {registerForegroundService} from '@/shared/lib/notifee';
 import {subscribeTwitterListener} from '@/shared/lib/twitter';
 import {Providers} from '@/Providers';
+import Modal from '@/modal-manager';
 
 export const App = () => {
   useAppState();
@@ -25,6 +26,7 @@ export const App = () => {
     <Providers>
       <StatusBar backgroundColor={Colors.ui_background} />
       <Routes />
+      <Modal />
     </Providers>
   );
 };

@@ -25,6 +25,7 @@ export const Colors = {
   blue_text: '#3B60E1',
   error_red: '#D93232',
 
+  ui_beige_20: '#EEE7E7',
   ui_beige_30: '#eae2dd',
 
   ui_orange_20: '#feefe5',
@@ -79,6 +80,7 @@ export const Images = {
   onboardingTask1: require('../../../assets/images/onboarding/task-mountains.png'),
   onboardingTask2: require('../../../assets/images/onboarding/task-sea.png'),
   onboardingTask3: require('../../../assets/images/onboarding/task-japan.png'),
+  onboardingCat: require('../../../assets/images/onboarding/onboarding-cat.png'),
 };
 
 export const Icons = {};

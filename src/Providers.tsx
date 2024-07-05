@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  HighlightableElementProvider,
+  HighlightOverlay,
+} from 'react-native-highlight-overlay';
 
 import {withChildren} from './shared/types';
 import {useOnboardingStore} from './store/useOnboardingStore';
@@ -8,7 +12,13 @@ export const Providers = ({children}: withChildren) => {
     state => state.highlightedElementId,
   );
 
-  console.log('highlightedElementId: ', highlightedElementId);
-
-  return <>{children}</>;
+  return (
+    <HighlightableElementProvider>
+      {children}
+      <HighlightOverlay
+        highlightedElementId={highlightedElementId}
+        onDismiss={() => {}}
+      />
+    </HighlightableElementProvider>
+  );
 };

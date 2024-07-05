@@ -9,4 +9,5 @@ export {
   EnableNotificationsScreen,
   PassCodeRegistrationScreen,
 } from './login';
+export {PassCodeScreen} from './PassCodeScreen';
 export {SettingsScreen} from './SettingsScreen';
