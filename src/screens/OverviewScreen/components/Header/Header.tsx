@@ -18,6 +18,8 @@ import ReAnimated, {
   useAnimatedStyle,
 } from 'react-native-reanimated';
 import {useBalanceStore} from '@/store/useBalanceStore';
+import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
+import {HighlightableElement} from 'react-native-highlight-overlay';
 
 interface Props {
   cardAnimationValue: SharedValue<number>;
@@ -74,7 +76,15 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
           </View>
         </ImageBackground>
       </ReAnimated.View>
-      <PointsCounter />
+      <HighlightableElement
+        id={HIGHLIGHT_ELEMENTS.POINTS}
+        options={{
+          mode: 'rectangle',
+          borderRadius: 16,
+          clickthroughHighlight: false,
+        }}>
+        <PointsCounter />
+      </HighlightableElement>
     </View>
   );
 };

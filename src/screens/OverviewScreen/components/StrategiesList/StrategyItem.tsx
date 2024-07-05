@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Alert} from 'react-native';
 import {Strategy} from '@/shared/types';
 import {Colors, Fonts} from '@/shared/ui';
 import {DollarIconWithShadow, EthereumIconWithShadow} from '@/shared/ui/icons';
@@ -35,7 +35,7 @@ export const StrategyItem: React.FC<Props> = ({item}) => {
           type={BUTTON_TYPE.ACTION}
           style={styles.button}
           onPress={() => {
-            console.log(123);
+            Alert.alert(item.name);
           }}
           text="Earn"
         />

@@ -75,6 +75,11 @@ const modalPositionStyles = StyleSheet.create({
     marginHorizontal: 12,
     marginBottom: 24,
   },
+  floatTop: {
+    justifyContent: 'flex-start',
+    marginHorizontal: 12,
+    marginTop: 24,
+  },
 });
 
 const styles = StyleSheet.create({

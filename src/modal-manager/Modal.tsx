@@ -6,15 +6,22 @@ import React, {
   useImperativeHandle,
   useRef,
 } from 'react';
-import {ModalHideParams, ModalProps, ModalRef, ModalShowParams} from './types';
+import {
+  ModalHideParams,
+  ModalOptions,
+  ModalProps,
+  ModalRef,
+  ModalShowParams,
+} from './types';
 import {useModal} from './hook/useModal.ts';
 import {ModalUI} from './components';
 
 const ModalRoot = forwardRef((props: ModalProps, ref) => {
   const {config, ...defaultOptions} = props;
-  const {show, hide, isVisible, options, onHide, data} = useModal({
-    defaultOptions,
-  });
+  const {show, hide, changeOptions, isVisible, options, onHide, data} =
+    useModal({
+      defaultOptions,
+    });
 
   // This must use useCallback to ensure the ref doesn't get set to null and then a new ref every render.
   useImperativeHandle(
@@ -23,8 +30,9 @@ const ModalRoot = forwardRef((props: ModalProps, ref) => {
       () => ({
         show,
         hide,
+        changeOptions,
       }),
-      [hide, show],
+      [hide, show, changeOptions],
     ),
   );
 
@@ -105,4 +113,8 @@ Modal.show = (params: ModalShowParams) => {
 
 Modal.hide = (params?: ModalHideParams) => {
   getRef()?.hide(params);
+};
+
+Modal.changeOptions = (params?: Partial<ModalOptions>) => {
+  getRef()?.changeOptions(params);
 };

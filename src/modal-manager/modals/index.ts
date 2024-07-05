@@ -1,1 +1,1 @@
-export {OnboardingModal, openOnboardingModal} from './OnboardingModal';
+export * from './OnboardingModal';

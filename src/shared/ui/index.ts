@@ -27,6 +27,7 @@ export const Colors = {
 
   ui_beige_20: '#EEE7E7',
   ui_beige_30: '#eae2dd',
+  ui_beige_50: '#e9c7b4',
 
   ui_orange_20: '#feefe5',
   ui_orange_25: '#f9e8df',

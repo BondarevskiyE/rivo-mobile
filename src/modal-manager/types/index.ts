@@ -9,7 +9,7 @@ export type ModalData = {
 
 export type ModalOptions = {
   dismissable: boolean;
-  position: 'center' | 'bottom' | 'floatBottom';
+  position: 'center' | 'bottom' | 'floatBottom' | 'floatTop';
   animated?: boolean;
   backdropOpacity?: number;
   onHide?: () => void;
@@ -22,6 +22,7 @@ export type ModalHideParams = {};
 export type ModalRef = {
   show: (params: ModalShowParams) => void;
   hide: (params?: ModalHideParams) => void;
+  changeOptions: (params?: Partial<ModalOptions>) => void;
 };
 
 export type ModalConfig = {

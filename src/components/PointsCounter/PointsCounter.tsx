@@ -16,7 +16,7 @@ export const PointsCounter = () => {
 const styles = StyleSheet.create({
   container: {
     minWidth: 75,
-    borderRadius: 40,
+    borderRadius: 16,
     paddingHorizontal: 12,
     paddingVertical: 6,
     backgroundColor: Colors.ui_orange_20,

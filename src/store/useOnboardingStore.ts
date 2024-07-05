@@ -1,8 +1,10 @@
 import {create} from 'zustand';
 
 export enum HIGHLIGHT_ELEMENTS {
+  NONE = 'none',
   CASH_ACCOUNT = 'cash_account',
   STRATEGIES_LIST = 'strategies_list',
+  POINTS = 'points',
 }
 
 interface OnboardingState {

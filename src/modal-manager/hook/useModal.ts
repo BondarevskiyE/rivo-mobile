@@ -25,6 +25,16 @@ export const useModal = ({defaultOptions}: UseModalParams) => {
 
   const [options, setOptions] = useState<ModalOptions>(initialOptions);
 
+  const changeOptions = useCallback(
+    (params: Partial<ModalShowParams>) => {
+      setOptions({
+        ...options,
+        ...params,
+      });
+    },
+    [options],
+  );
+
   const show = useCallback(
     (params: ModalShowParams) => {
       setData({
@@ -61,6 +71,7 @@ export const useModal = ({defaultOptions}: UseModalParams) => {
     isVisible,
     show,
     hide,
+    changeOptions,
     data,
     options,
     onHide,

@@ -11,3 +11,5 @@ export {ChartsIcon} from './ChartsIcon';
 export {BellIcon} from './BellIcon';
 export {DollarIcon, DollarIconWithShadow} from './DollarIcon';
 export {EthereumIcon, EthereumIconWithShadow} from './EthereumIcon';
+export {ArrowLineIcon} from './ArrowLineIcon';
+export {CheckIcon} from './CheckIcon';

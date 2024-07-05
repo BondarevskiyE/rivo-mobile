@@ -20,8 +20,12 @@ import RNFadedScrollView from 'rn-faded-scrollview';
 import {OnboardingTasks} from '@/components/onboarding';
 import {Header, CardWallet, CashAccount, StrategiesList} from './components';
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
+import {ONBOARDING_MODAL_HEIGHT} from '@/modal-manager/modals/OnboardingModal';
 
 const {height} = Dimensions.get('window');
+
+// 6 is gap between modal and view
+const OFFSET_ONBOARDING_MODAL = ONBOARDING_MODAL_HEIGHT - 6;
 
 export const OverviewScreen = () => {
   const scrollViewRef = useRef<ScrollView>(null);
@@ -43,13 +47,15 @@ export const OverviewScreen = () => {
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
 
-    if (offsetY > 100 && !isHideCard) {
+    if (!scrollViewHeight) {
       setScrollViewHeight(event.nativeEvent.layoutMeasurement.height);
+    }
+
+    if (offsetY > 100 && !isHideCard) {
       setIsHideCard(true);
     }
 
     if (offsetY < 100 && isHideCard) {
-      setScrollViewHeight(event.nativeEvent.layoutMeasurement.height);
       setIsHideCard(false);
     }
   };
@@ -84,7 +90,7 @@ export const OverviewScreen = () => {
       <Header cardAnimationValue={cardAnimationValue} />
       <RNFadedScrollView
         allowStartFade
-        allowEndFade={false} // FIX remove if the list will be wider
+        allowEndFade={false} // FIX remove if the list will be higher
         horizontal={false}
         fadeSize={30}
         fadeColors={['rgba(248, 242, 239, 0)', 'rgba(248, 242, 239, 1)']}
@@ -106,8 +112,9 @@ export const OverviewScreen = () => {
 
           <HighlightableElement
             id={HIGHLIGHT_ELEMENTS.CASH_ACCOUNT}
+            // scrollContainerRef - is a ref to scroll the list to the right position of view above the modal
             scrollContainerRef={scrollViewRef}
-            scrollOffset={scrollViewHeight - 313}
+            scrollOffset={scrollViewHeight - OFFSET_ONBOARDING_MODAL}
             options={{
               mode: 'rectangle',
               borderRadius: 24,
@@ -120,7 +127,7 @@ export const OverviewScreen = () => {
           <HighlightableElement
             id={HIGHLIGHT_ELEMENTS.STRATEGIES_LIST}
             scrollContainerRef={scrollViewRef}
-            scrollOffset={scrollViewHeight - 313}
+            scrollOffset={scrollViewHeight - OFFSET_ONBOARDING_MODAL}
             options={{
               mode: 'rectangle',
               borderRadius: 24,
@@ -151,7 +158,7 @@ const styles = StyleSheet.create({
     transformOrigin: 'top',
   },
   scrollArea: {
-    paddingBottom: 450,
+    paddingBottom: 320,
   },
   cashAccountContainer: {
     marginTop: 20,
