@@ -1,4 +1,4 @@
-import {HOME_SCREEN_TABS} from '@/navigation/AppStack';
+import {HOME_SCREEN_TABS} from '@/navigation/HomeStack';
 import {
   BellIcon,
   ChartsIcon,

@@ -1,4 +1,4 @@
-import {HOME_SCREEN_TABS} from '@/navigation/AppStack';
+import {HOME_SCREEN_TABS} from '@/navigation/HomeStack';
 import React from 'react';
 import {View, Pressable, StyleSheet} from 'react-native';
 import {getIconByName} from './lib';

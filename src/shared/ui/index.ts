@@ -17,8 +17,11 @@ export const Colors = {
   ui_grey_15: '#D3CFCC',
   ui_grey_20: '#CECCCA',
 
+  ui_grey_65: '#8d8d8d',
   ui_grey_70: '#888888',
+
   ui_grey_75: '#4d4d4d',
+  ui_grey_80: '#494949',
   ui_grey_90: '#373737',
 
   grey_text: '#838A91',
@@ -40,6 +43,7 @@ export const Colors = {
 
   ui_purple_50: '#2A254C',
 
+  ui_black_70: '#1C1C1C',
   ui_black_80: '#111111',
   ui_black: '#000000',
   transparent: 'transparent',
@@ -82,6 +86,9 @@ export const Images = {
   onboardingTask2: require('../../../assets/images/onboarding/task-sea.png'),
   onboardingTask3: require('../../../assets/images/onboarding/task-japan.png'),
   onboardingCat: require('../../../assets/images/onboarding/onboarding-cat.png'),
+
+  cardVariantCat: require('../../../assets/images/card/variants/cat.png'),
+  cardVariantCarp: require('../../../assets/images/card/variants/carp.png'),
 };
 
 export const Icons = {};

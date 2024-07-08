@@ -2,14 +2,14 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {TabIcon} from './TabIcon';
-import {TABS} from '@/navigation/AppStack';
+import {HOME_SCREEN_TABS} from '@/navigation/HomeStack';
 import {Colors} from '@/shared/ui';
 
 export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
   return (
     <View style={styles.container}>
       {state.routes.map((route, index) => {
-        const label = route.name as TABS;
+        const label = route.name as HOME_SCREEN_TABS;
 
         const isFocused = state.index === index;
 

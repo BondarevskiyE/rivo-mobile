@@ -1,5 +1,5 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Platform, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   BottomTabBarProps,
@@ -20,9 +20,11 @@ import {TabBar} from './components';
 import LinearGradient from 'react-native-linear-gradient';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Colors} from '@/shared/ui';
+import {CardCustomizationScreen} from '@/screens/CardCustomizationScreen';
 
-export enum APP_SCREENS {
+export enum HOME_SCREENS {
   HOME_SCREEN = 'home_screen',
+  CARD_CUSTOMIZATION_SCREEN = 'card_customization',
   PASS_CODE_SCREEN = 'pass_code_screen',
 }
 
@@ -34,13 +36,22 @@ export enum HOME_SCREEN_TABS {
   NOTIFICATIONS = 'notifications',
 }
 
-export type AppStackProps = {
-  [APP_SCREENS.HOME_SCREEN]: undefined;
-  [APP_SCREENS.PASS_CODE_SCREEN]: undefined;
+export type HomeTabsProps = {
+  [HOME_SCREEN_TABS.OVERVIEW]: undefined;
+  [HOME_SCREEN_TABS.LIGHTING]: undefined;
+  [HOME_SCREEN_TABS.PLUS]: undefined;
+  [HOME_SCREEN_TABS.CHARTS]: undefined;
+  [HOME_SCREEN_TABS.NOTIFICATIONS]: undefined;
 };
 
-const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
+export type HomeStackProps = {
+  [HOME_SCREENS.HOME_SCREEN]: undefined;
+  [HOME_SCREENS.CARD_CUSTOMIZATION_SCREEN]: undefined;
+  [HOME_SCREENS.PASS_CODE_SCREEN]: undefined;
+};
+
+const Stack = createStackNavigator<HomeStackProps>();
+const Tab = createBottomTabNavigator<HomeTabsProps>();
 
 // is is here to fix warnings
 const CustomTabBar = (props: BottomTabBarProps) => {
@@ -65,7 +76,7 @@ const TabsRoot = () => (
   </Tab.Navigator>
 );
 
-export const AppStack = () => {
+export const HomeStack = () => {
   const isPassCodeEntered = useLoginStore(state => state.isPassCodeEntered);
 
   return (
@@ -90,16 +101,22 @@ export const AppStack = () => {
             screenOptions={{
               headerShown: false,
               gestureEnabled: false,
-              animationEnabled: false,
+              animationEnabled: Platform.OS === 'android',
             }}>
             {isPassCodeEntered ? (
-              <Stack.Screen
-                name={APP_SCREENS.HOME_SCREEN}
-                component={TabsRoot}
-              />
+              <>
+                <Stack.Screen
+                  name={HOME_SCREENS.HOME_SCREEN}
+                  component={TabsRoot}
+                />
+                <Stack.Screen
+                  name={HOME_SCREENS.CARD_CUSTOMIZATION_SCREEN}
+                  component={CardCustomizationScreen}
+                />
+              </>
             ) : (
               <Stack.Screen
-                name={APP_SCREENS.PASS_CODE_SCREEN}
+                name={HOME_SCREENS.PASS_CODE_SCREEN}
                 component={PassCodeScreen}
                 options={{presentation: 'transparentModal'}}
               />

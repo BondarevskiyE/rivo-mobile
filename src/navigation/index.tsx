@@ -3,7 +3,7 @@ import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 
 import {navigationRef} from './RootNavigation';
 
-import {AppStack} from './AppStack';
+import {HomeStack} from './HomeStack';
 import {AuthStack} from './AuthStack';
 
 import {createStackNavigator} from '@react-navigation/stack';
@@ -40,8 +40,8 @@ export const Router = () => {
           />
         ) : (
           <RootStack.Screen
-            name="App"
-            component={AppStack}
+            name="Home"
+            component={HomeStack}
             options={{
               animationEnabled: false,
             }}

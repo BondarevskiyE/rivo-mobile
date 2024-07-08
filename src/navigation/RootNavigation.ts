@@ -2,11 +2,11 @@ import {createNavigationContainerRef} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
 
 import {AUTH_SCREENS, AuthStackProps} from './AuthStack';
-import {APP_SCREENS, AppStackProps} from './AppStack';
+import {HOME_SCREENS, HomeStackProps} from './HomeStack';
 
-type RootStackParamList = AuthStackProps & AppStackProps;
+type RootStackParamList = AuthStackProps & HomeStackProps;
 
-type ScreenName = APP_SCREENS | AUTH_SCREENS;
+type ScreenName = HOME_SCREENS | AUTH_SCREENS;
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
