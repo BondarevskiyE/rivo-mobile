@@ -74,7 +74,7 @@ export const Slider: React.FC<Props> = ({data}) => {
 
   const handleOnViewableItemsChanged = useRef(
     ({viewableItems}: {viewableItems: ViewToken<CardItem>[]}) => {
-      setCurrentSlideIndex(viewableItems[0].index || 0);
+      setCurrentSlideIndex(viewableItems?.[0]?.index || 0);
     },
   ).current;
 

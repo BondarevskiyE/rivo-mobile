@@ -16,6 +16,7 @@ import ReAnimated, {
 } from 'react-native-reanimated';
 import {HighlightableElement} from 'react-native-highlight-overlay';
 import RNFadedScrollView from 'rn-faded-scrollview';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {OnboardingTasks} from '@/components/onboarding';
 import {Header, CardWallet, CashAccount, StrategiesList} from './components';
@@ -28,6 +29,11 @@ const {height} = Dimensions.get('window');
 const OFFSET_ONBOARDING_MODAL = ONBOARDING_MODAL_HEIGHT - 6;
 
 export const OverviewScreen = () => {
+  const insets = useSafeAreaInsets();
+
+  // without insets.bottom onboarding modal takes height from scroll view and we need to calculate the new coordianate
+  const insetOffset = insets.bottom ? 0 : 33;
+
   const scrollViewRef = useRef<ScrollView>(null);
 
   const [isHideCard, setIsHideCard] = useState(false);
@@ -37,10 +43,10 @@ export const OverviewScreen = () => {
 
   useEffect(() => {
     if (isHideCard) {
-      cardAnimationValue.value = withTiming(0, {duration: 200});
+      cardAnimationValue.value = withTiming(0, {duration: 250});
       return;
     }
-    cardAnimationValue.value = withTiming(1, {duration: 200});
+    cardAnimationValue.value = withTiming(1, {duration: 250});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHideCard]);
 
@@ -114,7 +120,9 @@ export const OverviewScreen = () => {
             id={HIGHLIGHT_ELEMENTS.CASH_ACCOUNT}
             // scrollContainerRef - is a ref to scroll the list to the right position of view above the modal
             scrollContainerRef={scrollViewRef}
-            scrollOffset={scrollViewHeight - OFFSET_ONBOARDING_MODAL}
+            scrollOffset={
+              scrollViewHeight - OFFSET_ONBOARDING_MODAL - insetOffset
+            }
             options={{
               mode: 'rectangle',
               borderRadius: 24,
@@ -127,7 +135,9 @@ export const OverviewScreen = () => {
           <HighlightableElement
             id={HIGHLIGHT_ELEMENTS.STRATEGIES_LIST}
             scrollContainerRef={scrollViewRef}
-            scrollOffset={scrollViewHeight - OFFSET_ONBOARDING_MODAL}
+            scrollOffset={
+              scrollViewHeight - OFFSET_ONBOARDING_MODAL - insetOffset
+            }
             options={{
               mode: 'rectangle',
               borderRadius: 24,
@@ -158,7 +168,7 @@ const styles = StyleSheet.create({
     transformOrigin: 'top',
   },
   scrollArea: {
-    paddingBottom: 320,
+    paddingBottom: 350,
   },
   cashAccountContainer: {
     marginTop: 20,

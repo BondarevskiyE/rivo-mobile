@@ -9,7 +9,8 @@ import {
   View,
   ViewProps,
 } from 'react-native';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {initialWindowMetrics} from 'react-native-safe-area-context';
+
 import ReAnimated, {
   Extrapolation,
   interpolate,
@@ -36,8 +37,6 @@ const OVERVIEW_HEADER_HEIGHT = 46;
 const POINTS_HIGHLIGHT_MODAL_OFFSET = 50;
 
 export const OnboardingModal = ({...props}: OnboardingModalProps) => {
-  const insets = useSafeAreaInsets();
-
   const animatedPositionValue = useSharedValue(0);
 
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
@@ -88,7 +87,7 @@ export const OnboardingModal = ({...props}: OnboardingModalProps) => {
                 -(
                   height -
                   ONBOARDING_MODAL_HEIGHT -
-                  insets.top -
+                  (initialWindowMetrics?.insets?.top || 0) -
                   OVERVIEW_HEADER_HEIGHT -
                   POINTS_HIGHLIGHT_MODAL_OFFSET
                 ),

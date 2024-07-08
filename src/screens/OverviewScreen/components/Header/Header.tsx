@@ -9,14 +9,15 @@ import {
   ImageBackground,
   Text,
 } from 'react-native';
-import {PointsCounter} from '@/components/PointsCounter';
-import {Colors, Fonts, Images} from '@/shared/ui';
 import ReAnimated, {
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+
+import {PointsCounter} from '@/components/PointsCounter';
+import {Colors, Fonts, Images} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
 import {HighlightableElement} from 'react-native-highlight-overlay';
