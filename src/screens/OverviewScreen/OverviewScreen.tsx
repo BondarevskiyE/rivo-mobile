@@ -162,7 +162,8 @@ const styles = StyleSheet.create({
   },
   cardWalletContainer: {
     width: '73%',
-    height: 156,
+    // height: 156,
+    height: 'auto',
     alignSelf: 'center',
     marginVertical: 37,
     transformOrigin: 'top',

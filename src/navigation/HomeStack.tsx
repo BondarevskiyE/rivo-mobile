@@ -20,11 +20,11 @@ import {TabBar} from './components';
 import LinearGradient from 'react-native-linear-gradient';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Colors} from '@/shared/ui';
-import {CardCustomizationScreen} from '@/screens/CardCustomizationScreen';
+// import {CardCustomizationScreen} from '@/screens/CardCustomizationScreen';
 
 export enum HOME_SCREENS {
   HOME_SCREEN = 'home_screen',
-  CARD_CUSTOMIZATION_SCREEN = 'card_customization',
+  // CARD_CUSTOMIZATION_SCREEN = 'card_customization',
   PASS_CODE_SCREEN = 'pass_code_screen',
 }
 
@@ -46,7 +46,7 @@ export type HomeTabsProps = {
 
 export type HomeStackProps = {
   [HOME_SCREENS.HOME_SCREEN]: undefined;
-  [HOME_SCREENS.CARD_CUSTOMIZATION_SCREEN]: undefined;
+  // [HOME_SCREENS.CARD_CUSTOMIZATION_SCREEN]: undefined;
   [HOME_SCREENS.PASS_CODE_SCREEN]: undefined;
 };
 
@@ -109,10 +109,10 @@ export const HomeStack = () => {
                   name={HOME_SCREENS.HOME_SCREEN}
                   component={TabsRoot}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                   name={HOME_SCREENS.CARD_CUSTOMIZATION_SCREEN}
                   component={CardCustomizationScreen}
-                />
+                /> */}
               </>
             ) : (
               <Stack.Screen
