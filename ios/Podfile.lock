@@ -46,7 +46,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - OpenSSL-Universal (1.1.2200)
+  - OpenSSL-Universal (3.1.5004)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1004,7 +1004,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-quick-crypto (0.7.0-rc.10):
+  - react-native-quick-crypto (0.7.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1356,7 +1356,6 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - lottie-react-native (from `../node_modules/lottie-react-native`)
-  - OpenSSL-Universal (= 1.1.2200)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -1601,7 +1600,7 @@ SPEC CHECKSUMS:
   hermes-engine: 01d3e052018c2a13937aca1860fbedbccd4a41b7
   lottie-ios: e047b1d2e6239b787cc5e9755b988869cf190494
   lottie-react-native: 4279da8b681e89c29a2adb9f99985d6cf372d49d
-  OpenSSL-Universal: 6e1ae0555546e604dbc632a2b9a24a9c46c41ef6
+  OpenSSL-Universal: 0db2e81615ad95efc90ce13a638986858da38c0d
   RCT-Folly: 02617c592a293bd6d418e0a88ff4ee1f88329b47
   RCTDeprecation: b03c35057846b685b3ccadc9bfe43e349989cdb2
   RCTRequired: 194626909cfa8d39ca6663138c417bc6c431648c
@@ -1630,7 +1629,7 @@ SPEC CHECKSUMS:
   react-native-encrypted-storage: db300a3f2f0aba1e818417c1c0a6be549038deb7
   react-native-get-random-values: 21325b2244dfa6b58878f51f9aa42821e7ba3d06
   react-native-quick-base64: a74c4b2607b9de016877a8edb776b6ac59785809
-  react-native-quick-crypto: 8595b00c720afcb6986a2e8d0b4ac026d53c4fb3
+  react-native-quick-crypto: d3457afaa680f961c7bcf6c382329aafe4abddcd
   react-native-safe-area-context: 422017db8bcabbada9ad607d010996c56713234c
   react-native-web-browser: 087b454e1e94b58b40ba73f54251d77486144d19
   React-nativeconfig: 9f223cd321823afdecf59ed00861ab2d69ee0fc1
@@ -1670,6 +1669,6 @@ SPEC CHECKSUMS:
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: ae3c32c514802d30f687a04a6a35b348506d411f
 
-PODFILE CHECKSUM: a1f7220c6312759531e3bbf715d9fa01deb1e047
+PODFILE CHECKSUM: 204150403b447323ada6e0fa8d48e5c1b5c51d15
 
 COCOAPODS: 1.15.2

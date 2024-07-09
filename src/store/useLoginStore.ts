@@ -1,9 +1,14 @@
 import {create} from 'zustand';
+import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
+
+import * as RootNavigation from '@/navigation/RootNavigation';
 import {useUserStore} from './useUserStore';
 import {resetKeychainCredentials} from '@/shared/lib/keychain';
 import {signInWithTwitter} from '@/shared/lib/twitter';
-import {LOGIN_PROVIDER} from './types';
+import {initWeb3Auth, login} from '@/shared/lib/web3auth';
+import {AUTH_SCREENS} from '@/navigation/AuthStack';
+import {initZeroDevClient} from '@/shared/lib/zerodev';
 
 GoogleSignin.configure({
   offlineAccess: true,
@@ -35,13 +40,23 @@ export const useLoginStore = create<LoginState>()(set => ({
     try {
       set({isLoading: true});
 
-      await GoogleSignin.hasPlayServices();
+      await initWeb3Auth();
 
-      const userInfo = await GoogleSignin.signIn();
+      const {smartAccountSigner, user} = await login(LOGIN_PROVIDER.GOOGLE);
+
+      console.log('user: ', user);
+
+      // RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING);
+
+      const kernelClient = await initZeroDevClient(smartAccountSigner);
+
+      // await GoogleSignin.hasPlayServices();
+
+      // const userInfo = await GoogleSignin.signIn();
 
       const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
-      setUserInfo({...userInfo.user, loginProvider: LOGIN_PROVIDER.GOOGLE});
+      // setUserInfo({...userInfo.user, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
       // set({loginStep: LOGIN_STEPS.CARD_CREATING});
 

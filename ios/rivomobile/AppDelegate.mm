@@ -2,7 +2,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 
-#import <GoogleSignIn/GoogleSignIn.h>
+// #import <GoogleSignIn/GoogleSignIn.h>
 #import <React/RCTLinkingManager.h>
 
 
@@ -26,7 +26,7 @@
    openURL:(NSURL *)url
    options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
 {
-  return [RCTLinkingManager application:application openURL:url options:options] || [GIDSignIn.sharedInstance handleURL:url];
+  return [RCTLinkingManager application:application openURL:url options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
