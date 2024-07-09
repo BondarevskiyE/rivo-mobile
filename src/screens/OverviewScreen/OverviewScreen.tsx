@@ -1,11 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   Dimensions,
   NativeSyntheticEvent,
   NativeScrollEvent,
-  ScrollView,
+  Platform,
 } from 'react-native';
 import ReAnimated, {
   Extrapolation,
@@ -14,32 +14,58 @@ import ReAnimated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {HighlightableElement} from 'react-native-highlight-overlay';
+import {initialWindowMetrics} from 'react-native-safe-area-context';
 import RNFadedScrollView from 'rn-faded-scrollview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {OnboardingTasks} from '@/components/onboarding';
 import {Header, CardWallet, CashAccount, StrategiesList} from './components';
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
-import {ONBOARDING_MODAL_HEIGHT} from '@/modal-manager/modals/OnboardingModal';
+import {
+  ONBOARDING_MODAL_HEIGHT,
+  openOnboardingModal,
+} from '@/modal-manager/modals/OnboardingModal';
+import {FLOAT_BOTTOM_MODAL_MARGIN} from '@/modal-manager';
+import {useHighlightElementsWithScroll} from '@/shared/hooks';
 
 const {height} = Dimensions.get('window');
 
-// 6 is gap between modal and view
-const OFFSET_ONBOARDING_MODAL = ONBOARDING_MODAL_HEIGHT - 6;
+const DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT = 5;
+const OFFSET_ONBOARDING_MODAL =
+  ONBOARDING_MODAL_HEIGHT - DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT;
+
+const HIGHLIGHT_OFFSET =
+  ONBOARDING_MODAL_HEIGHT +
+  DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT +
+  FLOAT_BOTTOM_MODAL_MARGIN;
 
 export const OverviewScreen = () => {
   const insets = useSafeAreaInsets();
 
-  // without insets.bottom onboarding modal takes height from scroll view and we need to calculate the new coordianate
-  const insetOffset = insets.bottom ? 0 : 33;
-
-  const scrollViewRef = useRef<ScrollView>(null);
-
   const [isHideCard, setIsHideCard] = useState(false);
-  const [scrollViewHeight, setScrollViewHeight] = useState(0);
 
   const cardAnimationValue = useSharedValue(1);
+
+  // without insets.bottom onboarding modal takes height from scroll view and we need to calculate the new coordianate
+  const insetBottomOffset = insets.bottom ? 0 : 33;
+  const insetTopOffset =
+    Platform.OS === 'android' ? initialWindowMetrics?.insets.top || 0 : 0;
+
+  const {
+    refs,
+    scrollViewRef,
+    scrollToOnboardingElement,
+    onLayoutElement,
+    onLayoutScrollView,
+  } = useHighlightElementsWithScroll({
+    elementsId: [
+      HIGHLIGHT_ELEMENTS.CASH_ACCOUNT,
+      HIGHLIGHT_ELEMENTS.STRATEGIES_LIST,
+    ],
+    // highlightOffset: HIGHLIGHT_OFFSET + (initialWindowMetrics?.insets.top || 0), // android
+    highlightOffset: HIGHLIGHT_OFFSET + insetTopOffset,
+    scrollOffset: OFFSET_ONBOARDING_MODAL + insetBottomOffset,
+  });
 
   useEffect(() => {
     if (isHideCard) {
@@ -52,10 +78,6 @@ export const OverviewScreen = () => {
 
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
-
-    if (!scrollViewHeight) {
-      setScrollViewHeight(event.nativeEvent.layoutMeasurement.height);
-    }
 
     if (offsetY > 100 && !isHideCard) {
       setIsHideCard(true);
@@ -91,6 +113,10 @@ export const OverviewScreen = () => {
     opacity: cardAnimationValue.value,
   }));
 
+  const onClickOnboardingGuide = () => {
+    openOnboardingModal({scrollToOnboardingElement});
+  };
+
   return (
     <View style={{flex: 1}}>
       <Header cardAnimationValue={cardAnimationValue} />
@@ -104,7 +130,8 @@ export const OverviewScreen = () => {
         onScroll={onHandleScroll}
         showsVerticalScrollIndicator={false}
         bounces={false}
-        ref={scrollViewRef}>
+        ref={scrollViewRef}
+        onLayout={onLayoutScrollView}>
         <View style={styles.scrollArea}>
           <ReAnimated.View
             style={[
@@ -114,38 +141,21 @@ export const OverviewScreen = () => {
             ]}>
             <CardWallet />
           </ReAnimated.View>
-          <OnboardingTasks />
+          <OnboardingTasks onPressOnboarding={onClickOnboardingGuide} />
 
-          <HighlightableElement
-            id={HIGHLIGHT_ELEMENTS.CASH_ACCOUNT}
-            // scrollContainerRef - is a ref to scroll the list to the right position of view above the modal
-            scrollContainerRef={scrollViewRef}
-            scrollOffset={
-              scrollViewHeight - OFFSET_ONBOARDING_MODAL - insetOffset
-            }
-            options={{
-              mode: 'rectangle',
-              borderRadius: 24,
-              clickthroughHighlight: false,
-            }}
-            style={styles.cashAccountContainer}>
+          <View
+            style={styles.cashAccountContainer}
+            ref={refs[HIGHLIGHT_ELEMENTS.CASH_ACCOUNT]}
+            onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.CASH_ACCOUNT)}>
             <CashAccount />
-          </HighlightableElement>
+          </View>
 
-          <HighlightableElement
-            id={HIGHLIGHT_ELEMENTS.STRATEGIES_LIST}
-            scrollContainerRef={scrollViewRef}
-            scrollOffset={
-              scrollViewHeight - OFFSET_ONBOARDING_MODAL - insetOffset
-            }
-            options={{
-              mode: 'rectangle',
-              borderRadius: 24,
-              clickthroughHighlight: false,
-            }}
-            style={styles.strategiesListContainer}>
+          <View
+            style={styles.strategiesListContainer}
+            ref={refs[HIGHLIGHT_ELEMENTS.STRATEGIES_LIST]}
+            onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.STRATEGIES_LIST)}>
             <StrategiesList />
-          </HighlightableElement>
+          </View>
         </View>
       </RNFadedScrollView>
     </View>

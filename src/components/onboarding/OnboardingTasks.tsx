@@ -15,11 +15,13 @@ import ReAnimated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import {openOnboardingModal} from '@/modal-manager';
-
 const SHINE_INTERVAL_TIME = 5000;
 
-export const OnboardingTasks = () => {
+interface Props {
+  onPressOnboarding: () => void;
+}
+
+export const OnboardingTasks = ({onPressOnboarding}: Props) => {
   const onboardingStepNumber = useUserStore(state => state.onboardingStep);
 
   const shineGradientValue = useSharedValue(0);
@@ -44,7 +46,7 @@ export const OnboardingTasks = () => {
 
   const onPressTask = () => {
     if (onboardingStepNumber === 1) {
-      openOnboardingModal();
+      onPressOnboarding();
     }
   };
 

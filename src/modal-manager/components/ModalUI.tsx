@@ -19,6 +19,9 @@ export type ModalUIProps = {
   onHide: () => void;
 };
 
+export const FLOAT_BOTTOM_MODAL_MARGIN = 24;
+export const FLOAT_TOP_MODAL_MARGIN = 24;
+
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('screen');
 
 export const ModalUI = ({
@@ -73,12 +76,12 @@ const modalPositionStyles = StyleSheet.create({
   floatBottom: {
     justifyContent: 'flex-end',
     marginHorizontal: 12,
-    marginBottom: 24,
+    marginBottom: FLOAT_BOTTOM_MODAL_MARGIN,
   },
   floatTop: {
     justifyContent: 'flex-start',
     marginHorizontal: 12,
-    marginTop: 24,
+    marginTop: FLOAT_TOP_MODAL_MARGIN,
   },
 });
 

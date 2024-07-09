@@ -22,13 +22,18 @@ import ReAnimated, {
 } from 'react-native-reanimated';
 
 import Modal from '@/modal-manager';
-import {useOnboardingStore} from '@/store/useOnboardingStore';
+import {
+  HIGHLIGHT_ELEMENTS,
+  useOnboardingStore,
+} from '@/store/useOnboardingStore';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {StepCounter} from './components';
 import {onboardingSteps} from './data/steps';
 import {ArrowLineIcon, CheckIcon} from '@/shared/ui/icons';
 
-type OnboardingModalProps = ViewProps;
+type OnboardingModalProps = {
+  scrollToOnboardingElement: (id: any) => void;
+} & ViewProps;
 
 const {height} = Dimensions.get('screen');
 
@@ -36,13 +41,15 @@ export const ONBOARDING_MODAL_HEIGHT = 321;
 const OVERVIEW_HEADER_HEIGHT = 46;
 const POINTS_HIGHLIGHT_MODAL_OFFSET = 50;
 
-export const OnboardingModal = ({...props}: OnboardingModalProps) => {
+export const OnboardingModal = ({
+  scrollToOnboardingElement,
+  ...props
+}: OnboardingModalProps) => {
   const animatedPositionValue = useSharedValue(0);
 
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
 
   const highlightElement = useOnboardingStore(state => state.highlightElement);
-  const clearHighlight = useOnboardingStore(state => state.clearHighlight);
 
   const activeStep = onboardingSteps[activeStepIndex];
   const isTheLastStep = activeStepIndex + 1 === onboardingSteps.length;
@@ -54,7 +61,9 @@ export const OnboardingModal = ({...props}: OnboardingModalProps) => {
     }
 
     if (activeStep.scrollable) {
-      clearHighlight();
+      scrollToOnboardingElement(activeStep.highlightElement);
+      highlightElement(HIGHLIGHT_ELEMENTS.NONE);
+      // clearHighlight();
       // Timeout for removing fade overlay while scrolling
       setTimeout(() => {
         highlightElement(activeStep.highlightElement);
@@ -131,16 +140,24 @@ export const OnboardingModal = ({...props}: OnboardingModalProps) => {
   );
 };
 
-export const openOnboardingModal = () => {
+interface OpenOnboardingModalParams<T> {
+  scrollToOnboardingElement: (id: T) => void;
+}
+
+export function openOnboardingModal<ScrollElementId>({
+  scrollToOnboardingElement,
+}: OpenOnboardingModalParams<ScrollElementId>) {
   const clearHighlight = useOnboardingStore.getState().clearHighlight;
   Modal.show({
-    children: <OnboardingModal />,
+    children: (
+      <OnboardingModal scrollToOnboardingElement={scrollToOnboardingElement} />
+    ),
     dismissable: true,
     position: 'floatBottom',
     backdropOpacity: 0,
     onHide: clearHighlight,
   });
-};
+}
 
 const modalStyles = StyleSheet.create({
   container: {

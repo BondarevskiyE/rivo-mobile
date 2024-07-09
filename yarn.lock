@@ -9173,7 +9173,7 @@ __metadata:
 
 "react-native-highlight-overlay@patch:react-native-highlight-overlay@npm%3A1.4.0#./.yarn/patches/react-native-highlight-overlay-npm-1.4.0-79a8c0f479.patch::locator=rivomobile%40workspace%3A.":
   version: 1.4.0
-  resolution: "react-native-highlight-overlay@patch:react-native-highlight-overlay@npm%3A1.4.0#./.yarn/patches/react-native-highlight-overlay-npm-1.4.0-79a8c0f479.patch::version=1.4.0&hash=9976f5&locator=rivomobile%40workspace%3A."
+  resolution: "react-native-highlight-overlay@patch:react-native-highlight-overlay@npm%3A1.4.0#./.yarn/patches/react-native-highlight-overlay-npm-1.4.0-79a8c0f479.patch::version=1.4.0&hash=541f8e&locator=rivomobile%40workspace%3A."
   dependencies:
     lodash.isequal: ^4.5.0
   peerDependencies:
@@ -9181,7 +9181,7 @@ __metadata:
     react-native: "*"
     react-native-reanimated: ^2.6.0
     react-native-svg: ^12.3.0
-  checksum: 6ac8ac678e926c5289f74a88710d9383d5973e817f92ee6fb1f7ab008c00cb0f72680027f48f73fe66c22a938bf039ceedf75c86ce4e39e0ff0a9c4a3d531239
+  checksum: 22c1d3cb9be0e248cae9bc10016f83b5c68e2d360cc2f95740f9d5e46c80effabf3dd3eb0bdabf3a557293f2915bf9115cc47ed8626f10426cca988e0b346f63
   languageName: node
   linkType: hard
 
