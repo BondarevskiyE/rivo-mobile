@@ -9,7 +9,7 @@ import {
   Animated,
 } from 'react-native';
 import {CardItem} from './types';
-import {Fonts} from '@/shared/ui';
+import {Colors, Fonts} from '@/shared/ui';
 
 interface Props {
   item: CardItem;
@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontFamily: Fonts.bold,
     textAlign: 'center',
+    color: Colors.ui_black,
   },
   content: {
     alignItems: 'center',
