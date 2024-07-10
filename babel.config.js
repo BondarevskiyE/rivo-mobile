@@ -19,9 +19,6 @@ module.exports = {
         root: ['.'],
         alias: {
           '@': './src',
-          // crypto: 'react-native-quick-crypto',
-          // stream: 'stream-browserify',
-          // buffer: '@craftzdog/react-native-buffer',
         },
       },
     ],

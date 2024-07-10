@@ -11,9 +11,9 @@ import {
 import {BUNDLER_RPC, PAYMASTER_RPC} from '@/shared/constants';
 import {SmartAccountSigner} from 'permissionless/accounts';
 
-const entryPoint = ENTRYPOINT_ADDRESS_V07;
+export const entryPoint = ENTRYPOINT_ADDRESS_V07;
 const kernelVersion = '0.3.1';
-const chain = arbitrum;
+export const chain = arbitrum;
 
 export const initZeroDevClient = async (
   smartAccountSigner: SmartAccountSigner<'custom', `0x${string}`>,

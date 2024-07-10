@@ -565,8 +565,6 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-config\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-encrypted-storage\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-get-random-values\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-quick-base64\"",
-					"\"${PODS_ROOT}/Headers/Public/react-native-quick-crypto\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-web-browser\"",
 					"\"$(PODS_ROOT)/DoubleConversion\"",

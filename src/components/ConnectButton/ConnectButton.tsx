@@ -9,11 +9,12 @@ interface Props {
   onPress: () => void;
   text: string;
   icon: 'google' | 'twitter';
+  disabled?: boolean;
 }
 
-export const ConnectButton = ({onPress, text, icon}: Props) => {
+export const ConnectButton = ({onPress, text, icon, disabled}: Props) => {
   return (
-    <Button text={text} onPress={onPress}>
+    <Button text={text} onPress={onPress} disabled={disabled}>
       {icon === 'google' ? (
         <GoogleIcon style={styles.buttonIcon} />
       ) : (

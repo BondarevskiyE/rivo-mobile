@@ -45,6 +45,7 @@ type Props = {
   text: string;
   style?: StyleProp<ViewStyle>;
   type?: BUTTON_TYPE;
+  disabled?: boolean;
 } & withChildren;
 
 export const Button = ({
@@ -52,6 +53,7 @@ export const Button = ({
   text,
   type = BUTTON_TYPE.PRIMAL,
   style,
+  disabled = false,
   children,
   ...props
 }: Props) => {
@@ -79,6 +81,7 @@ export const Button = ({
       onPress={onPress}
       onPressIn={fadeIn}
       onPressOut={fadeOut}
+      disabled={disabled}
       {...props}>
       <Animated.View
         style={[styles.button, style, {backgroundColor, opacity: animated}]}>

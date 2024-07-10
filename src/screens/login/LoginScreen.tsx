@@ -11,23 +11,11 @@ import {StackScreenProps} from '@react-navigation/stack';
 
 type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.LOGIN>;
 
-export const LoginScreen: React.FC<Props> = ({navigation}) => {
+export const LoginScreen: React.FC<Props> = () => {
+  const isWeb3AuthReady = useLoginStore(state => state.isWeb3AuthReady);
+
   const loginGoogle = useLoginStore(state => state.loginGoogle);
   const loginX = useLoginStore(state => state.loginX);
-
-  const authGoogle = async () => {
-    const isAuthenticated = await loginGoogle();
-    if (isAuthenticated) {
-      navigation.navigate(AUTH_SCREENS.CARD_CREATING);
-    }
-  };
-
-  const authX = async () => {
-    const isAuthenticated = await loginX();
-    if (isAuthenticated) {
-      navigation.navigate(AUTH_SCREENS.CARD_CREATING);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -35,14 +23,16 @@ export const LoginScreen: React.FC<Props> = ({navigation}) => {
         <Slider data={authSliderData} />
         <View style={styles.lowerBlock}>
           <ConnectButton
-            onPress={authGoogle}
+            onPress={loginGoogle}
             text="Continue with Google"
             icon="google"
+            disabled={!isWeb3AuthReady}
           />
           <ConnectButton
-            onPress={authX}
+            onPress={loginX}
             text="Continue with Twitter"
             icon="twitter"
+            disabled={!isWeb3AuthReady}
           />
           <Text style={styles.captionText}>
             By continuing you agree to{' '}
