@@ -5,15 +5,20 @@ import PolyfillCrypto from 'react-native-webview-crypto';
 import Routes from '@/navigation';
 import {Colors} from '@/shared/ui';
 import {useAppState} from '@/shared/hooks';
-import {registerForegroundService} from '@/shared/lib/notifee';
+import {registerForegroundService} from '@/services/notifee';
 import {Providers} from '@/Providers';
 import Modal from '@/modal-manager';
+import {useAppStore} from '@/store/useAppStore';
 
 export const App = () => {
+  const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
+
   useAppState();
 
   useEffect(() => {
     registerForegroundService();
+    setIsAppLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

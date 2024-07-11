@@ -3,10 +3,10 @@ import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
 
 import * as RootNavigation from '@/navigation/RootNavigation';
 import {useUserStore} from './useUserStore';
-import {resetKeychainCredentials} from '@/shared/lib/keychain';
-import {web3AuthLogin, logoutWeb3Auth} from '@/shared/lib/web3auth';
+import {resetKeychainCredentials} from '@/services/keychain';
+import {web3AuthLogin, logoutWeb3Auth} from '@/services/web3auth';
 import {AUTH_SCREENS} from '@/navigation/AuthStack';
-import {initZeroDevClient} from '@/shared/lib/zerodev';
+import {initZeroDevClient} from '@/services/zerodev';
 import {useZeroDevStore} from './useZeroDevStore';
 import {KernelAccount} from './types';
 

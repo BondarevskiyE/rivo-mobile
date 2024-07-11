@@ -1,6 +1,5 @@
 import Web3Auth, {
   OPENLOGIN_NETWORK,
-  LOGIN_PROVIDER,
   ChainNamespace,
   LOGIN_PROVIDER_TYPE,
 } from '@web3auth/react-native-sdk';
@@ -12,7 +11,7 @@ import {EthereumPrivateKeyProvider} from '@web3auth/ethereum-provider';
 
 import {providerToSmartAccountSigner} from 'permissionless';
 
-import {getDeepLink} from '../utilities';
+import {getDeepLink} from '@/shared/lib';
 import {Alert} from 'react-native';
 
 const WEB3AUTH_API_KEY = Config.WEB3AUTH_API_KEY;
@@ -73,8 +72,6 @@ export const web3AuthLogin = async (loginProvider: LOGIN_PROVIDER_TYPE) => {
     if (!web3auth.ready) {
       throw new Error('web3auth is not ready');
     }
-
-    const isTwitter = loginProvider === LOGIN_PROVIDER.TWITTER;
 
     await web3auth.login({
       loginProvider,

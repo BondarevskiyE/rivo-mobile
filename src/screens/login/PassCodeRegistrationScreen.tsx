@@ -10,7 +10,7 @@ import {
   saveCredentialsWithBiometry,
   saveCredentialsWithPassword,
   getBiometrySupportedType,
-} from '@/shared/lib/keychain';
+} from '@/services/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {AuthStackProps, AUTH_SCREENS} from '@/navigation/AuthStack';
 import {StackScreenProps} from '@react-navigation/stack';

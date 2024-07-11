@@ -30,18 +30,18 @@ export const Router = () => {
           gestureEnabled: true,
           headerShown: false,
         }}>
-        {!isLoggedIn ? (
+        {isLoggedIn ? (
           <RootStack.Screen
-            name="Auth"
-            component={AuthStack}
+            name="Home"
+            component={HomeStack}
             options={{
               animationEnabled: false,
             }}
           />
         ) : (
           <RootStack.Screen
-            name="Home"
-            component={HomeStack}
+            name="Auth"
+            component={AuthStack}
             options={{
               animationEnabled: false,
             }}

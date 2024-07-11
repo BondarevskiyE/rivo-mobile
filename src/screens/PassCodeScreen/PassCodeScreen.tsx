@@ -10,8 +10,9 @@ import {AsyncAlert} from '@/components';
 import {
   getCredentialsWithBiometry,
   getCredentialsWithPassword,
-} from '@/shared/lib/keychain';
+} from '@/services/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export const PassCodeScreen: React.FC = () => {
   const [isError, setIsError] = useState<boolean>(false);
@@ -69,7 +70,7 @@ export const PassCodeScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
         {user?.photo && (
           <Image
@@ -89,12 +90,18 @@ export const PassCodeScreen: React.FC = () => {
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    zIndex: 10,
     flex: 1,
     backgroundColor: Colors.ui_background,
     paddingHorizontal: 25,

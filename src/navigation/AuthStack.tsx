@@ -39,17 +39,17 @@ export const AuthStack = () => {
         <Stack.Screen
           name={AUTH_SCREENS.CARD_CREATING}
           component={CardCreatingScreen}
-          options={{animationEnabled: false}}
+          // options={{animationEnabled: false}}
         />
         <Stack.Screen
           name={AUTH_SCREENS.PASS_CODE_REGISTRATION}
           component={PassCodeRegistrationScreen}
-          options={{animationEnabled: false}}
+          // options={{animationEnabled: false}}
         />
         <Stack.Screen
           name={AUTH_SCREENS.ENABLE_NOTIFICATIONS}
           component={EnableNotificationsScreen}
-          options={{animationEnabled: false}}
+          // options={{animationEnabled: false}}
         />
       </Stack.Navigator>
     </SafeAreaView>
