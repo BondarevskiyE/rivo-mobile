@@ -1,17 +1,14 @@
 import {create} from 'zustand';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
+
+import * as RootNavigation from '@/navigation/RootNavigation';
 import {useUserStore} from './useUserStore';
 import {resetKeychainCredentials} from '@/shared/lib/keychain';
-import {signInWithTwitter} from '@/shared/lib/twitter';
-import {LOGIN_PROVIDER} from './types';
-
-GoogleSignin.configure({
-  offlineAccess: true,
-  iosClientId:
-    '235832681635-3gr6a373koj6vl0ek64vlvtm6u4vrtjb.apps.googleusercontent.com',
-  webClientId:
-    '235832681635-c6jual4ctgrd7nvikti309cp8d7dqcmn.apps.googleusercontent.com',
-});
+import {web3AuthLogin, logoutWeb3Auth} from '@/shared/lib/web3auth';
+import {AUTH_SCREENS} from '@/navigation/AuthStack';
+import {initZeroDevClient} from '@/shared/lib/zerodev';
+import {useZeroDevStore} from './useZeroDevStore';
+import {KernelAccount} from './types';
 
 interface LoginState {
   isLoading: boolean;
@@ -19,8 +16,8 @@ interface LoginState {
   setIsPassCodeEntered: (bool: boolean) => void;
   setIsLoading: (bool: boolean) => void;
 
-  loginGoogle: () => Promise<boolean>;
-  loginX: () => Promise<boolean>;
+  loginGoogle: () => void;
+  loginX: () => void;
 
   logout: () => void;
 }
@@ -35,65 +32,106 @@ export const useLoginStore = create<LoginState>()(set => ({
     try {
       set({isLoading: true});
 
-      await GoogleSignin.hasPlayServices();
+      const {smartAccountSigner, user} = await web3AuthLogin(
+        LOGIN_PROVIDER.GOOGLE,
+      );
 
-      const userInfo = await GoogleSignin.signIn();
+      if (!user) {
+        throw new Error('something went wrong with getting your account');
+      }
+
+      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING);
+
+      const kernelClient = await initZeroDevClient(smartAccountSigner);
+
+      const {setKernelAccount} = useZeroDevStore.getState();
+
+      setKernelAccount(kernelClient as KernelAccount);
+
+      const [givenName, familyName] = (user?.name || '')?.split(' ');
 
       const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
-      setUserInfo({...userInfo.user, loginProvider: LOGIN_PROVIDER.GOOGLE});
+      const formattedUser = {
+        id: user.idToken || '',
+        name: user.name || '',
+        email: user.email || '',
+        photo: user.profileImage || '',
+        givenName,
+        familyName,
+        loginProvider: LOGIN_PROVIDER.GOOGLE,
+      };
 
-      // set({loginStep: LOGIN_STEPS.CARD_CREATING});
+      setUserInfo({...formattedUser, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
-      setTimeout(() => {
-        setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response
-        set({isLoading: false});
-      }, 3000);
-
-      return true;
+      setWalletAddress(kernelClient.account.address);
+      set({isLoading: false});
     } catch (error) {
       console.log(`Google login error: ${error}`);
-      return false;
     }
   },
   loginX: async () => {
     try {
       set({isLoading: true});
-      const user = await signInWithTwitter();
+
+      const {smartAccountSigner, user} = await web3AuthLogin(
+        LOGIN_PROVIDER.TWITTER,
+      );
 
       if (!user) {
-        throw new Error('Twitter oauth login error');
+        throw new Error('something went wrong with getting your account');
       }
+
+      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING);
+
+      const kernelClient = await initZeroDevClient(smartAccountSigner);
+
+      const {setKernelAccount} = useZeroDevStore.getState();
+
+      setKernelAccount(kernelClient as KernelAccount);
+
+      const [givenName, familyName] = (user?.name || '')?.split(' ');
 
       const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
-      setUserInfo({...user, loginProvider: LOGIN_PROVIDER.TWITTER});
+      const formattedUser = {
+        id: user.idToken || '',
+        name: user.name || '',
+        email: user.email || '',
+        photo: user.profileImage || '',
+        givenName,
+        familyName,
+        loginProvider: LOGIN_PROVIDER.GOOGLE,
+      };
 
-      setTimeout(() => {
-        setWalletAddress('0x30713a9895E150D73fB7676D054814d30266F8F1'); // FIX change to backend api response
-        set({isLoading: false});
-      }, 3000);
+      setUserInfo({...formattedUser, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
-      return true;
+      setWalletAddress(kernelClient.account.address);
+      set({isLoading: false});
     } catch (error) {
       console.log(`X login error: ${error}`);
-      return false;
     }
   },
   logout: async () => {
     try {
-      await GoogleSignin.signOut();
-
       const {setUserInfo, setWalletAddress, setIsLoggedIn} =
         useUserStore.getState();
-      setUserInfo(null);
-      setWalletAddress('');
-      setIsLoggedIn(false);
-      resetKeychainCredentials();
+      const {setKernelAccount} = useZeroDevStore.getState();
 
-      return true;
+      const isLoggedOut = await logoutWeb3Auth();
+
+      if (isLoggedOut) {
+        setUserInfo(null);
+        setWalletAddress('');
+        setIsLoggedIn(false);
+        setKernelAccount(null);
+        resetKeychainCredentials();
+        return true;
+      }
+
+      return false;
     } catch (error) {
-      console.log(`Google logout error: ${error}`);
+      console.log(`web3Auth logout error: ${error}`);
       return false;
     }
   },

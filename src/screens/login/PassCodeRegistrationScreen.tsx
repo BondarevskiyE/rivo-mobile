@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     lineHeight: 33.6,
     textAlign: 'center',
     marginTop: 60,
+    color: Colors.ui_black,
   },
   errorText: {
     fontFamily: Fonts.semiBold,

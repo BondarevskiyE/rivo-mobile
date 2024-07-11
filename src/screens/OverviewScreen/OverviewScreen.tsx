@@ -146,14 +146,22 @@ export const OverviewScreen = () => {
           <View
             style={styles.cashAccountContainer}
             ref={refs[HIGHLIGHT_ELEMENTS.CASH_ACCOUNT]}
-            onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.CASH_ACCOUNT)}>
+            onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.CASH_ACCOUNT, {
+              mode: 'rectangle',
+              borderRadius: 24,
+              clickthroughHighlight: false,
+            })}>
             <CashAccount />
           </View>
 
           <View
             style={styles.strategiesListContainer}
             ref={refs[HIGHLIGHT_ELEMENTS.STRATEGIES_LIST]}
-            onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.STRATEGIES_LIST)}>
+            onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.STRATEGIES_LIST, {
+              mode: 'rectangle',
+              borderRadius: 24,
+              clickthroughHighlight: false,
+            })}>
             <StrategiesList />
           </View>
         </View>

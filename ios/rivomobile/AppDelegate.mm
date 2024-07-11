@@ -2,7 +2,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 
-#import <GoogleSignIn/GoogleSignIn.h>
+// #import <GoogleSignIn/GoogleSignIn.h>
 #import <React/RCTLinkingManager.h>
 
 
@@ -18,15 +18,10 @@
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
-// - (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<NSString *,id> *)options {
-//   return [GIDSignIn.sharedInstance handleURL:url];
-// }
-
-- (BOOL)application:(UIApplication *)application
-   openURL:(NSURL *)url
-   options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url
+            options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options
 {
-  return [RCTLinkingManager application:application openURL:url options:options] || [GIDSignIn.sharedInstance handleURL:url];
+  return [RCTLinkingManager application:app openURL:url options:options];
 }
 
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge

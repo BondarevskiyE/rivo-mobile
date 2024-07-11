@@ -1,6 +1,7 @@
 import {useRef, createRef, useState} from 'react';
 import {Dimensions, LayoutChangeEvent, ScrollView, View} from 'react-native';
 import {useHighlightableElements} from 'react-native-highlight-overlay';
+import {HighlightOptions} from 'react-native-highlight-overlay/lib/typescript/context/context';
 
 interface Params<T> {
   elementsId: T[];
@@ -10,7 +11,7 @@ interface Params<T> {
 
 type RefsMap<T extends string> = Record<T, React.RefObject<View>>;
 
-const {height, width} = Dimensions.get('window');
+const {height} = Dimensions.get('window');
 
 export function useHighlightElementsWithScroll<ElementId extends string>({
   elementsId,
@@ -35,7 +36,7 @@ export function useHighlightElementsWithScroll<ElementId extends string>({
     setScrollViewHeight(e.nativeEvent.layout.height);
   };
 
-  const onLayoutElement = (id: ElementId) => () => {
+  const onLayoutElement = (id: ElementId, options: HighlightOptions) => () => {
     const elementRef = refs.current[id];
 
     elementRef.current?.measureInWindow((x, y, elementWidth, elementHeight) => {
@@ -47,14 +48,10 @@ export function useHighlightElementsWithScroll<ElementId extends string>({
         {
           x,
           y: height - offset,
-          width: width - 12 - 12,
+          width: elementWidth,
           height: elementHeight,
         },
-        {
-          mode: 'rectangle',
-          borderRadius: 24,
-          clickthroughHighlight: false,
-        },
+        options,
       );
     });
   };

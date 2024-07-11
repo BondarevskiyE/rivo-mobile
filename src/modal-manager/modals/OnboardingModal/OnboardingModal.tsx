@@ -63,7 +63,6 @@ export const OnboardingModal = ({
     if (activeStep.scrollable) {
       scrollToOnboardingElement(activeStep.highlightElement);
       highlightElement(HIGHLIGHT_ELEMENTS.NONE);
-      // clearHighlight();
       // Timeout for removing fade overlay while scrolling
       setTimeout(() => {
         highlightElement(activeStep.highlightElement);
