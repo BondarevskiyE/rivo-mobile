@@ -12,7 +12,6 @@ import {KernelAccount} from './types';
 
 interface LoginState {
   isLoading: boolean;
-  isWeb3AuthReady: boolean;
   isPassCodeEntered: boolean;
   setIsPassCodeEntered: (bool: boolean) => void;
   setIsLoading: (bool: boolean) => void;
@@ -26,7 +25,6 @@ interface LoginState {
 export const useLoginStore = create<LoginState>()(set => ({
   isLoading: false,
   isPassCodeEntered: false,
-  isWeb3AuthReady: false,
   setIsPassCodeEntered: (bool: boolean) => set({isPassCodeEntered: bool}),
   setIsLoading: (bool: boolean) => set({isLoading: bool}),
 

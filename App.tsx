@@ -8,15 +8,12 @@ import {useAppState} from '@/shared/hooks';
 import {registerForegroundService} from '@/shared/lib/notifee';
 import {Providers} from '@/Providers';
 import Modal from '@/modal-manager';
-import {initWeb3Auth} from '@/shared/lib/web3auth';
 
 export const App = () => {
   useAppState();
 
   useEffect(() => {
     registerForegroundService();
-
-    initWeb3Auth();
   }, []);
 
   return (

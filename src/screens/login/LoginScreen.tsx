@@ -12,8 +12,6 @@ import {StackScreenProps} from '@react-navigation/stack';
 type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.LOGIN>;
 
 export const LoginScreen: React.FC<Props> = () => {
-  const isWeb3AuthReady = useLoginStore(state => state.isWeb3AuthReady);
-
   const loginGoogle = useLoginStore(state => state.loginGoogle);
   const loginX = useLoginStore(state => state.loginX);
 
@@ -26,13 +24,11 @@ export const LoginScreen: React.FC<Props> = () => {
             onPress={loginGoogle}
             text="Continue with Google"
             icon="google"
-            disabled={!isWeb3AuthReady}
           />
           <ConnectButton
             onPress={loginX}
             text="Continue with Twitter"
             icon="twitter"
-            disabled={!isWeb3AuthReady}
           />
           <Text style={styles.captionText}>
             By continuing you agree to{' '}
