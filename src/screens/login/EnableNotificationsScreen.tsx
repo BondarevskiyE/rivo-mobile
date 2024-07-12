@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {Button} from '@/components';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
 import {AuthStackProps, AUTH_SCREENS} from '@/navigation/AuthStack';
@@ -19,8 +19,6 @@ type Props = StackScreenProps<
 const {width} = Dimensions.get('screen');
 
 export const EnableNotificationsScreen: React.FC<Props> = () => {
-  const [isLoading, setIsLoading] = useState(true);
-
   const setIsNotificationsEnabled = useSettingsStore(
     state => state.setIsNotificationsEnabled,
   );
@@ -44,36 +42,6 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
   const onFinishRegistration = () => {
     setIsloggedIn(true);
   };
-
-  const checkPermissions = async () => {
-    try {
-      const permissions = await notifee.getNotificationSettings();
-
-      // true if it is the first user entering
-      const isFirstEntering =
-        permissions.authorizationStatus === AuthorizationStatus.NOT_DETERMINED;
-
-      if (permissions.authorizationStatus === AuthorizationStatus.AUTHORIZED) {
-        setIsNotificationsEnabled(true);
-      }
-
-      if (!isFirstEntering) {
-        setIsloggedIn(true);
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    // if the uses has already authorized permissions we pass them to the homescreen
-    checkPermissions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
     <View style={styles.container}>

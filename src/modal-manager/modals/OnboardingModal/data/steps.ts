@@ -1,5 +1,6 @@
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
 import {OnboardingStep} from '../types';
+import {OVERVIEW_SCREEN_CARD_HIDING_MARGIN} from '@/shared/constants/ui';
 
 export const onboardingSteps: OnboardingStep[] = [
   {
@@ -19,6 +20,7 @@ export const onboardingSteps: OnboardingStep[] = [
     text: 'These are the main decentralized strategies. To begin learning more about them, tap to view more information',
     scrollable: true,
     highlightElement: HIGHLIGHT_ELEMENTS.STRATEGIES_LIST,
+    additionalScrollOffset: OVERVIEW_SCREEN_CARD_HIDING_MARGIN,
   },
   {
     stepId: '4',

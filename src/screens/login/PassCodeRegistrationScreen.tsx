@@ -26,6 +26,11 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
+  const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
+
+  const isNotificationsDetermined = useSettingsStore(
+    state => state.isNotificationsDetermined,
+  );
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
@@ -73,8 +78,16 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
           (await saveCredentialsWithBiometry(user?.email, pinCode));
       }
       await saveCredentialsWithPassword(user?.email, pinCode);
-      navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
+
       setIsPassCodeEntered(true);
+
+      if (isNotificationsDetermined) {
+        setIsloggedIn(true);
+        return;
+      }
+
+      navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
+
       return;
     }
 

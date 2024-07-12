@@ -32,7 +32,7 @@ import {onboardingSteps} from './data/steps';
 import {ArrowLineIcon, CheckIcon} from '@/shared/ui/icons';
 
 type OnboardingModalProps = {
-  scrollToOnboardingElement: (id: any) => void;
+  scrollToOnboardingElement: (id: any, additionalScrollOffset?: number) => void;
 } & ViewProps;
 
 const {height} = Dimensions.get('screen');
@@ -60,16 +60,15 @@ export const OnboardingModal = ({
       animatedPositionValue.value = withTiming(1, {duration: 500});
     }
 
-    if (activeStep.scrollable) {
-      scrollToOnboardingElement(activeStep.highlightElement);
-      highlightElement(HIGHLIGHT_ELEMENTS.NONE);
-      // Timeout for removing fade overlay while scrolling
-      setTimeout(() => {
-        highlightElement(activeStep.highlightElement);
-      }, 300);
-      return;
-    }
-    highlightElement(activeStep.highlightElement);
+    scrollToOnboardingElement(
+      activeStep.highlightElement,
+      activeStep.additionalScrollOffset,
+    );
+    highlightElement(HIGHLIGHT_ELEMENTS.NONE);
+    // Timeout for removing fade overlay while scrolling
+    setTimeout(() => {
+      highlightElement(activeStep.highlightElement);
+    }, 300);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep]);

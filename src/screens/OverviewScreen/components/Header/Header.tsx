@@ -38,14 +38,14 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
       cardAnimationValue.value,
       [1, 0],
       [0, 1],
-      Extrapolation.CLAMP,
+      Extrapolation.EXTEND,
     ),
     transform: [
       {
         translateY: interpolate(
           cardAnimationValue.value,
           [1, 0],
-          [75, 0],
+          [30, 0],
           Extrapolation.CLAMP,
         ),
       },
@@ -92,7 +92,9 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
+    position: 'absolute',
+    top: 0,
+    width,
     paddingTop: 7,
     paddingBottom: 7,
     paddingHorizontal: 16,
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     zIndex: 2,
+    backgroundColor: Colors.transparent,
     borderStartColor: Colors.ui_beige_30,
   },
   card: {

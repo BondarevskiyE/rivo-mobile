@@ -5,5 +5,6 @@ export type OnboardingStep = {
   text: string;
   scrollable: boolean;
   highlightElement: HIGHLIGHT_ELEMENTS;
+  additionalScrollOffset?: number;
   position?: 'top' | 'bottom';
 };

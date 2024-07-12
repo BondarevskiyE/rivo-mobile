@@ -27,9 +27,11 @@ import {
 } from '@/modal-manager/modals/OnboardingModal';
 import {FLOAT_BOTTOM_MODAL_MARGIN} from '@/modal-manager';
 import {useHighlightElementsWithScroll} from '@/shared/hooks';
+import {OVERVIEW_SCREEN_CARD_HIDING_MARGIN} from '@/shared/constants/ui';
 
 const {height} = Dimensions.get('window');
 
+const SCROLL_PADDING_TOP = 20;
 const DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT = 5;
 const OFFSET_ONBOARDING_MODAL =
   ONBOARDING_MODAL_HEIGHT - DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT;
@@ -79,11 +81,11 @@ export const OverviewScreen = () => {
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
 
-    if (offsetY > 100 && !isHideCard) {
+    if (offsetY > 50 && !isHideCard) {
       setIsHideCard(true);
     }
 
-    if (offsetY < 100 && isHideCard) {
+    if (offsetY < 50 && isHideCard) {
       setIsHideCard(false);
     }
   };
@@ -109,6 +111,14 @@ export const OverviewScreen = () => {
     ],
   }));
 
+  const scrollContainereStyles = useAnimatedStyle(() => ({
+    marginTop: interpolate(
+      cardAnimationValue.value,
+      [0, 1],
+      [OVERVIEW_SCREEN_CARD_HIDING_MARGIN, 0],
+    ),
+  }));
+
   const cardOpacityStyle = useAnimatedStyle(() => ({
     opacity: cardAnimationValue.value,
   }));
@@ -118,7 +128,7 @@ export const OverviewScreen = () => {
   };
 
   return (
-    <View style={{flex: 1}}>
+    <View style={styles.container}>
       <Header cardAnimationValue={cardAnimationValue} />
       <RNFadedScrollView
         allowStartFade
@@ -126,13 +136,13 @@ export const OverviewScreen = () => {
         horizontal={false}
         fadeSize={30}
         fadeColors={['rgba(248, 242, 239, 0)', 'rgba(248, 242, 239, 1)']}
-        style={styles.container}
+        style={styles.scrollContainer}
         onScroll={onHandleScroll}
         showsVerticalScrollIndicator={false}
         bounces={false}
         ref={scrollViewRef}
         onLayout={onLayoutScrollView}>
-        <View style={styles.scrollArea}>
+        <ReAnimated.View style={[styles.scrollArea, scrollContainereStyles]}>
           <ReAnimated.View
             style={[
               styles.cardWalletContainer,
@@ -164,7 +174,7 @@ export const OverviewScreen = () => {
             })}>
             <StrategiesList />
           </View>
-        </View>
+        </ReAnimated.View>
       </RNFadedScrollView>
     </View>
   );
@@ -172,6 +182,11 @@ export const OverviewScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+
+    paddingTop: SCROLL_PADDING_TOP,
+  },
+  scrollContainer: {
     flex: 1,
     height,
     paddingHorizontal: 12,
@@ -182,7 +197,8 @@ const styles = StyleSheet.create({
     width: '73%',
     height: 156,
     alignSelf: 'center',
-    marginVertical: 37,
+    marginTop: 63,
+    marginBottom: 37,
     transformOrigin: 'top',
   },
   scrollArea: {
