@@ -56,21 +56,14 @@ export function useHighlightElementsWithScroll<ElementId extends string>({
     });
   };
 
-  const scrollToOnboardingElement = (
-    id: ElementId,
-    additionalScrollOffset?: number,
-  ) => {
+  const scrollToOnboardingElement = (id: ElementId) => {
     const elementRef = refs.current[id];
 
     if (elementRef) {
       elementRef.current?.measureLayout(
         scrollViewRef.current?.getInnerViewNode(),
         (x, y, elementWidth, elementHeight) => {
-          const offset =
-            scrollViewHeight -
-            elementHeight -
-            (scrollOffset || 0) -
-            (additionalScrollOffset || 0);
+          const offset = scrollViewHeight - (scrollOffset || 0) - elementHeight;
           const posY = y - offset;
 
           scrollViewRef.current?.scrollTo({

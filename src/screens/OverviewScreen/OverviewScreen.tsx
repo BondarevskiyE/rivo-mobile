@@ -27,14 +27,11 @@ import {
 } from '@/modal-manager/modals/OnboardingModal';
 import {FLOAT_BOTTOM_MODAL_MARGIN} from '@/modal-manager';
 import {useHighlightElementsWithScroll} from '@/shared/hooks';
-import {
-  OVERVIEW_SCREEN_CARD_HIDING_MARGIN,
-  OVERVIEW_SCREEN_CARD_SHOWING_MARGIN,
-} from '@/shared/constants/ui';
 
 const {height} = Dimensions.get('window');
 
 const SCROLL_PADDING_TOP = 20;
+
 const DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT = 5;
 const OFFSET_ONBOARDING_MODAL =
   ONBOARDING_MODAL_HEIGHT - DISTANCE_BETWEEN_ONBOARDING_MODAL_AND_HIGHLIGHT;
@@ -84,11 +81,11 @@ export const OverviewScreen = () => {
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
 
-    if (offsetY > 0 && !isHideCard) {
+    if (offsetY > 100 && !isHideCard) {
       setIsHideCard(true);
     }
 
-    if (offsetY === 0 && isHideCard) {
+    if (offsetY < 100 && isHideCard) {
       setIsHideCard(false);
     }
   };
@@ -103,23 +100,15 @@ export const OverviewScreen = () => {
           Extrapolation.CLAMP,
         ),
       },
-      // {
-      //   translateY: interpolate(
-      //     cardAnimationValue.value,
-      //     [0, 1],
-      //     [-30, 0],
-      //     Extrapolation.CLAMP,
-      //   ),
-      // },
+      {
+        translateY: interpolate(
+          cardAnimationValue.value,
+          [0, 1],
+          [-30, 0],
+          Extrapolation.CLAMP,
+        ),
+      },
     ],
-  }));
-
-  const scrollContainerStyles = useAnimatedStyle(() => ({
-    marginTop: interpolate(
-      cardAnimationValue.value,
-      [0, 1],
-      [OVERVIEW_SCREEN_CARD_HIDING_MARGIN, OVERVIEW_SCREEN_CARD_SHOWING_MARGIN],
-    ),
   }));
 
   const cardOpacityStyle = useAnimatedStyle(() => ({
@@ -145,7 +134,7 @@ export const OverviewScreen = () => {
         bounces={false}
         ref={scrollViewRef}
         onLayout={onLayoutScrollView}>
-        <ReAnimated.View style={[styles.scrollArea, scrollContainerStyles]}>
+        <View style={[styles.scrollArea]}>
           <ReAnimated.View
             style={[
               styles.cardWalletContainer,
@@ -177,7 +166,7 @@ export const OverviewScreen = () => {
             })}>
             <StrategiesList />
           </View>
-        </ReAnimated.View>
+        </View>
       </RNFadedScrollView>
     </View>
   );
@@ -200,9 +189,9 @@ const styles = StyleSheet.create({
     width: '73%',
     height: 156,
     alignSelf: 'center',
-    // marginTop: 63,
+    marginTop: 63,
     marginBottom: 37,
-    transformOrigin: 'top',
+    // transformOrigin: 'top',
   },
   scrollArea: {
     paddingBottom: 350,

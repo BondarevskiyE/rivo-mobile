@@ -8671,7 +8671,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.21":
+"lodash@npm:^4.0.0, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: eb835a2e51d381e561e508ce932ea50a8e5a68f4ebdd771ea240d3048244a8d13658acbd502cd4829768c56f2e16bdd4340b9ea141297d472517b83868e677f7
@@ -10342,6 +10342,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-intersection-observer@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "react-native-intersection-observer@npm:0.2.0"
+  dependencies:
+    lodash: ^4.0.0
+  checksum: 2bf655c34ea6c5a65811ee0a85a71a500d3fe46a714edc1b917f93d5e17626231dc6cc162e9e8a2a638c7bcbe4e08f108cf4a0982de9d888452fee3a45dee851
+  languageName: node
+  linkType: hard
+
 "react-native-keychain@npm:^8.2.0":
   version: 8.2.0
   resolution: "react-native-keychain@npm:8.2.0"
@@ -11007,6 +11016,7 @@ __metadata:
     react-native-gesture-handler: ^2.16.2
     react-native-get-random-values: ^1.11.0
     react-native-highlight-overlay: ^1.4.0
+    react-native-intersection-observer: ^0.2.0
     react-native-keychain: ^8.2.0
     react-native-linear-gradient: ^2.8.3
     react-native-modal: ^13.0.1

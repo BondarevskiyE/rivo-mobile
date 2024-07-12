@@ -60,10 +60,7 @@ export const OnboardingModal = ({
       animatedPositionValue.value = withTiming(1, {duration: 500});
     }
 
-    scrollToOnboardingElement(
-      activeStep.highlightElement,
-      activeStep.additionalScrollOffset,
-    );
+    scrollToOnboardingElement(activeStep.highlightElement);
     highlightElement(HIGHLIGHT_ELEMENTS.NONE);
     // Timeout for removing fade overlay while scrolling
     setTimeout(() => {

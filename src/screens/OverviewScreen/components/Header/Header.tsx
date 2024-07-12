@@ -38,23 +38,23 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
       cardAnimationValue.value,
       [1, 0],
       [0, 1],
-      Extrapolation.EXTEND,
+      Extrapolation.CLAMP,
     ),
     transform: [
       {
         translateY: interpolate(
           cardAnimationValue.value,
           [1, 0],
-          [100, 0],
-          Extrapolation.EXTEND,
+          [75, 0],
+          Extrapolation.CLAMP,
         ),
       },
       {
         scale: interpolate(
           cardAnimationValue.value,
           [1, 0],
-          [4.3, 1],
-          Extrapolation.EXTEND,
+          [2.3, 1],
+          Extrapolation.CLAMP,
         ),
       },
     ],
