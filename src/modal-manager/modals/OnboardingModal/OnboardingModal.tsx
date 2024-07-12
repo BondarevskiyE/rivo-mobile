@@ -75,6 +75,7 @@ export const OnboardingModal = ({
 
   const onPressNextButton = () => {
     if (isTheLastStep) {
+      animatedPositionValue.value = withTiming(0, {duration: 500});
       Modal.hide();
       return;
     }
