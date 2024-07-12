@@ -27,7 +27,10 @@ import {
 } from '@/modal-manager/modals/OnboardingModal';
 import {FLOAT_BOTTOM_MODAL_MARGIN} from '@/modal-manager';
 import {useHighlightElementsWithScroll} from '@/shared/hooks';
-import {OVERVIEW_SCREEN_CARD_HIDING_MARGIN} from '@/shared/constants/ui';
+import {
+  OVERVIEW_SCREEN_CARD_HIDING_MARGIN,
+  OVERVIEW_SCREEN_CARD_SHOWING_MARGIN,
+} from '@/shared/constants/ui';
 
 const {height} = Dimensions.get('window');
 
@@ -71,21 +74,21 @@ export const OverviewScreen = () => {
 
   useEffect(() => {
     if (isHideCard) {
-      cardAnimationValue.value = withTiming(0, {duration: 250});
+      cardAnimationValue.value = withTiming(0, {duration: 300});
       return;
     }
-    cardAnimationValue.value = withTiming(1, {duration: 250});
+    cardAnimationValue.value = withTiming(1, {duration: 300});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isHideCard]);
 
   const onHandleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = event.nativeEvent.contentOffset.y;
 
-    if (offsetY > 50 && !isHideCard) {
+    if (offsetY > 0 && !isHideCard) {
       setIsHideCard(true);
     }
 
-    if (offsetY < 50 && isHideCard) {
+    if (offsetY === 0 && isHideCard) {
       setIsHideCard(false);
     }
   };
@@ -96,26 +99,26 @@ export const OverviewScreen = () => {
         scale: interpolate(
           cardAnimationValue.value,
           [0, 1],
-          [0.2, 1],
-          Extrapolation.CLAMP,
-        ),
-      },
-      {
-        translateY: interpolate(
-          cardAnimationValue.value,
           [0, 1],
-          [-30, 0],
           Extrapolation.CLAMP,
         ),
       },
+      // {
+      //   translateY: interpolate(
+      //     cardAnimationValue.value,
+      //     [0, 1],
+      //     [-30, 0],
+      //     Extrapolation.CLAMP,
+      //   ),
+      // },
     ],
   }));
 
-  const scrollContainereStyles = useAnimatedStyle(() => ({
+  const scrollContainerStyles = useAnimatedStyle(() => ({
     marginTop: interpolate(
       cardAnimationValue.value,
       [0, 1],
-      [OVERVIEW_SCREEN_CARD_HIDING_MARGIN, 0],
+      [OVERVIEW_SCREEN_CARD_HIDING_MARGIN, OVERVIEW_SCREEN_CARD_SHOWING_MARGIN],
     ),
   }));
 
@@ -142,7 +145,7 @@ export const OverviewScreen = () => {
         bounces={false}
         ref={scrollViewRef}
         onLayout={onLayoutScrollView}>
-        <ReAnimated.View style={[styles.scrollArea, scrollContainereStyles]}>
+        <ReAnimated.View style={[styles.scrollArea, scrollContainerStyles]}>
           <ReAnimated.View
             style={[
               styles.cardWalletContainer,
@@ -197,7 +200,7 @@ const styles = StyleSheet.create({
     width: '73%',
     height: 156,
     alignSelf: 'center',
-    marginTop: 63,
+    // marginTop: 63,
     marginBottom: 37,
     transformOrigin: 'top',
   },

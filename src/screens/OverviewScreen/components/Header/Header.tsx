@@ -45,16 +45,16 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
         translateY: interpolate(
           cardAnimationValue.value,
           [1, 0],
-          [30, 0],
-          Extrapolation.CLAMP,
+          [100, 0],
+          Extrapolation.EXTEND,
         ),
       },
       {
         scale: interpolate(
           cardAnimationValue.value,
           [1, 0],
-          [2.3, 1],
-          Extrapolation.CLAMP,
+          [4.3, 1],
+          Extrapolation.EXTEND,
         ),
       },
     ],
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     bottom: 7,
     width: 52,
     height: 32,
+    transformOrigin: 'bottom',
   },
   cardImage: {
     alignItems: 'flex-start',
