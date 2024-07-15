@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {DialPad} from './DialPad';
 import {View, StyleSheet, Animated} from 'react-native';
 import {Colors, Fonts} from '@/shared/ui';
+import {AnimatedDot} from './AnimatedDot';
 
 interface Props {
   onPinCodeFulfilled: (pinCode: string) => void;
@@ -10,14 +11,6 @@ interface Props {
   onExit?: () => void;
   pinCodeLength?: number;
 }
-
-const getDotBackgroundColor = (isSelected: boolean, isError: boolean) => {
-  if (isError) {
-    return Colors.error_red;
-  }
-
-  return isSelected ? Colors.ui_dark_blue : Colors.ui_grey_10;
-};
 
 export const PasswordKeyboard: React.FC<Props> = ({
   onPinCodeFulfilled,
@@ -34,6 +27,10 @@ export const PasswordKeyboard: React.FC<Props> = ({
   const isPinCodeFulfilled = pinCode.length === pinCodeLength;
 
   const onPressSymbol = async (symbol: string | number) => {
+    if (isError) {
+      return;
+    }
+
     if (symbol === 'del') {
       setPinCode(prevCode => prevCode.slice(0, prevCode.length - 1));
       return;
@@ -66,36 +63,30 @@ export const PasswordKeyboard: React.FC<Props> = ({
     }).start();
 
     Animated.sequence([
+      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: -30,
+        toValue: -10,
         useNativeDriver: true,
         duration: 100,
       }),
       Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: 60,
+        toValue: 10,
         useNativeDriver: true,
         duration: 100,
       }),
       Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: -45,
+        toValue: -5,
         useNativeDriver: true,
         duration: 100,
       }),
       Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: 30,
+        toValue: 5,
         useNativeDriver: true,
         duration: 100,
       }),
-      Animated.delay(50),
-      Animated.timing(wrongCodeAnimationValue, {
-        toValue: -15,
-        useNativeDriver: true,
-        duration: 100,
-      }),
-      Animated.delay(50),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: 0,
         useNativeDriver: true,
@@ -120,8 +111,15 @@ export const PasswordKeyboard: React.FC<Props> = ({
 
   useEffect(() => {
     if (isPinCodeFulfilled) {
-      setPinCode([]);
       onPinCodeFulfilled(pinCode.join(''));
+
+      const timeout = setTimeout(() => {
+        setPinCode([]);
+      }, 100);
+
+      return () => {
+        clearTimeout(timeout);
+      };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPinCodeFulfilled]);
@@ -129,35 +127,30 @@ export const PasswordKeyboard: React.FC<Props> = ({
   return (
     <>
       <View style={styles.container}>
-        <Animated.View
-          style={{transform: [{translateX: wrongCodeAnimationValue}]}}>
-          <View style={styles.dotsContainer}>
+        <View>
+          <Animated.View
+            style={[
+              styles.dotsContainer,
+              {transform: [{translateX: wrongCodeAnimationValue}]},
+            ]}>
             {[...Array(pinCodeLength).keys()].map(index => {
               const isSelected = !!pinCode[index];
 
               return (
-                <View
+                <AnimatedDot
+                  isSelected={isSelected}
+                  isError={isError}
+                  errorDelay={index * 50}
                   key={index}
-                  style={[
-                    styles.dot,
-                    {
-                      height: isSelected ? 16.8 : 14,
-                      width: isSelected ? 16.8 : 14,
-                      backgroundColor: getDotBackgroundColor(
-                        isSelected,
-                        isError,
-                      ),
-                    },
-                  ]}
                 />
               );
             })}
-          </View>
+          </Animated.View>
           <Animated.Text
             style={[styles.errorText, {opacity: wrongCodeErrorOpacityValue}]}>
             Wrong passcode. Try again
           </Animated.Text>
-        </Animated.View>
+        </View>
         <DialPad
           onPress={onPressSymbol}
           withBiometry={!!onClickBiometry}

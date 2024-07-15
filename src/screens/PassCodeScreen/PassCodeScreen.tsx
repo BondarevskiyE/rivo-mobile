@@ -72,12 +72,16 @@ export const PassCodeScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.avatarContainer}>
-        {user?.photo && (
+        {user?.photo ? (
           <Image
             source={{
               uri: user?.photo,
             }}
             style={styles.avatar}
+          />
+        ) : (
+          <View
+            style={[styles.avatar, {backgroundColor: Colors.ui_beige_30}]}
           />
         )}
       </View>
