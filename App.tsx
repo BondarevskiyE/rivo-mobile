@@ -12,11 +12,27 @@ import {
 import {Providers} from '@/Providers';
 import Modal from '@/modal-manager';
 import {useAppStore} from '@/store/useAppStore';
+import {useLoginStore} from '@/store/useLoginStore';
+import {useOnboardingStore} from '@/store/useOnboardingStore';
 
 export const App = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
 
-  useAppState();
+  const setIsPassCodeEntered = useLoginStore(
+    state => state.setIsPassCodeEntered,
+  );
+
+  const clearHighlight = useOnboardingStore(state => state.clearHighlight);
+
+  useAppState({
+    onChange: () => {},
+    onForeground: () => {},
+    onBackground: () => {
+      setIsPassCodeEntered(false);
+      Modal.hide();
+      clearHighlight();
+    },
+  });
 
   useEffect(() => {
     registerForegroundService();
