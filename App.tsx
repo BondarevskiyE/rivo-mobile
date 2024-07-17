@@ -14,6 +14,7 @@ import Modal from '@/modal-manager';
 import {useAppStore} from '@/store/useAppStore';
 import {useLoginStore} from '@/store/useLoginStore';
 import {useOnboardingStore} from '@/store/useOnboardingStore';
+import {useZeroDevStore} from '@/store/useZeroDevStore';
 
 export const App = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
@@ -23,6 +24,7 @@ export const App = () => {
   );
 
   const clearHighlight = useOnboardingStore(state => state.clearHighlight);
+  const reconnectZeroDev = useZeroDevStore(state => state.reconnectZeroDev);
 
   useAppState({
     onChange: () => {},
@@ -38,6 +40,7 @@ export const App = () => {
     registerForegroundService();
     checkNotificationPermissions();
     setIsAppLoading(false);
+    reconnectZeroDev();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

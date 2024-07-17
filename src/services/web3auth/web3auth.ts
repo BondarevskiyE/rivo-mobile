@@ -13,6 +13,7 @@ import {providerToSmartAccountSigner} from 'permissionless';
 
 import {getDeepLink} from '@/shared/lib';
 import {Alert} from 'react-native';
+import {getPrivateKeyFromKeyChain, savePrivateKeyInKeychain} from '../keychain';
 
 const WEB3AUTH_API_KEY = Config.WEB3AUTH_API_KEY;
 
@@ -79,10 +80,12 @@ export const web3AuthLogin = async (loginProvider: LOGIN_PROVIDER_TYPE) => {
     });
 
     if (web3auth.privKey) {
-      console.log('web3auth.privKey: ', web3auth.privKey);
       const user = web3auth.userInfo();
 
-      console.log('user: ', user);
+      savePrivateKeyInKeychain(
+        user?.email || (user?.name as string),
+        web3auth.privKey,
+      );
 
       await ethereumPrivateKeyProvider.setupProvider(web3auth.privKey);
 
@@ -100,6 +103,35 @@ export const web3AuthLogin = async (loginProvider: LOGIN_PROVIDER_TYPE) => {
   }
 };
 
+export const web3AuthReconnect = async () => {
+  try {
+    await initWeb3Auth();
+
+    if (!web3auth.ready) {
+      throw new Error('web3auth is not ready');
+    }
+
+    const keychainResult = await getPrivateKeyFromKeyChain();
+
+    if (keychainResult) {
+      const privKey = keychainResult.password;
+
+      await ethereumPrivateKeyProvider.setupProvider(privKey);
+
+      const smartAccountSigner = await providerToSmartAccountSigner(
+        // @ts-ignore
+        ethereumPrivateKeyProvider,
+      );
+
+      return smartAccountSigner;
+    }
+    return null;
+  } catch (e: any) {
+    console.log(e);
+    throw new Error(e);
+  }
+};
+
 export const logoutWeb3Auth = async () => {
   try {
     await initWeb3Auth();
@@ -107,9 +139,11 @@ export const logoutWeb3Auth = async () => {
     if (!web3auth.ready) {
       throw new Error('web3auth is not ready');
     }
-    // IMP START - Logout
-    await web3auth.logout();
-    // IMP END - Logout
+    if (web3auth.privKey) {
+      // IMP START - Logout
+      await web3auth.logout();
+      // IMP END - Logout
+    }
 
     //   resetCredentials();
 
