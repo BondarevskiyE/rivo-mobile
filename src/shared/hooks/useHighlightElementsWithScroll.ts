@@ -11,7 +11,7 @@ interface Params<T> {
 
 type RefsMap<T extends string> = Record<T, React.RefObject<View>>;
 
-const {height} = Dimensions.get('window');
+const {height} = Dimensions.get('screen');
 
 export function useHighlightElementsWithScroll<ElementId extends string>({
   elementsId,
@@ -42,12 +42,14 @@ export function useHighlightElementsWithScroll<ElementId extends string>({
     elementRef.current?.measureInWindow((x, y, elementWidth, elementHeight) => {
       const offset = highlightOffset + elementHeight;
 
+      const posY = height - offset;
+
       addElement(
         id,
         null,
         {
           x,
-          y: height - offset,
+          y: y < posY ? y : posY,
           width: elementWidth,
           height: elementHeight,
         },

@@ -51,7 +51,10 @@ export const OverviewScreen = () => {
   // without insets.bottom onboarding modal takes height from scroll view and we need to calculate the new coordianate
   const insetBottomOffset = insets.bottom ? 0 : 33;
   const insetTopOffset =
-    Platform.OS === 'android' ? initialWindowMetrics?.insets.top || 0 : 0;
+    Platform.OS === 'android'
+      ? (initialWindowMetrics?.insets.bottom || 0) +
+        (initialWindowMetrics?.insets.top || 0)
+      : 0;
 
   const {
     refs,

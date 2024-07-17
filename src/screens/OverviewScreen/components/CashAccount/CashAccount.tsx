@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.medium,
     fontSize: 16,
     lineHeight: 22.4,
+    color: Colors.ui_black_80,
   },
   subTitle: {
     fontFamily: Fonts.regular,
