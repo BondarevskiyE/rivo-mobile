@@ -36,11 +36,16 @@ export const App = () => {
     },
   });
 
-  useEffect(() => {
+  const initializeApp = async () => {
     registerForegroundService();
     checkNotificationPermissions();
+    await reconnectZeroDev();
+
     setIsAppLoading(false);
-    reconnectZeroDev();
+  };
+
+  useEffect(() => {
+    initializeApp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
