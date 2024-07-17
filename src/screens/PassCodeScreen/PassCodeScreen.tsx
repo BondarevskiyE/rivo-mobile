@@ -47,7 +47,7 @@ export const PassCodeScreen: React.FC = () => {
 
     setTimeout(() => {
       setIsError(false);
-    }, 1500);
+    }, 2000);
   };
 
   const onClickBiometry = async () => {

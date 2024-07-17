@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {DialPad} from './DialPad';
-import {View, StyleSheet, Animated} from 'react-native';
+import {View, StyleSheet, Animated, Easing} from 'react-native';
 import {Colors, Fonts} from '@/shared/ui';
 import {AnimatedDot} from './AnimatedDot';
 
@@ -63,34 +63,54 @@ export const PasswordKeyboard: React.FC<Props> = ({
     }).start();
 
     Animated.sequence([
-      Animated.delay(50),
+      Animated.delay(40),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: -10,
+        toValue: -12,
         useNativeDriver: true,
-        duration: 100,
+        duration: 25,
+        easing: Easing.inOut(Easing.quad),
       }),
-      Animated.delay(50),
+      Animated.delay(40),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: 10,
+        toValue: 7,
         useNativeDriver: true,
-        duration: 100,
+        duration: 25,
+        easing: Easing.inOut(Easing.quad),
       }),
-      Animated.delay(50),
+      Animated.delay(40),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: -5,
         useNativeDriver: true,
-        duration: 100,
+        duration: 25,
+        easing: Easing.inOut(Easing.quad),
       }),
-      Animated.delay(50),
+      Animated.delay(40),
       Animated.timing(wrongCodeAnimationValue, {
-        toValue: 5,
+        toValue: 3,
         useNativeDriver: true,
-        duration: 100,
+        duration: 25,
+        easing: Easing.inOut(Easing.quad),
       }),
+      Animated.delay(40),
+      Animated.timing(wrongCodeAnimationValue, {
+        toValue: -1,
+        useNativeDriver: true,
+        duration: 25,
+        easing: Easing.inOut(Easing.quad),
+      }),
+      // Animated.delay(50),
+      // Animated.timing(wrongCodeAnimationValue, {
+      //   toValue: 2,
+      //   useNativeDriver: true,
+      //   duration: 20,
+      //   easing: Easing.inOut(Easing.quad),
+      // }),
+      Animated.delay(40),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: 0,
         useNativeDriver: true,
-        duration: 100,
+        duration: 25,
+        easing: Easing.inOut(Easing.quad),
       }),
     ]).start();
   };
