@@ -16,12 +16,11 @@ export const Colors = {
   ui_grey_13: '#d9d9d9',
   ui_grey_15: '#D3CFCC',
   ui_grey_20: '#CECCCA',
-
   ui_grey_60: '#989898',
   ui_grey_65: '#8d8d8d',
   ui_grey_70: '#888888',
   ui_grey_73: '#8c8c8c',
-
+  ui_grey_74: '#747474',
   ui_grey_75: '#4d4d4d',
   ui_grey_80: '#494949',
   ui_grey_90: '#373737',
@@ -44,7 +43,9 @@ export const Colors = {
   ui_orange_80: '#F95E00',
 
   ui_green_40: '#6CCF30',
+  ui_green_45: '#6BCD30',
   ui_green_50: '#5CB924',
+
   ui_green_80: '#202a1a',
 
   ui_purple_50: '#2A254C',
