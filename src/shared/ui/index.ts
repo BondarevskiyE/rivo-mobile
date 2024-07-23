@@ -17,12 +17,16 @@ export const Colors = {
   ui_grey_15: '#D3CFCC',
   ui_grey_20: '#CECCCA',
 
+  ui_grey_60: '#989898',
   ui_grey_65: '#8d8d8d',
   ui_grey_70: '#888888',
+  ui_grey_73: '#8c8c8c',
 
   ui_grey_75: '#4d4d4d',
   ui_grey_80: '#494949',
   ui_grey_90: '#373737',
+  ui_grey_95: '#313131',
+  ui_grey_97: '#2c2c2c',
 
   grey_text: '#838A91',
   blue_text: '#3B60E1',
@@ -39,10 +43,15 @@ export const Colors = {
   ui_orange_70: '#FA8112',
   ui_orange_80: '#F95E00',
 
+  ui_green_40: '#6CCF30',
   ui_green_50: '#5CB924',
+  ui_green_80: '#202a1a',
 
   ui_purple_50: '#2A254C',
 
+  ui_black_60: '#232323',
+  ui_black_63: '#1e222e',
+  ui_black_65: '#1a1a1a',
   ui_black_70: '#1C1C1C',
   ui_black_80: '#111111',
   ui_black: '#000000',
@@ -89,6 +98,7 @@ export const Images = {
 
   cardVariantCat: require('../../../assets/images/card/variants/cat.png'),
   cardVariantCarp: require('../../../assets/images/card/variants/carp.png'),
+  storiesMock: require('../../../assets/images/stories-mock.png'),
 };
 
 export const Icons = {};

@@ -1,0 +1,1 @@
+export {VaultVerticalCarousel} from './VaultVerticalCarousel';

@@ -1,0 +1,1 @@
+export {VaultAboutDragBlock} from './VaultAboutDragBlock';

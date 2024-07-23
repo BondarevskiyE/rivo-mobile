@@ -10,6 +10,12 @@ export {PlusIcon} from './PlusIcon';
 export {ChartsIcon} from './ChartsIcon';
 export {BellIcon} from './BellIcon';
 export {DollarIcon, DollarIconWithShadow} from './DollarIcon';
-export {EthereumIcon, EthereumIconWithShadow} from './EthereumIcon';
+export {
+  EthereumCircleIcon,
+  EthereumCircleIconWithShadow,
+} from './EthereumCircleIcon';
 export {ArrowLineIcon} from './ArrowLineIcon';
 export {CheckIcon} from './CheckIcon';
+export {CloseIcon} from './CloseIcon';
+export {EthereumIcon} from './EthereumIcon';
+export {HoldersIcon} from './HoldersIcon';

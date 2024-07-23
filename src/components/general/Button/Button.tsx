@@ -7,6 +7,7 @@ import {
   Animated,
   ViewStyle,
   StyleProp,
+  TextStyle,
 } from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
@@ -20,6 +21,8 @@ const getColor = (type: BUTTON_TYPE) => {
       return Colors.ui_white;
     case BUTTON_TYPE.SECONDARY:
       return Colors.ui_dark_blue;
+    case BUTTON_TYPE.ACTION_SECONDARY:
+      return Colors.ui_white;
   }
 };
 
@@ -31,6 +34,8 @@ const getBackgroundColor = (type: BUTTON_TYPE) => {
       return Colors.ui_dark_blue;
     case BUTTON_TYPE.SECONDARY:
       return Colors.transparent;
+    case BUTTON_TYPE.ACTION_SECONDARY:
+      return Colors.ui_orange_80;
   }
 };
 
@@ -38,12 +43,14 @@ export enum BUTTON_TYPE {
   PRIMAL,
   SECONDARY,
   ACTION,
+  ACTION_SECONDARY,
 }
 
 type Props = {
   onPress: () => void;
   text: string;
   style?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   type?: BUTTON_TYPE;
   disabled?: boolean;
 } & withChildren;
@@ -53,6 +60,7 @@ export const Button = ({
   text,
   type = BUTTON_TYPE.PRIMAL,
   style,
+  textStyle,
   disabled = false,
   children,
   ...props
@@ -84,9 +92,11 @@ export const Button = ({
       disabled={disabled}
       {...props}>
       <Animated.View
-        style={[styles.button, style, {backgroundColor, opacity: animated}]}>
+        style={[styles.button, {backgroundColor, opacity: animated}, style]}>
         {children}
-        {text && <Text style={[styles.buttonText, {color}]}>{text}</Text>}
+        {text && (
+          <Text style={[styles.buttonText, {color}, textStyle]}>{text}</Text>
+        )}
       </Animated.View>
     </Pressable>
   );
