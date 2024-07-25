@@ -21,7 +21,7 @@ import ReAnimated, {
   FadeOut,
 } from 'react-native-reanimated';
 
-import Modal from '@/modal-manager';
+import {Modal} from '../../Modal';
 import {
   HIGHLIGHT_ELEMENTS,
   useOnboardingStore,

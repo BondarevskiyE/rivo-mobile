@@ -3,7 +3,7 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 
 import {GoogleIcon, TwitterIcon} from '@/shared/ui/icons';
-import {Button} from '@/components';
+import {Button} from '../general/Button';
 
 interface Props {
   onPress: () => void;

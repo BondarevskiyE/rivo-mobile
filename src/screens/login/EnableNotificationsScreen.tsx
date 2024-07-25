@@ -8,8 +8,8 @@ import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import React from 'react';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
-import {AuthStackProps, AUTH_SCREENS} from '@/navigation/AuthStack';
 import {StackScreenProps} from '@react-navigation/stack';
+import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
 
 type Props = StackScreenProps<
   AuthStackProps,

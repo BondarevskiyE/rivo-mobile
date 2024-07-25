@@ -5,10 +5,10 @@ import * as RootNavigation from '@/navigation/RootNavigation';
 import {useUserStore} from './useUserStore';
 import {resetKeychainCredentials} from '@/services/keychain';
 import {web3AuthLogin, logoutWeb3Auth} from '@/services/web3auth';
-import {AUTH_SCREENS} from '@/navigation/AuthStack';
 import {initZeroDevClient} from '@/services/zerodev';
 import {useZeroDevStore} from './useZeroDevStore';
 import {KernelAccount} from './types';
+import {AUTH_SCREENS} from '@/navigation/types/authStack';
 
 interface LoginState {
   isLoading: boolean;
@@ -68,6 +68,7 @@ export const useLoginStore = create<LoginState>()(set => ({
       set({isLoading: false});
     } catch (error) {
       console.log(`Google login error: ${error}`);
+      RootNavigation.navigate(AUTH_SCREENS.LOGIN);
     }
   },
   loginX: async () => {
@@ -109,6 +110,7 @@ export const useLoginStore = create<LoginState>()(set => ({
       setWalletAddress(kernelClient.account.address);
       set({isLoading: false});
     } catch (error) {
+      RootNavigation.navigate(AUTH_SCREENS.LOGIN);
       console.log(`X login error: ${error}`);
     }
   },

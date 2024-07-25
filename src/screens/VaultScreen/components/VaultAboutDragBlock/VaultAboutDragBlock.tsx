@@ -10,12 +10,16 @@ import {AboutVaultContent} from './AboutVaultContent';
 
 interface Props {
   vault: Strategy;
+  playDragAnimation: (value: number) => void;
 }
 
 // below the screen
 const INITIAL_TRANSLATE_Y = 600;
 
-export const VaultAboutDragBlock: React.FC<Props> = ({vault}) => {
+export const VaultAboutDragBlock: React.FC<Props> = ({
+  vault,
+  playDragAnimation,
+}) => {
   const ref = useRef<DragUpFromBottomRefProps>(null);
 
   useEffect(() => {
@@ -26,7 +30,10 @@ export const VaultAboutDragBlock: React.FC<Props> = ({vault}) => {
 
   return (
     <View style={styles.container}>
-      <DragUpFromBottom ref={ref} initialTranslateY={INITIAL_TRANSLATE_Y}>
+      <DragUpFromBottom
+        ref={ref}
+        initialTranslateY={INITIAL_TRANSLATE_Y}
+        playDragAnimation={playDragAnimation}>
         <AboutVaultContent vault={vault} />
       </DragUpFromBottom>
     </View>

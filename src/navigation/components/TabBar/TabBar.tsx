@@ -2,8 +2,8 @@ import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
 import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {TabIcon} from './TabIcon';
-import {HOME_SCREEN_TABS} from '@/navigation/HomeStack';
 import {Colors} from '@/shared/ui';
+import {HOME_SCREEN_TABS} from '@/navigation/types/homeStack';
 
 export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
   return (

@@ -20,34 +20,12 @@ import {TabBar} from './components';
 import {createStackNavigator} from '@react-navigation/stack';
 import {VaultScreen} from '@/screens/VaultScreen';
 import {moveBottomToTop} from './StyleInterpolators';
-
-export enum HOME_SCREENS {
-  HOME_SCREEN = 'home_screen',
-  VAULT_SCREEN = 'vault_screen',
-}
-
-export type HomeStackProps = {
-  [HOME_SCREENS.HOME_SCREEN]: undefined;
-  [HOME_SCREENS.VAULT_SCREEN]: {
-    vaultId: string;
-  };
-};
-
-export enum HOME_SCREEN_TABS {
-  OVERVIEW = 'overview',
-  LIGHTING = 'lighting',
-  PLUS = 'plus',
-  CHARTS = 'charts',
-  NOTIFICATIONS = 'notifications',
-}
-
-export type HomeTabsProps = {
-  [HOME_SCREEN_TABS.OVERVIEW]: undefined;
-  [HOME_SCREEN_TABS.LIGHTING]: undefined;
-  [HOME_SCREEN_TABS.PLUS]: undefined;
-  [HOME_SCREEN_TABS.CHARTS]: undefined;
-  [HOME_SCREEN_TABS.NOTIFICATIONS]: undefined;
-};
+import {
+  HOME_SCREENS,
+  HOME_SCREEN_TABS,
+  HomeStackProps,
+  HomeTabsProps,
+} from './types/homeStack';
 
 const Stack = createStackNavigator<HomeStackProps>();
 const Tab = createBottomTabNavigator<HomeTabsProps>();
@@ -99,7 +77,7 @@ export const HomeStack = () => {
           top: 0,
           height: '100%',
         }}>
-        {/* {!isPassCodeEntered && <PassCodeScreen />} */}
+        {!isPassCodeEntered && <PassCodeScreen />}
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name={HOME_SCREENS.HOME_SCREEN} component={TabsRoot} />
           <Stack.Screen

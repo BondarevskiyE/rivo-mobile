@@ -4,8 +4,6 @@ import {Strategy} from '@/shared/types';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import React, {useState} from 'react';
 import {
-  // NativeModules,
-  // LayoutAnimation,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -33,10 +31,6 @@ const descriptionLinePadding = 9;
 const lineHeight = descriptionFontSize + descriptionLinePadding;
 const minLines = 3;
 const isIos = Platform.OS === 'ios';
-// const {UIManager} = NativeModules;
-
-// UIManager.setLayoutAnimationEnabledExperimental &&
-//   UIManager.setLayoutAnimationEnabledExperimental(true);
 
 export const AboutVaultContent: React.FC<Props> = ({vault}) => {
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);

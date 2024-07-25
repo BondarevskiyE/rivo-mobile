@@ -1,0 +1,27 @@
+export enum HOME_SCREENS {
+  HOME_SCREEN = 'home_screen',
+  VAULT_SCREEN = 'vault_screen',
+}
+
+export type HomeStackProps = {
+  [HOME_SCREENS.HOME_SCREEN]: undefined;
+  [HOME_SCREENS.VAULT_SCREEN]: {
+    vaultId: string;
+  };
+};
+
+export enum HOME_SCREEN_TABS {
+  OVERVIEW = 'overview',
+  LIGHTING = 'lighting',
+  PLUS = 'plus',
+  CHARTS = 'charts',
+  NOTIFICATIONS = 'notifications',
+}
+
+export type HomeTabsProps = {
+  [HOME_SCREEN_TABS.OVERVIEW]: undefined;
+  [HOME_SCREEN_TABS.LIGHTING]: undefined;
+  [HOME_SCREEN_TABS.PLUS]: undefined;
+  [HOME_SCREEN_TABS.CHARTS]: undefined;
+  [HOME_SCREEN_TABS.NOTIFICATIONS]: undefined;
+};

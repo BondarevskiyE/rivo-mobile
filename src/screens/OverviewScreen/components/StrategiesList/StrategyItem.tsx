@@ -10,7 +10,7 @@ import {
 } from '@/shared/ui/icons';
 import {Button} from '@/components';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
-import {HOME_SCREENS} from '@/navigation/HomeStack';
+import {HOME_SCREENS} from '@/navigation/types/homeStack';
 
 interface Props {
   item: Strategy;

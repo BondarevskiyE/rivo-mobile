@@ -57,6 +57,4 @@ export const initZeroDevClient = async (
   });
 
   return kernelClient;
-
-  //   setWalletAddress(kernelClient.account.address);
 };

@@ -1,85 +1,89 @@
-import React, {useRef} from 'react';
-import {
-  Animated,
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Pressable,
-  StyleSheet,
-  View,
-} from 'react-native';
-import * as RootNavigation from '@/navigation/RootNavigation';
+import React, {useRef, useState} from 'react';
+import {FlatList, Pressable, StyleSheet, View, ViewToken} from 'react-native';
+
 import {InfoCarouselItem} from './InfoCarouselItem';
-import {ChartCarouselItem} from './ChartCarouselItem';
+import {ChartCarouselItem} from './ChartCarouselItem/ChartCarouselItem';
 import {CloseIcon} from '@/shared/ui/icons';
 import {Colors} from '@/shared/ui';
-import {HOME_SCREENS} from '@/navigation/HomeStack';
-import {Pagination} from './Pagination';
+import {Pagination} from './Pagination/Pagination';
 import {Strategy} from '@/shared/types';
+import {Page, PAGES} from './types';
+import ReAnimated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 interface Props {
   vault: Strategy;
+  goBack: () => void;
 }
 
-const pages = [
+const pages: Page[] = [
   {
-    id: 'info',
+    id: PAGES.INFO,
   },
   {
-    id: 'chart',
+    id: PAGES.CHART,
   },
 ];
 
-export const VaultVerticalCarousel: React.FC<Props> = ({vault}) => {
-  const scrollY = useRef(new Animated.Value(0)).current;
+export const VaultVerticalCarousel: React.FC<Props> = ({vault, goBack}) => {
+  const scrollY = useSharedValue(0);
+  const carouselRef = useRef<FlatList>(null);
 
-  const handleOnScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    Animated.event(
-      [
-        {
-          nativeEvent: {
-            contentOffset: {
-              y: scrollY,
-            },
-          },
-        },
-      ],
-      {
-        useNativeDriver: false,
-      },
-    )(event);
+  const [currentSlideId, setCurrentSlideId] = useState<PAGES>(PAGES.INFO);
+
+  const scrollHandler = useAnimatedScrollHandler(event => {
+    scrollY.value = event.contentOffset.y;
+  });
+
+  const handleOnViewableItemsChanged = useRef(
+    ({viewableItems}: {viewableItems: ViewToken<Page>[]}) => {
+      setCurrentSlideId(viewableItems?.[0]?.item?.id);
+    },
+  ).current;
+
+  const goToChartSlide = () => {
+    // only if we are on the first slide
+    if (currentSlideId === PAGES.INFO) {
+      carouselRef?.current?.scrollToEnd();
+    }
   };
-
-  const closeVaultScreen = () =>
-    RootNavigation.navigate(HOME_SCREENS.HOME_SCREEN);
 
   return (
     <View style={styles.container}>
       <View style={styles.listContainer}>
-        <Pressable style={styles.closeIconContainer} onPress={closeVaultScreen}>
+        <Pressable style={styles.closeIconContainer} onPress={goBack}>
           <CloseIcon />
         </Pressable>
         <Pagination scrollY={scrollY} data={pages} />
-        <FlatList
+        <ReAnimated.FlatList
           data={pages}
           style={styles.list}
           overScrollMode="never"
           directionalLockEnabled
           bounces={false}
           renderItem={({item}) => {
-            if (item.id === 'info') {
+            if (item.id === PAGES.INFO) {
               return <InfoCarouselItem vault={vault} />;
             }
-            return <ChartCarouselItem />;
+            return (
+              <ChartCarouselItem
+                focusChartSlide={goToChartSlide}
+                scrollY={scrollY}
+              />
+            );
           }}
           showsVerticalScrollIndicator={false}
-          onScroll={handleOnScroll}
+          onScroll={scrollHandler}
           keyExtractor={(_, index) => index.toString()}
           pagingEnabled
           scrollEventThrottle={16}
+          onViewableItemsChanged={handleOnViewableItemsChanged}
           viewabilityConfig={{
             itemVisiblePercentThreshold: 95,
           }}
+          ref={carouselRef}
         />
       </View>
     </View>

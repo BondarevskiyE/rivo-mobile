@@ -1,8 +1,7 @@
 import {createNavigationContainerRef} from '@react-navigation/native';
 import {StackScreenProps} from '@react-navigation/stack';
-
-import {AUTH_SCREENS, AuthStackProps} from './AuthStack';
-import {HOME_SCREENS, HomeStackProps} from './HomeStack';
+import {AuthStackProps, AUTH_SCREENS} from './types/authStack';
+import {HomeStackProps, HOME_SCREENS} from './types/homeStack';
 
 type RootStackParamList = AuthStackProps & HomeStackProps;
 

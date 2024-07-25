@@ -24,7 +24,7 @@ import {useUserStore} from '@/store/useUserStore';
 import {useLoginStore} from '@/store/useLoginStore';
 import {CardShineIcon} from '@/shared/ui/icons';
 import {StackScreenProps} from '@react-navigation/stack';
-import {AUTH_SCREENS, AuthStackProps} from '@/navigation/AuthStack';
+import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
 
 type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.CARD_CREATING>;
 

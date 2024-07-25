@@ -1,0 +1,43 @@
+diff --git a/lib/typescript/LineGraphProps.d.ts b/lib/typescript/LineGraphProps.d.ts
+index 24e96f2e684d527bbdc92e472b41f21c33725261..7798879557fa2668b0659630008c1ded03e51311 100644
+--- a/lib/typescript/LineGraphProps.d.ts
++++ b/lib/typescript/LineGraphProps.d.ts
+@@ -77,7 +77,7 @@ export declare type AnimatedLineGraphProps = BaseLineGraphProps & {
+     /**
+      * Called for each point while the user is scrubbing/panning through the graph
+      */
+-    onPointSelected?: (point: GraphPoint) => void;
++    onPointSelected?: (point: GraphPoint, prevPoint?: GraphPoint) => void;
+     /**
+      * Called once the user starts scrubbing/panning through the graph
+      */
+diff --git a/src/AnimatedLineGraph.tsx b/src/AnimatedLineGraph.tsx
+index bee225a352cb1e3e320c7fa06716edbb937c1441..d34b7860ede245569130d6470567d8aa7a0adcbc 100644
+--- a/src/AnimatedLineGraph.tsx
++++ b/src/AnimatedLineGraph.tsx
+@@ -350,10 +350,11 @@ export function AnimatedLineGraph({
+ 
+       if (pointSelectedIndex.current !== pointIndex) {
+         const dataPoint = pointsInRange[pointIndex]
++        const prevDataPoint = pointsInRange[pointIndex - 1]
+         pointSelectedIndex.current = pointIndex
+ 
+         if (dataPoint != null) {
+-          onPointSelected?.(dataPoint)
++          onPointSelected?.(dataPoint, prevDataPoint)
+         }
+       }
+     },
+diff --git a/src/LineGraphProps.ts b/src/LineGraphProps.ts
+index 21e147f221dd0864a1135786c7b8559e993eb8ff..1c33cee37b019db278ba26c3e976531215e9c54e 100644
+--- a/src/LineGraphProps.ts
++++ b/src/LineGraphProps.ts
+@@ -85,7 +85,7 @@ export type AnimatedLineGraphProps = BaseLineGraphProps & {
+   /**
+    * Called for each point while the user is scrubbing/panning through the graph
+    */
+-  onPointSelected?: (point: GraphPoint) => void
++  onPointSelected?: (point: GraphPoint, prevPoint?: GraphPoint) => void
+   /**
+    * Called once the user starts scrubbing/panning through the graph
+    */

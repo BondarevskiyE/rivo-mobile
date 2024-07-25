@@ -99,7 +99,10 @@ export const Images = {
 
   cardVariantCat: require('../../../assets/images/card/variants/cat.png'),
   cardVariantCarp: require('../../../assets/images/card/variants/carp.png'),
+
   storiesMock: require('../../../assets/images/stories-mock.png'),
+
+  chartNet: require('../../../assets/images/chart/chart-net.png'),
 };
 
 export const Icons = {};

@@ -6,8 +6,8 @@ import {ConnectButton, ExternalLink, Slider} from '@/components';
 import {useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
 
-import {AUTH_SCREENS, AuthStackProps} from '@/navigation/AuthStack';
 import {StackScreenProps} from '@react-navigation/stack';
+import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
 
 type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.LOGIN>;
 

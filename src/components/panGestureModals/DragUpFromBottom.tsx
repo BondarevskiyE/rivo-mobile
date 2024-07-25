@@ -15,6 +15,7 @@ const MAX_TRANSLATE_Y = -SCREEN_HEIGHT + 15;
 type DragUpFromBottomProps = {
   children?: React.ReactNode;
   initialTranslateY?: number;
+  playDragAnimation?: (value: number) => void;
 };
 
 export type DragUpFromBottomRefProps = {
@@ -25,7 +26,7 @@ export type DragUpFromBottomRefProps = {
 export const DragUpFromBottom = React.forwardRef<
   DragUpFromBottomRefProps,
   DragUpFromBottomProps
->(({children, initialTranslateY = 0}, ref) => {
+>(({children, initialTranslateY = 0, playDragAnimation}, ref) => {
   const [initialYCoordinate, setInitialYCoordinate] = useState(0);
 
   const translateY = useSharedValue(initialTranslateY);
@@ -59,8 +60,15 @@ export const DragUpFromBottom = React.forwardRef<
       context.value = {y: translateY.value};
     })
     .onUpdate(event => {
+      const newValue = event.translationY + context.value.y;
+      if (newValue > 0) {
+        return;
+      }
       translateY.value = event.translationY + context.value.y;
+
       translateY.value = Math.max(translateY.value, maxTranslateY);
+
+      playDragAnimation?.(translateY.value);
     })
     .onEnd(() => {
       if (translateY.value > screenHeight / 2) {

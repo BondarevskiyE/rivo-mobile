@@ -1,8 +1,8 @@
-import {HOME_SCREEN_TABS} from '@/navigation/HomeStack';
 import React from 'react';
 import {View, Pressable, StyleSheet} from 'react-native';
 import {getIconByName} from './lib';
 import {Colors} from '@/shared/ui';
+import {HOME_SCREEN_TABS} from '@/navigation/types/homeStack';
 
 interface Props {
   onPress: () => void;
