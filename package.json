@@ -95,8 +95,7 @@
   "packageManager": "yarn@3.6.4",
   "resolutions": {
     "react-native-highlight-overlay@^1.4.0": "patch:react-native-highlight-overlay@npm%3A1.4.0#./.yarn/patches/react-native-highlight-overlay-npm-1.4.0-79a8c0f479.patch",
-    "react-native-graph@^1.1.0": "patch:react-native-graph@npm%3A1.1.0#./.yarn/patches/react-native-graph-npm-1.1.0-60bc2967f7.patch",
-    "viem@^2.17.3": "patch:viem@npm%3A2.18.0#./.yarn/patches/viem-npm-2.18.0-cd56be580e.patch"
+    "react-native-graph@^1.1.0": "patch:react-native-graph@npm%3A1.1.0#./.yarn/patches/react-native-graph-npm-1.1.0-60bc2967f7.patch"
   },
   "trustedDependencies": [
     "@shopify/react-native-skia"
