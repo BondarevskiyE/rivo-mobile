@@ -5501,9 +5501,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.820":
-  version: 1.5.1
-  resolution: "electron-to-chromium@npm:1.5.1"
-  checksum: 4843d3db0c7c5810c603d2367599c21e1c56ba8d17e1d0061aef24ae93ba1a1f40592c7dd9279f91d456d240a15b73360dbbe2a8679ff14b1542908097cee8ea
+  version: 1.5.2
+  resolution: "electron-to-chromium@npm:1.5.2"
+  checksum: 530a9a4dc4aa0220abf564be49b7090470eac6e9a03acb667deadaf139c7f65466b4540ff5699677f9370f2a05619e89fc089f81603d36d33dc5acc75f12171e
   languageName: node
   linkType: hard
 
@@ -6113,8 +6113,8 @@ __metadata:
   linkType: hard
 
 "ethers@npm:^6.13.0":
-  version: 6.13.1
-  resolution: "ethers@npm:6.13.1"
+  version: 6.13.2
+  resolution: "ethers@npm:6.13.2"
   dependencies:
     "@adraffy/ens-normalize": 1.10.1
     "@noble/curves": 1.2.0
@@ -6123,7 +6123,7 @@ __metadata:
     aes-js: 4.0.0-beta.5
     tslib: 2.4.0
     ws: 8.17.1
-  checksum: beef4b6d117f64c369f44be631e0f666b966374eac0cc0446fa7abe114b11d6b3019060022eec65c031f150711f4913d249de507ff3da3204e654635db80a07e
+  checksum: 981860c736c7ae121774ad38ea07e3611ce524a77d2fcb77db499b65afe0cbe8f344cd5204d94b68b316349ff770fd2a7d9c8b2039da41c072f98d9864099925
   languageName: node
   linkType: hard
 
@@ -9917,6 +9917,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-click-outside@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "react-native-click-outside@npm:0.1.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: c0d4bb538da25334c124d94c6761b361f5b2a8e9a16fd2735a4f86cb47636c6e4e370fea48b67c5ac1e65e51097a92b3964f0e21ccd8860639d3b7b04e9eb3f6
+  languageName: node
+  linkType: hard
+
 "react-native-config@npm:^1.5.2":
   version: 1.5.2
   resolution: "react-native-config@npm:1.5.2"
@@ -10657,6 +10667,7 @@ __metadata:
     react: 18.2.0
     react-native: 0.74.2
     react-native-circular-progress: ^1.4.0
+    react-native-click-outside: ^0.1.1
     react-native-config: ^1.5.2
     react-native-device-info: ^11.1.0
     react-native-encrypted-storage: ^4.0.3
@@ -11890,9 +11901,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:2.18.0":
-  version: 2.18.0
-  resolution: "viem@npm:2.18.0"
+"viem@npm:^2.17.3":
+  version: 2.18.2
+  resolution: "viem@npm:2.18.2"
   dependencies:
     "@adraffy/ens-normalize": 1.10.0
     "@noble/curves": 1.4.0
@@ -11908,29 +11919,7 @@ __metadata:
   peerDependenciesMeta:
     typescript:
       optional: true
-  checksum: cb6fa29d16e54dbac930ee770b4f0ea04fc534aff0eb6a62fd981ab562eb17249eec8054c128c9e6ab10a8f1d8fc6b2188c4d85d084cd795cdb860ad98b72c86
-  languageName: node
-  linkType: hard
-
-"viem@patch:viem@npm%3A2.18.0#./.yarn/patches/viem-npm-2.18.0-cd56be580e.patch::locator=rivomobile%40workspace%3A.":
-  version: 2.18.0
-  resolution: "viem@patch:viem@npm%3A2.18.0#./.yarn/patches/viem-npm-2.18.0-cd56be580e.patch::version=2.18.0&hash=dcbbef&locator=rivomobile%40workspace%3A."
-  dependencies:
-    "@adraffy/ens-normalize": 1.10.0
-    "@noble/curves": 1.4.0
-    "@noble/hashes": 1.4.0
-    "@scure/bip32": 1.4.0
-    "@scure/bip39": 1.3.0
-    abitype: 1.0.5
-    isows: 1.0.4
-    webauthn-p256: 0.0.5
-    ws: 8.17.1
-  peerDependencies:
-    typescript: ">=5.0.4"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 0864b2e5714821b93032f0237dc7df75549d462d826a44d34b34837fdef25fb65b2c9bb5113317b2d828212d6bbfc638d899250255d156182e747474d5d8eb52
+  checksum: e7cd42d0a5c94d3ad5ee1d0fcf42520b904f2ca863b859c0e836ebf3ecc137375b22cd4ceb108c2d725d3e694d90d42e145e0c9adb4f4a512aae6095f052a619
   languageName: node
   linkType: hard
 

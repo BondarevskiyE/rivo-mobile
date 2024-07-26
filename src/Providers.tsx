@@ -4,6 +4,7 @@ import {
   HighlightableElementProvider,
   HighlightOverlay,
 } from 'react-native-highlight-overlay';
+import {ClickOutsideProvider} from 'react-native-click-outside';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
@@ -19,20 +20,22 @@ export const Providers = ({children}: withChildren) => {
   );
 
   return (
-    <GestureHandlerRootView style={{flex: 1}}>
-      <SafeAreaProvider>
-        <HighlightableElementProvider>
-          {children}
-          <HighlightOverlay
-            highlightedElementId={highlightedElementId}
-            onDismiss={() => {}}
-          />
-          <HighlightableElement
-            // It is an empty element for showing faded overlay without highliting
-            id={HIGHLIGHT_ELEMENTS.NONE}
-          />
-        </HighlightableElementProvider>
-      </SafeAreaProvider>
-    </GestureHandlerRootView>
+    <ClickOutsideProvider>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <SafeAreaProvider>
+          <HighlightableElementProvider>
+            {children}
+            <HighlightOverlay
+              highlightedElementId={highlightedElementId}
+              onDismiss={() => {}}
+            />
+            <HighlightableElement
+              // It is an empty element for showing faded overlay without highliting
+              id={HIGHLIGHT_ELEMENTS.NONE}
+            />
+          </HighlightableElementProvider>
+        </SafeAreaProvider>
+      </GestureHandlerRootView>
+    </ClickOutsideProvider>
   );
 };

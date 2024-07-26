@@ -2,7 +2,7 @@ import * as React from 'react';
 import Svg, {SvgProps, Path} from 'react-native-svg';
 
 export const ArrowLineIcon = (props: SvgProps) => (
-  <Svg width={7} height={12} fill="none" {...props}>
+  <Svg width={7} height={12} viewBox="0 0 7 12" fill="none" {...props}>
     <Path
       fill="#fff"
       fillRule="evenodd"

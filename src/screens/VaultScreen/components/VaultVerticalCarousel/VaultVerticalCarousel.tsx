@@ -70,6 +70,7 @@ export const VaultVerticalCarousel: React.FC<Props> = ({vault, goBack}) => {
             return (
               <ChartCarouselItem
                 focusChartSlide={goToChartSlide}
+                isChartOpen={currentSlideId === PAGES.CHART}
                 scrollY={scrollY}
               />
             );

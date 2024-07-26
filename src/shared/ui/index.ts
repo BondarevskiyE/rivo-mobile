@@ -23,6 +23,7 @@ export const Colors = {
   ui_grey_74: '#747474',
   ui_grey_75: '#4d4d4d',
   ui_grey_80: '#494949',
+  ui_grey_82: '#434343',
   ui_grey_90: '#373737',
   ui_grey_95: '#313131',
   ui_grey_97: '#2c2c2c',

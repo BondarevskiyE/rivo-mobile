@@ -8,13 +8,14 @@ import ReAnimated, {
 } from 'react-native-reanimated';
 
 import {Colors, Fonts} from '@/shared/ui';
-import {DropDown, LineChart} from '@/components';
+import {Dropdown, LineChart} from '@/components';
 import {ChartRangeOptions} from './ChartRangeOptions';
 import {formatValue} from '@/shared/lib';
 
 interface Props {
   focusChartSlide: () => void;
   scrollY: SharedValue<number>;
+  isChartOpen: boolean;
 }
 
 export enum CHART_PERIODS {
@@ -23,6 +24,13 @@ export enum CHART_PERIODS {
   THREE_MONTHS = '3M',
   MAX = 'max',
 }
+
+const dropdownVariants = [
+  {label: 'Balance', value: 'balance'},
+  {label: 'Price', value: 'price'},
+  {label: 'TVL', value: 'tvl'},
+  {label: 'APY', value: 'apy'},
+];
 
 const chartMock = {
   [CHART_PERIODS.WEEK]: [
@@ -152,6 +160,7 @@ const periods = Object.values(CHART_PERIODS);
 export const ChartCarouselItem: React.FC<Props> = ({
   focusChartSlide,
   scrollY,
+  isChartOpen,
 }) => {
   const [selectedPeriod, setSelectedPeriod] = useState<CHART_PERIODS>(
     CHART_PERIODS.WEEK,
@@ -208,11 +217,10 @@ export const ChartCarouselItem: React.FC<Props> = ({
               {`${isPositiveChangePercent ? '+' : ''}${changePercent}%`}
             </Text>
           </View>
-          <DropDown
-            label="Price"
-            data={[{label: 'Price', value: 'price'}]}
+          <Dropdown
+            data={dropdownVariants}
             onSelect={() => {}}
-            containerStyle={styles.dropdown}
+            dropdownPosition={isChartOpen ? 'bottom' : 'top'}
           />
         </View>
         <LineChart
@@ -260,9 +268,10 @@ const styles = StyleSheet.create({
   topMenu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    zIndex: 2,
   },
   dropdown: {
-    width: 77,
+    minWidth: 77,
     height: 36,
   },
   rangePickerContainer: {

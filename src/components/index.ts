@@ -7,4 +7,4 @@ export {Tooltip} from './Tooltip';
 export {PasswordKeyboard} from './PasswordKeyboard';
 export {ConnectButton} from './ConnectButton';
 export {LineChart} from './Chart';
-export {DropDown} from './DropDown';
+export {Dropdown} from './DropDown';
