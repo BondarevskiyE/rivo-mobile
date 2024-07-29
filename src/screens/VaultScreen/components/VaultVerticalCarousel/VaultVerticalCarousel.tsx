@@ -62,6 +62,7 @@ export const VaultVerticalCarousel: React.FC<Props> = ({
       setTimeout(() => {
         carouselRef?.current?.scrollToEnd();
       }, 300);
+      return;
     }
   }, [isBigCarouselContainer]);
 
