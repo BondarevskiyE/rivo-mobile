@@ -1,21 +1,25 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import ReAnimated, {
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {Dropdown, LineChart} from '@/components';
 import {ChartRangeOptions} from './ChartRangeOptions';
 import {formatValue} from '@/shared/lib';
+import {DropdownItem} from '@/components/DropDown/DropDown';
 
 interface Props {
   focusChartSlide: () => void;
   scrollY: SharedValue<number>;
   isChartOpen: boolean;
+  changeDragBlockSize: (isBig: boolean) => void;
 }
 
 export enum CHART_PERIODS {
@@ -161,9 +165,15 @@ export const ChartCarouselItem: React.FC<Props> = ({
   focusChartSlide,
   scrollY,
   isChartOpen,
+  changeDragBlockSize,
 }) => {
+  const chartContainerSizeValue = useSharedValue(0);
+
   const [selectedPeriod, setSelectedPeriod] = useState<CHART_PERIODS>(
     CHART_PERIODS.WEEK,
+  );
+  const [selectedChartType, setSelectedChartType] = useState(
+    dropdownVariants[1].value,
   );
   const [shownValue, setShownValue] = useState<number>(
     chartMock[selectedPeriod][chartMock[selectedPeriod].length - 1].value,
@@ -200,28 +210,73 @@ export const ChartCarouselItem: React.FC<Props> = ({
     setChangePercent(value);
   };
 
+  const onSelectDropdownOption = (option: DropdownItem) => {
+    focusChartSlide();
+    setSelectedChartType(option.value);
+    if (option.value === 'balance') {
+      changeDragBlockSize(true);
+      return;
+    }
+    changeDragBlockSize(false);
+  };
+
   const isPositiveChangePercent = +changePercent > 0;
 
   const changePercentColor = isPositiveChangePercent
     ? Colors.ui_green_45
     : Colors.ui_grey_74;
 
+  const isBalanceChart = selectedChartType === 'balance';
+
+  useEffect(() => {
+    if (isBalanceChart) {
+      chartContainerSizeValue.value = withTiming(459);
+      return;
+    }
+    chartContainerSizeValue.value = withTiming(390);
+  }, [chartContainerSizeValue, isBalanceChart]);
+
   return (
     <Pressable onPress={focusChartSlide}>
-      <ReAnimated.View style={[styles.container, containerStyle]}>
+      <ReAnimated.View
+        style={[
+          styles.container,
+          {height: chartContainerSizeValue},
+          containerStyle,
+        ]}>
         <View style={styles.topMenu}>
-          <View>
-            <Text style={styles.chartValue}>${formatValue(shownValue)}</Text>
-            <Text
-              style={[styles.chartChangePercent, {color: changePercentColor}]}>
-              {`${isPositiveChangePercent ? '+' : ''}${changePercent}%`}
-            </Text>
+          <View style={styles.topMenuMain}>
+            <View>
+              <Text style={styles.chartValue}>${formatValue(shownValue)}</Text>
+              {!isBalanceChart && (
+                <Text
+                  style={[
+                    styles.chartChangePercent,
+                    {color: changePercentColor},
+                  ]}>
+                  {`${isPositiveChangePercent ? '+' : ''}${changePercent}%`}
+                </Text>
+              )}
+            </View>
+            <Dropdown
+              data={dropdownVariants}
+              initialSelected={dropdownVariants[1]}
+              onSelect={onSelectDropdownOption}
+              dropdownPosition={isChartOpen ? 'bottom' : 'top'}
+            />
           </View>
-          <Dropdown
-            data={dropdownVariants}
-            onSelect={() => {}}
-            dropdownPosition={isChartOpen ? 'bottom' : 'top'}
-          />
+          {isBalanceChart && (
+            <>
+              <View style={styles.totalEarnedContainer}>
+                <Text style={styles.textTitle}>Yield Earned:</Text>
+                <Text style={styles.totalEarnedValue}>+3.8% • $12.2</Text>
+              </View>
+              <View style={styles.pointsContainer}>
+                <Text style={styles.textTitle}>Rivo Points earned:</Text>
+                <Text style={styles.pointsValueText}>+18</Text>
+              </View>
+            </>
+          )}
         </View>
         <LineChart
           data={chartMock[selectedPeriod]}
@@ -266,7 +321,11 @@ const styles = StyleSheet.create({
     lineHeight: 20.3,
   },
   topMenu: {
+    zIndex: 2,
+  },
+  topMenuMain: {
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     zIndex: 2,
   },
@@ -276,5 +335,35 @@ const styles = StyleSheet.create({
   },
   rangePickerContainer: {
     marginTop: 20,
+  },
+  totalEarnedContainer: {
+    marginTop: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  pointsContainer: {
+    marginTop: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  textTitle: {
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    lineHeight: 20.3,
+    color: Colors.grey_text,
+  },
+  totalEarnedValue: {
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    lineHeight: 20.3,
+    color: Colors.ui_green_45,
+  },
+  pointsValueText: {
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    lineHeight: 20.3,
+    color: Colors.ui_orange_80,
   },
 });

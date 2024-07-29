@@ -1,5 +1,5 @@
 import {Colors} from '@/shared/ui';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import ReAnimated, {
@@ -20,6 +20,8 @@ type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.VAULT_SCREEN>;
 
 export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
   const {vaultId} = route.params;
+
+  const [isBigCarouselContainer, setIsBigCarouselContainer] = useState(false);
 
   const carouselValue = useSharedValue(0);
 
@@ -66,11 +68,17 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ReAnimated.View style={[styles.carouselContainer, carouselStyle]}>
-        <VaultVerticalCarousel vault={strategyById} goBack={goBack} />
+        <VaultVerticalCarousel
+          vault={strategyById}
+          goBack={goBack}
+          changeDragBlockSize={setIsBigCarouselContainer}
+          isBigCarouselContainer={isBigCarouselContainer}
+        />
       </ReAnimated.View>
       <VaultAboutDragBlock
         vault={strategyById}
         playDragAnimation={playCarouselScaleOutAnimation}
+        isBig={isBigCarouselContainer}
       />
     </SafeAreaView>
   );

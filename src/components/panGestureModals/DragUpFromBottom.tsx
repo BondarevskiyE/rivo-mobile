@@ -71,10 +71,34 @@ export const DragUpFromBottom = React.forwardRef<
       playDragAnimation?.(translateY.value);
     })
     .onEnd(() => {
-      if (translateY.value > screenHeight / 2) {
+      // scroll to 0 position
+      if (
+        active.value &&
+        translateY.value > maxTranslateY &&
+        translateY.value > screenHeight / 1.2
+      ) {
         scrollTo(0);
-      } else {
+        playDragAnimation?.(0);
+        return;
+      }
+      // scroll to top position
+      if (
+        !active.value &&
+        translateY.value !== 0 &&
+        translateY.value < screenHeight / 10
+      ) {
         scrollTo(maxTranslateY);
+        playDragAnimation?.(maxTranslateY);
+        return;
+      }
+
+      // scroll to start position if the user didn't pull enough
+      if (active.value) {
+        scrollTo(maxTranslateY);
+        playDragAnimation?.(maxTranslateY);
+      } else {
+        scrollTo(0);
+        playDragAnimation?.(0);
       }
     });
 

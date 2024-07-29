@@ -1,8 +1,16 @@
 diff --git a/lib/typescript/LineGraphProps.d.ts b/lib/typescript/LineGraphProps.d.ts
-index 24e96f2e684d527bbdc92e472b41f21c33725261..7798879557fa2668b0659630008c1ded03e51311 100644
+index 24e96f2e684d527bbdc92e472b41f21c33725261..ed9f19ba7904762b9f97dc3bf3171faeebb484cb 100644
 --- a/lib/typescript/LineGraphProps.d.ts
 +++ b/lib/typescript/LineGraphProps.d.ts
-@@ -77,7 +77,7 @@ export declare type AnimatedLineGraphProps = BaseLineGraphProps & {
+@@ -11,6 +11,7 @@ export declare type GraphRange = Partial<GraphPathRange>;
+ export interface SelectionDotProps {
+     isActive: SharedValue<boolean>;
+     color: BaseLineGraphProps['color'];
++    selectedPoint: GraphPoint
+     lineThickness: BaseLineGraphProps['lineThickness'];
+     circleX: SharedValue<number>;
+     circleY: SharedValue<number>;
+@@ -77,7 +78,7 @@ export declare type AnimatedLineGraphProps = BaseLineGraphProps & {
      /**
       * Called for each point while the user is scrubbing/panning through the graph
       */
@@ -11,8 +19,18 @@ index 24e96f2e684d527bbdc92e472b41f21c33725261..7798879557fa2668b0659630008c1ded
      /**
       * Called once the user starts scrubbing/panning through the graph
       */
+diff --git a/lib/typescript/SelectionDot.d.ts b/lib/typescript/SelectionDot.d.ts
+index 127783d71b1b8a40eb8fe369d4014e4b8f0b17b3..c97e79c8d8db88d4da49fe8de262144dd3c84bed 100644
+--- a/lib/typescript/SelectionDot.d.ts
++++ b/lib/typescript/SelectionDot.d.ts
+@@ -2,4 +2,4 @@ import React from 'react';
+ import type { SelectionDotProps } from './LineGraphProps';
+ export declare const CIRCLE_RADIUS = 5;
+ export declare const CIRCLE_RADIUS_MULTIPLIER = 6;
+-export declare function SelectionDot({ isActive, color, circleX, circleY, }: SelectionDotProps): React.ReactElement;
++export declare function SelectionDot({ isActive, color, selectedPoint, circleX, circleY, }: SelectionDotProps): React.ReactElement;
 diff --git a/src/AnimatedLineGraph.tsx b/src/AnimatedLineGraph.tsx
-index bee225a352cb1e3e320c7fa06716edbb937c1441..d34b7860ede245569130d6470567d8aa7a0adcbc 100644
+index bee225a352cb1e3e320c7fa06716edbb937c1441..a27203e35ef359329c7e92818c13d698ca522908 100644
 --- a/src/AnimatedLineGraph.tsx
 +++ b/src/AnimatedLineGraph.tsx
 @@ -350,10 +350,11 @@ export function AnimatedLineGraph({
@@ -28,11 +46,31 @@ index bee225a352cb1e3e320c7fa06716edbb937c1441..d34b7860ede245569130d6470567d8aa
          }
        }
      },
+@@ -501,6 +502,11 @@ export function AnimatedLineGraph({
+                 <SelectionDot
+                   isActive={isActive}
+                   color={color}
++                  selectedPoint={
++                    typeof pointSelectedIndex.current === 'number'
++                      ? allPoints[pointSelectedIndex.current]
++                      : undefined
++                  }
+                   lineThickness={lineThickness}
+                   circleX={circleX}
+                   circleY={circleY}
 diff --git a/src/LineGraphProps.ts b/src/LineGraphProps.ts
-index 21e147f221dd0864a1135786c7b8559e993eb8ff..1c33cee37b019db278ba26c3e976531215e9c54e 100644
+index 21e147f221dd0864a1135786c7b8559e993eb8ff..1fe6d708955e343ac6e1cbe6f93f812eec3a0fea 100644
 --- a/src/LineGraphProps.ts
 +++ b/src/LineGraphProps.ts
-@@ -85,7 +85,7 @@ export type AnimatedLineGraphProps = BaseLineGraphProps & {
+@@ -14,6 +14,7 @@ export type GraphRange = Partial<GraphPathRange>
+ export interface SelectionDotProps {
+   isActive: SharedValue<boolean>
+   color: BaseLineGraphProps['color']
++  selectedPoint: GraphPoint
+   lineThickness: BaseLineGraphProps['lineThickness']
+   circleX: SharedValue<number>
+   circleY: SharedValue<number>
+@@ -85,7 +86,7 @@ export type AnimatedLineGraphProps = BaseLineGraphProps & {
    /**
     * Called for each point while the user is scrubbing/panning through the graph
     */

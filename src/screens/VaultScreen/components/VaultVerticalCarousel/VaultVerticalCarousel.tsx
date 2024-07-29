@@ -1,5 +1,9 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View, ViewToken} from 'react-native';
+import ReAnimated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from 'react-native-reanimated';
 
 import {InfoCarouselItem} from './InfoCarouselItem';
 import {ChartCarouselItem} from './ChartCarouselItem/ChartCarouselItem';
@@ -8,14 +12,12 @@ import {Colors} from '@/shared/ui';
 import {Pagination} from './Pagination/Pagination';
 import {Strategy} from '@/shared/types';
 import {Page, PAGES} from './types';
-import ReAnimated, {
-  useAnimatedScrollHandler,
-  useSharedValue,
-} from 'react-native-reanimated';
 
 interface Props {
   vault: Strategy;
   goBack: () => void;
+  isBigCarouselContainer: boolean;
+  changeDragBlockSize: (isBig: boolean) => void;
 }
 
 const pages: Page[] = [
@@ -27,7 +29,12 @@ const pages: Page[] = [
   },
 ];
 
-export const VaultVerticalCarousel: React.FC<Props> = ({vault, goBack}) => {
+export const VaultVerticalCarousel: React.FC<Props> = ({
+  vault,
+  goBack,
+  isBigCarouselContainer,
+  changeDragBlockSize,
+}) => {
   const scrollY = useSharedValue(0);
   const carouselRef = useRef<FlatList>(null);
 
@@ -50,9 +57,21 @@ export const VaultVerticalCarousel: React.FC<Props> = ({vault, goBack}) => {
     }
   };
 
+  useEffect(() => {
+    if (isBigCarouselContainer) {
+      setTimeout(() => {
+        carouselRef?.current?.scrollToEnd();
+      }, 300);
+    }
+  }, [isBigCarouselContainer]);
+
   return (
     <View style={styles.container}>
-      <View style={styles.listContainer}>
+      <View
+        style={[
+          styles.listContainer,
+          {flex: isBigCarouselContainer ? 0.6 : 0.5},
+        ]}>
         <Pressable style={styles.closeIconContainer} onPress={goBack}>
           <CloseIcon />
         </Pressable>
@@ -72,6 +91,7 @@ export const VaultVerticalCarousel: React.FC<Props> = ({vault, goBack}) => {
                 focusChartSlide={goToChartSlide}
                 isChartOpen={currentSlideId === PAGES.CHART}
                 scrollY={scrollY}
+                changeDragBlockSize={changeDragBlockSize}
               />
             );
           }}
@@ -99,7 +119,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     position: 'relative',
-    flex: 0.5,
   },
   list: {
     overflow: 'visible',

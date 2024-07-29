@@ -10,17 +10,23 @@ import ReAnimated, {
 } from 'react-native-reanimated';
 import {useClickOutside} from 'react-native-click-outside';
 
-type DropdownItem = {label: string; value: string};
+export type DropdownItem = {label: string; value: string};
 
 interface Props {
   data: Array<DropdownItem>;
   onSelect: (item: DropdownItem) => void;
   dropdownPosition: 'top' | 'bottom';
+  initialSelected?: DropdownItem;
 }
 
-export const Dropdown: React.FC<Props> = ({data, dropdownPosition}) => {
+export const Dropdown: React.FC<Props> = ({
+  data,
+  initialSelected,
+  onSelect,
+  dropdownPosition,
+}) => {
   const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(
-    data[data.length - 1],
+    initialSelected || data[data.length - 1],
   );
   const [isOpen, setIsOpen] = useState(false);
 
@@ -43,6 +49,7 @@ export const Dropdown: React.FC<Props> = ({data, dropdownPosition}) => {
   };
 
   const onPressOption = (option: DropdownItem) => {
+    onSelect(option);
     setSelectedItem(option);
     onOpenDropdown();
   };
