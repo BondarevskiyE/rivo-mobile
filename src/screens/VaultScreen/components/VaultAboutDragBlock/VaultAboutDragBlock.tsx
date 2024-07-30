@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
+import ReAnimated, {useSharedValue, withTiming} from 'react-native-reanimated';
 
 import {
   DragUpFromBottom,
@@ -22,6 +23,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   playDragAnimation,
   isBig,
 }) => {
+  const positionValue = useSharedValue(70);
   const ref = useRef<DragUpFromBottomRefProps>(null);
 
   useEffect(() => {
@@ -30,8 +32,16 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
     }, 100);
   }, []);
 
+  useEffect(() => {
+    if (isBig) {
+      positionValue.value = withTiming(140);
+      return;
+    }
+    positionValue.value = withTiming(70);
+  }, [isBig, positionValue]);
+
   return (
-    <View style={[styles.container, {top: isBig ? 140 : 70}]}>
+    <ReAnimated.View style={[styles.container, {top: positionValue}]}>
       <DragUpFromBottom
         ref={ref}
         initialTranslateY={INITIAL_TRANSLATE_Y}
@@ -39,7 +49,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
         playDragAnimation={playDragAnimation}>
         <AboutVaultContent vault={vault} />
       </DragUpFromBottom>
-    </View>
+    </ReAnimated.View>
   );
 };
 

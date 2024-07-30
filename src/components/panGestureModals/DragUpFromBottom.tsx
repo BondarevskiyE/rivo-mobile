@@ -1,10 +1,5 @@
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
-import React, {
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
+import React, {useCallback, useImperativeHandle, useState} from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
