@@ -11,6 +11,7 @@ import {
 import {Button} from '@/components';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import {HOME_SCREENS} from '@/navigation/types/homeStack';
+import {getFormatValue} from '@/shared/lib/format';
 
 interface Props {
   item: Strategy;
@@ -40,7 +41,9 @@ export const StrategyItem: React.FC<Props> = ({item}) => {
               distance={20}
             />
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>{`${item.apy}% APY`}</Text>
+              <Text style={styles.title}>{`${getFormatValue(
+                item.apy,
+              )}% APY`}</Text>
               <Text style={styles.subTitle}>{item.name}</Text>
             </View>
           </View>

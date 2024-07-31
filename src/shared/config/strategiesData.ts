@@ -3,9 +3,11 @@ import {Strategy} from '../types';
 export const strategiesData: Strategy[] = [
   {
     name: 'Ethereum Yield',
+    address: '0xA31eC4C877C65bEa5C5d4c307473624A0B377090',
+    chain: 'ARB',
     apy: 12.2,
     tvl: 2900000,
-    allTvl: 4300000,
+    allTvl: 430000,
     holders: 4300,
     riskLevel: 4.8,
     price: 3452,
@@ -18,9 +20,11 @@ export const strategiesData: Strategy[] = [
   },
   {
     name: 'Dollar Yield',
+    address: '0xA31eC4C877C65bEa5C5d4c307473624A0B377090',
+    chain: 'ARB',
     apy: 20.2,
     tvl: 3500000,
-    allTvl: 4900000,
+    allTvl: 490000,
     holders: 3100,
     riskLevel: 4.6,
     price: 1200,

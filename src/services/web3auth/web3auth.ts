@@ -24,19 +24,29 @@ const SdkInitParams = {
   network: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
   redirectUrl,
 };
-
+// arbitrum mainnet
+// const chainConfig = {
+//   chainNamespace: 'eip155',
+//   chainId: '0xA4B1', // hex of 42161
+//   rpcTarget: 'https://rpc.ankr.com/arbitrum',
+//   // Avoid using public rpcTarget in production.
+//   // Use services like Infura, Quicknode etc
+//   displayName: 'Arbitrum Mainnet',
+//   blockExplorer: 'https://arbiscan.io',
+//   ticker: 'AETH',
+//   tickerName: 'AETH',
+// };
+// arbitrum testnet
 const chainConfig = {
   chainNamespace: ChainNamespace.EIP155,
-  chainId: '0xaa36a7',
-  rpcTarget: 'https://rpc.ankr.com/eth_sepolia',
+  chainId: '0x66eee', // Hex of 421614
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
-  displayName: 'Ethereum Sepolia Testnet',
-  blockExplorerUrl: 'https://sepolia.etherscan.io',
-  ticker: 'ETH',
-  tickerName: 'Ethereum',
-  decimals: 18,
-  logo: 'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+  rpcTarget: 'https://rpc.ankr.com/arbitrum_sepolia',
+  displayName: 'Arbitrum Sepolia Testnet',
+  blockExplorer: 'https://sepolia.arbiscan.io/',
+  ticker: 'AETH',
+  tickerName: 'AETH',
 };
 
 const ethereumPrivateKeyProvider = new EthereumPrivateKeyProvider({

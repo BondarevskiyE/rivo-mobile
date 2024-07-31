@@ -15,9 +15,18 @@ import {useAppStore} from '@/store/useAppStore';
 import {useLoginStore} from '@/store/useLoginStore';
 import {useOnboardingStore} from '@/store/useOnboardingStore';
 import {useZeroDevStore} from '@/store/useZeroDevStore';
+import {useUserStore} from '@/store/useUserStore';
+import {userSigninBackend} from '@/shared/api';
+import {useStrategiesStore} from '@/store/useStrategiesStore';
+import {useBalanceStore} from '@/store/useBalanceStore';
 
 export const App = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
+  const isLoggedIn = useUserStore(state => state.isLoggedIn);
+
+  const walletAddress = useUserStore(state => state.walletAddress);
+  const getBalance = useBalanceStore(state => state.getBalance);
+  const getStrategies = useStrategiesStore(state => state.getStrategies);
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
@@ -41,13 +50,29 @@ export const App = () => {
     checkNotificationPermissions();
     await reconnectZeroDev();
 
+    if (walletAddress) {
+      await userSigninBackend(walletAddress);
+    }
+
     setIsAppLoading(false);
+  };
+
+  const loadData = async () => {
+    await getStrategies();
+    await getBalance();
   };
 
   useEffect(() => {
     initializeApp();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      loadData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
 
   return (
     <Providers>

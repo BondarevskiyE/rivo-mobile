@@ -33,11 +33,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    if (isBig) {
-      positionValue.value = withTiming(140);
-      return;
-    }
-    positionValue.value = withTiming(70);
+    positionValue.value = withTiming(isBig ? 140 : 70);
   }, [isBig, positionValue]);
 
   return (
@@ -57,6 +53,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     height: 0,
+    top: 70,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',

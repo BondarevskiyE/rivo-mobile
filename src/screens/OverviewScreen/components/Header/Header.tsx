@@ -60,6 +60,8 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
     ],
   }));
 
+  const balanceLength = userBalance.toString().length;
+
   return (
     <View style={styles.container}>
       <Image
@@ -73,7 +75,12 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
           resizeMode="contain">
           <View style={styles.balanceContainer}>
             <Text style={styles.dollar}>$</Text>
-            <Text style={styles.balance}>{userBalance}</Text>
+            <Text
+              style={[styles.balance, {fontSize: balanceLength > 6 ? 7 : 12}]}
+              // TODO think about fontSize here
+            >
+              {userBalance}
+            </Text>
           </View>
         </ImageBackground>
       </ReAnimated.View>

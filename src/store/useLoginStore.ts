@@ -9,6 +9,7 @@ import {initZeroDevClient} from '@/services/zerodev';
 import {useZeroDevStore} from './useZeroDevStore';
 import {KernelAccount} from './types';
 import {AUTH_SCREENS} from '@/navigation/types/authStack';
+import {userSigninBackend} from '@/shared/api';
 
 interface LoginState {
   isLoading: boolean;
@@ -65,6 +66,9 @@ export const useLoginStore = create<LoginState>()(set => ({
       setUserInfo({...formattedUser, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
       setWalletAddress(kernelClient.account.address);
+
+      await userSigninBackend(kernelClient.account.address);
+
       set({isLoading: false});
     } catch (error) {
       console.log(`Google login error: ${error}`);
@@ -108,6 +112,9 @@ export const useLoginStore = create<LoginState>()(set => ({
       setUserInfo({...formattedUser, loginProvider: LOGIN_PROVIDER.GOOGLE});
 
       setWalletAddress(kernelClient.account.address);
+
+      await userSigninBackend(kernelClient.account.address);
+
       set({isLoading: false});
     } catch (error) {
       RootNavigation.navigate(AUTH_SCREENS.LOGIN);

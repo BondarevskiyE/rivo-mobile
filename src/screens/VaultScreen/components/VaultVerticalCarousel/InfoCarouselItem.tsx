@@ -5,7 +5,7 @@ import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Colors, Fonts} from '@/shared/ui';
 import {Strategy} from '@/shared/types';
 import {EthereumIcon, HoldersIcon} from '@/shared/ui/icons';
-import {abbreviateNumber} from '@/shared/lib/format';
+import {abbreviateNumber, getFormatValue} from '@/shared/lib/format';
 
 interface Props {
   vault: Strategy;
@@ -16,8 +16,8 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
     <View style={styles.container}>
       <View style={styles.apyBlock}>
         <EthereumIcon />
-        <Text style={styles.apyText}>{vault.apy}%</Text>
-        <Text style={styles.nameText}>{vault.name} APY</Text>
+        <Text style={styles.apyText}>{getFormatValue(vault?.apy)}%</Text>
+        <Text style={styles.nameText}>{vault?.name} APY</Text>
         <View />
       </View>
       <View style={styles.characteristicsBlock}>
@@ -30,15 +30,15 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
               rotation={0}
               delay={300}
               duration={500}
-              fill={(vault.tvl / vault.allTvl) * 100}
+              fill={(vault?.tvl / vault?.allTvl) * 100}
               tintColor={Colors.ui_grey_13}
               backgroundColor={Colors.ui_grey_95}
             />
           </View>
           <View>
-            <Text style={styles.whiteText}>{abbreviateNumber(vault.tvl)}</Text>
+            <Text style={styles.whiteText}>{abbreviateNumber(vault?.tvl)}</Text>
             <Text style={styles.greyText}>
-              of {abbreviateNumber(vault.allTvl)} TVL
+              of {abbreviateNumber(vault?.allTvl)} TVL
             </Text>
           </View>
         </View>
@@ -51,7 +51,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
           </View>
           <View>
             <Text style={styles.whiteText}>
-              {abbreviateNumber(vault.holders)}
+              {abbreviateNumber(vault?.holders)}
             </Text>
             <Text style={styles.greyText}>Holders</Text>
           </View>
