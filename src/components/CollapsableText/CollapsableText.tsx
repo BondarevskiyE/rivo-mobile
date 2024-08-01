@@ -25,6 +25,8 @@ interface Props {
   fontSize: number;
   linePadding: number;
   minLines: number;
+
+  SecondaryButton?: JSX.Element;
 }
 
 export const CollapsableText: React.FC<Props> = ({
@@ -32,6 +34,7 @@ export const CollapsableText: React.FC<Props> = ({
   fontSize,
   linePadding,
   minLines,
+  SecondaryButton,
 }) => {
   const [isDescriptionOpen, setIsDescriptionOpen] = useState<boolean>(false);
   const [maxLines, setMaxLines] = useState(minLines);
@@ -74,9 +77,14 @@ export const CollapsableText: React.FC<Props> = ({
           {text}
         </Text>
       </ReAnimated.View>
-      <TouchableOpacity onPress={handleToggle}>
-        <Text style={styles.showMore}>Show more +</Text>
-      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity
+          onPress={handleToggle}
+          style={styles.showMoreContainer}>
+          <Text style={styles.showMore}>Read more</Text>
+        </TouchableOpacity>
+        {SecondaryButton}
+      </View>
     </View>
   );
 };
@@ -89,10 +97,19 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: Colors.ui_black_63,
   },
+  showMoreContainer: {
+    width: 80,
+  },
   showMore: {
     fontFamily: Fonts.medium,
     fontSize: 15,
     lineHeight: 15,
     color: Colors.ui_orange_80,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 12,
   },
 });

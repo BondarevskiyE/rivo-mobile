@@ -12,6 +12,7 @@ export type Strategy = {
   riskLevel: number;
   price: number;
   id: string;
+  advantages: {image: string; text: string}[];
 };
 
 export type VaultPrice = {

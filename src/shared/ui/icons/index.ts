@@ -19,3 +19,4 @@ export {CheckIcon} from './CheckIcon';
 export {CloseIcon} from './CloseIcon';
 export {EthereumIcon} from './EthereumIcon';
 export {HoldersIcon} from './HoldersIcon';
+export {GlobeIcon} from './GlobeIcon';

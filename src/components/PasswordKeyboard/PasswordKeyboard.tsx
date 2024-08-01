@@ -98,13 +98,6 @@ export const PasswordKeyboard: React.FC<Props> = ({
         duration: 25,
         easing: Easing.inOut(Easing.quad),
       }),
-      // Animated.delay(50),
-      // Animated.timing(wrongCodeAnimationValue, {
-      //   toValue: 2,
-      //   useNativeDriver: true,
-      //   duration: 20,
-      //   easing: Easing.inOut(Easing.quad),
-      // }),
       Animated.delay(40),
       Animated.timing(wrongCodeAnimationValue, {
         toValue: 0,
@@ -173,7 +166,8 @@ export const PasswordKeyboard: React.FC<Props> = ({
         </View>
         <DialPad
           onPress={onPressSymbol}
-          withBiometry={!!onClickBiometry}
+          // if even one symbol is entered we need to change biometry to delete button
+          withBiometry={!pinCode.length && !!onClickBiometry}
           withExit={!!onExit}
         />
       </View>

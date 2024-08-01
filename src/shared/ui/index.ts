@@ -12,15 +12,19 @@ export const Colors = {
   //UI Neutrals
   ui_white: '#FFF',
   ui_grey_05: '#F2F2F2',
+  ui_grey_07: '#d7d9dd',
   ui_grey_10: '#DBDBDB',
   ui_grey_13: '#d9d9d9',
+
   ui_grey_15: '#D3CFCC',
   ui_grey_20: '#CECCCA',
   ui_grey_40: '#b8b8b8',
+
   ui_grey_60: '#989898',
   ui_grey_65: '#8d8d8d',
   ui_grey_70: '#888888',
   ui_grey_73: '#8c8c8c',
+
   ui_grey_74: '#747474',
   ui_grey_75: '#4d4d4d',
   ui_grey_80: '#494949',
@@ -102,9 +106,9 @@ export const Images = {
   cardVariantCat: require('../../../assets/images/card/variants/cat.png'),
   cardVariantCarp: require('../../../assets/images/card/variants/carp.png'),
 
-  storiesMock: require('../../../assets/images/stories-mock.png'),
-
   chartNet: require('../../../assets/images/chart/chart-net.png'),
+
+  vaultInfoMock: require('../../../assets/images/vaultInfoMock.png'),
 };
 
 export const Icons = {};

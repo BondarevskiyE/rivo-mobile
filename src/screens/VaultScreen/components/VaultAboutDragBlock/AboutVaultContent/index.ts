@@ -1,0 +1,1 @@
+export {AboutVaultContent} from './AboutVaultContent';

@@ -1,6 +1,16 @@
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
-import React, {useCallback, useImperativeHandle, useState} from 'react';
-import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import React, {
+  ComponentType,
+  RefObject,
+  useCallback,
+  useImperativeHandle,
+  useState,
+} from 'react';
+import {
+  Gesture,
+  GestureDetector,
+  GestureType,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -17,6 +27,10 @@ type DragUpFromBottomProps = {
   initialTranslateY?: number;
   translateYOffset?: number;
   playDragAnimation?: (value: number) => void;
+  simultaneousExternalGesture?:
+    | GestureType
+    | RefObject<GestureType | undefined>
+    | RefObject<ComponentType<{}> | undefined>;
 };
 
 export type DragUpFromBottomRefProps = {
@@ -29,13 +43,20 @@ export const DragUpFromBottom = React.forwardRef<
   DragUpFromBottomProps
 >(
   (
-    {children, initialTranslateY = 0, translateYOffset, playDragAnimation},
+    {
+      children,
+      initialTranslateY = 0,
+      translateYOffset,
+      playDragAnimation,
+      simultaneousExternalGesture,
+    },
     ref,
   ) => {
     const [initialYCoordinate, setInitialYCoordinate] = useState(0);
 
     const translateY = useSharedValue(initialTranslateY);
     const active = useSharedValue(false);
+    const moving = useSharedValue(false);
 
     const maxTranslateY =
       MAX_TRANSLATE_Y - initialYCoordinate - (translateYOffset || 0);
@@ -66,6 +87,9 @@ export const DragUpFromBottom = React.forwardRef<
 
     const context = useSharedValue({y: 0});
     const gesture = Gesture.Pan()
+      .onBegin(() => {
+        moving.value = true;
+      })
       .onStart(() => {
         context.value = {y: translateY.value};
       })
@@ -110,7 +134,14 @@ export const DragUpFromBottom = React.forwardRef<
           scrollTo(0);
           playDragAnimation?.(0);
         }
-      });
+      })
+      .onFinalize(() => {
+        // stopped touching screen
+        moving.value = false;
+      })
+      .simultaneousWithExternalGesture(
+        simultaneousExternalGesture || {current: undefined},
+      );
 
     const rBottomSheetStyle = useAnimatedStyle(() => ({
       transform: [{translateY: translateY.value}],

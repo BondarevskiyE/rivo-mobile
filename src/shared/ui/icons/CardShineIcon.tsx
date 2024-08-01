@@ -10,7 +10,7 @@ import Svg, {
 
 export const CardShineIcon = (props: SvgProps) => (
   <Svg width={233} height={334} fill="none" {...props}>
-    <G filter="url(#a)" opacity={0.7}>
+    <G opacity={0.7}>
       <Path
         fill="url(#b)"
         d="M58.328 12h164.8v286.309h-164.8z"

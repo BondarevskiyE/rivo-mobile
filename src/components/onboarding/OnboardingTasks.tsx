@@ -68,6 +68,7 @@ export const OnboardingTasks = ({onPressOnboarding}: Props) => {
       <ImageBackground source={stepData.image} style={styles.backgroundImage}>
         <ReAnimated.View
           style={[styles.shineGradientContainer, shineGradientStyles]}>
+          {/* <View style={{backgroundColor: 'red', height: 300, zIndex: 999}} /> */}
           <CardShineIcon />
         </ReAnimated.View>
         <View style={styles.task}>

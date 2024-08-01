@@ -23,6 +23,7 @@ type Props = StackScreenProps<
 export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
   const [storedPassCode, setStoredPassCode] = useState<string>('');
   const [isRepeating, setIsRepeating] = useState<boolean>(false);
+  const [attemptCounter, setAttemptCounter] = useState<number>(1);
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
@@ -91,10 +92,16 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
       return;
     }
 
+    setAttemptCounter(prev => prev + 1);
     setIsError(true);
 
     setTimeout(() => {
       setIsError(false);
+      if (attemptCounter === 3) {
+        setIsRepeating(false);
+        setStoredPassCode('');
+        setAttemptCounter(1);
+      }
     }, 1500);
   };
 

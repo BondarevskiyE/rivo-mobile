@@ -11,6 +11,20 @@ export const strategiesData: Strategy[] = [
     holders: 4300,
     riskLevel: 4.8,
     price: 3452,
+    advantages: [
+      {
+        image: 'https://i.ibb.co/bJKG7Pw/image-115.png',
+        text: 'Withdraw Anytime',
+      },
+      {
+        image: 'https://i.ibb.co/Xp3fyjj/image-116.png',
+        text: 'Fully Transparent',
+      },
+      {
+        image: 'https://i.ibb.co/vD7B3GB/image-117.png',
+        text: '100% Liquid',
+      },
+    ],
     shortDescription:
       'Basket of yield-bearing LP strategies earning ETH restaking yield and points',
     description:
@@ -28,6 +42,20 @@ export const strategiesData: Strategy[] = [
     holders: 3100,
     riskLevel: 4.6,
     price: 1200,
+    advantages: [
+      {
+        image: 'https://i.ibb.co/bJKG7Pw/image-115.png',
+        text: 'Withdraw Anytime',
+      },
+      {
+        image: 'https://i.ibb.co/Xp3fyjj/image-116.png',
+        text: 'Fully Transparent',
+      },
+      {
+        image: 'https://i.ibb.co/vD7B3GB/image-117.png',
+        text: '100% Liquid',
+      },
+    ],
     shortDescription:
       'The omnichain stablecoin index consists of multiple yield-bearing stablecoin strategies',
     description:
