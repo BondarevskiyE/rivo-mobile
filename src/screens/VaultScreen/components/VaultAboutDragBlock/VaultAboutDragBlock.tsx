@@ -1,6 +1,8 @@
 import React, {useEffect, useRef} from 'react';
-import {Alert, Dimensions, StyleSheet, View} from 'react-native';
+import {Alert, Dimensions, StyleSheet} from 'react-native';
 import ReAnimated, {
+  interpolate,
+  useAnimatedStyle,
   useSharedValue,
   withSpring,
   withTiming,
@@ -15,7 +17,6 @@ import {Strategy} from '@/shared/types';
 import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
-import {ScrollView} from 'react-native-gesture-handler';
 
 const {width} = Dimensions.get('window');
 
@@ -33,7 +34,6 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   playDragAnimation,
   isBig,
 }) => {
-  const scrollref = useRef<ScrollView>(null);
   const positionValue = useSharedValue(70);
   const imageShiftValue = useSharedValue(0);
 
@@ -59,17 +59,27 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
     });
   };
 
+  const buttonStyles = useAnimatedStyle(() => ({
+    bottom: interpolate(
+      positionValue.value,
+      [70, 140],
+      [
+        (initialWindowMetrics?.insets.bottom || 0) + 16,
+        (initialWindowMetrics?.insets.bottom || 0) + 86,
+      ],
+    ),
+  }));
+
   return (
     <ReAnimated.View style={[styles.container, {top: positionValue}]}>
       <DragUpFromBottom
         ref={ref}
         initialTranslateY={INITIAL_TRANSLATE_Y}
         translateYOffset={isBig ? 70 : 0}
-        playDragAnimation={onPlayDragAnimation}
-        simultaneousExternalGesture={scrollref}>
+        playDragAnimation={onPlayDragAnimation}>
         <AboutVaultContent vault={vault} imageShiftValue={imageShiftValue} />
       </DragUpFromBottom>
-      <View style={styles.buttonContainer}>
+      <ReAnimated.View style={[styles.buttonContainer, buttonStyles]}>
         <Button
           text="Invest"
           style={styles.investButton}
@@ -77,7 +87,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
           type={BUTTON_TYPE.ACTION_SECONDARY}
           onPress={() => Alert.alert('invest!')}
         />
-      </View>
+      </ReAnimated.View>
     </ReAnimated.View>
   );
 };
@@ -93,7 +103,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: (initialWindowMetrics?.insets.bottom || 0) + 16,
+    // bottom: (initialWindowMetrics?.insets.bottom || 0) + 16,
     width: width - 12 - 12,
     left: 12,
   },

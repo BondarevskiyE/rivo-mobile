@@ -6,6 +6,7 @@ import {
   TRequestParams,
   TvlResponse,
   UserBalanceResponse,
+  VaultResponse,
 } from './types';
 
 const apiUrl = Config.RIVO_API_URL;
@@ -49,9 +50,20 @@ export const sendRequest = async <T, D = object>({
   }
 };
 
-export const userSigninBackend = async (address: string): Promise<void> => {
+export const userSigninBackend = async (
+  address: string,
+  email: string,
+): Promise<void> => {
   await sendRequest<void>({
-    url: `${apiUrl}/v1/user/${address}/signin`,
+    url: `${apiUrl}/v1/user/${address}/email/${email}/signin`,
+  });
+};
+
+export const checkIsUserAlreadyRegistered = async (
+  email: string,
+): Promise<boolean | null> => {
+  return await sendRequest<boolean>({
+    url: `${apiUrl}/v1/user/email/${email}/is_already_registered`,
   });
 };
 
@@ -71,12 +83,18 @@ export const getFirstSigninUserBalance = async (
   });
 };
 
+export const getActiveVaults = async (): Promise<VaultResponse | null> => {
+  return await sendRequest<VaultResponse>({
+    url: `${apiUrl}/v1/active_vaults`,
+  });
+};
+
 export const getVaultTvl = async (
   address: string,
   chain: string,
 ): Promise<TvlResponse | null> => {
   return await sendRequest<TvlResponse | null>({
-    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/tvl`,
+    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_tvl`,
   });
 };
 
@@ -85,7 +103,7 @@ export const getVaultPrice = async (
   chain: string,
 ): Promise<PriceResponse | null> => {
   return await sendRequest<PriceResponse>({
-    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/price`,
+    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_price`,
   });
 };
 
@@ -94,7 +112,7 @@ export const getVaultApy = async (
   chain: string,
 ): Promise<ApyResponse | null> => {
   return await sendRequest<ApyResponse>({
-    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/apy`,
+    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_apy`,
   });
 };
 

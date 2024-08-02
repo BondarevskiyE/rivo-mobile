@@ -25,6 +25,7 @@ export const App = () => {
   const isLoggedIn = useUserStore(state => state.isLoggedIn);
 
   const walletAddress = useUserStore(state => state.walletAddress);
+  const userInfo = useUserStore(state => state.userInfo);
   const getBalance = useBalanceStore(state => state.getBalance);
   const getStrategies = useStrategiesStore(state => state.getStrategies);
 
@@ -50,16 +51,11 @@ export const App = () => {
     checkNotificationPermissions();
     await reconnectZeroDev();
 
-    if (walletAddress) {
-      await userSigninBackend(walletAddress);
+    if (walletAddress && userInfo?.email) {
+      await userSigninBackend(walletAddress, userInfo?.email);
     }
 
     setIsAppLoading(false);
-  };
-
-  const loadData = async () => {
-    await getStrategies();
-    await getBalance();
   };
 
   useEffect(() => {
@@ -69,7 +65,16 @@ export const App = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      loadData();
+      getStrategies();
+      getBalance();
+
+      const interval = setInterval(async () => {
+        getBalance();
+      }, 20000);
+
+      return () => {
+        clearInterval(interval);
+      };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isLoggedIn]);

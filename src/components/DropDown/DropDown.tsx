@@ -70,7 +70,12 @@ export const Dropdown: React.FC<Props> = ({
     <View style={styles.container} collapsable={false} ref={clickOutsideRef}>
       <Pressable onPress={() => onOpenDropdown()} style={styles.labelContainer}>
         <Text style={styles.label}>{selectedItem?.label}</Text>
-        <ArrowLineIcon style={styles.arrowIcon} height={10} width={16} />
+        <ArrowLineIcon
+          style={styles.arrowIcon}
+          height={10}
+          width={16}
+          color={Colors.ui_grey_70}
+        />
       </Pressable>
 
       <ReAnimated.View

@@ -11,7 +11,7 @@ export const shortenAddress = (address: string) => {
 };
 
 export const getFormatValue = (val: number): string => {
-  return Number(val.toFixed(2)).toLocaleString(['en'], {
+  return Number(val?.toFixed(2)).toLocaleString(['en'], {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });

@@ -16,7 +16,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
     <View style={styles.container}>
       <View style={styles.apyBlock}>
         <EthereumIcon />
-        <Text style={styles.apyText}>{getFormatValue(vault?.apy)}%</Text>
+        <Text style={styles.apyText}>{getFormatValue(vault?.apy || 0)}%</Text>
         <Text style={styles.nameText}>{vault?.name} APY</Text>
         <View />
       </View>
@@ -30,7 +30,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
               rotation={0}
               delay={300}
               duration={500}
-              fill={(vault?.tvl / vault?.allTvl) * 100}
+              fill={((vault?.tvl || 0) / (vault?.allTvl || 0)) * 100}
               tintColor={Colors.ui_grey_13}
               backgroundColor={Colors.ui_grey_95}
             />

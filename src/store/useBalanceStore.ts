@@ -20,9 +20,12 @@ export const useBalanceStore = create<BalanceState>()(set => ({
     const walletAddress = useUserStore.getState().walletAddress;
 
     if (walletAddress) {
-      const balanceResponse = await getUserBalance(walletAddress); //FIX '0x07079492698dC7cdAd0F3b736B2Df669544fC8d2' - test wallet with balance
+      const balanceResponse = await getUserBalance(walletAddress); // rFIX '0x07079492698dC7cdAd0F3b736B2Df669544fC8d2' - test wallet with balance
 
-      const balance = balanceResponse?.[0];
+      const balance = balanceResponse?.find(
+        // address of arbitrum USDC
+        token => token.address === '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
+      );
 
       balance && set({userBalance: balance.amount});
     }

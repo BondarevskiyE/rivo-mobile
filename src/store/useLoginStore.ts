@@ -1,5 +1,5 @@
 import {create} from 'zustand';
-import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
+import {LOGIN_PROVIDER_TYPE} from '@web3auth/react-native-sdk';
 
 import * as RootNavigation from '@/navigation/RootNavigation';
 import {useUserStore} from './useUserStore';
@@ -9,7 +9,11 @@ import {initZeroDevClient} from '@/services/zerodev';
 import {useZeroDevStore} from './useZeroDevStore';
 import {KernelAccount} from './types';
 import {AUTH_SCREENS} from '@/navigation/types/authStack';
-import {userSigninBackend} from '@/shared/api';
+import {
+  checkIsUserAlreadyRegistered,
+  getFirstSigninUserBalance,
+  userSigninBackend,
+} from '@/shared/api';
 
 interface LoginState {
   isLoading: boolean;
@@ -17,8 +21,7 @@ interface LoginState {
   setIsPassCodeEntered: (bool: boolean) => void;
   setIsLoading: (bool: boolean) => void;
 
-  loginGoogle: () => void;
-  loginX: () => void;
+  login: (loginProvider: LOGIN_PROVIDER_TYPE) => void;
 
   logout: () => void;
 }
@@ -29,19 +32,23 @@ export const useLoginStore = create<LoginState>()(set => ({
   setIsPassCodeEntered: (bool: boolean) => set({isPassCodeEntered: bool}),
   setIsLoading: (bool: boolean) => set({isLoading: bool}),
 
-  loginGoogle: async () => {
+  login: async (loginProvider: LOGIN_PROVIDER_TYPE) => {
     try {
       set({isLoading: true});
 
-      const {smartAccountSigner, user} = await web3AuthLogin(
-        LOGIN_PROVIDER.GOOGLE,
-      );
+      const {smartAccountSigner, user} = await web3AuthLogin(loginProvider);
 
-      if (!user) {
+      if (!user || !user?.email) {
         throw new Error('something went wrong with getting your account');
       }
 
-      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING);
+      const isUserAlreadyRegistered = await checkIsUserAlreadyRegistered(
+        user?.email,
+      );
+
+      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING, {
+        isUserAlreadyRegistered: !!isUserAlreadyRegistered,
+      });
 
       const kernelClient = await initZeroDevClient(smartAccountSigner);
 
@@ -60,67 +67,25 @@ export const useLoginStore = create<LoginState>()(set => ({
         photo: user.profileImage || '',
         givenName,
         familyName,
-        loginProvider: LOGIN_PROVIDER.GOOGLE,
+        loginProvider,
       };
 
-      setUserInfo({...formattedUser, loginProvider: LOGIN_PROVIDER.GOOGLE});
+      setUserInfo({...formattedUser, loginProvider});
 
       setWalletAddress(kernelClient.account.address);
 
-      await userSigninBackend(kernelClient.account.address);
+      !isUserAlreadyRegistered &&
+        (await getFirstSigninUserBalance(kernelClient.account.address));
+
+      await userSigninBackend(kernelClient.account.address, user.email || '');
 
       set({isLoading: false});
     } catch (error) {
-      console.log(`Google login error: ${error}`);
+      console.log(`${loginProvider} login error: ${error}`);
       RootNavigation.navigate(AUTH_SCREENS.LOGIN);
     }
   },
-  loginX: async () => {
-    try {
-      set({isLoading: true});
 
-      const {smartAccountSigner, user} = await web3AuthLogin(
-        LOGIN_PROVIDER.TWITTER,
-      );
-
-      if (!user) {
-        throw new Error('something went wrong with getting your account');
-      }
-
-      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING);
-
-      const kernelClient = await initZeroDevClient(smartAccountSigner);
-
-      const {setKernelAccount} = useZeroDevStore.getState();
-
-      setKernelAccount(kernelClient as KernelAccount);
-
-      const [givenName, familyName] = (user?.name || '')?.split(' ');
-
-      const {setUserInfo, setWalletAddress} = useUserStore.getState();
-
-      const formattedUser = {
-        id: user.idToken || '',
-        name: user.name || '',
-        email: user.email || '',
-        photo: user.profileImage || '',
-        givenName,
-        familyName,
-        loginProvider: LOGIN_PROVIDER.GOOGLE,
-      };
-
-      setUserInfo({...formattedUser, loginProvider: LOGIN_PROVIDER.GOOGLE});
-
-      setWalletAddress(kernelClient.account.address);
-
-      await userSigninBackend(kernelClient.account.address);
-
-      set({isLoading: false});
-    } catch (error) {
-      RootNavigation.navigate(AUTH_SCREENS.LOGIN);
-      console.log(`X login error: ${error}`);
-    }
-  },
   logout: async () => {
     try {
       const {setUserInfo, setWalletAddress, setIsLoggedIn} =

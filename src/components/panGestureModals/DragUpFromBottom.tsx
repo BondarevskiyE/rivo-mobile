@@ -1,22 +1,17 @@
 import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
-import React, {
-  ComponentType,
-  RefObject,
-  useCallback,
-  useImperativeHandle,
-  useState,
-} from 'react';
-import {
-  Gesture,
-  GestureDetector,
-  GestureType,
-} from 'react-native-gesture-handler';
-import Animated, {
+import React, {useCallback, useImperativeHandle, useRef, useState} from 'react';
+import {Gesture, GestureDetector} from 'react-native-gesture-handler';
+import ReAnimated, {
+  useAnimatedScrollHandler,
   useAnimatedStyle,
+  useDerivedValue,
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
 import {Colors} from '@/shared/ui';
+import {ScrollView} from 'react-native-gesture-handler';
+
+const AScrollView = ReAnimated.createAnimatedComponent(ScrollView);
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -27,10 +22,6 @@ type DragUpFromBottomProps = {
   initialTranslateY?: number;
   translateYOffset?: number;
   playDragAnimation?: (value: number) => void;
-  simultaneousExternalGesture?:
-    | GestureType
-    | RefObject<GestureType | undefined>
-    | RefObject<ComponentType<{}> | undefined>;
 };
 
 export type DragUpFromBottomRefProps = {
@@ -43,20 +34,18 @@ export const DragUpFromBottom = React.forwardRef<
   DragUpFromBottomProps
 >(
   (
-    {
-      children,
-      initialTranslateY = 0,
-      translateYOffset,
-      playDragAnimation,
-      simultaneousExternalGesture,
-    },
+    {children, initialTranslateY = 0, translateYOffset, playDragAnimation},
     ref,
   ) => {
     const [initialYCoordinate, setInitialYCoordinate] = useState(0);
 
+    const scrollRef = useRef<ScrollView>(null);
+
+    const scrollY = useSharedValue(0);
     const translateY = useSharedValue(initialTranslateY);
     const active = useSharedValue(false);
-    const moving = useSharedValue(false);
+    const scrollingState = useSharedValue(false);
+    const touchStart = useSharedValue({x: 0, y: 0, time: 0});
 
     const maxTranslateY =
       MAX_TRANSLATE_Y - initialYCoordinate - (translateYOffset || 0);
@@ -87,8 +76,31 @@ export const DragUpFromBottom = React.forwardRef<
 
     const context = useSharedValue({y: 0});
     const gesture = Gesture.Pan()
-      .onBegin(() => {
-        moving.value = true;
+      .manualActivation(true)
+      .onBegin(e => {
+        touchStart.value = {
+          x: e.x,
+          y: e.y,
+          time: Date.now(),
+        };
+      })
+      .onTouchesMove((e, state) => {
+        const isScrollZero = scrollY.value === 0;
+        const isPanOpen = active.value;
+        const isMoveDown = e.changedTouches[0].y > touchStart.value.y;
+        const isOpenPanGesture = !isMoveDown && !isPanOpen;
+        const isClosePanGesture = isMoveDown && isPanOpen && isScrollZero;
+
+        // 6px is a height of line + 2 margins of 8px = 22px / + 20px is if the user drag fast
+        const isDragLineTouch = e.changedTouches[0].y <= 42;
+
+        if (isOpenPanGesture || isClosePanGesture || isDragLineTouch) {
+          scrollingState.value = false;
+          state.activate();
+        } else {
+          scrollingState.value = true;
+          state.fail();
+        }
       })
       .onStart(() => {
         context.value = {y: translateY.value};
@@ -136,12 +148,8 @@ export const DragUpFromBottom = React.forwardRef<
         }
       })
       .onFinalize(() => {
-        // stopped touching screen
-        moving.value = false;
-      })
-      .simultaneousWithExternalGesture(
-        simultaneousExternalGesture || {current: undefined},
-      );
+        scrollingState.value = true;
+      });
 
     const rBottomSheetStyle = useAnimatedStyle(() => ({
       transform: [{translateY: translateY.value}],
@@ -157,16 +165,33 @@ export const DragUpFromBottom = React.forwardRef<
       }
     };
 
+    const scrollHandler = useAnimatedScrollHandler(({contentOffset}) => {
+      scrollY.value = Math.round(contentOffset.y);
+    });
+
+    const isScrollEnabled = useDerivedValue(() => {
+      return active.value && scrollingState.value;
+    });
+
     return (
       <GestureDetector gesture={gesture}>
-        <Animated.View
+        <ReAnimated.View
           style={[styles.bottomSheetContainer, rBottomSheetStyle]}
           onLayout={e => setInitialYCoordinate(e.nativeEvent.layout.y)}>
           <Pressable onPress={onPressDragLine}>
             <View style={styles.line} />
           </Pressable>
-          {children}
-        </Animated.View>
+          <AScrollView
+            ref={scrollRef}
+            scrollEnabled={isScrollEnabled}
+            bounces={false}
+            onScroll={scrollHandler}
+            scrollEventThrottle={1}
+            showsVerticalScrollIndicator={false}
+            style={styles.scrollContainer}>
+            {children}
+          </AScrollView>
+        </ReAnimated.View>
       </GestureDetector>
     );
   },
@@ -187,5 +212,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 8,
     borderRadius: 3,
+  },
+  scrollContainer: {
+    flex: 1,
   },
 });

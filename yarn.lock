@@ -1676,6 +1676,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@birdwingo/react-native-instagram-stories@npm:^1.3.4":
+  version: 1.3.4
+  resolution: "@birdwingo/react-native-instagram-stories@npm:1.3.4"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-native: ">=0.70.0"
+    react-native-gesture-handler: ">=2.10.0"
+    react-native-reanimated: ">=2.12.0"
+    react-native-svg: ">=13.6.0"
+  checksum: 806d7256ab9a370e4b86d0633d037f7800c3bd22eddc75b63a6669372985bea1ee94135d80b10cf8f888f6812d30d7b6b9a274b73c4c3b5ff16bf8047c54ecbf
+  languageName: node
+  linkType: hard
+
 "@craftzdog/react-native-buffer@npm:^6.0.5":
   version: 6.0.5
   resolution: "@craftzdog/react-native-buffer@npm:6.0.5"
@@ -2594,6 +2607,16 @@ __metadata:
   bin:
     rnc-cli: build/bin.js
   checksum: 2a36e7d1ec650a0ce5c478572b698416fa5ca23a96f18f1556f9ac5c973bd94409952741d118dae9b5f9e9d5edd582d79e815a8601c50afb81b85f2433ddcdfa
+  languageName: node
+  linkType: hard
+
+"@react-native-community/clipboard@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "@react-native-community/clipboard@npm:1.5.1"
+  peerDependencies:
+    react: ">=16.0"
+    react-native: ">=0.57.0"
+  checksum: 61f993b864804ef43de3a4b33b080d2310d491d7d13bc504e75326a841e0f2715b7c65212cae420fa200688be8881ed4b6731e0f4bad8de2d340c401f598bcea
   languageName: node
   linkType: hard
 
@@ -4815,13 +4838,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clamp@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "clamp@npm:1.0.1"
-  checksum: 799bd7083736eb975cd4a9a7e8f1a1e38cc3cb6be0384f9732c1da263accb3205385e5c2880e661a0d5a74e0066bfbf8fcd17dd2f509595ce52dd04c84522833
-  languageName: node
-  linkType: hard
-
 "clean-stack@npm:^2.0.0":
   version: 2.2.0
   resolution: "clean-stack@npm:2.2.0"
@@ -5039,15 +5055,6 @@ __metadata:
     safe-buffer: 5.1.2
     vary: ~1.1.2
   checksum: 35c0f2eb1f28418978615dc1bc02075b34b1568f7f56c62d60f4214d4b7cc00d0f6d282b5f8a954f59872396bd770b6b15ffd8aa94c67d4bce9b8887b906999b
-  languageName: node
-  linkType: hard
-
-"concat-color-matrices@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "concat-color-matrices@npm:1.0.0"
-  dependencies:
-    invariant: ^2.2.4
-  checksum: f67c2cad8281e89f6acfb5b82e8c62445a16142756ef80e73ecd142f682496ef0d21fc81abb65c901b4fea43fd0fcaf2ad6d3f727973d2bcf07e6e54928b4eeb
   languageName: node
   linkType: hard
 
@@ -9943,20 +9950,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-color-matrix-image-filters@npm:^6.0.9":
-  version: 6.0.9
-  resolution: "react-native-color-matrix-image-filters@npm:6.0.9"
-  dependencies:
-    concat-color-matrices: ^1.0.0
-    rn-color-matrices: ^4.1.0
-    ts-tiny-invariant: ^2.0.5
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: e7b876d8da57a85031fcbc7b6b449af450cf62d04e87cb62b10d59d1719674bf2dbb04da860e8e84f436e7efcabd390c7d2d86bcea1e4343e1378d6d85f07276
-  languageName: node
-  linkType: hard
-
 "react-native-config@npm:^1.5.2":
   version: 1.5.2
   resolution: "react-native-config@npm:1.5.2"
@@ -10196,6 +10189,16 @@ __metadata:
   peerDependencies:
     react-native: "*"
   checksum: 1a2e1030a62fd093764b5330ce0ff34d72246e581dd2892cddc347d8621931aeb2c9ea3e054960484a1259230e8461e569e1890f1ff452d3c5c0adef70190fc3
+  languageName: node
+  linkType: hard
+
+"react-native-video@github:freeboub/react-native-video#chore/fixAppBoot":
+  version: 6.4.2
+  resolution: "react-native-video@https://github.com/freeboub/react-native-video.git#commit=442ba52b8665b4ce5893a510ed6a99a45c72e3c9"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 5a3c893aee94f9bfd7fd77b928a4dd52735b1c4d26f41fd5c801c9f7f42bc2095101880ad14f51bdb3970ad8228aa6ea2c91350c83c73fad4966eece3921fdde
   languageName: node
   linkType: hard
 
@@ -10653,9 +10656,11 @@ __metadata:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0
     "@babel/runtime": ^7.20.0
+    "@birdwingo/react-native-instagram-stories": ^1.3.4
     "@craftzdog/react-native-buffer": ^6.0.5
     "@notifee/react-native": ^7.8.2
     "@react-native-async-storage/async-storage": ^1.23.1
+    "@react-native-community/clipboard": ^1.5.1
     "@react-native-masked-view/masked-view": ^0.3.1
     "@react-native/babel-preset": 0.74.84
     "@react-native/eslint-config": 0.74.84
@@ -10698,7 +10703,6 @@ __metadata:
     react-native: 0.74.2
     react-native-circular-progress: ^1.4.0
     react-native-click-outside: ^0.1.1
-    react-native-color-matrix-image-filters: ^6.0.9
     react-native-config: ^1.5.2
     react-native-device-info: ^11.1.0
     react-native-encrypted-storage: ^4.0.3
@@ -10716,6 +10720,7 @@ __metadata:
     react-native-shadow-2: ^7.1.0
     react-native-svg: ^15.3.0
     react-native-url-polyfill: ^2.0.0
+    react-native-video: "github:freeboub/react-native-video#chore/fixAppBoot"
     react-native-webview: ^13.10.5
     react-native-webview-crypto: ^0.0.25
     react-random-reveal: ^2.0.0
@@ -10730,17 +10735,6 @@ __metadata:
     zustand: ^4.5.2
   languageName: unknown
   linkType: soft
-
-"rn-color-matrices@npm:^4.1.0":
-  version: 4.1.0
-  resolution: "rn-color-matrices@npm:4.1.0"
-  dependencies:
-    clamp: ^1.0.1
-  peerDependencies:
-    react-native: "*"
-  checksum: 91b92ecd6d2c7b0a54357e725ced918237f5df39f97cdf72a11f02ef0779475decb66dcd62ed5682d54e136e52f2d4f032c3a4a161b3f1dcee92eeee447bea73
-  languageName: node
-  linkType: hard
 
 "rn-faded-scrollview@npm:^1.0.13":
   version: 1.0.13
@@ -11589,13 +11583,6 @@ __metadata:
   version: 3.3.1
   resolution: "ts-custom-error@npm:3.3.1"
   checksum: 50a1e825fced68d70049bd8d282379a635e43aa023a370fa8e736b12a6edba7f18a2d731fa194ac35303a8b625be56e121bdb31d8a0318250d1a8b277059fce3
-  languageName: node
-  linkType: hard
-
-"ts-tiny-invariant@npm:^2.0.5":
-  version: 2.0.5
-  resolution: "ts-tiny-invariant@npm:2.0.5"
-  checksum: 6a07ade2cd63ee0abfa458974fa4c8e7ec038b9f821dc60c99e8dc3453f85729984191d496beec8f87e342e564c8b0b48fa690284db4329456d6feae061d24c6
   languageName: node
   linkType: hard
 

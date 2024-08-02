@@ -109,6 +109,10 @@ export const Images = {
   chartNet: require('../../../assets/images/chart/chart-net.png'),
 
   vaultInfoMock: require('../../../assets/images/vaultInfoMock.png'),
+
+  stars: require('../../../assets/images/stars.png'),
+  heart: require('../../../assets/images/heart.png'),
+  services: require('../../../assets/images/services.png'),
 };
 
 export const Icons = {};

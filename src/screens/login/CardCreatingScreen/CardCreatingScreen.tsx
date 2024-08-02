@@ -36,8 +36,9 @@ const animate_state = {
   end: 10,
 };
 
-export const CardCreatingScreen: React.FC<Props> = ({navigation}) => {
+export const CardCreatingScreen: React.FC<Props> = ({navigation, route}) => {
   const isLoading = useLoginStore(state => state.isLoading);
+  const {isUserAlreadyRegistered} = route.params;
 
   const walletAddress = useUserStore(state => state.walletAddress);
 
@@ -162,7 +163,7 @@ export const CardCreatingScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const titleText = isLoading
-    ? 'Creating your wallet...'
+    ? `${isUserAlreadyRegistered ? 'Importing' : 'Creating'} your wallet...`
     : 'Your wallet is ready!';
 
   const isWalletReady = !isLoading && walletAddress;

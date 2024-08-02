@@ -8,12 +8,12 @@ import {Colors, Fonts} from '@/shared/ui';
 
 import {StackScreenProps} from '@react-navigation/stack';
 import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
+import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
 
 type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.LOGIN>;
 
 export const LoginScreen: React.FC<Props> = () => {
-  const loginGoogle = useLoginStore(state => state.loginGoogle);
-  const loginX = useLoginStore(state => state.loginX);
+  const login = useLoginStore(state => state.login);
 
   return (
     <View style={styles.container}>
@@ -21,12 +21,12 @@ export const LoginScreen: React.FC<Props> = () => {
         <Slider data={authSliderData} />
         <View style={styles.lowerBlock}>
           <ConnectButton
-            onPress={loginGoogle}
+            onPress={() => login(LOGIN_PROVIDER.GOOGLE)}
             text="Continue with Google"
             icon="google"
           />
           <ConnectButton
-            onPress={loginX}
+            onPress={() => login(LOGIN_PROVIDER.TWITTER)}
             text="Continue with Twitter"
             icon="twitter"
           />

@@ -7,7 +7,7 @@ export enum AUTH_SCREENS {
 
 export type AuthStackProps = {
   [AUTH_SCREENS.LOGIN]: undefined;
-  [AUTH_SCREENS.CARD_CREATING]: undefined;
+  [AUTH_SCREENS.CARD_CREATING]: {isUserAlreadyRegistered: boolean};
   [AUTH_SCREENS.PASS_CODE_REGISTRATION]: undefined;
   [AUTH_SCREENS.ENABLE_NOTIFICATIONS]: undefined;
 };
