@@ -45,7 +45,7 @@ export const DragUpFromBottom = React.forwardRef<
     const translateY = useSharedValue(initialTranslateY);
     const active = useSharedValue(false);
     const scrollingState = useSharedValue(false);
-    const touchStart = useSharedValue({x: 0, y: 0, time: 0});
+    const touchStart = useSharedValue({x: 0, y: 0});
 
     const maxTranslateY =
       MAX_TRANSLATE_Y - initialYCoordinate - (translateYOffset || 0);
@@ -81,12 +81,12 @@ export const DragUpFromBottom = React.forwardRef<
         touchStart.value = {
           x: e.x,
           y: e.y,
-          time: Date.now(),
         };
       })
       .onTouchesMove((e, state) => {
         const isScrollZero = scrollY.value === 0;
         const isPanOpen = active.value;
+
         const isMoveDown = e.changedTouches[0].y > touchStart.value.y;
         const isOpenPanGesture = !isMoveDown && !isPanOpen;
         const isClosePanGesture = isMoveDown && isPanOpen && isScrollZero;
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     width: '100%',
     backgroundColor: 'white',
     position: 'relative',
+    overflow: 'hidden',
     borderRadius: 32,
   },
   line: {

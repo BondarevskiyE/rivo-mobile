@@ -78,7 +78,7 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
       <VaultAboutDragBlock
         vault={strategyById}
         playDragAnimation={playCarouselScaleOutAnimation}
-        isBig={isBigCarouselContainer}
+        isBigCarouselContainer={isBigCarouselContainer}
       />
     </SafeAreaView>
   );

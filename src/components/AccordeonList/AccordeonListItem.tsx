@@ -1,4 +1,4 @@
-import {Colors} from '@/shared/ui';
+import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon} from '@/shared/ui/icons';
 import React, {useEffect} from 'react';
 import {
@@ -22,9 +22,11 @@ interface Props {
   image: ImageURISource;
   title: string;
   content: JSX.Element;
+  AdditionalTitleComponent: React.ReactNode;
   openItem: (id: string | null) => void;
   openId: string | null;
   id: string;
+  isLastItem: boolean;
 }
 
 export const AccordeonListItem: React.FC<Props> = ({
@@ -34,6 +36,8 @@ export const AccordeonListItem: React.FC<Props> = ({
   id,
   openItem,
   content,
+  AdditionalTitleComponent,
+  isLastItem,
 }) => {
   const height = useSharedValue(0);
   const openValue = useSharedValue(0);
@@ -76,15 +80,22 @@ export const AccordeonListItem: React.FC<Props> = ({
   };
 
   return (
-    <Pressable onPress={handleTouch} style={styles.container}>
+    <Pressable
+      onPress={handleTouch}
+      style={[styles.container, {paddingBottom: isLastItem ? 22 : 0}]}>
       <View style={styles.titleContainer}>
         <View style={styles.titleBlock}>
           <Image source={image} />
-          <Text>{title}</Text>
+          <Text style={styles.title}>{title}</Text>
         </View>
-        <ReAnimated.View style={arrowStyles}>
-          <ArrowLineIcon color={Colors.ui_grey_70} height={13} width={12} />
-        </ReAnimated.View>
+        <View style={styles.arrowContainer}>
+          {AdditionalTitleComponent}
+          <View>
+            <ReAnimated.View style={arrowStyles}>
+              <ArrowLineIcon color={Colors.ui_grey_70} height={13} width={12} />
+            </ReAnimated.View>
+          </View>
+        </View>
       </View>
 
       <ReAnimated.View style={[styles.animatedContainer, contentStyles]}>
@@ -96,23 +107,30 @@ export const AccordeonListItem: React.FC<Props> = ({
           {content}
         </View>
       </ReAnimated.View>
+      {!isLastItem && <View style={styles.dividerLine} />}
     </Pressable>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    paddingVertical: 22,
+    paddingTop: 22,
   },
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 16,
   },
   titleBlock: {
     flexDirection: 'row',
     alignItems: 'center',
+    gap: 10,
+  },
+  arrowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     gap: 10,
   },
   animatedContainer: {
@@ -121,9 +139,20 @@ const styles = StyleSheet.create({
   },
   wrapper: {
     marginTop: 16,
+    paddingHorizontal: 16,
     width: '100%',
     position: 'absolute',
     display: 'flex',
     alignItems: 'center',
+  },
+  dividerLine: {
+    width: '100%',
+    height: 0.5,
+    marginTop: 22,
+    backgroundColor: Colors.ui_grey_13,
+  },
+  title: {
+    fontFamily: Fonts.regular,
+    fontSize: 16,
   },
 });

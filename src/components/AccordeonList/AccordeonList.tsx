@@ -6,6 +6,7 @@ import {Colors} from '@/shared/ui';
 type AccordeonItem = {
   image: ImageURISource;
   title: string;
+  AdditionalTitleComponent?: React.ReactNode;
   content: JSX.Element;
 };
 
@@ -21,15 +22,17 @@ export const AccordeonList: React.FC<Props> = ({items}) => {
   };
   return (
     <View style={styles.container}>
-      {items.map(item => (
+      {items.map((item, index) => (
         <AccordeonListItem
           key={item.title}
           image={item.image}
           title={item.title}
           content={item.content}
+          AdditionalTitleComponent={item?.AdditionalTitleComponent}
           openId={openId}
           id={item.title}
           openItem={openItem}
+          isLastItem={index === items.length - 1}
         />
       ))}
     </View>

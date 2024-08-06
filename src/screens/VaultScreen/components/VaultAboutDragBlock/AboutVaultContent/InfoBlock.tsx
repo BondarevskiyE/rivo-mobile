@@ -28,7 +28,7 @@ export const InfoBlock: React.FC<Props> = ({
   const containerStyles = useAnimatedStyle(() => ({
     marginTop: interpolate(
       imageShiftValue.value,
-      [0, -400],
+      [0, 1],
       [-120, 0],
       Extrapolation.CLAMP,
     ),
@@ -36,11 +36,7 @@ export const InfoBlock: React.FC<Props> = ({
   return (
     <View style={styles.container}>
       <ReAnimated.View style={[styles.imageContainer, containerStyles]}>
-        <Image
-          source={Images.vaultInfoMock}
-          style={styles.image}
-          //   resizeMode="contain"
-        />
+        <Image source={Images.vaultInfoMock} style={styles.image} />
       </ReAnimated.View>
       <View style={styles.contentContainer}>
         <View style={styles.collapsableTextContainer}>

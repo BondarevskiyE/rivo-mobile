@@ -30,6 +30,18 @@ export const strategiesData: Strategy[] = [
     description:
       'The ETH Metaindex streamlines yield generation for passive investors by tapping into top-tier yield farming strategies in DeFi. The ETH Metaindex streamlines yield generation for passive investors by tapping into top-tier yield farming strategies in DeFi. The ETH Metaindex streamlines yield generation for passive investors by tapping into top-tier yield farming strategies in DeFi.',
     logo: 'eth',
+    audits: [
+      {
+        name: 'CertiK Audit',
+        url: 'https://rivo.xyz',
+        iconUrl: 'https://i.ibb.co/WPMrJKh/1.png',
+      },
+      {
+        name: 'Pessimistic Audit',
+        url: 'https://rivo.xyz',
+        iconUrl: 'https://i.ibb.co/6YLJRhC/2.png',
+      },
+    ],
     id: '1',
   },
   {
@@ -61,6 +73,18 @@ export const strategiesData: Strategy[] = [
     description:
       'The ETH Metaindex streamlines yield generation for passive investors by tapping into top-tier yield farming strategies in DeFi. The ETH Metaindex streamlines yield generation for passive investors by tapping into top-tier yield farming strategies in DeFi. The ETH Metaindex streamlines yield generation for passive investors by tapping into top-tier yield farming strategies in DeFi.',
     logo: 'dollar',
+    audits: [
+      {
+        name: 'CertiK Audit',
+        url: 'https://rivo.xyz',
+        iconUrl: 'https://i.ibb.co/WPMrJKh/1.png',
+      },
+      {
+        name: 'Pessimistic Audit',
+        url: 'https://rivo.xyz',
+        iconUrl: 'https://i.ibb.co/6YLJRhC/2.png',
+      },
+    ],
     id: '2',
   },
 ];

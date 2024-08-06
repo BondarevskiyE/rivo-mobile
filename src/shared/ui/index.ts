@@ -45,12 +45,14 @@ export const Colors = {
   ui_orange_25: '#f9e8df',
   ui_orange_40: '#C17830',
   ui_orange_45: '#AB6927',
+  ui_orange_60: '#FAA51C',
   ui_orange_70: '#FA8112',
   ui_orange_80: '#F95E00',
 
   ui_green_40: '#6CCF30',
   ui_green_45: '#6BCD30',
   ui_green_50: '#5CB924',
+  ui_green_70: '#1EC31A',
 
   ui_green_80: '#202a1a',
 
@@ -113,6 +115,14 @@ export const Images = {
   stars: require('../../../assets/images/stars.png'),
   heart: require('../../../assets/images/heart.png'),
   services: require('../../../assets/images/services.png'),
+
+  checkShield: require('../../../assets/images/risk-score/check-shield.png'),
+  userDialog: require('../../../assets/images/risk-score/user-dialog.png'),
+  star: require('../../../assets/images/risk-score/star.png'),
+  brilliant: require('../../../assets/images/risk-score/brilliant.png'),
+
+  fivePercent: require('../../../assets/images/fee-structure/five-percent.png'),
+  tenPercent: require('../../../assets/images/fee-structure/ten-percent.png'),
 };
 
 export const Icons = {};

@@ -26,11 +26,18 @@ import {
   HomeStackProps,
   HomeTabsProps,
 } from './types/homeStack';
+import {useAppStore} from '@/store/useAppStore';
 
 const Stack = createStackNavigator<HomeStackProps>();
 const Tab = createBottomTabNavigator<HomeTabsProps>();
 
 const TabsRoot = () => {
+  const isAppLoading = useAppStore(state => state.isAppLoading);
+
+  if (isAppLoading) {
+    return null; // TODO maybe splash screen instead this
+  }
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <Tab.Navigator

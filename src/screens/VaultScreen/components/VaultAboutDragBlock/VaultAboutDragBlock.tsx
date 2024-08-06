@@ -23,7 +23,7 @@ const {width} = Dimensions.get('window');
 interface Props {
   vault: Strategy;
   playDragAnimation: (value: number) => void;
-  isBig: boolean;
+  isBigCarouselContainer: boolean;
 }
 
 // below the screen
@@ -32,7 +32,7 @@ const INITIAL_TRANSLATE_Y = 600;
 export const VaultAboutDragBlock: React.FC<Props> = ({
   vault,
   playDragAnimation,
-  isBig,
+  isBigCarouselContainer,
 }) => {
   const positionValue = useSharedValue(70);
   const imageShiftValue = useSharedValue(0);
@@ -46,13 +46,14 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    positionValue.value = withTiming(isBig ? 140 : 70);
-  }, [isBig, positionValue]);
+    positionValue.value = withTiming(isBigCarouselContainer ? 140 : 70);
+  }, [isBigCarouselContainer, positionValue]);
 
   const onPlayDragAnimation = (value: number) => {
     'worklet';
     playDragAnimation(value);
-    imageShiftValue.value = withSpring(value, {
+
+    imageShiftValue.value = withSpring(value !== 0 ? 1 : 0, {
       stiffness: 180,
       damping: 30,
       mass: 1,
@@ -75,7 +76,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
       <DragUpFromBottom
         ref={ref}
         initialTranslateY={INITIAL_TRANSLATE_Y}
-        translateYOffset={isBig ? 70 : 0}
+        translateYOffset={isBigCarouselContainer ? 70 : 0}
         playDragAnimation={onPlayDragAnimation}>
         <AboutVaultContent vault={vault} imageShiftValue={imageShiftValue} />
       </DragUpFromBottom>
@@ -103,7 +104,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    // bottom: (initialWindowMetrics?.insets.bottom || 0) + 16,
     width: width - 12 - 12,
     left: 12,
   },

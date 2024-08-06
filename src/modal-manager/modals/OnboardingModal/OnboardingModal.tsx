@@ -128,7 +128,11 @@ export const OnboardingModal = ({
             <Text style={modalStyles.skipButtonText}>Skip</Text>
           </TouchableHighlight>
           <Pressable style={modalStyles.nextButton} onPress={onPressNextButton}>
-            {isTheLastStep ? <CheckIcon /> : <ArrowLineIcon />}
+            {isTheLastStep ? (
+              <CheckIcon />
+            ) : (
+              <ArrowLineIcon color={Colors.ui_white} />
+            )}
           </Pressable>
         </View>
       </View>

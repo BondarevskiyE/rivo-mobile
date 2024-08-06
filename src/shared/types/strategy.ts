@@ -13,6 +13,13 @@ export type Strategy = {
   price: number;
   id: string;
   advantages: {image: string; text: string}[];
+  audits?: Audit[];
+};
+
+export type Audit = {
+  name: string;
+  url: string;
+  iconUrl: string;
 };
 
 export type VaultPrice = {

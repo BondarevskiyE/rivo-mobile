@@ -50,9 +50,16 @@ export const App = () => {
     registerForegroundService();
     checkNotificationPermissions();
     await reconnectZeroDev();
+  };
 
+  const loadData = async () => {
     if (walletAddress && userInfo?.email) {
       await userSigninBackend(walletAddress, userInfo?.email);
+    }
+
+    if (isLoggedIn) {
+      await getStrategies();
+      await getBalance();
     }
 
     setIsAppLoading(false);
@@ -65,8 +72,7 @@ export const App = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      getStrategies();
-      getBalance();
+      loadData();
 
       const interval = setInterval(async () => {
         getBalance();

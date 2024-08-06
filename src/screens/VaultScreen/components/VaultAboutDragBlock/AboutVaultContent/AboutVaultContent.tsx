@@ -1,61 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SharedValue} from 'react-native-reanimated';
 
 import {Strategy} from '@/shared/types';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {InfoBlock} from './InfoBlock';
-import {ExpandableCardList} from '@/components/ExpandableCardList';
 import {AccordeonList} from '@/components/AccordeonList';
-
-const accordeonItems = [
-  {
-    image: Images.services,
-    title: 'Mechanics',
-    content: (
-      <View>
-        <Text>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
-        </Text>
-      </View>
-    ),
-  },
-  {
-    image: Images.heart,
-    title: 'Maintaining the index',
-    content: (
-      <View>
-        <Text>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
-        </Text>
-      </View>
-    ),
-  },
-  {
-    image: Images.stars,
-    title: 'Reward distribution',
-    content: (
-      <View>
-        <Text>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
-        </Text>
-      </View>
-    ),
-  },
-];
+import {ExternalLinkTag, RiskScoreCounter} from '@/components';
+import {InfoQuestionIcon, OrangePlusCircleIcon} from '@/shared/ui/icons';
+import {indexManagmentItems, riskScoringAccordeonItems} from './mocks';
 
 interface Props {
   vault: Strategy;
@@ -66,6 +20,8 @@ export const AboutVaultContent: React.FC<Props> = ({
   vault,
   imageShiftValue,
 }) => {
+  const riskScore = vault.riskLevel * 2 * 10;
+
   return (
     <LinearGradient
       style={{flex: 1, borderRadius: 10}}
@@ -79,7 +35,60 @@ export const AboutVaultContent: React.FC<Props> = ({
           advantages={vault.advantages}
         />
         <Text style={[styles.title, styles.titleMargin]}>Index management</Text>
-        <AccordeonList items={accordeonItems} />
+        <AccordeonList items={indexManagmentItems} />
+
+        <Text style={[styles.title, styles.titleMargin]}>Risk scoring</Text>
+        <View style={styles.riskScoreContainer}>
+          <RiskScoreCounter percent={riskScore} />
+          {vault?.audits?.length && (
+            <ScrollView
+              bounces={false}
+              style={styles.auditScroll}
+              contentContainerStyle={styles.auditScrollContainer}
+              horizontal
+              showsHorizontalScrollIndicator={false}>
+              <View style={styles.risksSummary}>
+                <OrangePlusCircleIcon />
+                <Text style={styles.risksSummaryText}>Risks summary</Text>
+              </View>
+              {vault.audits.map(audit => (
+                <ExternalLinkTag
+                  url={audit.url}
+                  iconUrl={audit.iconUrl}
+                  key={audit.name}>
+                  {audit.name}
+                </ExternalLinkTag>
+              ))}
+            </ScrollView>
+          )}
+        </View>
+        <AccordeonList items={riskScoringAccordeonItems} />
+
+        <Text style={[styles.title, styles.titleMargin]}>Fee structure</Text>
+
+        <View style={styles.feeStructure}>
+          <View style={styles.feeStructureItem}>
+            <Image
+              source={Images.fivePercent}
+              style={styles.feeStructureImage}
+            />
+            <View style={styles.feeStructureItemTextContainer}>
+              <Text>Performance fee</Text>
+              <InfoQuestionIcon />
+            </View>
+          </View>
+          <View style={styles.feeStructureItem}>
+            <Image
+              source={Images.tenPercent}
+              style={styles.feeStructureImage}
+            />
+            <View style={styles.feeStructureItemTextContainer}>
+              <Text>Performance fee</Text>
+              <InfoQuestionIcon />
+            </View>
+          </View>
+        </View>
+
         {/* <ExpandableCardList /> */}
       </View>
     </LinearGradient>
@@ -91,7 +100,7 @@ const styles = StyleSheet.create({
     // height: '90%',
     paddingTop: 10,
     paddingHorizontal: 12,
-    paddingBottom: 150,
+    paddingBottom: 200,
   },
   title: {
     fontFamily: Fonts.semiBold,
@@ -99,9 +108,59 @@ const styles = StyleSheet.create({
     lineHeight: 25.2,
     color: Colors.ui_black_80,
 
-    marginBottom: 12,
+    marginBottom: 14,
   },
   titleMargin: {
     marginTop: 80,
+  },
+  riskScoreContainer: {
+    backgroundColor: Colors.ui_white,
+    paddingBottom: 12,
+    paddingTop: 20,
+    borderRadius: 28,
+    overflow: 'hidden',
+    marginBottom: 8,
+  },
+  auditScroll: {
+    marginTop: 24,
+  },
+  auditScrollContainer: {
+    gap: 12,
+    paddingHorizontal: 12,
+  },
+  risksSummary: {
+    borderRadius: 30,
+    padding: 6,
+    paddingRight: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    backgroundColor: Colors.ui_orange_20,
+    gap: 4,
+  },
+  risksSummaryText: {
+    fontSize: 14,
+    color: Colors.ui_orange_80,
+    fontFamily: Fonts.medium,
+  },
+  feeStructure: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    marginTop: 26,
+  },
+  feeStructureImage: {
+    width: 93,
+    height: 65,
+  },
+  feeStructureItem: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 4,
+  },
+  feeStructureItemTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4.6,
   },
 });
