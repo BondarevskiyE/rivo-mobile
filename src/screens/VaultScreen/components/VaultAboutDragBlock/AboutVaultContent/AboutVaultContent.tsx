@@ -1,5 +1,12 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SharedValue} from 'react-native-reanimated';
 
@@ -7,18 +14,37 @@ import {Strategy} from '@/shared/types';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {InfoBlock} from './InfoBlock';
 import {AccordeonList} from '@/components/AccordeonList';
-import {ExternalLinkTag, RiskScoreCounter} from '@/components';
-import {InfoQuestionIcon, OrangePlusCircleIcon} from '@/shared/ui/icons';
+import {ExpandableCard, ExternalLinkTag, RiskScoreCounter} from '@/components';
+import Modal from '@/modal-manager';
+import {
+  ArrowLineIcon,
+  InfoQuestionIcon,
+  OrangePlusCircleIcon,
+} from '@/shared/ui/icons';
 import {indexManagmentItems, riskScoringAccordeonItems} from './mocks';
+
+import {InsideStrategyCard} from './InsideStrategyCard';
+import {IndexUpdates} from './IndexUpdates';
+import {MethodologyModal} from './MethodologyModal';
+
+function openMethodologyModal() {
+  Modal.show({
+    children: <MethodologyModal />,
+    dismissable: true,
+    position: 'bottom',
+  });
+}
 
 interface Props {
   vault: Strategy;
   imageShiftValue: SharedValue<number>;
+  setIsInvestButtonShown: (isShown: boolean) => void;
 }
 
 export const AboutVaultContent: React.FC<Props> = ({
   vault,
   imageShiftValue,
+  setIsInvestButtonShown,
 }) => {
   const riskScore = vault.riskLevel * 2 * 10;
 
@@ -27,17 +53,64 @@ export const AboutVaultContent: React.FC<Props> = ({
       style={{flex: 1, borderRadius: 10}}
       colors={['rgba(255, 255, 255, 1)', 'rgba(238, 231, 231, 1)']}>
       <View style={styles.container}>
-        <Text style={styles.title}>Overview</Text>
+        <View style={[styles.flexRowContainer, styles.titleMarginBottom]}>
+          <Text style={styles.title}>Overview</Text>
+          <IndexUpdates />
+        </View>
 
         <InfoBlock
           descriptionText={vault.description}
           imageShiftValue={imageShiftValue}
           advantages={vault.advantages}
         />
-        <Text style={[styles.title, styles.titleMargin]}>Index management</Text>
+        <Text
+          style={[
+            styles.title,
+            styles.titleMarginBottom,
+            styles.titleMarginTop,
+          ]}>
+          Inside the index
+        </Text>
+
+        {vault.strategiesInside && (
+          <ScrollView
+            horizontal
+            bounces={false}
+            showsHorizontalScrollIndicator={false}
+            style={{flex: 1, overflow: 'visible', zIndex: 9}}
+            contentContainerStyle={{gap: 8}}>
+            {vault.strategiesInside.map(item => (
+              <ExpandableCard onPress={setIsInvestButtonShown} key={item.name}>
+                <InsideStrategyCard item={item} />
+              </ExpandableCard>
+            ))}
+          </ScrollView>
+        )}
+
+        <Text
+          style={[
+            styles.title,
+            styles.titleMarginBottom,
+            styles.titleMarginTop,
+          ]}>
+          Index management
+        </Text>
         <AccordeonList items={indexManagmentItems} />
 
-        <Text style={[styles.title, styles.titleMargin]}>Risk scoring</Text>
+        <View
+          style={[
+            styles.flexRowContainer,
+            styles.titleMarginTop,
+            styles.titleMarginBottom,
+          ]}>
+          <Text style={[styles.title]}>Risk scoring</Text>
+          <TouchableOpacity
+            style={styles.methodologyContainer}
+            onPress={openMethodologyModal}>
+            <Text style={styles.methodologyText}>Methodology</Text>
+            <ArrowLineIcon color={Colors.ui_grey_72} width={8} height={8} />
+          </TouchableOpacity>
+        </View>
         <View style={styles.riskScoreContainer}>
           <RiskScoreCounter percent={riskScore} />
           {vault?.audits?.length && (
@@ -64,7 +137,14 @@ export const AboutVaultContent: React.FC<Props> = ({
         </View>
         <AccordeonList items={riskScoringAccordeonItems} />
 
-        <Text style={[styles.title, styles.titleMargin]}>Fee structure</Text>
+        <Text
+          style={[
+            styles.title,
+            styles.titleMarginBottom,
+            styles.titleMarginTop,
+          ]}>
+          Fee structure
+        </Text>
 
         <View style={styles.feeStructure}>
           <View style={styles.feeStructureItem}>
@@ -88,8 +168,6 @@ export const AboutVaultContent: React.FC<Props> = ({
             </View>
           </View>
         </View>
-
-        {/* <ExpandableCardList /> */}
       </View>
     </LinearGradient>
   );
@@ -107,11 +185,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 25.2,
     color: Colors.ui_black_80,
-
+  },
+  titleMarginBottom: {
     marginBottom: 14,
   },
-  titleMargin: {
+  titleMarginTop: {
     marginTop: 80,
+  },
+  flexRowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   riskScoreContainer: {
     backgroundColor: Colors.ui_white,
@@ -162,5 +246,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4.6,
+  },
+  methodologyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+  },
+  methodologyText: {
+    fontFamily: Fonts.regular,
+    fontSize: 15,
+    color: Colors.ui_grey_72,
   },
 });

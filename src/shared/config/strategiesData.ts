@@ -42,6 +42,89 @@ export const strategiesData: Strategy[] = [
         iconUrl: 'https://i.ibb.co/6YLJRhC/2.png',
       },
     ],
+    strategiesInside: [
+      {
+        name: 'Real Yield ETH',
+        owner: 'Instadapp Lite',
+        apy: '4.5',
+        allocation: '27',
+        tvl: '2900000',
+        riskScore: '4.9',
+        holders: '4300',
+        backgroundImageUrl: 'https://i.ibb.co/gjTVj4V/sommelier.png',
+        logoImageUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+        description:
+          'The index is being supported by the Rivo team, consistently managing the set of strategies and tokens inside the index. Existing strategies can be unwound and replaced under following circumstances:',
+        yieldSources: [
+          {
+            name: '$PENDLE incentives',
+            logoUrl: 'https://i.ibb.co/nkFBcwZ/image-113.png',
+          },
+          {
+            name: 'ETH restaking yield',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+          {
+            name: 'ETH restaking yieldd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+        ],
+      },
+      {
+        name: 'Real Yield ETH 2',
+        owner: 'Instadapp Lite',
+        apy: '4.5',
+        allocation: '27',
+        tvl: '2900000',
+        riskScore: '4.9',
+        holders: '4300',
+        backgroundImageUrl: 'https://i.ibb.co/gjTVj4V/sommelier.png',
+        logoImageUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+        description:
+          'The index is being supported by the Rivo team, consistently managing the set of strategies and tokens inside the index. Existing strategies can be unwound and replaced under following circumstances:',
+        yieldSources: [
+          {
+            name: '$PENDLE incentives',
+            logoUrl: 'https://i.ibb.co/nkFBcwZ/image-113.png',
+          },
+          {
+            name: 'ETH restaking yield',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+          {
+            name: 'ETH restaking yielddd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+        ],
+      },
+      {
+        name: 'Real Yield ETH 3',
+        owner: 'Instadapp Lite',
+        apy: '4.5',
+        allocation: '27',
+        tvl: '2900000',
+        riskScore: '4.9',
+        holders: '4300',
+        backgroundImageUrl: 'https://i.ibb.co/gjTVj4V/sommelier.png',
+        logoImageUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+        description:
+          'The index is being supported by the Rivo team, consistently managing the set of strategies and tokens inside the index. Existing strategies can be unwound and replaced under following circumstances:',
+        yieldSources: [
+          {
+            name: '$PENDLE incentives',
+            logoUrl: 'https://i.ibb.co/nkFBcwZ/image-113.png',
+          },
+          {
+            name: 'ETH restaking yield',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+          {
+            name: 'ETH restaking yielddd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+        ],
+      },
+    ],
     id: '1',
   },
   {
@@ -86,5 +169,88 @@ export const strategiesData: Strategy[] = [
       },
     ],
     id: '2',
+    strategiesInside: [
+      {
+        name: 'Real Yield ETH 1',
+        owner: 'Instadapp Lite',
+        apy: '4.5',
+        allocation: '27',
+        tvl: '2900000',
+        riskScore: '4.9',
+        holders: '4300',
+        backgroundImageUrl: 'https://i.ibb.co/gjTVj4V/sommelier.png',
+        logoImageUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+        description:
+          'The index is being supported by the Rivo team, consistently managing the set of strategies and tokens inside the index. Existing strategies can be unwound and replaced under following circumstances:',
+        yieldSources: [
+          {
+            name: '$PENDLE incentives',
+            logoUrl: 'https://i.ibb.co/nkFBcwZ/image-113.png',
+          },
+          {
+            name: 'ETH restaking yield',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+          {
+            name: 'ETH restaking yielddd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+        ],
+      },
+      {
+        name: 'Real Yield ETH 21',
+        owner: 'Instadapp Lite',
+        apy: '4.5',
+        allocation: '27',
+        tvl: '2900000',
+        riskScore: '4.9',
+        holders: '4300',
+        backgroundImageUrl: 'https://i.ibb.co/gjTVj4V/sommelier.png',
+        logoImageUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+        description:
+          'The index is being supported by the Rivo team, consistently managing the set of strategies and tokens inside the index. Existing strategies can be unwound and replaced under following circumstances:',
+        yieldSources: [
+          {
+            name: '$PENDLE incentivess',
+            logoUrl: 'https://i.ibb.co/nkFBcwZ/image-113.png',
+          },
+          {
+            name: 'ETH restaking yieldd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+          {
+            name: 'ETH restaking yielddd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+        ],
+      },
+      {
+        name: 'Real Yield ETH 31',
+        owner: 'Instadapp Lite',
+        apy: '4.5',
+        allocation: '27',
+        tvl: '2900000',
+        riskScore: '4.9',
+        holders: '4300',
+        backgroundImageUrl: 'https://i.ibb.co/gjTVj4V/sommelier.png',
+        logoImageUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+        description:
+          'The index is being supported by the Rivo team, consistently managing the set of strategies and tokens inside the index. Existing strategies can be unwound and replaced under following circumstances:',
+        yieldSources: [
+          {
+            name: '$PENDLE incentives',
+            logoUrl: 'https://i.ibb.co/nkFBcwZ/image-113.png',
+          },
+          {
+            name: 'ETH restaking yield',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+          {
+            name: 'ETH restaking yielddd',
+            logoUrl: 'https://i.ibb.co/JqG7SL0/ETH.png',
+          },
+        ],
+      },
+    ],
   },
 ];

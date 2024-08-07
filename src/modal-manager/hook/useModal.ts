@@ -25,15 +25,13 @@ export const useModal = ({defaultOptions}: UseModalParams) => {
 
   const [options, setOptions] = useState<ModalOptions>(initialOptions);
 
-  const changeOptions = useCallback(
-    (params: Partial<ModalShowParams>) => {
-      setOptions({
-        ...options,
-        ...params,
-      });
-    },
-    [options],
-  );
+  const changeOptions = useCallback((params: Partial<ModalShowParams>) => {
+    setOptions({
+      ...options,
+      ...params,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const show = useCallback(
     (params: ModalShowParams) => {

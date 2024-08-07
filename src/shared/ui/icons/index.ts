@@ -28,3 +28,7 @@ export {UserDialogIcon} from './UserDialogIcon';
 export {StarIcon} from './StarIcon';
 export {BrilliantIcon} from './BrilliantIcon';
 export {InfoQuestionIcon} from './InfoQuestionIcon';
+export {DiscountIcon} from './DiscountIcon';
+export {LightingLineIcon} from './LightingLineIcon';
+export {AMarkIcon} from './AMarkIcon';
+export {PeopleIcon} from './PeopleIcon';

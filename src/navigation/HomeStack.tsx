@@ -32,11 +32,11 @@ const Stack = createStackNavigator<HomeStackProps>();
 const Tab = createBottomTabNavigator<HomeTabsProps>();
 
 const TabsRoot = () => {
-  const isAppLoading = useAppStore(state => state.isAppLoading);
+  // const isAppLoading = useAppStore(state => state.isAppLoading);
 
-  if (isAppLoading) {
-    return null; // TODO maybe splash screen instead this
-  }
+  // if (isAppLoading) {
+  //   return null; // TODO maybe splash screen instead this
+  // }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -84,7 +84,7 @@ export const HomeStack = () => {
           top: 0,
           height: '100%',
         }}>
-        {!isPassCodeEntered && <PassCodeScreen />}
+        {/* {!isPassCodeEntered && <PassCodeScreen />} */}
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name={HOME_SCREENS.HOME_SCREEN} component={TabsRoot} />
           <Stack.Screen

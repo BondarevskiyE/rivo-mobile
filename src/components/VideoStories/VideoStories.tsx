@@ -1,14 +1,15 @@
 import React, {useRef} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
+import {View} from 'react-native';
 import InstagramStories, {
   InstagramStoriesPublicMethods,
 } from '@birdwingo/react-native-instagram-stories';
 import {Colors} from '@/shared/ui';
 import {InstagramStoryProps} from '@birdwingo/react-native-instagram-stories/src/core/dto/instagramStoriesDTO';
 
-const {height} = Dimensions.get('window');
+// const {height, width} = Dimensions.get('window');
 interface Props {
-  stories: InstagramStoryProps[];
+  stories?: InstagramStoryProps[];
+  footerComponent?: React.ReactNode;
 }
 
 const stories: InstagramStoryProps[] = [
@@ -57,27 +58,33 @@ const stories: InstagramStoryProps[] = [
   },
 ];
 
-export const VideoStories = () => {
+export const VideoStories: React.FC<Props> = ({footerComponent}) => {
   const ref = useRef<InstagramStoriesPublicMethods>(null);
 
   return (
     <View>
       <InstagramStories
         ref={ref}
+        avatarBorderColors={['#F95E00', '#F9750E', '#F9B233']}
         stories={stories}
         avatarSize={100}
+        modalAnimationDuration={300}
+        storyAnimationDuration={400}
         avatarListContainerStyle={{gap: 12}}
         avatarSeenBorderColors={[Colors.ui_grey_70]}
         saveProgress
-        // mediaContainerStyle={{height: '100%'}}
+        // imageProps={{width, height}}
+        // imageStyles={{aspectRatio: 0.5}}
+        // @ts-ignore
+        footerComponent={footerComponent}
       />
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    height: 200,
-    backgroundColor: Colors.error_red,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     height: 200,
+//     backgroundColor: Colors.error_red,
+//   },
+// });

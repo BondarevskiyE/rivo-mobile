@@ -1,0 +1,832 @@
+diff --git a/src/components/Avatar/Avatar.styles.ts b/src/components/Avatar/Avatar.styles.ts
+index b0c51d6a3190dd1723ebb52b893728d8a1da2dec..57a45099dfecf10de434713f531446a4e94577ea 100644
+--- a/src/components/Avatar/Avatar.styles.ts
++++ b/src/components/Avatar/Avatar.styles.ts
+@@ -1,7 +1,7 @@
+-import { StyleSheet } from 'react-native';
+-import { AVATAR_OFFSET } from '../../core/constants';
++import {StyleSheet} from 'react-native';
++import {AVATAR_OFFSET} from '../../core/constants';
+ 
+-export default StyleSheet.create( {
++export default StyleSheet.create({
+   container: {
+     flexDirection: 'row',
+     alignItems: 'center',
+@@ -14,4 +14,4 @@ export default StyleSheet.create( {
+   name: {
+     alignItems: 'center',
+   },
+-} );
++});
+diff --git a/src/components/Avatar/index.tsx b/src/components/Avatar/index.tsx
+index e511f9bbdbb5ac5bf29a188ff0aba237cffa4437..fd4865639fb6dad2c2fa53ee7454993da414dd25 100644
+--- a/src/components/Avatar/index.tsx
++++ b/src/components/Avatar/index.tsx
+@@ -1,18 +1,19 @@
+-import React, { FC, memo } from 'react';
+-import {
+-  View, Image, Text, TouchableOpacity,
+-} from 'react-native';
++import React, {FC, memo} from 'react';
++import {View, Image, Text, TouchableOpacity} from 'react-native';
+ import Animated, {
+-  useSharedValue, useAnimatedStyle, useDerivedValue, withTiming,
++  useSharedValue,
++  useAnimatedStyle,
++  useDerivedValue,
++  withTiming,
+ } from 'react-native-reanimated';
+-import { StoryAvatarProps } from '../../core/dto/componentsDTO';
++import {StoryAvatarProps} from '../../core/dto/componentsDTO';
+ import AvatarStyles from './Avatar.styles';
+-import Loader from '../Loader';
+-import { AVATAR_OFFSET } from '../../core/constants';
++import Loader from '../AvatarBorder/Loader';
++import {AVATAR_OFFSET} from '../../core/constants';
+ 
+-const AnimatedImage = Animated.createAnimatedComponent( Image );
++const AnimatedImage = Animated.createAnimatedComponent(Image);
+ 
+-const StoryAvatar: FC<StoryAvatarProps> = ( {
++const StoryAvatar: FC<StoryAvatarProps> = ({
+   id,
+   avatarSource,
+   imgUrl,
+@@ -27,54 +28,58 @@ const StoryAvatar: FC<StoryAvatarProps> = ( {
+   showName,
+   nameTextStyle,
+   nameTextProps,
+-} ) => {
+-
+-  const loaded = useSharedValue( false );
+-  const isLoading = useDerivedValue( () => loadingStory.value === id || !loaded.value );
+-  const loaderColor = useDerivedValue( () => (
++}) => {
++  const loaded = useSharedValue(false);
++  const isLoading = useDerivedValue(
++    () => loadingStory.value === id || !loaded.value,
++  );
++  const loaderColor = useDerivedValue(() =>
+     seenStories.value[id] === stories[stories.length - 1]?.id
+       ? seenColors
+-      : colors
+-  ) );
++      : colors,
++  );
+ 
+   const onLoad = () => {
+-
+     loaded.value = true;
+-
+   };
+ 
+-  const imageAnimatedStyles = useAnimatedStyle( () => (
+-    { opacity: withTiming( isLoading.value ? 0.5 : 1 ) }
+-  ) );
++  const imageAnimatedStyles = useAnimatedStyle(() => ({
++    opacity: withTiming(isLoading.value ? 0.5 : 1),
++  }));
+ 
+   return (
+     <View style={AvatarStyles.name}>
+       <View style={AvatarStyles.container}>
+-        <TouchableOpacity activeOpacity={0.6} onPress={onPress} testID={`${id}StoryAvatar${stories.length}Story`}>
+-          <Loader loading={isLoading} color={loaderColor} size={size + AVATAR_OFFSET * 2} />
++        <TouchableOpacity
++          activeOpacity={0.6}
++          onPress={onPress}
++          testID={`${id}StoryAvatar${stories.length}Story`}>
++          <Loader
++            loading={isLoading}
++            color={loaderColor}
++            size={102 + AVATAR_OFFSET * 2}
++          />
+           <AnimatedImage
+-            source={avatarSource ?? { uri: imgUrl }}
++            source={avatarSource ?? {uri: imgUrl}}
+             style={[
+               AvatarStyles.avatar,
+               imageAnimatedStyles,
+-              { width: size, height: size, borderRadius: size / 2 },
++              {width: 93, height: 100, borderRadius: 16},
+             ]}
+             testID="storyAvatarImage"
+             onLoad={onLoad}
+           />
+         </TouchableOpacity>
+       </View>
+-      {Boolean( showName ) && (
++      {Boolean(showName) && (
+         <Text
+           {...nameTextProps}
+-          style={[ { width: size + AVATAR_OFFSET * 2 }, nameTextStyle ]}
+-        >
++          style={[{width: 93 + AVATAR_OFFSET * 2}, nameTextStyle]}>
+           {name}
+         </Text>
+       )}
+     </View>
+   );
+-
+ };
+ 
+-export default memo( StoryAvatar );
++export default memo(StoryAvatar);
+diff --git a/src/components/AvatarBorder/Loader.tsx b/src/components/AvatarBorder/Loader.tsx
+new file mode 100644
+index 0000000000000000000000000000000000000000..916400908ad6641de14204add65e73f1dc0e7fa7
+--- /dev/null
++++ b/src/components/AvatarBorder/Loader.tsx
+@@ -0,0 +1,122 @@
++import React, {FC, memo, useMemo, useState} from 'react';
++import Animated, {
++  cancelAnimation,
++  interpolate,
++  runOnJS,
++  useAnimatedProps,
++  useAnimatedReaction,
++  useAnimatedStyle,
++  useSharedValue,
++  withRepeat,
++  withTiming,
++} from 'react-native-reanimated';
++import {Circle, Defs, LinearGradient, Stop, Svg, Rect} from 'react-native-svg';
++import {
++  AVATAR_SIZE,
++  LOADER_ID,
++  LOADER_URL,
++  STROKE_WIDTH,
++} from '../../core/constants';
++import {StoryLoaderProps} from '../../core/dto/componentsDTO';
++
++const AnimatedCircle = Animated.createAnimatedComponent(Circle);
++const AnimatedSquare = Animated.createAnimatedComponent(Rect);
++const AnimatedSvg = Animated.createAnimatedComponent(Svg);
++
++const Loader: FC<StoryLoaderProps> = ({
++  loading,
++  color,
++  size = AVATAR_SIZE + 10,
++}) => {
++  const RADIUS = useMemo(() => (size - STROKE_WIDTH) / 2, [size]);
++  const CIRCUMFERENCE = useMemo(() => RADIUS * 2 * Math.PI, [RADIUS]);
++
++  const [colors, setColors] = useState<string[]>(color.value);
++
++  const rotation = useSharedValue(0);
++  const progress = useSharedValue(0);
++
++  const animatedProps = useAnimatedProps(() => ({
++    strokeDashoffset: interpolate(
++      progress.value,
++      [0, 1],
++      [0, (CIRCUMFERENCE * 2) / 3],
++    ),
++  }));
++  const animatedStyles = useAnimatedStyle(() => ({
++    transform: [{rotate: `${rotation.value}deg`}],
++  }));
++
++  const startAnimation = () => {
++    'worklet';
++
++    progress.value = withRepeat(withTiming(1, {duration: 3000}), -1, true);
++    rotation.value = withRepeat(
++      withTiming(720, {duration: 3000}),
++      -1,
++      false,
++      () => {
++        rotation.value = 0;
++      },
++    );
++  };
++
++  const stopAnimation = () => {
++    'worklet';
++
++    cancelAnimation(progress);
++    progress.value = withTiming(0);
++
++    cancelAnimation(rotation);
++    rotation.value = withTiming(0);
++  };
++
++  const onColorChange = (newColors: string[]) => {
++    'worklet';
++
++    if (JSON.stringify(colors) === JSON.stringify(newColors)) {
++      return;
++    }
++
++    runOnJS(setColors)(newColors);
++  };
++
++  useAnimatedReaction(
++    () => loading.value,
++    res => (res ? startAnimation() : stopAnimation()),
++    [loading.value],
++  );
++  useAnimatedReaction(
++    () => color.value,
++    res => onColorChange(res),
++    [color.value],
++  );
++
++  return (
++    <AnimatedSvg width={110} height={109}>
++      <Defs>
++        <LinearGradient id={LOADER_ID} x1="0%" y1="0%" x2="100%" y2="0%">
++          {colors?.map((item, i) => (
++            <Stop key={item} offset={i / colors.length} stopColor={item} />
++          ))}
++        </LinearGradient>
++      </Defs>
++      <AnimatedSquare
++        x={1}
++        y={1}
++        width={99}
++        height={106}
++        rx={20}
++        // r={RADIUS}
++        fill="none"
++        stroke={LOADER_URL}
++        strokeWidth={STROKE_WIDTH}
++        strokeLinecap="square"
++        // strokeDasharray={[CIRCUMFERENCE]}
++        animatedProps={animatedProps}
++      />
++    </AnimatedSvg>
++  );
++};
++
++export default memo(Loader);
+diff --git a/src/components/AvatarBorder/index.ts b/src/components/AvatarBorder/index.ts
+new file mode 100644
+index 0000000000000000000000000000000000000000..0f8eeb768b4d88c4ab809c32766690a5c276ae45
+--- /dev/null
++++ b/src/components/AvatarBorder/index.ts
+@@ -0,0 +1 @@
++export {default as Loader} from './Loader';
+diff --git a/src/components/InstagramStories/index.tsx b/src/components/InstagramStories/index.tsx
+index ab743de727b341ef0e48c46a7a618988c66133d9..691beb81a2bba4fc63898946abab11e25b42823a 100644
+--- a/src/components/InstagramStories/index.tsx
++++ b/src/components/InstagramStories/index.tsx
+@@ -1,268 +1,263 @@
+ import React, {
+-  forwardRef, useImperativeHandle, useState, useEffect, useRef, memo,
++  forwardRef,
++  useImperativeHandle,
++  useState,
++  useEffect,
++  useRef,
++  memo,
+ } from 'react';
+-import { useSharedValue } from 'react-native-reanimated';
+-import { Image, ScrollView } from 'react-native';
++import {useSharedValue} from 'react-native-reanimated';
++import {Image, ScrollView} from 'react-native';
+ import StoryAvatar from '../Avatar';
+-import { clearProgressStorage, getProgressStorage, setProgressStorage } from '../../core/helpers/storage';
+-import { InstagramStoriesProps, InstagramStoriesPublicMethods } from '../../core/dto/instagramStoriesDTO';
+-import { ProgressStorageProps } from '../../core/dto/helpersDTO';
+ import {
+-  ANIMATION_DURATION, DEFAULT_COLORS, SEEN_LOADER_COLORS,
+-  STORY_AVATAR_SIZE, AVATAR_SIZE, BACKGROUND_COLOR, CLOSE_COLOR,
++  clearProgressStorage,
++  getProgressStorage,
++  setProgressStorage,
++} from '../../core/helpers/storage';
++import {
++  InstagramStoriesProps,
++  InstagramStoriesPublicMethods,
++} from '../../core/dto/instagramStoriesDTO';
++import {ProgressStorageProps} from '../../core/dto/helpersDTO';
++import {
++  ANIMATION_DURATION,
++  DEFAULT_COLORS,
++  SEEN_LOADER_COLORS,
++  STORY_AVATAR_SIZE,
++  AVATAR_SIZE,
++  BACKGROUND_COLOR,
++  CLOSE_COLOR,
+ } from '../../core/constants';
+ import StoryModal from '../Modal';
+-import { StoryModalPublicMethods } from '../../core/dto/componentsDTO';
+-
+-const InstagramStories = forwardRef<InstagramStoriesPublicMethods, InstagramStoriesProps>( ( {
+-  stories,
+-  saveProgress = false,
+-  avatarBorderColors = DEFAULT_COLORS,
+-  avatarSeenBorderColors = SEEN_LOADER_COLORS,
+-  avatarSize = AVATAR_SIZE,
+-  storyAvatarSize = STORY_AVATAR_SIZE,
+-  listContainerStyle,
+-  avatarListContainerStyle,
+-  listContainerProps,
+-  avatarListContainerProps,
+-  animationDuration = ANIMATION_DURATION,
+-  backgroundColor = BACKGROUND_COLOR,
+-  showName = false,
+-  nameTextStyle,
+-  nameTextProps,
+-  videoAnimationMaxDuration,
+-  videoProps,
+-  closeIconColor = CLOSE_COLOR,
+-  isVisible = false,
+-  hideAvatarList = false,
+-  ...props
+-}, ref ) => {
+-
+-  const [ data, setData ] = useState( stories );
+-
+-  const seenStories = useSharedValue<ProgressStorageProps>( {} );
+-  const loadedStories = useSharedValue( false );
+-  const loadingStory = useSharedValue<string | undefined>( undefined );
+-
+-  const modalRef = useRef<StoryModalPublicMethods>( null );
+-
+-  const onPress = ( id: string ) => {
+-
+-    loadingStory.value = id;
+-
+-    if ( loadedStories.value ) {
+-
+-      modalRef.current?.show( id );
+-
+-    }
+-
+-  };
+-
+-  const onLoad = () => {
+-
+-    loadingStory.value = undefined;
+-
+-  };
+-
+-  const onStoriesChange = async () => {
+-
+-    seenStories.value = await ( saveProgress ? getProgressStorage() : {} );
+-
+-    const promises = stories.map( ( story ) => {
++import {StoryModalPublicMethods} from '../../core/dto/componentsDTO';
++
++const InstagramStories = forwardRef<
++  InstagramStoriesPublicMethods,
++  InstagramStoriesProps
++>(
++  (
++    {
++      stories,
++      saveProgress = false,
++      avatarBorderColors = DEFAULT_COLORS,
++      avatarSeenBorderColors = SEEN_LOADER_COLORS,
++      avatarSize = AVATAR_SIZE,
++      storyAvatarSize = STORY_AVATAR_SIZE,
++      listContainerStyle,
++      avatarListContainerStyle,
++      listContainerProps,
++      avatarListContainerProps,
++      animationDuration = ANIMATION_DURATION,
++      backgroundColor = BACKGROUND_COLOR,
++      showName = false,
++      nameTextStyle,
++      nameTextProps,
++      videoAnimationMaxDuration,
++      videoProps,
++      closeIconColor = CLOSE_COLOR,
++      isVisible = false,
++      hideAvatarList = false,
++      ...props
++    },
++    ref,
++  ) => {
++    const [data, setData] = useState(stories);
+ 
+-      const seenStoryIndex = story.stories.findIndex(
+-        ( item ) => item.id === seenStories.value[story.id],
+-      );
+-      const seenStory = story.stories[seenStoryIndex + 1] || story.stories[0];
++    const seenStories = useSharedValue<ProgressStorageProps>({});
++    const loadedStories = useSharedValue(false);
++    const loadingStory = useSharedValue<string | undefined>(undefined);
+ 
+-      if ( !seenStory ) {
++    const modalRef = useRef<StoryModalPublicMethods>(null);
+ 
+-        return true;
++    const onPress = (id: string) => {
++      loadingStory.value = id;
+ 
++      if (loadedStories.value) {
++        modalRef.current?.show(id);
+       }
++    };
+ 
+-      return seenStory.mediaType !== 'video' ? Image.prefetch( ( seenStory.source as any )?.uri ?? seenStory.sourceUrl ) : true;
++    const onLoad = () => {
++      loadingStory.value = undefined;
++    };
+ 
+-    } );
++    const onStoriesChange = async () => {
++      seenStories.value = await (saveProgress ? getProgressStorage() : {});
+ 
+-    await Promise.all( promises );
++      const promises = stories.map(story => {
++        const seenStoryIndex = story.stories.findIndex(
++          item => item.id === seenStories.value[story.id],
++        );
++        const seenStory = story.stories[seenStoryIndex + 1] || story.stories[0];
+ 
+-    loadedStories.value = true;
+-
+-    if ( loadingStory.value ) {
+-
+-      onPress( loadingStory.value );
+-
+-    }
+-
+-  };
+-
+-  const onSeenStoriesChange = async ( user: string, value: string ) => {
+-
+-    if ( !saveProgress ) {
+-
+-      return;
++        if (!seenStory) {
++          return true;
++        }
+ 
+-    }
++        return seenStory.mediaType !== 'video'
++          ? Image.prefetch(
++              (seenStory.source as any)?.uri ?? seenStory.sourceUrl,
++            )
++          : true;
++      });
+ 
+-    if ( seenStories.value[user] ) {
++      await Promise.all(promises);
+ 
+-      const userData = data.find( ( story ) => story.id === user );
+-      const oldIndex = userData?.stories.findIndex(
+-        ( story ) => story.id === seenStories.value[user],
+-      );
+-      const newIndex = userData?.stories.findIndex( ( story ) => story.id === value );
++      loadedStories.value = true;
+ 
+-      if ( oldIndex! > newIndex! ) {
++      if (loadingStory.value) {
++        onPress(loadingStory.value);
++      }
++    };
+ 
++    const onSeenStoriesChange = async (user: string, value: string) => {
++      if (!saveProgress) {
+         return;
+-
+       }
+ 
+-    }
+-
+-    seenStories.value = await setProgressStorage( user, value );
+-
+-  };
+-
+-  useImperativeHandle(
+-    ref,
+-    () => ( {
+-      spliceStories: ( newStories, index ) => {
+-
+-        if ( index === undefined ) {
+-
+-          setData( [ ...data, ...newStories ] );
+-
+-        } else {
+-
+-          const newData = [ ...data ];
+-          newData.splice( index, 0, ...newStories );
+-          setData( newData );
+-
+-        }
+-
+-      },
+-      spliceUserStories: ( newStories, user, index ) => {
+-
+-        const userData = data.find( ( story ) => story.id === user );
+-
+-        if ( !userData ) {
++      if (seenStories.value[user]) {
++        const userData = data.find(story => story.id === user);
++        const oldIndex = userData?.stories.findIndex(
++          story => story.id === seenStories.value[user],
++        );
++        const newIndex = userData?.stories.findIndex(
++          story => story.id === value,
++        );
+ 
++        if (oldIndex! > newIndex!) {
+           return;
+-
+-        }
+-
+-        const newData = index === undefined
+-          ? [ ...userData.stories, ...newStories ]
+-          : [ ...userData.stories ];
+-
+-        if ( index !== undefined ) {
+-
+-          newData.splice( index, 0, ...newStories );
+-
+-        }
+-
+-        setData( data.map( ( value ) => ( value.id === user ? {
+-          ...value,
+-          stories: newData,
+-        } : value ) ) );
+-
+-      },
+-      setStories: ( newStories ) => {
+-
+-        setData( newStories );
+-
+-      },
+-      clearProgressStorage,
+-      hide: () => modalRef.current?.hide(),
+-      show: ( id ) => {
+-
+-        if ( id ) {
+-
+-          onPress( id );
+-
+-        } else if ( data[0]?.id ) {
+-
+-          onPress( data[0]?.id );
+-
+         }
++      }
+ 
+-      },
+-      pause: () => modalRef.current?.pause()!,
+-      resume: () => modalRef.current?.resume()!,
+-      goToPreviousStory: () => modalRef.current?.goToPreviousStory()!,
+-      goToNextStory: () => modalRef.current?.goToNextStory()!,
+-      getCurrentStory: () => modalRef.current?.getCurrentStory()!,
+-    } ),
+-    [ data ],
+-  );
+-
+-  useEffect( () => {
+-
+-    onStoriesChange();
+-
+-  }, [ data ] );
+-
+-  useEffect( () => {
+-
+-    setData( stories );
+-
+-  }, [ stories ] );
+-
+-  useEffect( () => {
+-
+-    if ( isVisible && data[0]?.id ) {
+-
+-      modalRef.current?.show( data[0]?.id );
+-
+-    } else {
+-
+-      modalRef.current?.hide();
+-
+-    }
+-
+-  }, [ isVisible ] );
+-
+-  return (
+-    <>
+-      {!hideAvatarList && (
+-      <ScrollView horizontal {...listContainerProps} {...avatarListContainerProps} contentContainerStyle={[ listContainerStyle, avatarListContainerStyle ]} testID="storiesList">
+-        {data.map( ( story ) => story.renderAvatar?.()
+-        ?? ( ( story.avatarSource || story.imgUrl ) && (
+-          <StoryAvatar
+-            {...story}
+-            loadingStory={loadingStory}
+-            seenStories={seenStories}
+-            onPress={() => onPress( story.id )}
+-            colors={avatarBorderColors}
+-            seenColors={avatarSeenBorderColors}
+-            size={avatarSize}
+-            showName={showName}
+-            nameTextStyle={nameTextStyle}
+-            nameTextProps={nameTextProps}
+-            key={`avatar${story.id}`}
+-          />
+-        ) ) )}
+-      </ScrollView>
+-      )}
+-      <StoryModal
+-        ref={modalRef}
+-        stories={data}
+-        seenStories={seenStories}
+-        duration={animationDuration}
+-        storyAvatarSize={storyAvatarSize}
+-        onLoad={onLoad}
+-        onSeenStoriesChange={onSeenStoriesChange}
+-        backgroundColor={backgroundColor}
+-        videoDuration={videoAnimationMaxDuration}
+-        videoProps={videoProps}
+-        closeIconColor={closeIconColor}
+-        {...props}
+-      />
+-    </>
+-  );
+-
+-} );
+-
+-export default memo( InstagramStories );
++      seenStories.value = await setProgressStorage(user, value);
++    };
++
++    useImperativeHandle(
++      ref,
++      () => ({
++        spliceStories: (newStories, index) => {
++          if (index === undefined) {
++            setData([...data, ...newStories]);
++          } else {
++            const newData = [...data];
++            newData.splice(index, 0, ...newStories);
++            setData(newData);
++          }
++        },
++        spliceUserStories: (newStories, user, index) => {
++          const userData = data.find(story => story.id === user);
++
++          if (!userData) {
++            return;
++          }
++
++          const newData =
++            index === undefined
++              ? [...userData.stories, ...newStories]
++              : [...userData.stories];
++
++          if (index !== undefined) {
++            newData.splice(index, 0, ...newStories);
++          }
++
++          setData(
++            data.map(value =>
++              value.id === user
++                ? {
++                    ...value,
++                    stories: newData,
++                  }
++                : value,
++            ),
++          );
++        },
++        setStories: newStories => {
++          setData(newStories);
++        },
++        clearProgressStorage,
++        hide: () => modalRef.current?.hide(),
++        show: id => {
++          if (id) {
++            onPress(id);
++          } else if (data[0]?.id) {
++            onPress(data[0]?.id);
++          }
++        },
++        pause: () => modalRef.current?.pause()!,
++        resume: () => modalRef.current?.resume()!,
++        goToPreviousStory: () => modalRef.current?.goToPreviousStory()!,
++        goToNextStory: () => modalRef.current?.goToNextStory()!,
++        getCurrentStory: () => modalRef.current?.getCurrentStory()!,
++      }),
++      [data],
++    );
++
++    useEffect(() => {
++      onStoriesChange();
++    }, [data]);
++
++    useEffect(() => {
++      setData(stories);
++    }, [stories]);
++
++    useEffect(() => {
++      if (isVisible && data[0]?.id) {
++        modalRef.current?.show(data[0]?.id);
++      } else {
++        modalRef.current?.hide();
++      }
++    }, [isVisible]);
++
++    return (
++      <>
++        {!hideAvatarList && (
++          <ScrollView
++            horizontal
++            {...listContainerProps}
++            {...avatarListContainerProps}
++            contentContainerStyle={[
++              listContainerStyle,
++              avatarListContainerStyle,
++            ]}
++            testID="storiesList">
++            {data.map(
++              story =>
++                story.renderAvatar?.() ??
++                ((story.avatarSource || story.imgUrl) && (
++                  <StoryAvatar
++                    {...story}
++                    loadingStory={loadingStory}
++                    seenStories={seenStories}
++                    onPress={() => onPress(story.id)}
++                    colors={avatarBorderColors}
++                    seenColors={avatarSeenBorderColors}
++                    size={avatarSize}
++                    showName={showName}
++                    nameTextStyle={nameTextStyle}
++                    nameTextProps={nameTextProps}
++                    key={`avatar${story.id}`}
++                  />
++                )),
++            )}
++          </ScrollView>
++        )}
++        <StoryModal
++          ref={modalRef}
++          stories={data}
++          seenStories={seenStories}
++          duration={animationDuration}
++          storyAvatarSize={storyAvatarSize}
++          onLoad={onLoad}
++          onSeenStoriesChange={onSeenStoriesChange}
++          backgroundColor={backgroundColor}
++          videoDuration={videoAnimationMaxDuration}
++          videoProps={videoProps}
++          closeIconColor={closeIconColor}
++          {...props}
++        />
++      </>
++    );
++  },
++);
++
++export default memo(InstagramStories);
+diff --git a/src/core/constants/index.ts b/src/core/constants/index.ts
+index 4ea58509069554e37ea39e5fc7f8b4ab6aee627b..0bf4f4d64f4027040f87b7711dfd37b80c6200b5 100644
+--- a/src/core/constants/index.ts
++++ b/src/core/constants/index.ts
+@@ -1,12 +1,19 @@
+-import { Dimensions } from 'react-native';
++import {Dimensions} from 'react-native';
+ 
+-export const { width: WIDTH, height: HEIGHT } = Dimensions.get( 'window' );
++export const {width: WIDTH, height: HEIGHT} = Dimensions.get('window');
+ 
+ export const STORAGE_KEY = '@birdwingo/react-native-instagram-stories';
+ 
+-export const DEFAULT_COLORS = [ '#F7B801', '#F18701', '#F35B04', '#F5301E', '#C81D4E', '#8F1D4E' ];
+-export const LOADER_COLORS = [ '#FFF' ];
+-export const SEEN_LOADER_COLORS = [ '#2A2A2C' ];
++export const DEFAULT_COLORS = [
++  '#F7B801',
++  '#F18701',
++  '#F35B04',
++  '#F5301E',
++  '#C81D4E',
++  '#8F1D4E',
++];
++export const LOADER_COLORS = ['#FFF'];
++export const SEEN_LOADER_COLORS = ['#2A2A2C'];
+ export const PROGRESS_COLOR = '#00000099';
+ export const PROGRESS_ACTIVE_COLOR = '#FFFFFF';
+ export const BACKGROUND_COLOR = '#000000';
+@@ -18,7 +25,7 @@ export const LOADER_URL = `url(#${LOADER_ID})`;
+ export const STROKE_WIDTH = 2;
+ 
+ export const AVATAR_SIZE = 60;
+-export const AVATAR_OFFSET = 5;
++export const AVATAR_OFFSET = 4;
+ export const STORY_AVATAR_SIZE = 26;
+ 
+ export const STORY_ANIMATION_DURATION = 800;
+diff --git a/src/index.tsx b/src/index.tsx
+index 12397542b5514470ad6feb0f847687f91018b67c..e0fac6b99bdec3b42e785ea3088388612ace781b 100644
+--- a/src/index.tsx
++++ b/src/index.tsx
+@@ -1,5 +1,8 @@
+ import InstagramStories from './components/InstagramStories';
+-import { InstagramStoriesProps, InstagramStoriesPublicMethods } from './core/dto/instagramStoriesDTO';
++import {
++  InstagramStoriesProps,
++  InstagramStoriesPublicMethods,
++} from './core/dto/instagramStoriesDTO';
+ 
+-export type { InstagramStoriesProps, InstagramStoriesPublicMethods };
++export type {InstagramStoriesProps, InstagramStoriesPublicMethods};
+ export default InstagramStories;

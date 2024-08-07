@@ -11,6 +11,8 @@ export const bottombarHeight =
 export const Colors = {
   //UI Neutrals
   ui_white: '#FFF',
+  ui_grey_02: '#fafafa',
+  ui_grey_03: '#ececec',
   ui_grey_05: '#F2F2F2',
   ui_grey_07: '#d7d9dd',
   ui_grey_10: '#DBDBDB',
@@ -20,14 +22,18 @@ export const Colors = {
   ui_grey_20: '#CECCCA',
   ui_grey_40: '#b8b8b8',
 
+  ui_grey_50: '#867f7b',
   ui_grey_60: '#989898',
   ui_grey_65: '#8d8d8d',
   ui_grey_70: '#888888',
+  ui_grey_72: '#7b7e79',
   ui_grey_73: '#8c8c8c',
+  ui_grey_735: '#828282',
 
   ui_grey_74: '#747474',
   ui_grey_75: '#4d4d4d',
   ui_grey_80: '#494949',
+
   ui_grey_82: '#434343',
   ui_grey_90: '#373737',
   ui_grey_95: '#313131',
@@ -51,8 +57,11 @@ export const Colors = {
 
   ui_green_40: '#6CCF30',
   ui_green_45: '#6BCD30',
+
   ui_green_50: '#5CB924',
+  ui_green_55: '#28b91d',
   ui_green_70: '#1EC31A',
+  ui_green_75: '#2CDB1D',
 
   ui_green_80: '#202a1a',
 

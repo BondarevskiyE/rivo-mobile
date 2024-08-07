@@ -1,16 +1,19 @@
-import {ExternalLink} from '@/components';
+import {Button, ExternalLink} from '@/components';
 import {CollapsableText} from '@/components/CollapsableText';
 import {VideoStories} from '@/components/VideoStories';
+import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {GlobeIcon} from '@/shared/ui/icons';
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Alert, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import ReAnimated, {
   Extrapolation,
   SharedValue,
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+
+const {width} = Dimensions.get('window');
 
 interface Props {
   //   backgroundImage: string; // FIX change to NodeRequire when we get url from backend
@@ -57,7 +60,19 @@ export const InfoBlock: React.FC<Props> = ({
         </View>
         <View style={styles.dividerLine} />
         <View style={styles.storiesContainer}>
-          <VideoStories />
+          <VideoStories
+            footerComponent={
+              <View style={{height: 63, backgroundColor: Colors.ui_black}}>
+                <Button
+                  text="Invest"
+                  style={styles.investButton}
+                  textStyle={styles.investButtonText}
+                  type={BUTTON_TYPE.ACTION_SECONDARY}
+                  onPress={() => Alert.alert('invest!')}
+                />
+              </View>
+            }
+          />
         </View>
         <View style={styles.dividerLine} />
         <View style={styles.advantagesBlock}>
@@ -143,5 +158,16 @@ const styles = StyleSheet.create({
     lineHeight: 16.8,
     color: Colors.ui_grey_70,
     textAlign: 'center',
+  },
+  investButton: {
+    height: 56,
+    borderRadius: 28,
+    bottom: 15,
+    width: width - 24,
+    left: 12,
+  },
+  investButtonText: {
+    fontFamily: Fonts.bold,
+    fontSize: 17,
   },
 });

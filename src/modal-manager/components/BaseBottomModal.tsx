@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
   container: {
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    padding: 20,
+    padding: 10,
+    paddingBottom: 20,
   },
 });

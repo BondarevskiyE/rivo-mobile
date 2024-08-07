@@ -35,6 +35,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   isBigCarouselContainer,
 }) => {
   const positionValue = useSharedValue(70);
+  const buttonShownValue = useSharedValue(0);
   const imageShiftValue = useSharedValue(0);
 
   const ref = useRef<DragUpFromBottomRefProps>(null);
@@ -47,7 +48,8 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
 
   useEffect(() => {
     positionValue.value = withTiming(isBigCarouselContainer ? 140 : 70);
-  }, [isBigCarouselContainer, positionValue]);
+    buttonShownValue.value = withTiming(isBigCarouselContainer ? 140 : 70);
+  }, [buttonShownValue, isBigCarouselContainer, positionValue]);
 
   const onPlayDragAnimation = (value: number) => {
     'worklet';
@@ -60,16 +62,25 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
     });
   };
 
-  const buttonStyles = useAnimatedStyle(() => ({
-    bottom: interpolate(
-      positionValue.value,
-      [70, 140],
-      [
-        (initialWindowMetrics?.insets.bottom || 0) + 16,
-        (initialWindowMetrics?.insets.bottom || 0) + 86,
-      ],
-    ),
-  }));
+  const setIsInvestButtonShown = (isShown: boolean) => {
+    const value = isBigCarouselContainer ? 140 : 70;
+
+    buttonShownValue.value = withTiming(isShown ? value : 0);
+  };
+
+  const buttonStyles = useAnimatedStyle(() => {
+    return {
+      bottom: interpolate(
+        buttonShownValue.value,
+        [0, 70, 140],
+        [
+          -50,
+          (initialWindowMetrics?.insets.bottom || 0) + 16,
+          (initialWindowMetrics?.insets.bottom || 0) + 86,
+        ],
+      ),
+    };
+  });
 
   return (
     <ReAnimated.View style={[styles.container, {top: positionValue}]}>
@@ -78,7 +89,11 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
         initialTranslateY={INITIAL_TRANSLATE_Y}
         translateYOffset={isBigCarouselContainer ? 70 : 0}
         playDragAnimation={onPlayDragAnimation}>
-        <AboutVaultContent vault={vault} imageShiftValue={imageShiftValue} />
+        <AboutVaultContent
+          vault={vault}
+          imageShiftValue={imageShiftValue}
+          setIsInvestButtonShown={setIsInvestButtonShown}
+        />
       </DragUpFromBottom>
       <ReAnimated.View style={[styles.buttonContainer, buttonStyles]}>
         <Button
@@ -106,6 +121,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     width: width - 12 - 12,
     left: 12,
+    zIndex: 8,
   },
   investButton: {
     height: 56,

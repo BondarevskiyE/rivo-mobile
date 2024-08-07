@@ -46,6 +46,8 @@ export const useLoginStore = create<LoginState>()(set => ({
         user?.email,
       );
 
+      console.log('isUserAlreadyRegistered: ', isUserAlreadyRegistered);
+
       RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING, {
         isUserAlreadyRegistered: !!isUserAlreadyRegistered,
       });

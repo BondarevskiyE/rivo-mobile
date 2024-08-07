@@ -10,3 +10,5 @@ export {LineChart} from './Chart';
 export {Dropdown} from './DropDown';
 export {CollapsableText} from './CollapsableText';
 export {RiskScoreCounter} from './RiskScoreCounter';
+export {ExpandableCard} from './ExpandableCard';
+export {UpdatesIndicator} from './UpdatesIndicator';
