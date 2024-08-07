@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StatusBar} from 'react-native';
+import {StatusBar, LogBox} from 'react-native';
 import PolyfillCrypto from 'react-native-webview-crypto';
 
 import Routes from '@/navigation';
@@ -19,6 +19,8 @@ import {useUserStore} from '@/store/useUserStore';
 import {userSigninBackend} from '@/shared/api';
 import {useStrategiesStore} from '@/store/useStrategiesStore';
 import {useBalanceStore} from '@/store/useBalanceStore';
+// FIX @react-native-clipboard/clipboard library throw this error
+LogBox.ignoreLogs(['new NativeEventEmitter']);
 
 export const App = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);

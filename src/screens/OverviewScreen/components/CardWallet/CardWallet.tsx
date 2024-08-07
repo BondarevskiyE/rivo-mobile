@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import Clipboard from '@react-native-community/clipboard';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 import {formatValue} from '@/shared/lib';
 import {shortenAddress} from '@/shared/lib/format';
