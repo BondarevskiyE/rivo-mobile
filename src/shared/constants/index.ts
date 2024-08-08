@@ -1,6 +1,6 @@
 import Config from 'react-native-config';
 
-const ZERODEV_API_KEY = Config.ZERODEV_API_KEY;
+export const ZERODEV_API_KEY = Config.ZERODEV_API_KEY;
 
 export const PINCODE_LENGTH = 4;
 

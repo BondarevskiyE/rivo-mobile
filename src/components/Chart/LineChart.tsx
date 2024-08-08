@@ -15,6 +15,7 @@ import {SelectionDot} from './SelectionDot';
 
 interface Props {
   data: ChartDotElement[];
+  isLoading: boolean;
   onChangeShownValue?: (value: number) => void;
   onChangeChangePercent?: (value: string) => void;
 }
@@ -27,7 +28,7 @@ export const LineChart: React.FC<Props> = ({
   const netImageValue = useSharedValue(0);
 
   const isProgressive =
-    data[data.length - 1].value > data[data.length - 2].value;
+    data?.[data.length - 1]?.value > data?.[data.length - 2]?.value;
 
   const gradientFillColors = isProgressive
     ? ['rgba(107, 205, 48, 0.04)', 'rgba(107, 205, 48, 0)']
@@ -56,7 +57,17 @@ export const LineChart: React.FC<Props> = ({
   const onGestureEnd = () => {
     playNetScaleAnimation(0);
     onChangeShownValue?.(data[data.length - 1].value);
+    onChangeChangePercent?.(
+      formatValue(
+        (1 - data?.[data.length - 2]?.value / data?.[data.length - 1]?.value) *
+          100,
+      ),
+    );
   };
+
+  if (!data.length) {
+    return null;
+  }
 
   return (
     <View style={styles.container}>

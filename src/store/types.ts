@@ -1,4 +1,5 @@
 import {KernelAccountClient, KernelSmartAccount} from '@zerodev/sdk';
+
 import {LOGIN_PROVIDER_TYPE} from '@web3auth/react-native-sdk';
 import {EntryPoint} from 'permissionless/types';
 import {Transport, Chain} from 'viem';
@@ -13,7 +14,14 @@ export type User = {
   loginProvider: LOGIN_PROVIDER_TYPE;
 };
 
-export type KernelAccount = KernelAccountClient<
+export type KernelClient = KernelAccountClient<
+  EntryPoint,
+  Transport,
+  Chain,
+  KernelSmartAccount<EntryPoint>
+>;
+
+export type DefiClient = KernelAccountClient<
   EntryPoint,
   Transport,
   Chain,

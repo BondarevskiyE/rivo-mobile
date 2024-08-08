@@ -12,19 +12,19 @@ import {useClickOutside} from 'react-native-click-outside';
 
 export type DropdownItem = {label: string; value: string};
 
-interface Props {
-  data: Array<DropdownItem>;
-  onSelect: (item: DropdownItem) => void;
+interface Props<T> {
+  data: Array<T>;
+  onSelect: (item: T) => void;
   dropdownPosition: 'top' | 'bottom';
-  initialSelected?: DropdownItem;
+  initialSelected?: T;
 }
 
-export const Dropdown: React.FC<Props> = ({
+export function Dropdown<T extends DropdownItem>({
   data,
   initialSelected,
   onSelect,
   dropdownPosition,
-}) => {
+}: Props<T>) {
   const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(
     initialSelected || data[data.length - 1],
   );
@@ -48,7 +48,7 @@ export const Dropdown: React.FC<Props> = ({
     });
   };
 
-  const onPressOption = (option: DropdownItem) => {
+  const onPressOption = (option: T) => {
     onSelect(option);
     setSelectedItem(option);
     onOpenDropdown();
@@ -87,7 +87,7 @@ export const Dropdown: React.FC<Props> = ({
           },
           dropdownStyles,
         ]}>
-        {data.map((item: DropdownItem, index: number) => (
+        {data.map((item: T, index: number) => (
           <Pressable
             onPress={() => onPressOption(item)}
             style={[
@@ -104,7 +104,7 @@ export const Dropdown: React.FC<Props> = ({
       </ReAnimated.View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {

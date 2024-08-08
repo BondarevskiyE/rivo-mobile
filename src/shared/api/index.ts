@@ -2,12 +2,14 @@ import axios, {AxiosResponse} from 'axios';
 import Config from 'react-native-config';
 import {
   ApyResponse,
+  ChartResponse,
   PriceResponse,
   TRequestParams,
   TvlResponse,
   UserBalanceResponse,
   VaultResponse,
 } from './types';
+import {CHART_PERIODS, ChartPeriod} from '../types/chart';
 
 const apiUrl = Config.RIVO_API_URL;
 
@@ -113,6 +115,36 @@ export const getVaultApy = async (
 ): Promise<ApyResponse | null> => {
   return await sendRequest<ApyResponse>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_apy`,
+  });
+};
+
+export const getChartVaultTvl = async (
+  address: string,
+  chain: string,
+  period: CHART_PERIODS,
+): Promise<ChartResponse | null> => {
+  return await sendRequest<ChartResponse | null>({
+    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/tvl?period=${period}`,
+  });
+};
+
+export const getChartVaultPrice = async (
+  address: string,
+  chain: string,
+  period: CHART_PERIODS,
+): Promise<ChartResponse | null> => {
+  return await sendRequest<ChartResponse>({
+    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/price?period=${period}`,
+  });
+};
+
+export const getChartVaultApy = async (
+  address: string,
+  chain: string,
+  period: CHART_PERIODS,
+): Promise<ChartResponse | null> => {
+  return await sendRequest<ChartResponse>({
+    url: `${apiUrl}/v1/chain/${chain}/vault/${address}/apy?period=${period}`,
   });
 };
 

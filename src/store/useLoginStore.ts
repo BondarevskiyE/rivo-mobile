@@ -7,7 +7,7 @@ import {resetKeychainCredentials} from '@/services/keychain';
 import {web3AuthLogin, logoutWeb3Auth} from '@/services/web3auth';
 import {initZeroDevClient} from '@/services/zerodev';
 import {useZeroDevStore} from './useZeroDevStore';
-import {KernelAccount} from './types';
+import {KernelClient} from './types';
 import {AUTH_SCREENS} from '@/navigation/types/authStack';
 import {
   checkIsUserAlreadyRegistered,
@@ -52,11 +52,14 @@ export const useLoginStore = create<LoginState>()(set => ({
         isUserAlreadyRegistered: !!isUserAlreadyRegistered,
       });
 
-      const kernelClient = await initZeroDevClient(smartAccountSigner);
+      const {kernelClient, defiClient} = await initZeroDevClient(
+        smartAccountSigner,
+      );
 
-      const {setKernelAccount} = useZeroDevStore.getState();
+      const {setKernelClient, setDefiClient} = useZeroDevStore.getState();
 
-      setKernelAccount(kernelClient as KernelAccount);
+      setKernelClient(kernelClient as KernelClient);
+      setDefiClient(defiClient as KernelClient);
 
       const [givenName, familyName] = (user?.name || '')?.split(' ');
 
@@ -92,7 +95,7 @@ export const useLoginStore = create<LoginState>()(set => ({
     try {
       const {setUserInfo, setWalletAddress, setIsLoggedIn} =
         useUserStore.getState();
-      const {setKernelAccount} = useZeroDevStore.getState();
+      const {setKernelClient} = useZeroDevStore.getState();
 
       const isLoggedOut = await logoutWeb3Auth();
 
@@ -100,7 +103,7 @@ export const useLoginStore = create<LoginState>()(set => ({
         setUserInfo(null);
         setWalletAddress('');
         setIsLoggedIn(false);
-        setKernelAccount(null);
+        setKernelClient(null);
         resetKeychainCredentials();
         return true;
       }

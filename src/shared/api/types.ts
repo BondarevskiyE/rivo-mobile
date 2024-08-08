@@ -1,6 +1,7 @@
 import type {Method} from 'axios';
 
 import {VaultApy, VaultPrice, VaultTvl} from '../types/strategy';
+import {ChartDotElement} from '../types/chart';
 
 export type TRequestParams<D> = {
   url: string;
@@ -14,6 +15,8 @@ export type TRequestParams<D> = {
 export type PriceResponse = VaultPrice;
 export type TvlResponse = VaultTvl;
 export type ApyResponse = VaultApy;
+
+export type ChartResponse = ChartDotElement[];
 
 export type UserBalanceResponse = {
   token_name: string;

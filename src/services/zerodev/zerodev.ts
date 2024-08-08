@@ -7,10 +7,13 @@ import {
   createKernelAccountClient,
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk';
+// import {createKernelDefiClient} from '@zerodev/defi';
+
 // import {createPimlicoPaymasterClient} from 'permissionless/clients/pimlico';
 
-import {BUNDLER_RPC, PAYMASTER_RPC} from '@/shared/constants';
+import {BUNDLER_RPC, PAYMASTER_RPC, ZERODEV_API_KEY} from '@/shared/constants';
 import {SmartAccountSigner} from 'permissionless/accounts';
+import {KernelClient} from '@/store/types';
 
 export const entryPoint = ENTRYPOINT_ADDRESS_V07;
 const kernelVersion = '0.3.1';
@@ -57,5 +60,7 @@ export const initZeroDevClient = async (
     },
   });
 
-  return kernelClient;
+  // const defiClient = createKernelDefiClient(kernelClient, ZERODEV_API_KEY);
+
+  return {kernelClient, defiClient: null as unknown as KernelClient};
 };

@@ -84,7 +84,7 @@ export const HomeStack = () => {
           top: 0,
           height: '100%',
         }}>
-        {/* {!isPassCodeEntered && <PassCodeScreen />} */}
+        {!isPassCodeEntered && <PassCodeScreen />}
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name={HOME_SCREENS.HOME_SCREEN} component={TabsRoot} />
           <Stack.Screen

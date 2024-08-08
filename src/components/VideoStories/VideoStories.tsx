@@ -73,8 +73,9 @@ export const VideoStories: React.FC<Props> = ({footerComponent}) => {
         avatarListContainerStyle={{gap: 12}}
         avatarSeenBorderColors={[Colors.ui_grey_70]}
         saveProgress
-        // imageProps={{width, height}}
-        // imageStyles={{aspectRatio: 0.5}}
+        mediaContainerStyle={{borderRadius: 32}}
+        imageProps={{borderRadius: 32}}
+        imageStyles={{borderRadius: 32}}
         // @ts-ignore
         footerComponent={footerComponent}
       />

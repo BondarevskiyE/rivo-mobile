@@ -13,151 +13,26 @@ import {Colors, Fonts} from '@/shared/ui';
 import {Dropdown, LineChart} from '@/components';
 import {ChartRangeOptions} from './ChartRangeOptions';
 import {formatValue} from '@/shared/lib';
-import {DropdownItem} from '@/components/DropDown/DropDown';
+import {useFetchChart} from '@/shared/hooks';
+import {CHART_PERIODS, ChartType} from '@/shared/types/chart';
+import {Strategy} from '@/shared/types';
 
 interface Props {
   focusChartSlide: () => void;
   scrollY: SharedValue<number>;
   isChartOpen: boolean;
+  vault: Strategy;
   changeDragBlockSize: (isBig: boolean) => void;
 }
 
-export enum CHART_PERIODS {
-  WEEK = '1W',
-  MONTH = '1M',
-  THREE_MONTHS = '3M',
-  MAX = 'max',
-}
+type DropdownItem = {label: string; value: ChartType};
 
-const dropdownVariants = [
+const dropdownVariants: DropdownItem[] = [
   {label: 'Balance', value: 'balance'},
   {label: 'Price', value: 'price'},
   {label: 'TVL', value: 'tvl'},
   {label: 'APY', value: 'apy'},
 ];
-
-const chartMock = {
-  [CHART_PERIODS.WEEK]: [
-    {
-      value: 1.707,
-      date: new Date('2024-07-23'),
-    },
-    {
-      value: 1.8258199575816024,
-      date: new Date('2024-07-22'),
-    },
-    {
-      value: 1.7089297629960172,
-      date: new Date('2024-07-21'),
-    },
-    {
-      value: 1.708974174971757,
-      date: new Date('2024-07-20'),
-    },
-    {
-      value: 1.6748980772223065,
-      date: new Date('2024-07-19'),
-    },
-    {
-      value: 1.6592356858155595,
-      date: new Date('2024-07-18'),
-    },
-    {
-      value: 1.668070327647913,
-      date: new Date('2024-07-17'),
-    },
-  ],
-  [CHART_PERIODS.MONTH]: [
-    {
-      value: 1.707,
-      date: new Date('2024-07-23'),
-    },
-    {
-      value: 1.6258199575816024,
-      date: new Date('2024-07-22'),
-    },
-    {
-      value: 1.9089297629960172,
-      date: new Date('2024-07-21'),
-    },
-    {
-      value: 1.108974174971757,
-      date: new Date('2024-07-20'),
-    },
-    {
-      value: 1.2748980772223065,
-      date: new Date('2024-07-19'),
-    },
-    {
-      value: 1.4592356858155595,
-      date: new Date('2024-07-18'),
-    },
-    {
-      value: 1.268070327647913,
-      date: new Date('2024-07-17'),
-    },
-  ],
-  [CHART_PERIODS.THREE_MONTHS]: [
-    {
-      value: 1.107,
-      date: new Date('2024-07-23'),
-    },
-    {
-      value: 1.3258199575816024,
-      date: new Date('2024-07-22'),
-    },
-    {
-      value: 1.8089297629960172,
-      date: new Date('2024-07-21'),
-    },
-    {
-      value: 1.508974174971757,
-      date: new Date('2024-07-20'),
-    },
-    {
-      value: 1.4748980772223065,
-      date: new Date('2024-07-19'),
-    },
-    {
-      value: 1.6592356858155595,
-      date: new Date('2024-07-18'),
-    },
-    {
-      value: 1.768070327647913,
-      date: new Date('2024-07-17'),
-    },
-  ],
-  [CHART_PERIODS.MAX]: [
-    {
-      value: 1.107,
-      date: new Date('2024-07-23'),
-    },
-    {
-      value: 1.2258199575816024,
-      date: new Date('2024-07-22'),
-    },
-    {
-      value: 1.5089297629960172,
-      date: new Date('2024-07-21'),
-    },
-    {
-      value: 1.408974174971757,
-      date: new Date('2024-07-20'),
-    },
-    {
-      value: 1.5748980772223065,
-      date: new Date('2024-07-19'),
-    },
-    {
-      value: 1.6592356858155595,
-      date: new Date('2024-07-18'),
-    },
-    {
-      value: 1.168070327647913,
-      date: new Date('2024-07-17'),
-    },
-  ],
-};
 
 const periods = Object.values(CHART_PERIODS);
 
@@ -165,26 +40,34 @@ export const ChartCarouselItem: React.FC<Props> = ({
   focusChartSlide,
   scrollY,
   isChartOpen,
+  vault,
   changeDragBlockSize,
 }) => {
   const chartContainerSizeValue = useSharedValue(0);
 
   const [selectedPeriod, setSelectedPeriod] = useState<CHART_PERIODS>(
-    CHART_PERIODS.WEEK,
+    CHART_PERIODS.MONTH,
   );
-  const [selectedChartType, setSelectedChartType] = useState(
+  const [selectedChartType, setSelectedChartType] = useState<ChartType>(
     dropdownVariants[1].value,
   );
+
+  const {isLoading: isChartLoading, data: chartData} = useFetchChart({
+    address: vault.address,
+    chain: vault.chain,
+    period: selectedPeriod,
+    type: selectedChartType,
+  });
+
   const [shownValue, setShownValue] = useState<number>(
-    chartMock[selectedPeriod][chartMock[selectedPeriod].length - 1].value,
+    chartData?.[chartData.length - 1]?.value,
   );
 
   const [changePercent, setChangePercent] = useState<string>(
     formatValue(
       (1 -
-        chartMock[selectedPeriod][chartMock[selectedPeriod].length - 2].value /
-          chartMock[selectedPeriod][chartMock[selectedPeriod].length - 1]
-            .value) *
+        chartData?.[chartData.length - 2]?.value /
+          chartData?.[chartData.length - 1]?.value) *
         100,
     ),
   );
@@ -236,6 +119,17 @@ export const ChartCarouselItem: React.FC<Props> = ({
     chartContainerSizeValue.value = withTiming(390);
   }, [chartContainerSizeValue, isBalanceChart]);
 
+  useEffect(() => {
+    setChangePercent(
+      formatValue(
+        (1 -
+          chartData?.[chartData.length - 2]?.value /
+            chartData?.[chartData.length - 1]?.value) *
+          100,
+      ),
+    );
+  }, [chartData]);
+
   return (
     <Pressable onPress={focusChartSlide}>
       <ReAnimated.View
@@ -279,7 +173,8 @@ export const ChartCarouselItem: React.FC<Props> = ({
           )}
         </View>
         <LineChart
-          data={chartMock[selectedPeriod]}
+          data={chartData}
+          isLoading={isChartLoading}
           onChangeShownValue={onChangeShownValue}
           onChangeChangePercent={onChangeChangePercent}
         />

@@ -92,6 +92,7 @@ export const VaultVerticalCarousel: React.FC<Props> = ({
                 focusChartSlide={goToChartSlide}
                 isChartOpen={currentSlideId === PAGES.CHART}
                 scrollY={scrollY}
+                vault={vault}
                 changeDragBlockSize={changeDragBlockSize}
               />
             );

@@ -1,25 +1,32 @@
 import {create} from 'zustand';
 
-import {KernelAccount} from './types';
+import {KernelClient} from './types';
 import {web3AuthReconnect} from '@/services/web3auth';
 import {initZeroDevClient} from '@/services/zerodev';
 
 interface ZeroDevState {
-  kernelAccount: KernelAccount | null;
-  setKernelAccount: (kernelAccount: KernelAccount | null) => void;
+  kernelClient: KernelClient | null;
+  defiClient: KernelClient | null;
+  setDefiClient: (kernelAccount: KernelClient | null) => void;
+  setKernelClient: (kernelAccount: KernelClient | null) => void;
   reconnectZeroDev: () => void;
 }
 
 export const useZeroDevStore = create<ZeroDevState>()(set => ({
-  kernelAccount: null,
-  setKernelAccount: kernelAccount => set({kernelAccount}),
+  kernelClient: null,
+  defiClient: null,
+  setDefiClient: defiClient => set({defiClient}),
+  setKernelClient: kernelClient => set({kernelClient}),
   reconnectZeroDev: async () => {
     const smartAccountSigner = await web3AuthReconnect();
 
     if (smartAccountSigner) {
-      const kernelAccount = await initZeroDevClient(smartAccountSigner);
+      const {kernelClient, defiClient} = await initZeroDevClient(
+        smartAccountSigner,
+      );
 
-      set({kernelAccount: kernelAccount as KernelAccount});
+      set({kernelClient: kernelClient as KernelClient});
+      set({defiClient: defiClient as KernelClient}); // TODO fix to right type ?
     }
   },
 }));
