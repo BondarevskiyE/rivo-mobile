@@ -1,6 +1,5 @@
 import type {Method} from 'axios';
 
-import {VaultApy, VaultPrice, VaultTvl} from '../types/strategy';
 import {ChartDotElement} from '../types/chart';
 
 export type TRequestParams<D> = {
@@ -12,9 +11,14 @@ export type TRequestParams<D> = {
   timeout?: number;
 };
 
-export type PriceResponse = VaultPrice;
-export type TvlResponse = VaultTvl;
-export type ApyResponse = VaultApy;
+export type VaultInfoResponse = {
+  value: number;
+  date: string;
+};
+
+export type PriceResponse = VaultInfoResponse;
+export type TvlResponse = VaultInfoResponse;
+export type ApyResponse = VaultInfoResponse;
 
 export type ChartResponse = ChartDotElement[];
 

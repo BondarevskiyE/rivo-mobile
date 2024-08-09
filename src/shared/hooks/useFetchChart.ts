@@ -11,9 +11,9 @@ interface Params {
 
 type ReturnType = {isLoading: boolean; data: ChartDotElement[]};
 
-const formatChartData = (data: any[], type: ChartType) => {
+const formatChartData = (data: any[]) => {
   return data.map(item => ({
-    value: item[type],
+    value: item.value,
     date: new Date(item.date * 1000),
   }));
 };
@@ -43,7 +43,7 @@ export const useFetchChart = ({
       chartData = await getChartVaultTvl(address, chain, period);
     }
 
-    chartData && setData(formatChartData(chartData, type));
+    chartData && setData(formatChartData(chartData));
 
     setIsLoading(false);
   };

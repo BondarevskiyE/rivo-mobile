@@ -3,7 +3,7 @@ import {create} from 'zustand';
 import {Strategy} from '@/shared/types';
 import {strategiesData} from '@/shared/config/strategiesData';
 import {
-  getActiveVaults,
+  // getActiveVaults,
   getVaultApy,
   getVaultPrice,
   getVaultTvl,
@@ -17,8 +17,8 @@ interface StrategiesState {
 export const useStrategiesStore = create<StrategiesState>()(set => ({
   strategies: [],
   getStrategies: async () => {
-    const test = await getActiveVaults(); // TODO here is active vaults
-    console.log('test: ', test);
+    // const test = await getActiveVaults(); // TODO here is active vaults
+    // console.log('test: ', test);
     const strategies = [...strategiesData]; // TODO change to backend request
     let strategiesWithInfo = [];
 
@@ -26,13 +26,14 @@ export const useStrategiesStore = create<StrategiesState>()(set => ({
       const current = strategies[i];
 
       const price = await getVaultPrice(current.address, current.chain);
-      current.price = price?.price || 0;
+      current.price = price?.value || 0;
 
       const apy = await getVaultApy(current.address, current.chain);
-      current.apy = apy?.apy || 0;
+      console.log('apy: ', apy);
+      current.apy = apy?.value || 0;
 
       const tvl = await getVaultTvl(current.address, current.chain);
-      current.tvl = tvl?.tvl || 0;
+      current.tvl = tvl?.value || 0;
 
       strategiesWithInfo.push(current);
     }

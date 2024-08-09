@@ -9,7 +9,7 @@ import {
   UserBalanceResponse,
   VaultResponse,
 } from './types';
-import {CHART_PERIODS, ChartPeriod} from '../types/chart';
+import {CHART_PERIODS} from '../types/chart';
 
 const apiUrl = Config.RIVO_API_URL;
 

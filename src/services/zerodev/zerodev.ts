@@ -7,7 +7,7 @@ import {
   createKernelAccountClient,
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk';
-// import {createKernelDefiClient} from '@zerodev/defi';
+import {createKernelDefiClient} from '@zerodev/defi';
 
 // import {createPimlicoPaymasterClient} from 'permissionless/clients/pimlico';
 

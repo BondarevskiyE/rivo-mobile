@@ -41,18 +41,3 @@ export type Audit = {
   url: string;
   iconUrl: string;
 };
-
-export type VaultPrice = {
-  price: number;
-  date: string;
-};
-
-export type VaultTvl = {
-  tvl: number;
-  date: string;
-};
-
-export type VaultApy = {
-  apy: number;
-  date: string;
-};
