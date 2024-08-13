@@ -7,16 +7,15 @@ import {
   createKernelAccountClient,
   createZeroDevPaymasterClient,
 } from '@zerodev/sdk';
-import {createKernelDefiClient} from '@zerodev/defi';
+import {KERNEL_V3_1} from '@zerodev/sdk/constants';
 
 // import {createPimlicoPaymasterClient} from 'permissionless/clients/pimlico';
 
-import {BUNDLER_RPC, PAYMASTER_RPC, ZERODEV_API_KEY} from '@/shared/constants';
+import {BUNDLER_RPC, PAYMASTER_RPC} from '@/shared/constants';
 import {SmartAccountSigner} from 'permissionless/accounts';
-import {KernelClient} from '@/store/types';
 
 export const entryPoint = ENTRYPOINT_ADDRESS_V07;
-const kernelVersion = '0.3.1';
+
 export const chain = arbitrum;
 
 export const initZeroDevClient = async (
@@ -29,7 +28,7 @@ export const initZeroDevClient = async (
   const ecdsaValidator = await signerToEcdsaValidator(publicClient, {
     signer: smartAccountSigner,
     entryPoint,
-    kernelVersion,
+    kernelVersion: KERNEL_V3_1,
   });
 
   const account = await createKernelAccount(publicClient, {
@@ -37,7 +36,7 @@ export const initZeroDevClient = async (
       sudo: ecdsaValidator,
     },
     entryPoint,
-    kernelVersion,
+    kernelVersion: KERNEL_V3_1,
   });
 
   const kernelClient = createKernelAccountClient({
@@ -60,7 +59,5 @@ export const initZeroDevClient = async (
     },
   });
 
-  // const defiClient = createKernelDefiClient(kernelClient, ZERODEV_API_KEY);
-
-  return {kernelClient, defiClient: null as unknown as KernelClient};
+  return kernelClient;
 };

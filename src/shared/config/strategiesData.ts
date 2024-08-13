@@ -2,8 +2,9 @@ import {Strategy} from '../types';
 
 export const strategiesData: Strategy[] = [
   {
-    name: 'Ethereum Yield',
+    name: 'pendleETH',
     address: '0xA31eC4C877C65bEa5C5d4c307473624A0B377090',
+    token_address: '0x515f3533a17E2EEFB13313D9248f328C94dBe641',
     chain: 'ARB',
     apy: 12.2,
     tvl: 2900000,
@@ -130,6 +131,7 @@ export const strategiesData: Strategy[] = [
   {
     name: 'Dollar Yield',
     address: '0xA31eC4C877C65bEa5C5d4c307473624A0B377090',
+    token_address: '0x515f3533a17E2EEFB13313D9248f328C94dBe641',
     chain: 'ARB',
     apy: 20.2,
     tvl: 3500000,

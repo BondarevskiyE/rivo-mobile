@@ -7,7 +7,8 @@ import ReAnimated, {
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
+  withTiming,
+  Easing,
 } from 'react-native-reanimated';
 
 import {StackScreenProps} from '@react-navigation/stack';
@@ -37,13 +38,18 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
     navigation.goBack();
   };
 
-  const playCarouselScaleOutAnimation = (value: number) => {
+  // smooth prop enables withTiming, it is here for clicking open/close button without draging
+  const playCarouselScaleOutAnimation = (value: number, smooth?: boolean) => {
     'worklet';
-    carouselValue.value = withSpring(value, {
-      stiffness: 100,
-      damping: 15,
-      mass: 1,
-    });
+
+    if (smooth) {
+      carouselValue.value = withTiming(value, {
+        easing: Easing.inOut(Easing.linear),
+      });
+      return;
+    }
+
+    carouselValue.value = value;
   };
 
   const carouselStyle = useAnimatedStyle(() => ({
@@ -79,6 +85,7 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
         vault={strategyById}
         playDragAnimation={playCarouselScaleOutAnimation}
         isBigCarouselContainer={isBigCarouselContainer}
+        carouselAnimation={carouselValue}
       />
     </SafeAreaView>
   );

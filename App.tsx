@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StatusBar, LogBox} from 'react-native';
+import {StatusBar, LogBox, Platform, UIManager} from 'react-native';
 import PolyfillCrypto from 'react-native-webview-crypto';
 
 import Routes from '@/navigation';
@@ -22,13 +22,19 @@ import {useBalanceStore} from '@/store/useBalanceStore';
 // FIX @react-native-clipboard/clipboard library throw this error
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
+
 export const App = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
   const isLoggedIn = useUserStore(state => state.isLoggedIn);
 
   const walletAddress = useUserStore(state => state.walletAddress);
   const userInfo = useUserStore(state => state.userInfo);
-  const getBalance = useBalanceStore(state => state.getBalance);
+  const fetchBalance = useBalanceStore(state => state.fetchBalance);
   const getStrategies = useStrategiesStore(state => state.getStrategies);
 
   const setIsPassCodeEntered = useLoginStore(
@@ -61,7 +67,7 @@ export const App = () => {
 
     if (isLoggedIn) {
       await getStrategies();
-      await getBalance();
+      await fetchBalance();
     }
 
     setIsAppLoading(false);
@@ -77,7 +83,7 @@ export const App = () => {
       loadData();
 
       const interval = setInterval(async () => {
-        getBalance();
+        fetchBalance();
       }, 20000);
 
       return () => {

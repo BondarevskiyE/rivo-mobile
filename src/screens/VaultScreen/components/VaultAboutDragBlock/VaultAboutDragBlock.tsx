@@ -1,10 +1,10 @@
 import React, {useEffect, useRef} from 'react';
-import {Alert, Dimensions, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import ReAnimated, {
+  SharedValue,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
-  withSpring,
   withTiming,
 } from 'react-native-reanimated';
 import {initialWindowMetrics} from 'react-native-safe-area-context';
@@ -17,13 +17,23 @@ import {Strategy} from '@/shared/types';
 import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
+import Modal, {InvestModal} from '@/modal-manager';
 
 const {width} = Dimensions.get('window');
 
+const openInvestModal = (vaultTokenAddress: `0x${string}`) => {
+  Modal.show({
+    children: <InvestModal vaultTokenAddress={vaultTokenAddress} />,
+    dismissable: true,
+    position: 'center',
+  });
+};
+
 interface Props {
   vault: Strategy;
-  playDragAnimation: (value: number) => void;
+  playDragAnimation: (value: number, smooth?: boolean) => void;
   isBigCarouselContainer: boolean;
+  carouselAnimation: SharedValue<number>;
 }
 
 // below the screen
@@ -33,10 +43,10 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   vault,
   playDragAnimation,
   isBigCarouselContainer,
+  carouselAnimation,
 }) => {
   const positionValue = useSharedValue(70);
   const buttonShownValue = useSharedValue(0);
-  const imageShiftValue = useSharedValue(0);
 
   const ref = useRef<DragUpFromBottomRefProps>(null);
 
@@ -51,15 +61,9 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
     buttonShownValue.value = withTiming(isBigCarouselContainer ? 140 : 70);
   }, [buttonShownValue, isBigCarouselContainer, positionValue]);
 
-  const onPlayDragAnimation = (value: number) => {
+  const onPlayDragAnimation = (value: number, smooth?: boolean) => {
     'worklet';
-    playDragAnimation(value);
-
-    imageShiftValue.value = withSpring(value !== 0 ? 1 : 0, {
-      stiffness: 180,
-      damping: 30,
-      mass: 1,
-    });
+    playDragAnimation(value, smooth);
   };
 
   const setIsInvestButtonShown = (isShown: boolean) => {
@@ -91,7 +95,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
         playDragAnimation={onPlayDragAnimation}>
         <AboutVaultContent
           vault={vault}
-          imageShiftValue={imageShiftValue}
+          imageShiftValue={carouselAnimation}
           setIsInvestButtonShown={setIsInvestButtonShown}
         />
       </DragUpFromBottom>
@@ -101,7 +105,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
           style={styles.investButton}
           textStyle={styles.investButtonText}
           type={BUTTON_TYPE.ACTION_SECONDARY}
-          onPress={() => Alert.alert('invest!')}
+          onPress={() => openInvestModal(vault.token_address)}
         />
       </ReAnimated.View>
     </ReAnimated.View>

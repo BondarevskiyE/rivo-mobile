@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, Pressable, View, Text} from 'react-native';
+import {StyleSheet, Pressable, View, Text, LayoutAnimation} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon, CheckIcon} from '@/shared/ui/icons';
@@ -38,6 +38,7 @@ export function Dropdown<T extends DropdownItem>({
 
   const onOpenDropdown = (value?: boolean) => {
     setIsOpen(prev => {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // TODO think about it
       if (prev) {
         animationValue.value = withTiming(0, {duration: 200});
       } else {

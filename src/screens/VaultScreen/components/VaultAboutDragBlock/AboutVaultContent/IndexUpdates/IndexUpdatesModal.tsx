@@ -4,7 +4,7 @@ import RNFadedScrollView from 'rn-faded-scrollview';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon} from '@/shared/ui/icons';
-import {WhiteBottomInfoModal} from '@/modal-manager/modals/WhiteBottomInfoModal';
+import {WhiteInfoModal} from '@/modal-manager';
 
 interface Props {
   updates: string[];
@@ -16,7 +16,7 @@ export const IndexUpdatesModal: React.FC<Props> = ({updates}) => {
   const isEmpty = !updates.length;
 
   return (
-    <WhiteBottomInfoModal>
+    <WhiteInfoModal>
       <View style={styles.container}>
         {isEmpty ? (
           <View style={styles.emptyContainer}>
@@ -52,7 +52,7 @@ export const IndexUpdatesModal: React.FC<Props> = ({updates}) => {
           </>
         )}
       </View>
-    </WhiteBottomInfoModal>
+    </WhiteInfoModal>
   );
 };
 

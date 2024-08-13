@@ -21,7 +21,7 @@ type DragUpFromBottomProps = {
   children?: React.ReactNode;
   initialTranslateY?: number;
   translateYOffset?: number;
-  playDragAnimation?: (value: number) => void;
+  playDragAnimation?: (value: number, smooth?: boolean) => void;
 };
 
 export type DragUpFromBottomRefProps = {
@@ -76,29 +76,11 @@ export const DragUpFromBottom = React.forwardRef<
 
     const context = useSharedValue({y: 0});
     const gesture = Gesture.Pan()
-      .manualActivation(true)
-      .onBegin(e => {
-        touchStart.value = {
-          x: e.x,
-          y: e.y,
-        };
-      })
       .onTouchesMove((e, state) => {
         const isScrollZero = scrollY.value === 0;
         const isPanOpen = active.value;
 
-        const isMoveDown = e.changedTouches[0].y > touchStart.value.y;
-        const isOpenPanGesture = !isMoveDown && !isPanOpen;
-        const isClosePanGesture = isMoveDown && isPanOpen && isScrollZero;
-
-        // 6px is a height of line + 2 margins of 8px = 22px / + 20px is if the user drag fast
-        const isDragLineTouch = e.changedTouches[0].y <= 42;
-
-        if (isOpenPanGesture || isClosePanGesture || isDragLineTouch) {
-          scrollingState.value = false;
-          state.activate();
-        } else {
-          scrollingState.value = true;
+        if (!isScrollZero && isPanOpen) {
           state.fail();
         }
       })
@@ -124,7 +106,7 @@ export const DragUpFromBottom = React.forwardRef<
           translateY.value > screenHeight / 1.2
         ) {
           scrollTo(0);
-          playDragAnimation?.(0);
+          playDragAnimation?.(0, true);
           return;
         }
         // scroll to top position
@@ -134,7 +116,7 @@ export const DragUpFromBottom = React.forwardRef<
           translateY.value < screenHeight / 10
         ) {
           scrollTo(maxTranslateY);
-          playDragAnimation?.(maxTranslateY);
+          playDragAnimation?.(maxTranslateY, true);
           return;
         }
 
@@ -144,12 +126,13 @@ export const DragUpFromBottom = React.forwardRef<
           playDragAnimation?.(maxTranslateY);
         } else {
           scrollTo(0);
-          playDragAnimation?.(0);
+          playDragAnimation?.(0, true);
         }
       })
       .onFinalize(() => {
         scrollingState.value = true;
-      });
+      })
+      .simultaneousWithExternalGesture(scrollRef);
 
     const rBottomSheetStyle = useAnimatedStyle(() => ({
       transform: [{translateY: translateY.value}],
@@ -158,10 +141,10 @@ export const DragUpFromBottom = React.forwardRef<
     const onPressDragLine = () => {
       if (active.value) {
         scrollTo(0);
-        playDragAnimation?.(0);
+        playDragAnimation?.(0, true);
       } else {
         scrollTo(maxTranslateY);
-        playDragAnimation?.(maxTranslateY);
+        playDragAnimation?.(maxTranslateY, true);
       }
     };
 

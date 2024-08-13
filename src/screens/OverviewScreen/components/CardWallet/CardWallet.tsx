@@ -1,19 +1,20 @@
 import React from 'react';
-import {
-  Alert,
-  ImageBackground,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
-import Clipboard from '@react-native-clipboard/clipboard';
+import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {formatValue} from '@/shared/lib';
 import {shortenAddress} from '@/shared/lib/format';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {useUserStore} from '@/store/useUserStore';
+import Modal, {QRDepositModal} from '@/modal-manager';
+
+const openQRDepositModal = (address: string) => {
+  Modal.show({
+    children: <QRDepositModal address={address} />,
+    dismissable: true,
+    position: 'bottom',
+  });
+};
 
 export const CardWallet = () => {
   const userBalance = useBalanceStore(state => state.userBalance);
@@ -22,13 +23,10 @@ export const CardWallet = () => {
   const [userBalanceInteger, userBalanceFraction] =
     formatValue(userBalance).split('.');
 
-  const copyAddressToClipboard = () => {
-    Clipboard.setString(walletAddress);
-    Alert.alert('address is coppied');
-  };
-
   return (
-    <Pressable onPress={copyAddressToClipboard} style={styles.container}>
+    <Pressable
+      onPress={() => openQRDepositModal(walletAddress)}
+      style={styles.container}>
       <ImageBackground
         source={Images.userCard}
         resizeMode="cover"

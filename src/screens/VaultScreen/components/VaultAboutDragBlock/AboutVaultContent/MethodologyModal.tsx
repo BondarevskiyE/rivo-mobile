@@ -5,13 +5,13 @@ import RNFadedScrollView from 'rn-faded-scrollview';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon} from '@/shared/ui/icons';
-import {WhiteBottomInfoModal} from '@/modal-manager/modals/WhiteBottomInfoModal';
+import {WhiteInfoModal} from '@/modal-manager';
 
 export const MethodologyModal = () => {
   const [isShowArrow, setIsShowArrow] = useState(true);
 
   return (
-    <WhiteBottomInfoModal>
+    <WhiteInfoModal>
       <View style={styles.container}>
         <Text style={styles.title}>Methodology</Text>
         <RNFadedScrollView
@@ -77,7 +77,7 @@ export const MethodologyModal = () => {
           </View>
         )}
       </View>
-    </WhiteBottomInfoModal>
+    </WhiteInfoModal>
   );
 };
 

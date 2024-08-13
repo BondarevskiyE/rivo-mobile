@@ -29,7 +29,6 @@ export const useStrategiesStore = create<StrategiesState>()(set => ({
       current.price = price?.value || 0;
 
       const apy = await getVaultApy(current.address, current.chain);
-      console.log('apy: ', apy);
       current.apy = apy?.value || 0;
 
       const tvl = await getVaultTvl(current.address, current.chain);

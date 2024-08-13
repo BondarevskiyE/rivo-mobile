@@ -31,7 +31,7 @@ export const InfoBlock: React.FC<Props> = ({
   const containerStyles = useAnimatedStyle(() => ({
     marginTop: interpolate(
       imageShiftValue.value,
-      [0, 1],
+      [0, -400],
       [-120, 0],
       Extrapolation.CLAMP,
     ),

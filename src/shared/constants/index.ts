@@ -9,3 +9,6 @@ export const DEFAULT_USER_PHOTO =
 
 export const BUNDLER_RPC = `https://rpc.zerodev.app/api/v2/bundler/${ZERODEV_API_KEY}`;
 export const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${ZERODEV_API_KEY}`;
+
+export const USDC_DECIMALS = 6;
+export const WETH_DECIMALS = 18;

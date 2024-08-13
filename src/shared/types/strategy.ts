@@ -1,6 +1,7 @@
 export type Strategy = {
   name: string;
   address: string;
+  token_address: `0x${string}`;
   chain: string;
   shortDescription: string;
   description: string;

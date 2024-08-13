@@ -52,14 +52,11 @@ export const useLoginStore = create<LoginState>()(set => ({
         isUserAlreadyRegistered: !!isUserAlreadyRegistered,
       });
 
-      const {kernelClient, defiClient} = await initZeroDevClient(
-        smartAccountSigner,
-      );
+      const kernelClient = await initZeroDevClient(smartAccountSigner);
 
-      const {setKernelClient, setDefiClient} = useZeroDevStore.getState();
+      const {setKernelClient} = useZeroDevStore.getState();
 
       setKernelClient(kernelClient as KernelClient);
-      setDefiClient(defiClient as KernelClient);
 
       const [givenName, familyName] = (user?.name || '')?.split(' ');
 

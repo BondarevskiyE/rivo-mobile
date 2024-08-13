@@ -1,2 +1,4 @@
 export * from './OnboardingModal';
-export * from './WhiteBottomInfoModal';
+export * from './WhiteInfoModal';
+export * from './QRDepositModal';
+export * from './InvestModal';

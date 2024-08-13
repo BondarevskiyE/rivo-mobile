@@ -8,7 +8,7 @@ import {withChildren} from '@/shared/types';
 
 type Props = withChildren;
 
-export const WhiteBottomInfoModal = ({children}: Props) => {
+export const WhiteInfoModal = ({children}: Props) => {
   return (
     <BaseBottomModalContainer>
       <View style={styles.container}>

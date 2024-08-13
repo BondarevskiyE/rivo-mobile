@@ -1,0 +1,85 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index 5922f8cd91c85066a0f5c6f7dd652d69335fd5cf..6f404e235965968e45f529c34f658c6c633e50eb 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -8221,12 +8221,12 @@ async function getSwapData2(projectId, {
+ var import_actions2 = require("permissionless/actions");
+ 
+ // src/actions/defi-account-client/getSwapUserOp.ts
+-var import_actions = require("@zerodev/sdk/actions");
++var import_actions = require("@zerodev/sdk/_cjs/actions");
+ var import_permissionless = require("permissionless");
+ var import_smartAccount = require("permissionless/actions/smartAccount");
+ 
+ // src/actions/utils/getSponsorUserOperation.ts
+-var import_sdk = require("@zerodev/sdk");
++var import_sdk = require("@zerodev/sdk/_cjs");
+ var import_viem2 = require("viem");
+ var getGasTokenAddress = (gasToken, fromToken, toToken) => {
+   if (gasToken === "native" || gasToken === "sponsored") {
+@@ -8448,7 +8448,7 @@ async function getSwapDataCrossChain2(projectId, {
+ }
+ 
+ // src/actions/defi-account-client/getSwapUserOpCrossChain.ts
+-var import_actions3 = require("@zerodev/sdk/actions");
++var import_actions3 = require("@zerodev/sdk/_cjs/actions");
+ var import_permissionless2 = require("permissionless");
+ var import_smartAccount2 = require("permissionless/actions/smartAccount");
+ var import_viem3 = require("viem");
+@@ -8594,7 +8594,7 @@ var createKernelDefiClient = (client, projectId) => {
+ var import_viem6 = require("viem");
+ 
+ // src/v1/actions.ts
+-var import_sdk2 = require("@zerodev/sdk");
++var import_sdk2 = require("@zerodev/sdk/_cjs");
+ var import_permissionless3 = require("permissionless");
+ var import_smartAccount3 = require("permissionless/actions/smartAccount");
+ var import_viem4 = require("viem");
+@@ -8703,7 +8703,7 @@ var defiActions = ({
+ };
+ 
+ // src/v1/mock.ts
+-var import_axios = __toESM(require("axios"), 1);
++var import_axios = require("axios");
+ var import_viem5 = require("viem");
+ var ENSO_API_KEY = process.env.ENSO_API_KEY;
+ var enso = import_axios.default.create({
+diff --git a/dist/index.js b/dist/index.js
+index 9daa09223178935145e8b2f6ca8c10f327ccc023..fcc46252493222b16eca51abb06de57a03577b36 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -8181,12 +8181,12 @@ async function getSwapData2(projectId, {
+ import { sendUserOperation } from "permissionless/actions";
+ 
+ // src/actions/defi-account-client/getSwapUserOp.ts
+-import { getUserOperationGasPrice } from "@zerodev/sdk/actions";
++import { getUserOperationGasPrice } from "@zerodev/sdk/_cjs/actions";
+ import { ENTRYPOINT_ADDRESS_V07 } from "permissionless";
+ import { prepareUserOperationRequest } from "permissionless/actions/smartAccount";
+ 
+ // src/actions/utils/getSponsorUserOperation.ts
+-import { createZeroDevPaymasterClient } from "@zerodev/sdk";
++import { createZeroDevPaymasterClient } from "@zerodev/sdk/_cjs";
+ import { http } from "viem";
+ var getGasTokenAddress = (gasToken, fromToken, toToken) => {
+   if (gasToken === "native" || gasToken === "sponsored") {
+@@ -8408,7 +8408,7 @@ async function getSwapDataCrossChain2(projectId, {
+ }
+ 
+ // src/actions/defi-account-client/getSwapUserOpCrossChain.ts
+-import { getUserOperationGasPrice as getUserOperationGasPrice2 } from "@zerodev/sdk/actions";
++import { getUserOperationGasPrice as getUserOperationGasPrice2 } from "@zerodev/sdk/_cjs/actions";
+ import { ENTRYPOINT_ADDRESS_V07 as ENTRYPOINT_ADDRESS_V072 } from "permissionless";
+ import { prepareUserOperationRequest as prepareUserOperationRequest2 } from "permissionless/actions/smartAccount";
+ import { encodeFunctionData, erc20Abi } from "viem";
+@@ -8558,9 +8558,7 @@ import {
+ } from "viem";
+ 
+ // src/v1/actions.ts
+-import {
+-  createZeroDevPaymasterClient as createZeroDevPaymasterClient2
+-} from "@zerodev/sdk";
++import { createZeroDevPaymasterClient as createZeroDevPaymasterClient2 } from "@zerodev/sdk/_cjs";
+ import { AccountOrClientNotFoundError, parseAccount } from "permissionless";
+ import { prepareUserOperationRequest as prepareUserOperationRequest3 } from "permissionless/actions/smartAccount";
+ import {

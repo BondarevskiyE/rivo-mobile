@@ -6,7 +6,7 @@ interface BalanceState {
   userBalance: number;
   totalEarned: number;
   cashAccountBalance: number;
-  getBalance: () => void;
+  fetchBalance: () => void;
   setUserBalancce: (balance: number) => void;
   setTotalEarned: (earned: number) => void;
   setCashAccountBalance: (balance: number) => void;
@@ -16,7 +16,7 @@ export const useBalanceStore = create<BalanceState>()(set => ({
   userBalance: 0.0,
   totalEarned: 0.0,
   cashAccountBalance: 0.0,
-  getBalance: async () => {
+  fetchBalance: async () => {
     const walletAddress = useUserStore.getState().walletAddress;
 
     if (walletAddress) {
@@ -27,7 +27,8 @@ export const useBalanceStore = create<BalanceState>()(set => ({
         token => token.address === '0xaf88d065e77c8cC2239327C5EDb3A432268e5831',
       );
 
-      balance && set({userBalance: balance.amount});
+      balance &&
+        set({userBalance: balance.amount, cashAccountBalance: balance.amount});
     }
   },
   setUserBalancce: (balance: number) => set({userBalance: balance}),

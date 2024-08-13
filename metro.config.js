@@ -16,7 +16,7 @@ const config = {
       stream: require.resolve('readable-stream'),
       buffer: require.resolve('buffer'),
     },
-    sourceExts: [...defaultConfig.resolver.sourceExts, 'svg'],
+    sourceExts: [...defaultConfig.resolver.sourceExts, 'svg', 'cjs'],
   },
 };
 

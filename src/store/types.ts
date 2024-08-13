@@ -20,10 +20,3 @@ export type KernelClient = KernelAccountClient<
   Chain,
   KernelSmartAccount<EntryPoint>
 >;
-
-export type DefiClient = KernelAccountClient<
-  EntryPoint,
-  Transport,
-  Chain,
-  KernelSmartAccount<EntryPoint>
->;
