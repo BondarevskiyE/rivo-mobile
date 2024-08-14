@@ -80,6 +80,7 @@
     "@react-native/metro-config": "0.74.84",
     "@react-native/typescript-config": "0.74.84",
     "@types/react": "^18.2.6",
+    "@types/react-native-video": "^5.0.20",
     "@types/react-test-renderer": "^18.0.0",
     "assert": "^2.1.0",
     "babel-jest": "^29.7.0",

@@ -36,21 +36,26 @@ export const InvestModal: React.FC<Props> = ({vaultTokenAddress}) => {
   return (
     <WhiteInfoModal>
       <View style={styles.container}>
-        <TextInput
-          onChangeText={setInvestAmount}
-          value={investAmount}
-          style={[
-            styles.input,
-            {borderColor: isEnoughBalance ? 'transparent' : 'red'},
-          ]}
-        />
+        <View style={{width: '100%'}}>
+          <Text>{`USDC balance: ${balanceUSDC}`}</Text>
+          <TextInput
+            keyboardType="number-pad"
+            placeholder="enter an amount"
+            onChangeText={setInvestAmount}
+            value={investAmount}
+            style={[
+              styles.input,
+              {borderColor: isEnoughBalance ? 'transparent' : 'red'},
+            ]}
+          />
+        </View>
         {isLoading && <Text style={styles.loading}>Loading...</Text>}
         {!isEnoughBalance && <Text>insufficient funds</Text>}
         <View style={styles.button}>
           <Button
             text="invest"
             onPress={onPressInvest}
-            disabled={isLoading || !isEnoughBalance}
+            disabled={isLoading || !isEnoughBalance || !investAmount}
           />
         </View>
       </View>

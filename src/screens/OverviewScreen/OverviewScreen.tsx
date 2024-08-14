@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     // transformOrigin: 'top',
   },
   scrollArea: {
-    paddingBottom: 350,
+    paddingBottom: 400, // 350
   },
   cashAccountContainer: {
     marginTop: 20,

@@ -6,14 +6,18 @@ import {Colors, Fonts} from '@/shared/ui';
 import {Strategy} from '@/shared/types';
 import {EthereumIcon, HoldersIcon} from '@/shared/ui/icons';
 import {abbreviateNumber, getFormatValue} from '@/shared/lib/format';
+import {VideoBackground} from '@/components/VideoBackground';
 
 interface Props {
   vault: Strategy;
 }
 
+const videoBackground = require('assets/videos/ether-video.mp4');
+
 export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
   return (
     <View style={styles.container}>
+      <VideoBackground source={videoBackground} />
       <View style={styles.apyBlock}>
         <EthereumIcon />
         <Text style={styles.apyText}>{getFormatValue(vault?.apy || 0)}%</Text>
@@ -84,6 +88,8 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: Colors.ui_black_65,
     marginBottom: 8,
+
+    position: 'relative',
   },
   apyBlock: {
     marginTop: 20,

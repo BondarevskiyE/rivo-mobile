@@ -21,6 +21,7 @@ import {Colors, Fonts, Images} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
 import {HighlightableElement} from 'react-native-highlight-overlay';
+import {formatValue} from '@/shared/lib';
 
 interface Props {
   cardAnimationValue: SharedValue<number>;
@@ -60,8 +61,6 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
     ],
   }));
 
-  const balanceLength = userBalance.toString().length;
-
   return (
     <View style={styles.container}>
       <Image
@@ -76,10 +75,10 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
           <View style={styles.balanceContainer}>
             <Text style={styles.dollar}>$</Text>
             <Text
-              style={[styles.balance, {fontSize: balanceLength > 6 ? 7 : 12}]}
+              style={[styles.balance]}
               // TODO think about fontSize here
             >
-              {userBalance}
+              {formatValue(userBalance)}
             </Text>
           </View>
         </ImageBackground>
