@@ -1,7 +1,8 @@
-export type Strategy = {
+export type Vault = {
   name: string;
   address: string;
   token_address: `0x${string}`;
+  strategies: Strategy[];
   chain: string;
   shortDescription: string;
   description: string;
@@ -16,6 +17,11 @@ export type Strategy = {
   advantages: {image: string; text: string}[];
   audits?: Audit[];
   strategiesInside?: StrategyInside[];
+};
+
+export type Strategy = {
+  chain: string;
+  address: string;
 };
 
 export type StrategyInside = {

@@ -10,7 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {SharedValue} from 'react-native-reanimated';
 
-import {Strategy} from '@/shared/types';
+import {Vault} from '@/shared/types';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {InfoBlock} from './InfoBlock';
 import {AccordeonList} from '@/components/AccordeonList';
@@ -36,7 +36,7 @@ function openMethodologyModal() {
 }
 
 interface Props {
-  vault: Strategy;
+  vault: Vault;
   imageShiftValue: SharedValue<number>;
   setIsInvestButtonShown: (isShown: boolean) => void;
 }

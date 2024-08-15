@@ -1,7 +1,7 @@
 import {create} from 'zustand';
 
-import {Strategy} from '@/shared/types';
-import {strategiesData} from '@/shared/config/strategiesData';
+import {Vault} from '@/shared/types';
+import {vaultsData} from '@/shared/config/vaultsData';
 import {
   // getActiveVaults,
   getVaultApy,
@@ -9,17 +9,17 @@ import {
   getVaultTvl,
 } from '@/shared/api';
 
-interface StrategiesState {
-  strategies: Strategy[];
-  getStrategies: () => void;
+interface VaultsState {
+  vaults: Vault[];
+  fetchVaults: () => void;
 }
 
-export const useStrategiesStore = create<StrategiesState>()(set => ({
-  strategies: [],
-  getStrategies: async () => {
+export const useVaultsStore = create<VaultsState>()(set => ({
+  vaults: [],
+  fetchVaults: async () => {
     // const test = await getActiveVaults(); // TODO here is active vaults
     // console.log('test: ', test);
-    const strategies = [...strategiesData]; // TODO change to backend request
+    const strategies = [...vaultsData]; // TODO change to backend request
     let strategiesWithInfo = [];
 
     for (let i = 0; i < strategies.length; i++) {
@@ -37,6 +37,6 @@ export const useStrategiesStore = create<StrategiesState>()(set => ({
       strategiesWithInfo.push(current);
     }
 
-    set({strategies: strategiesWithInfo});
+    set({vaults: strategiesWithInfo});
   },
 }));

@@ -3,13 +3,13 @@ import {StyleSheet, Text, View} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 
 import {Colors, Fonts, Videos} from '@/shared/ui';
-import {Strategy} from '@/shared/types';
+import {Vault} from '@/shared/types';
 import {EthereumIcon, HoldersIcon} from '@/shared/ui/icons';
 import {abbreviateNumber, getFormatValue} from '@/shared/lib/format';
 import {VideoBackground} from '@/components/VideoBackground';
 
 interface Props {
-  vault: Strategy;
+  vault: Vault;
 }
 
 export const InfoCarouselItem: React.FC<Props> = ({vault}) => {

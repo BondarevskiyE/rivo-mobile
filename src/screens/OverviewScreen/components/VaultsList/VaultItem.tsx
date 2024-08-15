@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Alert, Pressable} from 'react-native';
 
 import * as RootNavigation from '@/navigation/RootNavigation';
-import {Strategy} from '@/shared/types';
+import {Vault} from '@/shared/types';
 import {Colors, Fonts} from '@/shared/ui';
 import {
   DollarIconWithShadow,
@@ -14,10 +14,10 @@ import {HOME_SCREENS} from '@/navigation/types/homeStack';
 import {getFormatValue} from '@/shared/lib/format';
 
 interface Props {
-  item: Strategy;
+  item: Vault;
 }
 
-export const StrategyItem: React.FC<Props> = ({item}) => {
+export const VaultItem: React.FC<Props> = ({item}) => {
   const Icon =
     item.logo === 'dollar'
       ? DollarIconWithShadow

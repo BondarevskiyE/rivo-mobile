@@ -1,8 +1,7 @@
 import React from 'react';
 import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
 
-import {formatValue} from '@/shared/lib';
-import {shortenAddress} from '@/shared/lib/format';
+import {formatNumber, shortenAddress} from '@/shared/lib/format';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {useUserStore} from '@/store/useUserStore';
@@ -21,7 +20,7 @@ export const CardWallet = () => {
   const totalEarned = useBalanceStore(state => state.totalEarned);
   const walletAddress = useUserStore(state => state.walletAddress);
   const [userBalanceInteger, userBalanceFraction] =
-    formatValue(userBalance).split('.');
+    formatNumber(userBalance).split('.');
 
   return (
     <Pressable
@@ -46,7 +45,7 @@ export const CardWallet = () => {
               <View style={styles.earnedValueContainer}>
                 <Text style={styles.littleDollar}>$</Text>
                 <Text style={styles.earnedValue}>
-                  {formatValue(totalEarned)}
+                  {formatNumber(totalEarned)}
                 </Text>
               </View>
             </View>

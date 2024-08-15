@@ -15,13 +15,13 @@ import {ChartRangeOptions} from './ChartRangeOptions';
 import {formatValue} from '@/shared/lib';
 import {useFetchChart} from '@/shared/hooks';
 import {CHART_PERIODS, ChartType} from '@/shared/types/chart';
-import {Strategy} from '@/shared/types';
+import {Vault} from '@/shared/types';
 
 interface Props {
   focusChartSlide: () => void;
   scrollY: SharedValue<number>;
   isChartOpen: boolean;
-  vault: Strategy;
+  vault: Vault;
   changeDragBlockSize: (isBig: boolean) => void;
 }
 

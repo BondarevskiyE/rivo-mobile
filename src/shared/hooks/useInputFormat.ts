@@ -13,12 +13,17 @@ export const useInputFormat = () => {
       const isPrevSymbolDot = !!additionalValue;
       const isDotSymbol = symbol === '.';
 
-      if (isDotSymbol && prev.includes('.')) {
+      // we don't need two dots
+      if (isDotSymbol && (prev.includes('.') || isPrevSymbolDot)) {
         return prev;
       }
 
-      // we don't need two dots
-      if (isPrevSymbolDot && isDotSymbol) {
+      if (isDotSymbol && !prev) {
+        setAdditionalValue('.0');
+        return '0';
+      }
+
+      if (!prev && symbol === '0') {
         return prev;
       }
 
@@ -57,8 +62,6 @@ export const useInputFormat = () => {
     setAdditionalValue('');
     setInputValue(String(maxValue * (percent / 100)));
   };
-
-  console.log('test: ', inputValue);
 
   return {
     onAddSymbol,

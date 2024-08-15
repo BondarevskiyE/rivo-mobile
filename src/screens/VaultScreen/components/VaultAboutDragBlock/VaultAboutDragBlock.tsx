@@ -13,7 +13,7 @@ import {
   DragUpFromBottom,
   DragUpFromBottomRefProps,
 } from '@/components/panGestureModals';
-import {Strategy} from '@/shared/types';
+import {Vault} from '@/shared/types';
 import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
@@ -21,7 +21,7 @@ import {Fonts} from '@/shared/ui';
 const {width} = Dimensions.get('window');
 
 interface Props {
-  vault: Strategy;
+  vault: Vault;
   playDragAnimation: (value: number, smooth?: boolean) => void;
   isBigCarouselContainer: boolean;
   carouselAnimation: SharedValue<number>;

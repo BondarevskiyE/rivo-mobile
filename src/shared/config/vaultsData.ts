@@ -1,10 +1,20 @@
-import {Strategy} from '../types';
+import {Vault} from '../types';
 
-export const strategiesData: Strategy[] = [
+export const vaultsData: Vault[] = [
   {
     name: 'pendleETH',
     address: '0xA31eC4C877C65bEa5C5d4c307473624A0B377090',
     token_address: '0x515f3533a17E2EEFB13313D9248f328C94dBe641',
+    strategies: [
+      {
+        chain: 'ARB',
+        address: '0xe10d82Ca259853A2E4f2E9Fc78C316A00388147c',
+      },
+      {
+        chain: 'ARB',
+        address: '0x7f29df2B1fb1643186D9110066758cEffdCA90D7',
+      },
+    ],
     chain: 'ARB',
     apy: 12.2,
     tvl: 2900000,

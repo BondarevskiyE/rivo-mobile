@@ -1,6 +1,7 @@
 declare module 'react-native-config' {
   export interface NativeConfig {
     RIVO_API_URL: string;
+    LOCUS_API_URL: string;
     WEB3AUTH_API_KEY: string;
     ZERODEV_API_KEY: string;
   }

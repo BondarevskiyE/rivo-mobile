@@ -19,7 +19,7 @@ import RNFadedScrollView from 'rn-faded-scrollview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {OnboardingTasks} from '@/components/onboarding';
-import {Header, CardWallet, CashAccount, StrategiesList} from './components';
+import {Header, CardWallet, CashAccount, VaultsList} from './components';
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
 import {
   ONBOARDING_MODAL_HEIGHT,
@@ -160,14 +160,14 @@ export const OverviewScreen = () => {
           </View>
 
           <View
-            style={styles.strategiesListContainer}
+            style={styles.vaultsListContainer}
             ref={refs[HIGHLIGHT_ELEMENTS.STRATEGIES_LIST]}
             onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.STRATEGIES_LIST, {
               mode: 'rectangle',
               borderRadius: 24,
               clickthroughHighlight: false,
             })}>
-            <StrategiesList />
+            <VaultsList />
           </View>
         </View>
       </RNFadedScrollView>
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
   cashAccountContainer: {
     marginTop: 20,
   },
-  strategiesListContainer: {
+  vaultsListContainer: {
     marginTop: 12,
   },
 });

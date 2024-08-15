@@ -17,7 +17,7 @@ import {useOnboardingStore} from '@/store/useOnboardingStore';
 import {useZeroDevStore} from '@/store/useZeroDevStore';
 import {useUserStore} from '@/store/useUserStore';
 import {userSigninBackend} from '@/shared/api';
-import {useStrategiesStore} from '@/store/useStrategiesStore';
+import {useVaultsStore} from '@/store/useVaultsStore';
 import {useBalanceStore} from '@/store/useBalanceStore';
 // FIX @react-native-clipboard/clipboard library throw this error
 LogBox.ignoreLogs(['new NativeEventEmitter']);
@@ -35,7 +35,7 @@ export const App = () => {
   const walletAddress = useUserStore(state => state.walletAddress);
   const userInfo = useUserStore(state => state.userInfo);
   const fetchBalance = useBalanceStore(state => state.fetchBalance);
-  const getStrategies = useStrategiesStore(state => state.getStrategies);
+  const fetchVaults = useVaultsStore(state => state.fetchVaults);
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
@@ -66,7 +66,7 @@ export const App = () => {
     }
 
     if (isLoggedIn) {
-      await getStrategies();
+      await fetchVaults();
       await fetchBalance();
     }
 

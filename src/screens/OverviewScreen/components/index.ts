@@ -1,4 +1,4 @@
 export {Header} from './Header';
-export {StrategiesList} from './StrategiesList';
+export {VaultsList} from './VaultsList';
 export {CashAccount} from './CashAccount';
 export {CardWallet} from './CardWallet';

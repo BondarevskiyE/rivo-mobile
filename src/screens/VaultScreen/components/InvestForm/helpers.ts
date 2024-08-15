@@ -9,3 +9,22 @@ export const getInputFontSize = (inputLength: number) => {
 
   return 64;
 };
+
+export const getActionButtonText = (
+  inputValue: string,
+  balance: number,
+  isLoading: boolean,
+) => {
+  if (isLoading) {
+    return 'Processing';
+  }
+  if (!inputValue) {
+    return 'Enter Amount';
+  }
+
+  if (+inputValue > balance) {
+    return 'Insufificient balance';
+  }
+
+  return 'Invest';
+};

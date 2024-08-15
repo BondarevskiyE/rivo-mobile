@@ -10,11 +10,11 @@ import {ChartCarouselItem} from './ChartCarouselItem/ChartCarouselItem';
 import {CloseIcon} from '@/shared/ui/icons';
 import {Colors} from '@/shared/ui';
 import {Pagination} from './Pagination/Pagination';
-import {Strategy} from '@/shared/types';
+import {Vault} from '@/shared/types';
 import {Page, PAGES} from './types';
 
 interface Props {
-  vault: Strategy;
+  vault: Vault;
   goBack: () => void;
   isBigCarouselContainer: boolean;
   changeDragBlockSize: (isBig: boolean) => void;

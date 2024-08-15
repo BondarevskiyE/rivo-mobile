@@ -12,3 +12,6 @@ export const PAYMASTER_RPC = `https://rpc.zerodev.app/api/v2/paymaster/${ZERODEV
 
 export const USDC_DECIMALS = 6;
 export const WETH_DECIMALS = 18;
+
+export const PENDLE_ETH_VAULT_ADDRESS =
+  '0xA31eC4C877C65bEa5C5d4c307473624A0B377090';

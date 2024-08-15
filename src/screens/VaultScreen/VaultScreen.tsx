@@ -17,8 +17,8 @@ import ReAnimated, {
 
 import {StackScreenProps} from '@react-navigation/stack';
 import {VaultAboutDragBlock, VaultVerticalCarousel} from './components';
-import {useStrategiesStore} from '@/store/useStrategiesStore';
-import {Strategy} from '@/shared/types';
+import {useVaultsStore} from '@/store/useVaultsStore';
+import {Vault} from '@/shared/types';
 import {HOME_SCREENS, HomeStackProps} from '@/navigation/types/homeStack';
 import {InvestForm} from './components/InvestForm';
 import {ArrowLineIcon} from '@/shared/ui/icons';
@@ -38,13 +38,13 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
 
   const carouselValue = useSharedValue(0);
 
-  const strategyById = useStrategiesStore(
+  const vaultById = useVaultsStore(
     useCallback(
-      state => state.strategies.find(item => item.id === vaultId),
+      state => state.vaults.find(item => item.id === vaultId),
       [vaultId],
     ),
     // there couldn't be undefined
-  ) as Strategy;
+  ) as Vault;
 
   const goBack = () => {
     navigation.goBack();
@@ -135,28 +135,30 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       {isInvestFormOpen && (
-        <AnimatedPressable
-          style={[styles.backIconContainer, investFormBackButtonStyle]}
-          onPress={closeInvestForm}>
-          <ArrowLineIcon color={Colors.ui_white} />
-        </AnimatedPressable>
+        <>
+          <AnimatedPressable
+            style={[styles.backIconContainer, investFormBackButtonStyle]}
+            onPress={closeInvestForm}>
+            <ArrowLineIcon color={Colors.ui_white} />
+          </AnimatedPressable>
+
+          <ReAnimated.View style={[styles.investForm, investFormStyle]}>
+            <InvestForm vault={vaultById} />
+          </ReAnimated.View>
+        </>
       )}
       <ReAnimated.View style={[styles.carouselContainer, carouselStyle]}>
         <VaultVerticalCarousel
-          vault={strategyById}
+          vault={vaultById}
           goBack={goBack}
           changeDragBlockSize={setIsBigCarouselContainer}
           isBigCarouselContainer={isBigCarouselContainer}
         />
       </ReAnimated.View>
-      {isInvestFormOpen && (
-        <ReAnimated.View style={[styles.investForm, investFormStyle]}>
-          <InvestForm />
-        </ReAnimated.View>
-      )}
+
       <ReAnimated.View style={[styles.dragBlockContainer, dragBlockStyle]}>
         <VaultAboutDragBlock
-          vault={strategyById}
+          vault={vaultById}
           playDragAnimation={playCarouselScaleOutAnimation}
           isBigCarouselContainer={isBigCarouselContainer}
           carouselAnimation={carouselValue}

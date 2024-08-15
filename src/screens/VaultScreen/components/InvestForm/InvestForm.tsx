@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
@@ -7,9 +7,19 @@ import {useBalanceStore} from '@/store/useBalanceStore';
 import {formatNumber, formatThousandSeparator} from '@/shared/lib/format';
 import {InvestKeyboard} from '@/components/InvestKeyboard';
 import {useInputFormat} from '@/shared/hooks/useInputFormat';
-import {getInputFontSize} from './helpers';
+import {getActionButtonText, getInputFontSize} from './helpers';
+import {Button} from '@/components';
+import {useZeroDevStore} from '@/store/useZeroDevStore';
+import {Vault} from '@/shared/types';
 
-export const InvestForm: React.FC = () => {
+interface Props {
+  vault: Vault;
+}
+
+export const InvestForm: React.FC<Props> = ({vault}) => {
+  const invest = useZeroDevStore(state => state.invest);
+  const [isLoading, setIsLoading] = useState(false);
+
   const {
     onAddSymbol,
     onRemoveSymbol,
@@ -19,18 +29,28 @@ export const InvestForm: React.FC = () => {
     additionalValue,
   } = useInputFormat();
 
-  // console.log(inputValue, formattedInputValue);
+  const isInputEmpty = inputValue === '';
 
   const onPressAmountPercentButton =
     (maxValue: number, percent: number) => () => {
       onChangeByPercent(maxValue, percent);
     };
 
+  const onInvest = async () => {
+    setIsLoading(true);
+    await invest(vault.token_address, inputValue);
+    setIsLoading(false);
+  };
+
   const cashAccountBalance = useBalanceStore(state => state.cashAccountBalance);
 
   const formattedBalance = formatNumber(cashAccountBalance, 3, ',');
 
-  const isInputEmpty = inputValue === '';
+  const actionButtonText = getActionButtonText(
+    inputValue,
+    cashAccountBalance,
+    isLoading,
+  );
 
   return (
     <View style={styles.container}>
@@ -89,6 +109,12 @@ export const InvestForm: React.FC = () => {
       </View>
 
       <InvestKeyboard onPress={onAddSymbol} onRemove={onRemoveSymbol} />
+
+      <Button
+        onPress={onInvest}
+        text={actionButtonText}
+        disabled={isInputEmpty || inputValue === '0' || isLoading}
+      />
     </View>
   );
 };
