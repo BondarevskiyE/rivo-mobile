@@ -271,6 +271,7 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
       );
 
       console.log('swapToUSDCReceipt: ', swapToUSDCReceipt);
+      Alert.alert('Success');
     } catch (error) {
       console.log(error);
       Alert.alert(`something went wrong: ${error}`);
