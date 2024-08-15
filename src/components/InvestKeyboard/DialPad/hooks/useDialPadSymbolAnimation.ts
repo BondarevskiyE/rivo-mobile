@@ -1,7 +1,5 @@
-import {Colors} from '@/shared/ui';
 import {
   interpolate,
-  interpolateColor,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -26,10 +24,6 @@ export const useDialPadSymbolAnimation = () => {
   const inputRange = [animation_state.start, animation_state.end];
 
   const styles = useAnimatedStyle(() => ({
-    backgroundColor: interpolateColor(animatedValue.value, inputRange, [
-      Colors.ui_background,
-      'rgba(244, 244, 247, 1)',
-    ]),
     transform: [
       {
         scale: interpolate(animatedValue.value, inputRange, [1, 1.1]),

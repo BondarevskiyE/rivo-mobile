@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
-    // zIndex: 99,
     flex: 1,
     opacity: 0.05,
   },

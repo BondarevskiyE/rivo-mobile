@@ -45,7 +45,6 @@ export const DragUpFromBottom = React.forwardRef<
     const translateY = useSharedValue(initialTranslateY);
     const active = useSharedValue(false);
     const scrollingState = useSharedValue(false);
-    const touchStart = useSharedValue({x: 0, y: 0});
 
     const maxTranslateY =
       MAX_TRANSLATE_Y - initialYCoordinate - (translateYOffset || 0);

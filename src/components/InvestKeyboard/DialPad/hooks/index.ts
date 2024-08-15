@@ -1,0 +1,1 @@
+export {useDialPadSymbolAnimation} from './useDialPadSymbolAnimation';

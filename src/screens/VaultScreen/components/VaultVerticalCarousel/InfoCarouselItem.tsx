@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 
-import {Colors, Fonts} from '@/shared/ui';
+import {Colors, Fonts, Videos} from '@/shared/ui';
 import {Strategy} from '@/shared/types';
 import {EthereumIcon, HoldersIcon} from '@/shared/ui/icons';
 import {abbreviateNumber, getFormatValue} from '@/shared/lib/format';
@@ -12,12 +12,10 @@ interface Props {
   vault: Strategy;
 }
 
-const videoBackground = require('assets/videos/ether-video.mp4');
-
 export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
   return (
     <View style={styles.container}>
-      <VideoBackground source={videoBackground} />
+      <VideoBackground source={Videos.etherBackground} />
       <View style={styles.apyBlock}>
         <EthereumIcon />
         <Text style={styles.apyText}>{getFormatValue(vault?.apy || 0)}%</Text>

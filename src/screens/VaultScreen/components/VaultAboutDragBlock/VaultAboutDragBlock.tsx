@@ -17,23 +17,15 @@ import {Strategy} from '@/shared/types';
 import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
-import Modal, {InvestModal} from '@/modal-manager';
 
 const {width} = Dimensions.get('window');
-
-const openInvestModal = (vaultTokenAddress: `0x${string}`) => {
-  Modal.show({
-    children: <InvestModal vaultTokenAddress={vaultTokenAddress} />,
-    dismissable: true,
-    position: 'center',
-  });
-};
 
 interface Props {
   vault: Strategy;
   playDragAnimation: (value: number, smooth?: boolean) => void;
   isBigCarouselContainer: boolean;
   carouselAnimation: SharedValue<number>;
+  openInvestForm: () => void;
 }
 
 // below the screen
@@ -44,6 +36,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   playDragAnimation,
   isBigCarouselContainer,
   carouselAnimation,
+  openInvestForm,
 }) => {
   const positionValue = useSharedValue(70);
   const buttonShownValue = useSharedValue(0);
@@ -105,7 +98,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
           style={styles.investButton}
           textStyle={styles.investButtonText}
           type={BUTTON_TYPE.ACTION_SECONDARY}
-          onPress={() => openInvestModal(vault.token_address)}
+          onPress={openInvestForm}
         />
       </ReAnimated.View>
     </ReAnimated.View>

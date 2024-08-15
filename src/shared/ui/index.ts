@@ -29,6 +29,7 @@ export const Colors = {
   ui_grey_72: '#7b7e79',
   ui_grey_73: '#8c8c8c',
   ui_grey_735: '#828282',
+  ui_grey_737: '#7a7a7a',
 
   ui_grey_74: '#747474',
   ui_grey_75: '#4d4d4d',
@@ -55,9 +56,10 @@ export const Colors = {
   ui_orange_70: '#FA8112',
   ui_orange_80: '#F95E00',
 
+  ui_brown_90: '#190a00',
+
   ui_green_40: '#6CCF30',
   ui_green_45: '#6BCD30',
-
   ui_green_50: '#5CB924',
   ui_green_55: '#28b91d',
   ui_green_70: '#1EC31A',
@@ -134,4 +136,6 @@ export const Images = {
   tenPercent: require('../../../assets/images/fee-structure/ten-percent.png'),
 };
 
-export const Icons = {};
+export const Videos = {
+  etherBackground: require('assets/videos/ether-video.mp4'),
+};
