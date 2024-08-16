@@ -14,6 +14,10 @@ export const vaultsData: Vault[] = [
         chain: 'ARB',
         address: '0x7f29df2B1fb1643186D9110066758cEffdCA90D7',
       },
+      {
+        chain: 'ARB',
+        address: '0x42189C0588Bf73a449D619794C2eB409c2554456',
+      },
     ],
     chain: 'ARB',
     apy: 12.2,

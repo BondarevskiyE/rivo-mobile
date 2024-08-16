@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+import {arbitrum} from 'viem/chains';
 
 export const ZERODEV_API_KEY = Config.ZERODEV_API_KEY;
 
@@ -15,3 +16,5 @@ export const WETH_DECIMALS = 18;
 
 export const PENDLE_ETH_VAULT_ADDRESS =
   '0xA31eC4C877C65bEa5C5d4c307473624A0B377090';
+
+export const chain = arbitrum;

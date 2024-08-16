@@ -3,11 +3,7 @@ import Config from 'react-native-config';
 import {sendRequest} from './index';
 import {TPendleStructRaw, TPendleStruct} from '../types/pendleStruct';
 
-import {Strategy} from '../types';
-
 const LOCUS_API_URL = Config.LOCUS_API_URL;
-
-console.log(Config);
 
 const fetchStructByStrategy = (
   strategyAddress: string,
@@ -42,10 +38,10 @@ const dataMapper = (structsRaw: TPendleStructRaw[]): TPendleStruct => {
 };
 
 export const fetchPendleStruct = async (
-  strategies: Strategy[],
+  strategies: `0x${string}`[],
 ): Promise<TPendleStruct | null> => {
-  const promises = strategies.map(strategy => {
-    return fetchStructByStrategy(strategy.address);
+  const promises = strategies.map(strategyAddress => {
+    return fetchStructByStrategy(strategyAddress);
   });
 
   const results = await Promise.all(promises);
