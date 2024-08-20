@@ -18,27 +18,33 @@ import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
 
+// const Content = lazy(() => import('./AboutVaultContent'));
+
 const {width} = Dimensions.get('window');
 
 interface Props {
   vault: Vault;
-  playDragAnimation: (value: number, smooth?: boolean) => void;
   isBigCarouselContainer: boolean;
   carouselAnimation: SharedValue<number>;
+  dragAnimationValue: SharedValue<number>;
   openInvestForm: () => void;
 }
 
 // below the screen
 const INITIAL_TRANSLATE_Y = 600;
 
+const smallCarouselContainerPosition =
+  (initialWindowMetrics?.insets.top || 0) + 10;
+const bigCarouselContainerPosition = smallCarouselContainerPosition + 70;
+
 export const VaultAboutDragBlock: React.FC<Props> = ({
   vault,
-  playDragAnimation,
+  dragAnimationValue,
   isBigCarouselContainer,
   carouselAnimation,
   openInvestForm,
 }) => {
-  const positionValue = useSharedValue(70);
+  const positionValue = useSharedValue(0);
   const buttonShownValue = useSharedValue(0);
 
   const ref = useRef<DragUpFromBottomRefProps>(null);
@@ -50,17 +56,22 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    positionValue.value = withTiming(isBigCarouselContainer ? 140 : 70);
-    buttonShownValue.value = withTiming(isBigCarouselContainer ? 140 : 70);
+    positionValue.value = withTiming(
+      isBigCarouselContainer
+        ? bigCarouselContainerPosition
+        : smallCarouselContainerPosition,
+    );
+    buttonShownValue.value = withTiming(
+      isBigCarouselContainer
+        ? bigCarouselContainerPosition
+        : smallCarouselContainerPosition,
+    );
   }, [buttonShownValue, isBigCarouselContainer, positionValue]);
 
-  const onPlayDragAnimation = (value: number, smooth?: boolean) => {
-    'worklet';
-    playDragAnimation(value, smooth);
-  };
-
   const setIsInvestButtonShown = (isShown: boolean) => {
-    const value = isBigCarouselContainer ? 140 : 70;
+    const value = isBigCarouselContainer
+      ? bigCarouselContainerPosition
+      : smallCarouselContainerPosition;
 
     buttonShownValue.value = withTiming(isShown ? value : 0);
   };
@@ -69,7 +80,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
     return {
       bottom: interpolate(
         buttonShownValue.value,
-        [0, 70, 140],
+        [0, smallCarouselContainerPosition, bigCarouselContainerPosition],
         [
           -50,
           (initialWindowMetrics?.insets.bottom || 0) + 16,
@@ -84,8 +95,17 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
       <DragUpFromBottom
         ref={ref}
         initialTranslateY={INITIAL_TRANSLATE_Y}
-        translateYOffset={isBigCarouselContainer ? 70 : 0}
-        playDragAnimation={onPlayDragAnimation}>
+        translateYOffset={
+          isBigCarouselContainer ? smallCarouselContainerPosition : 0
+        }
+        dragAnimationValue={dragAnimationValue}>
+        {/* <Suspense fallback={<Text>Loading</Text>}>
+          <Content
+            vault={vault}
+            imageShiftValue={carouselAnimation}
+            setIsInvestButtonShown={setIsInvestButtonShown}
+          />
+        </Suspense> */}
         <AboutVaultContent
           vault={vault}
           imageShiftValue={carouselAnimation}
@@ -109,7 +129,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'relative',
     height: 0,
-    top: 70,
+    top: smallCarouselContainerPosition,
     backgroundColor: 'transparent',
     alignItems: 'center',
     justifyContent: 'center',

@@ -10,6 +10,7 @@ import {
   saveCredentialsWithBiometry,
   saveCredentialsWithPassword,
   getBiometrySupportedType,
+  getCredentialsWithBiometry,
 } from '@/services/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -73,10 +74,13 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
           rejectButtonText: "Don't Allow",
         });
 
-        setIsBiometryEnabled(isBiometryEnabled);
+        setIsBiometryEnabled(isBiometryEnabled, biometryType);
 
-        isBiometryEnabled &&
-          (await saveCredentialsWithBiometry(user?.email, pinCode));
+        if (isBiometryEnabled) {
+          await saveCredentialsWithBiometry(user?.email, pinCode);
+
+          await getCredentialsWithBiometry();
+        }
       }
       await saveCredentialsWithPassword(user?.email, pinCode);
 

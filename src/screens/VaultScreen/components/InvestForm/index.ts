@@ -1,1 +1,0 @@
-export {InvestForm} from './InvestForm';

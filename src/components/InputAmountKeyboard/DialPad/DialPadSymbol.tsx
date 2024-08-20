@@ -1,9 +1,10 @@
 import {ArrowLineIcon} from '@/shared/ui/icons';
 import React from 'react';
-import {Pressable, Text, Dimensions, StyleSheet} from 'react-native';
+import {Pressable, Text, StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {useDialPadSymbolAnimation} from './hooks';
 import {Colors} from '@/shared/ui';
+import {DIALPAD_SYMBOL_SIZE} from './DialPad';
 
 interface Props {
   onPress: (symbol: string) => void;
@@ -28,7 +29,7 @@ const getSymbolElement = (symbolName: string) => {
       return (
         <Text
           style={{
-            fontSize: dialPadSize / 2.3,
+            fontSize: DIALPAD_SYMBOL_SIZE / 2.3,
             color: Colors.ui_white,
           }}>
           {symbolName}
@@ -36,10 +37,6 @@ const getSymbolElement = (symbolName: string) => {
       );
   }
 };
-
-const {width} = Dimensions.get('window');
-
-const dialPadSize = width * 0.2;
 
 export const DialPadSymbol: React.FC<Props> = ({onPress, symbol}) => {
   const {
@@ -61,8 +58,8 @@ export const DialPadSymbol: React.FC<Props> = ({onPress, symbol}) => {
 
 const styles = StyleSheet.create({
   symbolContainer: {
-    width: dialPadSize,
-    height: dialPadSize,
+    width: DIALPAD_SYMBOL_SIZE,
+    height: DIALPAD_SYMBOL_SIZE,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: Colors.transparent,

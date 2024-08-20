@@ -78,6 +78,7 @@ export const VaultVerticalCarousel: React.FC<Props> = ({
         </Pressable>
         <Pagination scrollY={scrollY} data={pages} />
         <ReAnimated.FlatList
+          initialNumToRender={2}
           data={pages}
           style={styles.list}
           overScrollMode="never"

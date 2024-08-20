@@ -2,11 +2,13 @@ import {Dimensions, Pressable, StyleSheet, View} from 'react-native';
 import React, {useCallback, useImperativeHandle, useRef, useState} from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import ReAnimated, {
+  SharedValue,
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
   withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import {Colors} from '@/shared/ui';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -21,7 +23,7 @@ type DragUpFromBottomProps = {
   children?: React.ReactNode;
   initialTranslateY?: number;
   translateYOffset?: number;
-  playDragAnimation?: (value: number, smooth?: boolean) => void;
+  dragAnimationValue?: SharedValue<number>;
 };
 
 export type DragUpFromBottomRefProps = {
@@ -34,7 +36,7 @@ export const DragUpFromBottom = React.forwardRef<
   DragUpFromBottomProps
 >(
   (
-    {children, initialTranslateY = 0, translateYOffset, playDragAnimation},
+    {children, initialTranslateY = 0, translateYOffset, dragAnimationValue},
     ref,
   ) => {
     const [initialYCoordinate, setInitialYCoordinate] = useState(0);
@@ -73,6 +75,22 @@ export const DragUpFromBottom = React.forwardRef<
       isActive,
     ]);
 
+    // smooth prop enables withTiming, it is here for clicking open/close button without draging
+    const playDragAnimation = (value: number, smooth?: boolean) => {
+      'worklet';
+
+      if (!dragAnimationValue) {
+        return;
+      }
+
+      if (smooth) {
+        dragAnimationValue.value = withTiming(value);
+        return;
+      }
+
+      dragAnimationValue.value = value;
+    };
+
     const context = useSharedValue({y: 0});
     const gesture = Gesture.Pan()
       .onTouchesMove((e, state) => {
@@ -106,6 +124,7 @@ export const DragUpFromBottom = React.forwardRef<
         ) {
           scrollTo(0);
           playDragAnimation?.(0, true);
+
           return;
         }
         // scroll to top position

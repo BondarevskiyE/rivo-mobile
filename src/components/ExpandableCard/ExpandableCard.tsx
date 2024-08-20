@@ -34,9 +34,9 @@ interface Props {
   containerStyles?: StyleProp<ViewStyle>;
 }
 
-const EXPAND_TIME = 250;
-
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
+
+const EXPAND_TIME = 250;
 const initialCardWidth = 170;
 const initialCardHeight = 232;
 const expandedCardHeight = 677;
@@ -259,8 +259,7 @@ const styles = StyleSheet.create({
   card: {
     position: 'absolute',
     overflow: 'hidden',
-
-    zIndex: 999,
+    zIndex: 10,
   },
   cardText: {
     fontSize: 18,

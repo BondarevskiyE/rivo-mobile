@@ -23,13 +23,17 @@ export const Colors = {
   ui_grey_40: '#b8b8b8',
 
   ui_grey_50: '#867f7b',
+  ui_grey_55: '#848a94',
   ui_grey_60: '#989898',
   ui_grey_65: '#8d8d8d',
+
   ui_grey_70: '#888888',
   ui_grey_72: '#7b7e79',
   ui_grey_73: '#8c8c8c',
+
   ui_grey_735: '#828282',
   ui_grey_737: '#7a7a7a',
+  ui_grey_739: '#767676',
 
   ui_grey_74: '#747474',
   ui_grey_75: '#4d4d4d',
@@ -56,16 +60,22 @@ export const Colors = {
   ui_orange_70: '#FA8112',
   ui_orange_80: '#F95E00',
 
+  ui_red_40: '#330900',
+  ui_red_80: '#fc2b00',
+  ui_red_83: '#fa3002',
+
   ui_brown_90: '#190a00',
 
   ui_green_40: '#6CCF30',
   ui_green_45: '#6BCD30',
+  ui_green_46: '#6dca35',
   ui_green_50: '#5CB924',
   ui_green_55: '#28b91d',
   ui_green_70: '#1EC31A',
   ui_green_75: '#2CDB1D',
 
   ui_green_80: '#202a1a',
+  ui_green_90: '#1d2717',
 
   ui_purple_50: '#2A254C',
 
@@ -73,6 +83,7 @@ export const Colors = {
   ui_black_63: '#1e222e',
   ui_black_65: '#1a1a1a',
   ui_black_70: '#1C1C1C',
+  ui_black_75: '#101010',
   ui_black_80: '#111111',
   ui_black: '#000000',
   transparent: 'transparent',

@@ -14,7 +14,11 @@ interface Props {
 
 export const ConnectButton = ({onPress, text, icon, disabled}: Props) => {
   return (
-    <Button text={text} onPress={onPress} disabled={disabled}>
+    <Button
+      text={text}
+      onPress={onPress}
+      disabled={disabled}
+      style={styles.button}>
       {icon === 'google' ? (
         <GoogleIcon style={styles.buttonIcon} />
       ) : (
@@ -30,5 +34,8 @@ const styles = StyleSheet.create({
     left: 16,
     width: 20,
     height: 20,
+  },
+  button: {
+    marginBottom: 8,
   },
 });

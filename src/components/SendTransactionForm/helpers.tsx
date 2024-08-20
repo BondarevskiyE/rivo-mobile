@@ -1,0 +1,93 @@
+import React from 'react';
+import {Text, View} from 'react-native';
+
+import {isFaceBiometry} from '@/services/keychain';
+import {FaceIdIcon} from '@/shared/ui/icons';
+import {Colors, Fonts} from '@/shared/ui';
+import {BIOMETRY_TYPE} from 'react-native-keychain';
+import {TouchIdIcon} from '@/shared/ui/icons/TouchIdIcon';
+import {TRANSACTION_STATUS} from './types';
+
+export const getInputFontSize = (inputLength: number) => {
+  if (inputLength > 10) {
+    return 32;
+  }
+
+  if (inputLength > 5) {
+    return 48;
+  }
+
+  return 64;
+};
+
+interface GetActionButtonTextParams {
+  isInputEmpty: boolean;
+  isEnoughBalance: boolean;
+  isLoading: boolean;
+  biometryType: BIOMETRY_TYPE | null;
+  txStatus: TRANSACTION_STATUS;
+}
+
+export const getActionButtonText = ({
+  isInputEmpty,
+  isEnoughBalance,
+  isLoading,
+  biometryType,
+  txStatus,
+}: GetActionButtonTextParams) => {
+  if (isLoading) {
+    return 'Processing...';
+  }
+
+  if (txStatus === TRANSACTION_STATUS.SUCCESS) {
+    return 'Close';
+  }
+
+  if (txStatus === TRANSACTION_STATUS.FAIL) {
+    return 'Try to repeat';
+  }
+
+  if (isInputEmpty) {
+    return 'Enter Amount';
+  }
+
+  if (!isEnoughBalance) {
+    return 'Insufificient balance';
+  }
+
+  if (biometryType) {
+    const isFaceBiometryType = isFaceBiometry(biometryType);
+
+    return (
+      <View
+        style={{
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: 12,
+        }}>
+        {isFaceBiometryType ? (
+          <FaceIdIcon color={Colors.ui_white} width={20} height={20} />
+        ) : (
+          <TouchIdIcon color={Colors.ui_white} width={20} height={20} />
+        )}
+        <Text
+          style={{
+            fontFamily: Fonts.semiBold,
+            fontSize: 17,
+            color: Colors.ui_white,
+          }}>
+          Confirm
+        </Text>
+      </View>
+    );
+  }
+
+  return 'Confirm';
+};
+
+export const getAdditionalButtonText = (txStatus: TRANSACTION_STATUS) => {
+  return txStatus === TRANSACTION_STATUS.SUCCESS
+    ? 'View on Blockchain'
+    : 'Contact support';
+};

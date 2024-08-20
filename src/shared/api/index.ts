@@ -77,9 +77,7 @@ export const getUserBalance = async (
   });
 };
 
-export const getFirstSigninUserBalance = async (
-  address: string,
-): Promise<void> => {
+export const getUserBalanceForce = async (address: string): Promise<void> => {
   await sendRequest<void>({
     url: `${apiUrl}/v1/user/${address}/balance_force`,
   });

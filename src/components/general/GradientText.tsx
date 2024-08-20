@@ -5,7 +5,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {withChildren} from '@/shared/types';
 
 type Props = {
-  style: StyleProp<TextStyle>;
+  style?: StyleProp<TextStyle>;
   gradientColors?: [string, string];
 } & withChildren;
 

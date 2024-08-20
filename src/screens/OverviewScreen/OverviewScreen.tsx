@@ -18,7 +18,7 @@ import {initialWindowMetrics} from 'react-native-safe-area-context';
 import RNFadedScrollView from 'rn-faded-scrollview';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-import {OnboardingTasks} from '@/components/onboarding';
+import {OnboardingTasks} from './components/OnboardingTasks';
 import {Header, CardWallet, CashAccount, VaultsList} from './components';
 import {HIGHLIGHT_ELEMENTS} from '@/store/useOnboardingStore';
 import {

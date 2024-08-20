@@ -1,9 +1,11 @@
+import {Chains} from '../constants';
+
 export type Vault = {
   name: string;
   address: string;
   token_address: `0x${string}`;
   strategies: Strategy[];
-  chain: string;
+  chain: Chains;
   shortDescription: string;
   description: string;
   logo: 'eth' | 'dollar';

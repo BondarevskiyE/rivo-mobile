@@ -1,8 +1,16 @@
 import React from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
+import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 
 import {DialPadSymbol} from './DialPadSymbol';
 import {dialPadSymbols} from './lib';
+
+const {width: SCREEN_WIDTH} = Dimensions.get('window');
+
+export const DIALPAD_SYMBOL_SIZE = SCREEN_WIDTH * 0.2;
+const NUM_COLUMNS = 3;
+const HORIZONTAL_PADDING = 13;
+const COLUMN_GAP =
+  (SCREEN_WIDTH - DIALPAD_SYMBOL_SIZE * NUM_COLUMNS) / 2 - HORIZONTAL_PADDING;
 
 interface Props {
   onPress: (symbol: string) => void;
@@ -13,12 +21,14 @@ export const DialPad = ({onPress}: Props) => {
     <View style={styles.container}>
       <FlatList
         data={dialPadSymbols}
-        numColumns={3}
+        numColumns={NUM_COLUMNS}
         style={styles.list}
+        contentContainerStyle={styles.listContentContainer}
         keyExtractor={(_, index) => index.toString()}
         scrollEnabled={false}
-        columnWrapperStyle={{gap: 24}}
-        contentContainerStyle={{gap: 24}}
+        columnWrapperStyle={{
+          columnGap: COLUMN_GAP,
+        }}
         renderItem={({item}) => (
           <DialPadSymbol onPress={onPress} symbol={item} />
         )}
@@ -30,12 +40,14 @@ export const DialPad = ({onPress}: Props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
     overflow: 'visible',
-    paddingBottom: 30,
   },
   list: {
     flexGrow: 0,
     overflow: 'visible',
+  },
+  listContentContainer: {
+    alignItems: 'center',
   },
 });

@@ -8,7 +8,7 @@ interface Props {
   onRemove: () => void;
 }
 
-export const InvestKeyboard: React.FC<Props> = ({onPress, onRemove}) => {
+export const InputAmountKeyboard: React.FC<Props> = ({onPress, onRemove}) => {
   const onPressSymbol = async (symbol: string) => {
     if (symbol === 'del') {
       onRemove();

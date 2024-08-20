@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     bottom: 15,
     width: width - 24,
     left: 12,
+    // marginBottom: 8,
   },
   investButtonText: {
     fontFamily: Fonts.bold,

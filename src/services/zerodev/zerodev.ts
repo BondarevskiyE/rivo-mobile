@@ -1,6 +1,10 @@
 import {Alert} from 'react-native';
 import {signerToEcdsaValidator} from '@zerodev/ecdsa-validator';
-import {ENTRYPOINT_ADDRESS_V07, bundlerActions} from 'permissionless';
+import {
+  ENTRYPOINT_ADDRESS_V07,
+  GetUserOperationReceiptReturnType,
+  bundlerActions,
+} from 'permissionless';
 import {Abi, createPublicClient, encodeFunctionData, http} from 'viem';
 import {arbitrum} from 'viem/chains';
 import {
@@ -164,7 +168,7 @@ export const sendInvestUserOperation = async ({
   vaultTokenContractAddress,
   vaultTokenContractAbi,
   investAmount,
-}: InvestUserOperationParams) => {
+}: InvestUserOperationParams): Promise<GetUserOperationReceiptReturnType> => {
   const kernelClient = useZeroDevStore.getState().kernelClient as KernelClient;
 
   if (!kernelClient) {

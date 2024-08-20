@@ -26,7 +26,7 @@ import {
   HomeStackProps,
   HomeTabsProps,
 } from './types/homeStack';
-import {useAppStore} from '@/store/useAppStore';
+// import {useAppStore} from '@/store/useAppStore';
 
 const Stack = createStackNavigator<HomeStackProps>();
 const Tab = createBottomTabNavigator<HomeTabsProps>();
@@ -85,7 +85,8 @@ export const HomeStack = () => {
           height: '100%',
         }}>
         {!isPassCodeEntered && <PassCodeScreen />}
-        <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Navigator
+          screenOptions={{headerShown: false, freezeOnBlur: true}}>
           <Stack.Screen name={HOME_SCREENS.HOME_SCREEN} component={TabsRoot} />
           <Stack.Screen
             name={HOME_SCREENS.VAULT_SCREEN}

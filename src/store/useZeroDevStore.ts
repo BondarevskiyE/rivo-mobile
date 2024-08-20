@@ -17,11 +17,16 @@ import ERC20ABI from '@/abis/ERC20.json';
 import {useUserStore} from './useUserStore';
 import {Vault} from '@/shared/types';
 import {getContract} from '@/services/viem';
+import {useBalanceStore} from './useBalanceStore';
+import {GetUserOperationReceiptReturnType} from 'permissionless';
 
 interface ZeroDevState {
   kernelClient: KernelClient | null;
   setKernelClient: (kernelAccount: KernelClient | null) => void;
-  invest: (tokenContractAddress: `0x${string}`, amount: string) => void;
+  invest: (
+    vault: Vault,
+    amount: string,
+  ) => Promise<GetUserOperationReceiptReturnType | null>;
   withdraw: (vault: Vault, amount: string) => void;
   reconnectZeroDev: () => void;
 }
@@ -30,7 +35,14 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
   kernelClient: null,
   setKernelClient: (kernelClient: KernelClient | null) => set({kernelClient}),
 
-  invest: async (tokenContractAddress: `0x${string}`, amount: string) => {
+  invest: async (
+    vault: Vault,
+    amount: string,
+  ): Promise<GetUserOperationReceiptReturnType | null> => {
+    const tokenContractAddress = vault.token_address;
+
+    const fetchBalance = useBalanceStore.getState().fetchBalance;
+
     try {
       const userAddress = useUserStore.getState().walletAddress;
 
@@ -60,11 +72,14 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
         investAmount: investTokenUserBalance,
       });
 
-      Alert.alert('Success');
+      const isForceBalanceRequest = true;
+
+      await fetchBalance(isForceBalanceRequest);
       return investTxReceipt;
     } catch (error) {
       console.log(error);
       Alert.alert(`something went wrong: ${error}`);
+      return null;
     }
   },
   withdraw: async (vault: Vault, amount: string) => {

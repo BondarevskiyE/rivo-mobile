@@ -48,11 +48,12 @@ export enum BUTTON_TYPE {
 
 type Props = {
   onPress: () => void;
-  text: string;
+  text: string | React.ReactNode;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   type?: BUTTON_TYPE;
   disabled?: boolean;
+  error?: boolean;
 } & withChildren;
 
 export const Button = ({
@@ -62,6 +63,7 @@ export const Button = ({
   style,
   textStyle,
   disabled = false,
+  error = false,
   children,
   ...props
 }: Props) => {
@@ -92,10 +94,24 @@ export const Button = ({
       disabled={disabled}
       {...props}>
       <Animated.View
-        style={[styles.button, {backgroundColor, opacity: animated}, style]}>
+        style={[
+          styles.button,
+          {backgroundColor, opacity: animated},
+          disabled && styles.disabled,
+          style,
+          error && styles.errorButton,
+        ]}>
         {children}
         {text && (
-          <Text style={[styles.buttonText, {color}, textStyle]}>{text}</Text>
+          <Text
+            style={[
+              styles.buttonText,
+              {color},
+              textStyle,
+              error && styles.errorText,
+            ]}>
+            {text}
+          </Text>
         )}
       </Animated.View>
     </Pressable>
@@ -107,7 +123,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 8,
     borderRadius: 18,
     height: 48,
     alignSelf: 'stretch',
@@ -120,5 +135,15 @@ const styles = StyleSheet.create({
     left: 16,
     width: 20,
     height: 20,
+  },
+  disabled: {
+    opacity: 0.3,
+  },
+  errorButton: {
+    backgroundColor: Colors.ui_red_40,
+    opacity: 1,
+  },
+  errorText: {
+    color: Colors.ui_red_80,
   },
 });

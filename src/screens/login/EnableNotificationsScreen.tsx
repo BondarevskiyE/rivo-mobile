@@ -62,6 +62,7 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
         <Button
           text="Enable notifications"
           onPress={onClickEnableNotifications}
+          style={styles.firstButton}
         />
         <Button
           text="Not now"
@@ -108,5 +109,8 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     width: '100%',
+  },
+  firstButton: {
+    marginBottom: 8,
   },
 });

@@ -1,1 +1,0 @@
-export {InvestKeyboard} from './InvestKeyboard';

@@ -1,4 +1,4 @@
-import {getUserBalance} from '@/shared/api';
+import {getUserBalance, getUserBalanceForce} from '@/shared/api';
 import {create} from 'zustand';
 import {useUserStore} from './useUserStore';
 
@@ -6,7 +6,7 @@ interface BalanceState {
   userBalance: number;
   totalEarned: number;
   cashAccountBalance: number;
-  fetchBalance: () => void;
+  fetchBalance: (force?: boolean) => void;
   setUserBalancce: (balance: number) => void;
   setTotalEarned: (earned: number) => void;
   setCashAccountBalance: (balance: number) => void;
@@ -16,11 +16,16 @@ export const useBalanceStore = create<BalanceState>()(set => ({
   userBalance: 0.0,
   totalEarned: 0.0,
   cashAccountBalance: 0.0,
-  fetchBalance: async () => {
+  fetchBalance: async (force?: boolean) => {
     const walletAddress = useUserStore.getState().walletAddress;
 
     if (walletAddress) {
-      const balanceResponse = await getUserBalance(walletAddress); // rFIX '0x07079492698dC7cdAd0F3b736B2Df669544fC8d2' - test wallet with balance
+      let balanceResponse;
+      if (force) {
+        balanceResponse = await getUserBalanceForce(walletAddress);
+      } else {
+        balanceResponse = await getUserBalance(walletAddress);
+      }
 
       const balance = balanceResponse?.find(
         // address of arbitrum USDC

@@ -9,11 +9,8 @@ import {initZeroDevClient} from '@/services/zerodev';
 import {useZeroDevStore} from './useZeroDevStore';
 import {KernelClient} from './types';
 import {AUTH_SCREENS} from '@/navigation/types/authStack';
-import {
-  checkIsUserAlreadyRegistered,
-  getFirstSigninUserBalance,
-  userSigninBackend,
-} from '@/shared/api';
+import {checkIsUserAlreadyRegistered, userSigninBackend} from '@/shared/api';
+import {useBalanceStore} from './useBalanceStore';
 
 interface LoginState {
   isLoading: boolean;
@@ -33,6 +30,10 @@ export const useLoginStore = create<LoginState>()(set => ({
   setIsLoading: (bool: boolean) => set({isLoading: bool}),
 
   login: async (loginProvider: LOGIN_PROVIDER_TYPE) => {
+    const {setKernelClient} = useZeroDevStore.getState();
+    const {setUserInfo, setWalletAddress} = useUserStore.getState();
+    const {fetchBalance} = useBalanceStore.getState();
+
     try {
       set({isLoading: true});
 
@@ -46,21 +47,15 @@ export const useLoginStore = create<LoginState>()(set => ({
         user?.email,
       );
 
-      console.log('isUserAlreadyRegistered: ', isUserAlreadyRegistered);
-
       RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING, {
         isUserAlreadyRegistered: !!isUserAlreadyRegistered,
       });
 
       const kernelClient = await initZeroDevClient(smartAccountSigner);
 
-      const {setKernelClient} = useZeroDevStore.getState();
-
       setKernelClient(kernelClient as KernelClient);
 
       const [givenName, familyName] = (user?.name || '')?.split(' ');
-
-      const {setUserInfo, setWalletAddress} = useUserStore.getState();
 
       const formattedUser = {
         id: user.idToken || '',
@@ -76,8 +71,9 @@ export const useLoginStore = create<LoginState>()(set => ({
 
       setWalletAddress(kernelClient.account.address);
 
-      !isUserAlreadyRegistered &&
-        (await getFirstSigninUserBalance(kernelClient.account.address));
+      const isForceBalanceRequest = true;
+
+      !isUserAlreadyRegistered && (await fetchBalance(isForceBalanceRequest));
 
       await userSigninBackend(kernelClient.account.address, user.email || '');
 
@@ -89,11 +85,10 @@ export const useLoginStore = create<LoginState>()(set => ({
   },
 
   logout: async () => {
+    const {setUserInfo, setWalletAddress, setIsLoggedIn} =
+      useUserStore.getState();
+    const {setKernelClient} = useZeroDevStore.getState();
     try {
-      const {setUserInfo, setWalletAddress, setIsLoggedIn} =
-        useUserStore.getState();
-      const {setKernelClient} = useZeroDevStore.getState();
-
       const isLoggedOut = await logoutWeb3Auth();
 
       if (isLoggedOut) {

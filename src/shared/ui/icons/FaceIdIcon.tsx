@@ -2,9 +2,15 @@ import * as React from 'react';
 import Svg, {SvgProps, Path} from 'react-native-svg';
 
 export const FaceIdIcon = (props: SvgProps) => (
-  <Svg width={30} height={30} fill="none" {...props}>
+  <Svg
+    width={30}
+    height={30}
+    viewBox="0 0 30 30"
+    fill="none"
+    color={'#84868D'}
+    {...props}>
     <Path
-      stroke="#84868D"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}

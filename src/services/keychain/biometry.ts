@@ -11,6 +11,27 @@ export const getBiometrySupportedType = async () => {
   }
 };
 
+export const isFingerprintBiometry = (type: Keychain.BIOMETRY_TYPE) => {
+  if (
+    type === Keychain.BIOMETRY_TYPE.FINGERPRINT ||
+    type === Keychain.BIOMETRY_TYPE.TOUCH_ID
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export const isFaceBiometry = (type: Keychain.BIOMETRY_TYPE) => {
+  if (
+    type === Keychain.BIOMETRY_TYPE.FACE ||
+    type === Keychain.BIOMETRY_TYPE.FACE_ID ||
+    type === Keychain.BIOMETRY_TYPE.OPTIC_ID
+  ) {
+    return true;
+  }
+  return false;
+};
+
 export const saveCredentialsWithBiometry = async (
   username: string,
   password: string,

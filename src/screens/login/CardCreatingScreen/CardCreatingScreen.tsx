@@ -250,7 +250,13 @@ export const CardCreatingScreen: React.FC<Props> = ({navigation, route}) => {
           <Tooltip text={tooltipText} />
         </ReAnimated.View>
       </View>
-      {isWalletReady && <Button text="Continue" onPress={handleContinue} />}
+      {isWalletReady && (
+        <Button
+          style={styles.button}
+          text="Continue"
+          onPress={handleContinue}
+        />
+      )}
       {isWalletReady && (
         <View style={styles.confettiContainer}>
           <ConfettiAnimation loop={false} />
@@ -349,5 +355,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     alignSelf: 'center',
+  },
+  button: {
+    marginBottom: 8,
   },
 });

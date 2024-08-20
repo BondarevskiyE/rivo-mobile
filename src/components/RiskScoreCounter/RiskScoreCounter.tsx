@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
 
     fontFamily: Fonts.regular,
-    fontWeight: 400,
 
     color: Colors.ui_grey_70,
   },

@@ -1,0 +1,1 @@
+export {InviteFriendsBadge} from './InviteFriendsBadge';

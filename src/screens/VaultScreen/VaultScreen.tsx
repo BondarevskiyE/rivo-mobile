@@ -1,6 +1,6 @@
 import {Colors} from '@/shared/ui';
 import React, {useCallback, useState} from 'react';
-import {Pressable, StyleSheet} from 'react-native';
+import {Dimensions, StyleSheet} from 'react-native';
 import {
   SafeAreaView,
   initialWindowMetrics,
@@ -20,10 +20,11 @@ import {VaultAboutDragBlock, VaultVerticalCarousel} from './components';
 import {useVaultsStore} from '@/store/useVaultsStore';
 import {Vault} from '@/shared/types';
 import {HOME_SCREENS, HomeStackProps} from '@/navigation/types/homeStack';
-import {InvestForm} from './components/InvestForm';
-import {ArrowLineIcon} from '@/shared/ui/icons';
+import {SendTransactionForm} from '@/components/SendTransactionForm';
+import {SEND_TRANSACTION_FORM_TYPE} from '@/components/SendTransactionForm/types';
+import {useZeroDevStore} from '@/store/useZeroDevStore';
 
-const AnimatedPressable = ReAnimated.createAnimatedComponent(Pressable);
+const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.VAULT_SCREEN>;
 
@@ -32,7 +33,10 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
 
   const [isBigCarouselContainer, setIsBigCarouselContainer] =
     useState<boolean>(false);
+
   const [isInvestFormOpen, setIsInvetFormOpen] = useState<boolean>(false);
+
+  const invest = useZeroDevStore(state => state.invest);
 
   const investScreenValue = useSharedValue(0);
 
@@ -49,42 +53,6 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
   const goBack = () => {
     navigation.goBack();
   };
-
-  // smooth prop enables withTiming, it is here for clicking open/close button without draging
-  const playCarouselScaleOutAnimation = (value: number, smooth?: boolean) => {
-    'worklet';
-
-    if (smooth) {
-      carouselValue.value = withTiming(value, {
-        easing: Easing.inOut(Easing.linear),
-      });
-      return;
-    }
-
-    carouselValue.value = value;
-  };
-
-  const carouselStyle = useAnimatedStyle(() => ({
-    transform: [
-      {
-        scale: interpolate(
-          carouselValue.value,
-          [0, -400],
-          [1, 0.95],
-          Extrapolation.CLAMP,
-        ),
-      },
-      {
-        translateY: interpolate(investScreenValue.value, [0, 1], [0, -1000]),
-      },
-    ],
-    opacity: interpolate(
-      carouselValue.value,
-      [0, -400],
-      [1, 0.5],
-      Extrapolation.CLAMP,
-    ),
-  }));
 
   const playInvestFormAnimation = (isOpen: boolean) => {
     // if it is open animation we need to show form before the animation
@@ -110,6 +78,28 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
     playInvestFormAnimation(false);
   };
 
+  const carouselStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        scale: interpolate(
+          carouselValue.value,
+          [0, -400],
+          [1, 0.95],
+          Extrapolation.CLAMP,
+        ),
+      },
+      {
+        translateY: interpolate(investScreenValue.value, [0, 1], [0, -1000]),
+      },
+    ],
+    opacity: interpolate(
+      carouselValue.value,
+      [0, -400],
+      [1, 0.5],
+      Extrapolation.CLAMP,
+    ),
+  }));
+
   const investFormStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -128,24 +118,18 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
     bottom: interpolate(investScreenValue.value, [0, 1], [0, -1000]),
   }));
 
-  const investFormBackButtonStyle = useAnimatedStyle(() => ({
-    opacity: investScreenValue.value,
-  }));
-
   return (
     <SafeAreaView style={styles.container}>
       {isInvestFormOpen && (
-        <>
-          <AnimatedPressable
-            style={[styles.backIconContainer, investFormBackButtonStyle]}
-            onPress={closeInvestForm}>
-            <ArrowLineIcon color={Colors.ui_white} />
-          </AnimatedPressable>
-
-          <ReAnimated.View style={[styles.investForm, investFormStyle]}>
-            <InvestForm vault={vaultById} />
-          </ReAnimated.View>
-        </>
+        <ReAnimated.View style={[styles.investForm, investFormStyle]}>
+          <SendTransactionForm
+            vault={vaultById}
+            onSendTransaction={invest}
+            onCloseForm={closeInvestForm}
+            onCloseScreen={goBack}
+            formType={SEND_TRANSACTION_FORM_TYPE.INVEST}
+          />
+        </ReAnimated.View>
       )}
       <ReAnimated.View style={[styles.carouselContainer, carouselStyle]}>
         <VaultVerticalCarousel
@@ -159,7 +143,7 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
       <ReAnimated.View style={[styles.dragBlockContainer, dragBlockStyle]}>
         <VaultAboutDragBlock
           vault={vaultById}
-          playDragAnimation={playCarouselScaleOutAnimation}
+          dragAnimationValue={carouselValue}
           isBigCarouselContainer={isBigCarouselContainer}
           carouselAnimation={carouselValue}
           openInvestForm={openInvestForm}
@@ -179,6 +163,7 @@ export const styles = StyleSheet.create({
     position: 'relative',
     flex: 1,
     zIndex: 2,
+    // paddingTop: 10,
   },
   dragBlockContainer: {
     position: 'relative',
@@ -188,30 +173,13 @@ export const styles = StyleSheet.create({
   investForm: {
     position: 'absolute',
     width: '100%',
-    height: '100%',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
     paddingTop: initialWindowMetrics?.insets.top,
     paddingBottom: initialWindowMetrics?.insets.bottom,
+    height: SCREEN_HEIGHT,
     zIndex: 1,
-  },
-  backIconContainer: {
-    position: 'absolute',
-    top: (initialWindowMetrics?.insets.top || 0) + 12,
-    left: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 36,
-    height: 36,
-    backgroundColor: Colors.ui_black_65,
-    borderRadius: 18,
-    zIndex: 3,
-    transform: [
-      {
-        rotate: '180deg',
-      },
-    ],
   },
 });
