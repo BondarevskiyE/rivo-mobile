@@ -31,7 +31,6 @@ import {ActionButtons} from './ActionButtons';
 import {ArrowLineIcon} from '@/shared/ui/icons';
 import {scannerUrls} from '@/shared/constants';
 import {openInAppBrowser} from '@/shared/lib/url';
-import {ImageBadge} from '../ImageBadge';
 import {InviteFriendsBadge} from './InviteFriendsBadge';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
@@ -109,8 +108,11 @@ export const SendTransactionForm: React.FC<Props> = ({
 
     openLoadingScreen();
 
+    // setTimeout(() => {
+    //   setTxStatus(TRANSACTION_STATUS.SUCCESS);
+    //   setIsLoading(false);
+    // }, 1000);
     const receipt = await onSendTransaction(vault, inputValue);
-
     if (receipt) {
       setTxHash(receipt?.receipt.transactionHash);
       setTxStatus(
@@ -119,7 +121,6 @@ export const SendTransactionForm: React.FC<Props> = ({
     } else {
       setTxStatus(TRANSACTION_STATUS.FAIL);
     }
-
     setIsLoading(false);
   };
 
@@ -193,6 +194,7 @@ export const SendTransactionForm: React.FC<Props> = ({
             onPressAutofillButton={onPressAmountPercentButton}
             autofillButtons={autofillButton}
             loadingValue={loadingValue}
+            isEnoughBalance={isEnoughBalance}
           />
           {isInvestForm ? (
             <InvestEstimate value={inputValue} apy={vault.apy} />
@@ -304,6 +306,7 @@ const styles = StyleSheet.create({
     top: 25,
     width: SCREEN_WIDTH,
     transformOrigin: 'bottom',
+    zIndex: 9,
   },
   backIconContainer: {
     alignItems: 'center',

@@ -1,20 +1,30 @@
 import {formatThousandSeparator} from '@/shared/lib/format';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
+import Animated, {
+  Easing,
+  FadeInLeft,
+  FadeOutLeft,
+  SharedValue,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 
 import {getInputFontSize} from '../helpers';
 import {Colors, Fonts} from '@/shared/ui';
 import {AutofillButtons} from '../types';
-import Animated, {
-  SharedValue,
-  interpolate,
-  useAnimatedStyle,
-} from 'react-native-reanimated';
+
+import {AmountOutputSymbol} from './AmountOutputSymbol';
 
 interface Props {
   value: string;
   additionalValue: string;
   loadingValue: SharedValue<number>;
+  isEnoughBalance: boolean;
 
   autofillButtons: AutofillButtons;
   onPressAutofillButton: (percent: number) => void;
@@ -23,11 +33,43 @@ interface Props {
 export const AmountOutput: React.FC<Props> = ({
   value,
   additionalValue,
+  isEnoughBalance,
   autofillButtons,
   onPressAutofillButton,
 
   loadingValue,
 }) => {
+  const errorValue = useSharedValue(0);
+
+  useEffect(() => {
+    if (+value && !isEnoughBalance) {
+      errorValue.value = withSequence(
+        withTiming(-12, {duration: 25, easing: Easing.inOut(Easing.quad)}),
+        withDelay(
+          40,
+          withTiming(7, {duration: 25, easing: Easing.inOut(Easing.quad)}),
+        ),
+        withDelay(
+          40,
+          withTiming(-5, {duration: 25, easing: Easing.inOut(Easing.quad)}),
+        ),
+        withDelay(
+          40,
+          withTiming(3, {duration: 25, easing: Easing.inOut(Easing.quad)}),
+        ),
+        withDelay(
+          40,
+          withTiming(-1, {duration: 25, easing: Easing.inOut(Easing.quad)}),
+        ),
+        withDelay(
+          40,
+          withTiming(0, {duration: 25, easing: Easing.inOut(Easing.quad)}),
+        ),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
   const buttonsStyles = useAnimatedStyle(() => ({
     opacity: interpolate(loadingValue.value, [0, 0.5, 1], [1, 0, 0]),
     top: interpolate(loadingValue.value, [0, 1], [0, 50]),
@@ -38,26 +80,35 @@ export const AmountOutput: React.FC<Props> = ({
   }));
 
   const isInputEmpty = value === '';
+
+  const outputFontSize = getInputFontSize(String(value).length);
+
+  const inputValueArray = formatThousandSeparator(value || 0).split('');
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <Animated.View
-        style={[styles.amountTextPositionContainer, amountContainerStyles]}>
+        style={[
+          styles.amountTextPositionContainer,
+          {transform: [{translateX: errorValue}]},
+          amountContainerStyles,
+        ]}>
         <Text style={styles.dollarText}>$</Text>
         <View style={styles.inputTextContainer}>
-          <Text
-            style={[
-              styles.inputText,
-              {
-                color: isInputEmpty ? Colors.ui_grey_737 : Colors.ui_white,
-                fontSize: getInputFontSize(String(value).length),
-              },
-            ]}>
-            {formatThousandSeparator(value || 0)}
-          </Text>
+          {inputValueArray.map((symbol, index) => (
+            <AmountOutputSymbol
+              isAnimated={index === inputValueArray.length - 1}
+              symbol={symbol}
+              color={isInputEmpty ? Colors.ui_grey_737 : Colors.ui_white}
+              fontSize={outputFontSize}
+            />
+          ))}
           {additionalValue && (
-            <Text style={[styles.inputText, styles.inputSubText]}>
+            <Animated.Text
+              entering={FadeInLeft}
+              exiting={FadeOutLeft}
+              style={[styles.inputText, styles.inputSubText]}>
               {additionalValue}
-            </Text>
+            </Animated.Text>
           )}
         </View>
       </Animated.View>

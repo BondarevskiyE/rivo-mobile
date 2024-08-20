@@ -118,5 +118,6 @@ const styles = StyleSheet.create({
     right: 0,
     width: SCREEN_WIDTH,
     height: SCREEN_HEIGHT,
+    pointerEvents: 'none',
   },
 });
