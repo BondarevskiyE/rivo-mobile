@@ -10,3 +10,8 @@ export enum TRANSACTION_STATUS {
   FAIL,
   NONE,
 }
+
+export enum TEXT_SIGN_POSITION {
+  UP_LEFT,
+  RIGHT,
+}

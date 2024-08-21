@@ -14,35 +14,40 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import {getInputFontSize} from '../helpers';
+import {getInputFontSize, getTextSignPositionStyles} from '../helpers';
 import {Colors, Fonts} from '@/shared/ui';
-import {AutofillButtons} from '../types';
+import {AutofillButtons, TEXT_SIGN_POSITION} from '../types';
 
 import {AmountOutputSymbol} from './AmountOutputSymbol';
+import {fadeScaleEntering} from '@/customAnimations/fadeScaleEntering';
+import {fadeScaleExiting} from '@/customAnimations/fadeScaleExiting';
 
 interface Props {
   value: string;
   additionalValue: string;
   loadingValue: SharedValue<number>;
-  isEnoughBalance: boolean;
-
+  isError: boolean;
   autofillButtons: AutofillButtons;
   onPressAutofillButton: (percent: number) => void;
+
+  textSign?: string;
+  textSignPosition?: TEXT_SIGN_POSITION;
 }
 
 export const AmountOutput: React.FC<Props> = ({
   value,
   additionalValue,
-  isEnoughBalance,
+  isError,
   autofillButtons,
   onPressAutofillButton,
-
   loadingValue,
+  textSign,
+  textSignPosition,
 }) => {
   const errorValue = useSharedValue(0);
 
   useEffect(() => {
-    if (+value && !isEnoughBalance) {
+    if (+value && isError) {
       errorValue.value = withSequence(
         withTiming(-12, {duration: 25, easing: Easing.inOut(Easing.quad)}),
         withDelay(
@@ -85,17 +90,29 @@ export const AmountOutput: React.FC<Props> = ({
 
   const inputValueArray = formatThousandSeparator(value || 0).split('');
   return (
-    <View style={[styles.container]}>
+    <Animated.View
+      entering={fadeScaleEntering}
+      exiting={fadeScaleExiting}
+      style={styles.container}>
       <Animated.View
         style={[
           styles.amountTextPositionContainer,
           {transform: [{translateX: errorValue}]},
           amountContainerStyles,
         ]}>
-        <Text style={styles.dollarText}>$</Text>
+        {textSign && (
+          <Text
+            style={[
+              styles.signText,
+              getTextSignPositionStyles(textSignPosition),
+            ]}>
+            {textSign}
+          </Text>
+        )}
         <View style={styles.inputTextContainer}>
           {inputValueArray.map((symbol, index) => (
             <AmountOutputSymbol
+              key={index}
               isAnimated={index === inputValueArray.length - 1}
               symbol={symbol}
               color={isInputEmpty ? Colors.ui_grey_737 : Colors.ui_white}
@@ -122,7 +139,7 @@ export const AmountOutput: React.FC<Props> = ({
           </Pressable>
         ))}
       </Animated.View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -138,13 +155,9 @@ const styles = StyleSheet.create({
     height: 74,
     marginBottom: 13,
   },
-  dollarText: {
+  signText: {
     position: 'absolute',
-    left: -18,
-
     fontFamily: Fonts.semiBold,
-    fontSize: 24,
-
     color: Colors.ui_white,
   },
   inputTextContainer: {

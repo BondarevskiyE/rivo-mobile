@@ -1,9 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {RandomReveal} from '@/components/RandomReveal';
+import Animated from 'react-native-reanimated';
 
+import {RandomReveal} from '@/components/RandomReveal';
 import {formatNumber} from '@/shared/lib/format';
 import {Colors, Fonts} from '@/shared/ui';
+import {fadeScaleEntering} from '@/customAnimations/fadeScaleEntering';
+import {fadeScaleExiting} from '@/customAnimations/fadeScaleExiting';
 
 interface Props {
   value: string;
@@ -13,7 +16,7 @@ interface Props {
 export const InvestEstimate: React.FC<Props> = ({value, apy}) => {
   const isInputZero = value === '' || value === '0';
   return (
-    <View>
+    <Animated.View entering={fadeScaleEntering} exiting={fadeScaleExiting}>
       <View style={styles.row}>
         <Text style={[styles.text, styles.greyText]}>Yield APY:</Text>
         <Text style={[styles.text, styles.greenText]}>{`${formatNumber(
@@ -31,6 +34,8 @@ export const InvestEstimate: React.FC<Props> = ({value, apy}) => {
           ) : (
             <RandomReveal
               value={`+$${formatNumber((+value * apy) / 100, 3)}`}
+              withGradient
+              textStyle={[styles.text, styles.greenText]}
             />
           )}
         </Text>
@@ -43,7 +48,11 @@ export const InvestEstimate: React.FC<Props> = ({value, apy}) => {
           {isInputZero ? (
             '-'
           ) : (
-            <RandomReveal value={formatNumber(+value * 0.002, 3)} />
+            <RandomReveal
+              value={formatNumber(+value * 0.002, 3)}
+              withGradient
+              textStyle={[styles.text, styles.orangeText]}
+            />
           )}
         </Text>
       </View>
@@ -51,7 +60,7 @@ export const InvestEstimate: React.FC<Props> = ({value, apy}) => {
         <Text style={[styles.text, styles.greyText]}>Rewards fee:</Text>
         <Text style={[styles.text, styles.greyText]}>10%</Text>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

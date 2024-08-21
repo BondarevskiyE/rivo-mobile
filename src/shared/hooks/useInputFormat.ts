@@ -1,8 +1,15 @@
 import {useState} from 'react';
 
-export const useInputFormat = () => {
+interface Params {
+  maxValue?: number;
+  saveOnButton?: boolean;
+}
+
+export const useInputFormat = (params?: Params) => {
+  const maxValue = params?.maxValue;
+
   const [inputValue, setInputValue] = useState<string>('');
-  // only for empty dot ().0)
+  // only for empty dot (amount).0)
   const [additionalValue, setAdditionalValue] = useState<string>('');
 
   const onAddSymbol = (symbol: string) => {
@@ -12,6 +19,10 @@ export const useInputFormat = () => {
     setInputValue(prev => {
       const isPrevSymbolDot = !!additionalValue;
       const isDotSymbol = symbol === '.';
+
+      if (maxValue && +`${prev}${symbol}` > maxValue) {
+        return prev;
+      }
 
       // we don't need two dots
       if (isDotSymbol && (prev.includes('.') || isPrevSymbolDot)) {
@@ -58,19 +69,21 @@ export const useInputFormat = () => {
     });
   };
 
-  const onChangeByPercent = (maxValue: number, percent: number) => {
+  const onChangeByPercent = (max: number, percent: number) => {
     setAdditionalValue('');
-    setInputValue(String(maxValue * (percent / 100)));
+    setInputValue(String(max * (percent / 100)));
+  };
+
+  const manualChangeValue = (value: string) => {
+    setInputValue(value);
   };
 
   return {
     onAddSymbol,
     onRemoveSymbol,
     onChangeByPercent,
-    // full value for changing by percent
+    manualChangeValue,
     inputValue: inputValue,
-    // valut to show to user
-    // formattedInputValue,
     additionalValue,
   };
 };

@@ -3,6 +3,7 @@ import {create} from 'zustand';
 import {Vault} from '@/shared/types';
 import {vaultsData} from '@/shared/config/vaultsData';
 import {
+  getHolders,
   // getActiveVaults,
   getVaultApy,
   getVaultPrice,
@@ -33,6 +34,9 @@ export const useVaultsStore = create<VaultsState>()(set => ({
 
       const tvl = await getVaultTvl(current.address, current.chain);
       current.tvl = tvl?.value || 0;
+
+      const holders = await getHolders(current.address, current.chain);
+      current.holders = holders || 0;
 
       strategiesWithInfo.push(current);
     }

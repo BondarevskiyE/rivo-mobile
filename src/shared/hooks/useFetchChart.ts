@@ -1,9 +1,15 @@
 import {useEffect, useState} from 'react';
 import {CHART_PERIODS, ChartDotElement, ChartType} from '../types/chart';
-import {getChartVaultApy, getChartVaultPrice, getChartVaultTvl} from '../api';
+import {
+  getChartVaultApy,
+  getChartVaultPrice,
+  getChartVaultTvl,
+  getChartVaultBalance,
+} from '../api/chart';
 
 interface Params {
-  address: string;
+  userAddress: string;
+  vaultAddress: string;
   chain: string;
   period: CHART_PERIODS;
   type: ChartType;
@@ -11,15 +17,18 @@ interface Params {
 
 type ReturnType = {isLoading: boolean; data: ChartDotElement[]};
 
-const formatChartData = (data: any[]) => {
-  return data.map(item => ({
-    value: item.value,
-    date: new Date(item.date * 1000),
-  }));
+const formatChartData = (data: any[], type?: ChartType) => {
+  return data.map(item => {
+    return {
+      value: type === 'balance' ? item?.balance : item?.value,
+      date: new Date(item.date * 1000),
+    };
+  });
 };
 
 export const useFetchChart = ({
-  address,
+  userAddress,
+  vaultAddress,
   chain,
   period,
   type,
@@ -32,15 +41,19 @@ export const useFetchChart = ({
     let chartData: ChartDotElement[] | null = null;
 
     if (type === 'apy') {
-      chartData = await getChartVaultApy(address, chain, period);
+      chartData = await getChartVaultApy(vaultAddress, chain, period);
     }
 
     if (type === 'price') {
-      chartData = await getChartVaultPrice(address, chain, period);
+      chartData = await getChartVaultPrice(vaultAddress, chain, period);
     }
 
     if (type === 'tvl') {
-      chartData = await getChartVaultTvl(address, chain, period);
+      chartData = await getChartVaultTvl(vaultAddress, chain, period);
+    }
+
+    if (type === 'balance') {
+      chartData = await getChartVaultBalance(userAddress, vaultAddress, period);
     }
 
     chartData && setData(formatChartData(chartData));
@@ -51,7 +64,7 @@ export const useFetchChart = ({
   useEffect(() => {
     fetchChartData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address, chain, period, type]);
+  }, [vaultAddress, chain, period, type]);
 
   return {isLoading, data};
 };

@@ -23,15 +23,16 @@ import {AmountOutput} from './AmountOutput/AmountOutput';
 import {
   AutofillButtons,
   SEND_TRANSACTION_FORM_TYPE,
+  TEXT_SIGN_POSITION,
   TRANSACTION_STATUS,
 } from './types';
-import {InvestEstimate} from './InvestEstimate';
 import {FormLoader} from './FormLoader';
 import {ActionButtons} from './ActionButtons';
 import {ArrowLineIcon} from '@/shared/ui/icons';
 import {scannerUrls} from '@/shared/constants';
 import {openInAppBrowser} from '@/shared/lib/url';
 import {InviteFriendsBadge} from './InviteFriendsBadge';
+import {AmountInfo} from './AmountInfo';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -47,10 +48,18 @@ interface Props {
   autofillButton?: AutofillButtons;
 }
 
+const MAX_SLIPPAGE = 25;
+
 const DefaultAutofillButtons = [
   {name: '25%', percent: 25},
   {name: '50%', percent: 50},
   {name: '100%', percent: 100},
+];
+
+const slippageAutofillButtons = [
+  {name: '1%', percent: 1},
+  {name: '3%', percent: 3},
+  {name: '5%', percent: 5},
 ];
 
 export const SendTransactionForm: React.FC<Props> = ({
@@ -66,7 +75,8 @@ export const SendTransactionForm: React.FC<Props> = ({
     TRANSACTION_STATUS.NONE,
   );
   const [txHash, setTxHash] = useState<string>('');
-  //   const [isSlippageOpen, setIsSlippageOpen] = useState<boolean>(false);
+  const [slippage, setSlippage] = useState<string>('1');
+  const [isSlippageOpen, setIsSlippageOpen] = useState<boolean>(false);
 
   const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
   const biometryType = useSettingsStore(state => state.biometryType);
@@ -74,16 +84,52 @@ export const SendTransactionForm: React.FC<Props> = ({
 
   const loadingValue = useSharedValue(0);
 
+  // amount input value
   const {
-    onAddSymbol,
-    onRemoveSymbol,
-    onChangeByPercent,
-    inputValue,
-    additionalValue,
+    onAddSymbol: onAddAmountSymbol,
+    onRemoveSymbol: onRemoveAmountSymbol,
+    onChangeByPercent: onChangeAmountByPercent,
+    inputValue: amountValue,
+    additionalValue: additionalAmountValue,
   } = useInputFormat();
 
-  const onPressAmountPercentButton = (percent: number) => {
-    onChangeByPercent(cashAccountBalance, percent);
+  // slippage input value
+  const {
+    onAddSymbol: onAddSlippageSymbol,
+    onRemoveSymbol: onRemoveSlippageSymbol,
+    onChangeByPercent: onChangeSlippageByPercent,
+    manualChangeValue: manualChangeSlippageValue,
+    inputValue: slippageValue,
+    additionalValue: additionalSlippageValue,
+  } = useInputFormat({maxValue: MAX_SLIPPAGE});
+
+  const onPressPercentButton = (percent: number) => {
+    if (isSlippageOpen) {
+      onChangeSlippageByPercent(100, percent);
+      return;
+    }
+    onChangeAmountByPercent(cashAccountBalance, percent);
+  };
+
+  const onAddSymbol = (symbol: string) => {
+    if (isSlippageOpen) {
+      onAddSlippageSymbol(symbol);
+      return;
+    }
+    onAddAmountSymbol(symbol);
+  };
+
+  const onRemoveSymbol = () => {
+    if (isSlippageOpen) {
+      onRemoveSlippageSymbol();
+      return;
+    }
+    onRemoveAmountSymbol();
+  };
+
+  const onSaveSlippage = () => {
+    setSlippage(slippageValue);
+    setIsSlippageOpen(false);
   };
 
   const openLoadingScreen = () => {
@@ -112,7 +158,7 @@ export const SendTransactionForm: React.FC<Props> = ({
     //   setTxStatus(TRANSACTION_STATUS.SUCCESS);
     //   setIsLoading(false);
     // }, 1000);
-    const receipt = await onSendTransaction(vault, inputValue);
+    const receipt = await onSendTransaction(vault, amountValue);
     if (receipt) {
       setTxHash(receipt?.receipt.transactionHash);
       setTxStatus(
@@ -130,6 +176,11 @@ export const SendTransactionForm: React.FC<Props> = ({
 
   const onGoToSupport = () => {
     openInAppBrowser('https://www.rivo.xyz/');
+  };
+
+  const onClickSettings = () => {
+    setIsSlippageOpen(prev => !prev);
+    manualChangeSlippageValue(slippage);
   };
 
   const formattedBalance = formatNumber(cashAccountBalance, 3, ',');
@@ -154,7 +205,9 @@ export const SendTransactionForm: React.FC<Props> = ({
 
   const isInvestForm = formType === SEND_TRANSACTION_FORM_TYPE.INVEST;
 
-  const isEnoughBalance = +inputValue <= cashAccountBalance;
+  const isEnoughBalance = +amountValue <= cashAccountBalance;
+  const isMaxSlippage = +slippageValue >= MAX_SLIPPAGE;
+  const inputValue = isSlippageOpen ? slippageValue : amountValue;
   const isInputZero = inputValue === '' || inputValue === '0';
   const isButtonDisabled = isInputZero || !isEnoughBalance || isLoading;
 
@@ -182,29 +235,43 @@ export const SendTransactionForm: React.FC<Props> = ({
                 [styles.text, styles.greyText],
               ]}>{`Available balance: $${formattedBalance}`}</Text>
           </View>
-          <View style={styles.settingsIconContainer}>
+          <Pressable
+            onPress={onClickSettings}
+            style={styles.settingsIconContainer}>
             <SettingsIcon />
-          </View>
+          </Pressable>
         </Animated.View>
 
         <Animated.View style={loadingAmountContainerStyles}>
-          <AmountOutput
-            value={inputValue}
-            additionalValue={additionalValue}
-            onPressAutofillButton={onPressAmountPercentButton}
-            autofillButtons={autofillButton}
-            loadingValue={loadingValue}
-            isEnoughBalance={isEnoughBalance}
-          />
-          {isInvestForm ? (
-            <InvestEstimate value={inputValue} apy={vault.apy} />
+          {isSlippageOpen ? (
+            <AmountOutput
+              value={slippageValue}
+              textSign="%"
+              textSignPosition={TEXT_SIGN_POSITION.RIGHT}
+              additionalValue={additionalSlippageValue}
+              onPressAutofillButton={onPressPercentButton}
+              autofillButtons={slippageAutofillButtons}
+              loadingValue={loadingValue}
+              isError={isMaxSlippage}
+            />
           ) : (
-            <View style={styles.withdrawTextContainer}>
-              <Text style={styles.withdrawText}>
-                Funds will be deposited to your Rivo’s Cash Account
-              </Text>
-            </View>
+            <AmountOutput
+              value={amountValue}
+              textSign="$"
+              textSignPosition={TEXT_SIGN_POSITION.UP_LEFT}
+              additionalValue={additionalAmountValue}
+              onPressAutofillButton={onPressPercentButton}
+              autofillButtons={autofillButton}
+              loadingValue={loadingValue}
+              isError={!isEnoughBalance}
+            />
           )}
+          <AmountInfo
+            investValue={amountValue}
+            isSlippageOpen={isSlippageOpen}
+            vaultApy={vault.apy}
+            formType={formType}
+          />
           {txStatus === TRANSACTION_STATUS.SUCCESS && (
             <Animated.View
               entering={FadeIn.duration(500)}
@@ -225,6 +292,8 @@ export const SendTransactionForm: React.FC<Props> = ({
         onCloseScreen={onCloseScreen}
         onGoToScanner={onGoToScanner}
         onGoToSupport={onGoToSupport}
+        onSaveSlippage={onSaveSlippage}
+        isSlippageOpen={isSlippageOpen}
         isEnoughBalance={isEnoughBalance}
         isDisabled={isButtonDisabled}
         isInputEmpty={isInputZero}

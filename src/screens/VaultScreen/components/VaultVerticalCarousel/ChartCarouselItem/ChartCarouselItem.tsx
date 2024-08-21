@@ -16,6 +16,7 @@ import {formatValue} from '@/shared/lib';
 import {useFetchChart} from '@/shared/hooks';
 import {CHART_PERIODS, ChartType} from '@/shared/types/chart';
 import {Vault} from '@/shared/types';
+import {useUserStore} from '@/store/useUserStore';
 
 interface Props {
   focusChartSlide: () => void;
@@ -52,8 +53,11 @@ export const ChartCarouselItem: React.FC<Props> = ({
     dropdownVariants[1].value,
   );
 
+  const userAddress = useUserStore(state => state.walletAddress);
+
   const {isLoading: isChartLoading, data: chartData} = useFetchChart({
-    address: vault.address,
+    userAddress,
+    vaultAddress: vault.address,
     chain: vault.chain,
     period: selectedPeriod,
     type: selectedChartType,

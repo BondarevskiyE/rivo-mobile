@@ -12,6 +12,7 @@ import {useZeroDevStore} from '@/store/useZeroDevStore';
 import {chain} from '@/services/zerodev';
 import {useUserStore} from '@/store/useUserStore';
 import {getTokenValueStr} from '@/shared/lib/bigInt';
+import {useBalanceStore} from '@/store/useBalanceStore';
 
 export function PlusScreen() {
   const pendleETHVault = useVaultsStore(state =>
@@ -19,6 +20,7 @@ export function PlusScreen() {
   );
   const kernelClient = useZeroDevStore(state => state.kernelClient);
   const userAddress = useUserStore(state => state.walletAddress);
+  const fetchBalance = useBalanceStore(state => state.fetchBalance);
 
   const withdraw = useZeroDevStore(state => state.withdraw);
 
@@ -57,6 +59,8 @@ export function PlusScreen() {
     ])) as bigint;
 
     setPendleBalance(getTokenValueStr(balance, 18));
+    const isForceFetchBalance = true;
+    fetchBalance(isForceFetchBalance);
   };
 
   useEffect(() => {

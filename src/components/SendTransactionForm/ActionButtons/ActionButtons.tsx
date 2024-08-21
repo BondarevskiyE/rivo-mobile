@@ -22,6 +22,8 @@ interface Props {
   onCloseScreen: () => void;
   onGoToScanner: () => void;
   onGoToSupport: () => void;
+  onSaveSlippage: () => void;
+  isSlippageOpen: boolean;
   isInputEmpty: boolean;
   isEnoughBalance: boolean;
   isLoading: boolean;
@@ -36,6 +38,8 @@ export const ActionButtons: React.FC<Props> = ({
   onCloseScreen,
   onGoToScanner,
   onGoToSupport,
+  onSaveSlippage,
+  isSlippageOpen,
   isInputEmpty,
   isEnoughBalance,
   isLoading,
@@ -59,6 +63,11 @@ export const ActionButtons: React.FC<Props> = ({
   }, [txStatus]);
 
   const onPressActionButton = () => {
+    if (isSlippageOpen) {
+      onSaveSlippage();
+      return;
+    }
+
     if (txStatus === TRANSACTION_STATUS.SUCCESS) {
       onCloseScreen();
       return;
@@ -94,6 +103,7 @@ export const ActionButtons: React.FC<Props> = ({
     isLoading,
     biometryType,
     txStatus,
+    isSlippageOpen,
   });
 
   const additionalButtonText = getAdditionalButtonText(txStatus);

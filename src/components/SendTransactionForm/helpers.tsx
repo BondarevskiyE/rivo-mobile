@@ -6,7 +6,7 @@ import {FaceIdIcon} from '@/shared/ui/icons';
 import {Colors, Fonts} from '@/shared/ui';
 import {BIOMETRY_TYPE} from 'react-native-keychain';
 import {TouchIdIcon} from '@/shared/ui/icons/TouchIdIcon';
-import {TRANSACTION_STATUS} from './types';
+import {TEXT_SIGN_POSITION, TRANSACTION_STATUS} from './types';
 
 export const getInputFontSize = (inputLength: number) => {
   if (inputLength > 10) {
@@ -26,6 +26,7 @@ interface GetActionButtonTextParams {
   isLoading: boolean;
   biometryType: BIOMETRY_TYPE | null;
   txStatus: TRANSACTION_STATUS;
+  isSlippageOpen: boolean;
 }
 
 export const getActionButtonText = ({
@@ -34,7 +35,12 @@ export const getActionButtonText = ({
   isLoading,
   biometryType,
   txStatus,
+  isSlippageOpen,
 }: GetActionButtonTextParams) => {
+  if (isSlippageOpen) {
+    return 'Save';
+  }
+
   if (isLoading) {
     return 'Processing...';
   }
@@ -90,4 +96,23 @@ export const getAdditionalButtonText = (txStatus: TRANSACTION_STATUS) => {
   return txStatus === TRANSACTION_STATUS.SUCCESS
     ? 'View on Blockchain'
     : 'Contact support';
+};
+
+export const getTextSignPositionStyles = (position?: TEXT_SIGN_POSITION) => {
+  switch (position) {
+    case TEXT_SIGN_POSITION.UP_LEFT:
+      return {
+        left: -18,
+
+        fontSize: 24,
+      };
+    case TEXT_SIGN_POSITION.RIGHT:
+      return {
+        right: -54,
+        fontSize: 64,
+      };
+
+    default:
+      return {};
+  }
 };

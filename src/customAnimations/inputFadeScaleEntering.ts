@@ -7,13 +7,13 @@ export const inputFadeScaleEntering =
     'worklet';
     const animations = {
       // originX: withTiming(targetValues.targetOriginX, {duration: 300}),
-      opacity: withTiming(1, {duration: 150}),
-      transform: [{scale: withTiming(1, {duration: 150})}],
+      opacity: withTiming(1, {duration: 300}),
+      transform: [{scale: withTiming(1, {duration: 300})}],
     };
     const initialValues = {
       // originX: targetValues.targetOriginX - 20,
       opacity: 0.5,
-      transform: [{scale: 0.66}],
+      transform: [{scale: 0.5}],
     };
     return {
       initialValues,
