@@ -1,25 +1,29 @@
 import {Colors, Fonts, Images} from '@/shared/ui';
 import React, {View, Text} from 'react-native';
 
-export const indexManagmentItems = [
+interface GetIndexManagmentAccordeonItemsParams {
+  mechanics: string;
+  maintance: string;
+  rewards: string;
+}
+
+export const getIndexManagmentAccordeonItems = ({
+  mechanics,
+  maintance,
+  rewards,
+}: GetIndexManagmentAccordeonItemsParams) => [
   {
     image: Images.services,
     title: 'Mechanics',
     content: (
-      <View>
-        <Text
-          style={{
-            fontFamily: Fonts.regular,
-            fontSize: 16,
-            color: Colors.ui_grey_70,
-          }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
-        </Text>
-      </View>
+      <Text
+        style={{
+          fontFamily: Fonts.regular,
+          fontSize: 16,
+          color: Colors.ui_grey_70,
+        }}>
+        {mechanics}
+      </Text>
     ),
   },
   {
@@ -33,11 +37,7 @@ export const indexManagmentItems = [
             fontSize: 16,
             color: Colors.ui_grey_70,
           }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
+          {maintance}
         </Text>
       </View>
     ),
@@ -53,18 +53,30 @@ export const indexManagmentItems = [
             fontSize: 16,
             color: Colors.ui_grey_70,
           }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
+          {rewards}
         </Text>
       </View>
     ),
   },
 ];
 
-export const riskScoringAccordeonItems = [
+interface GetRiskScoringAccordeonItemsParams {
+  smart_ctr_sec_score: number;
+  smart_ctr_sec_text: string;
+  user_metrics_score: number;
+  user_metrics_text: string;
+  complexity_score: number;
+  complexity_text: string;
+}
+
+export const getRiskScoringAccordeonItems = ({
+  smart_ctr_sec_score,
+  smart_ctr_sec_text,
+  user_metrics_score,
+  user_metrics_text,
+  complexity_score,
+  complexity_text,
+}: GetRiskScoringAccordeonItemsParams) => [
   {
     image: Images.checkShield,
     title: 'Smart contract security',
@@ -84,7 +96,7 @@ export const riskScoringAccordeonItems = [
             fontSize: 14,
             color: Colors.ui_white,
           }}>
-          4.2
+          {smart_ctr_sec_score}
         </Text>
       </View>
     ),
@@ -96,11 +108,7 @@ export const riskScoringAccordeonItems = [
             fontSize: 16,
             color: Colors.ui_grey_70,
           }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
+          {smart_ctr_sec_text}
         </Text>
       </View>
     ),
@@ -124,7 +132,7 @@ export const riskScoringAccordeonItems = [
             fontSize: 14,
             color: Colors.ui_white,
           }}>
-          4.9
+          {user_metrics_score}
         </Text>
       </View>
     ),
@@ -136,11 +144,7 @@ export const riskScoringAccordeonItems = [
             fontSize: 16,
             color: Colors.ui_grey_70,
           }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
+          {user_metrics_text}
         </Text>
       </View>
     ),
@@ -164,7 +168,7 @@ export const riskScoringAccordeonItems = [
             fontSize: 14,
             color: Colors.ui_white,
           }}>
-          4.9
+          {complexity_score}
         </Text>
       </View>
     ),
@@ -176,11 +180,7 @@ export const riskScoringAccordeonItems = [
             fontSize: 16,
             color: Colors.ui_grey_70,
           }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
+          {complexity_text}
         </Text>
       </View>
     ),

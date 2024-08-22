@@ -68,7 +68,7 @@ export const RandomReveal: React.FC<Props> = ({
           characterSet={charachtersSet}
           characters={value}
           revealDuration={0.8}
-          duration={1.5}
+          duration={0.5}
           onComplete={() => {
             gradientValue.value = withTiming(0);
           }}

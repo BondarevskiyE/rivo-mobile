@@ -21,6 +21,7 @@ import {AutofillButtons, TEXT_SIGN_POSITION} from '../types';
 import {AmountOutputSymbol} from './AmountOutputSymbol';
 import {fadeScaleEntering} from '@/customAnimations/fadeScaleEntering';
 import {fadeScaleExiting} from '@/customAnimations/fadeScaleExiting';
+import {isSmallScreenDevice} from '@/shared/lib/screen';
 
 interface Props {
   value: string;
@@ -29,7 +30,6 @@ interface Props {
   isError: boolean;
   autofillButtons: AutofillButtons;
   onPressAutofillButton: (percent: number) => void;
-
   textSign?: string;
   textSignPosition?: TEXT_SIGN_POSITION;
 }
@@ -73,7 +73,7 @@ export const AmountOutput: React.FC<Props> = ({
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [value, isError]);
 
   const buttonsStyles = useAnimatedStyle(() => ({
     opacity: interpolate(loadingValue.value, [0, 0.5, 1], [1, 0, 0]),
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: isSmallScreenDevice ? 20 : 40,
     marginBottom: 20,
   },
   amountTextPositionContainer: {

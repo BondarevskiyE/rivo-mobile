@@ -48,7 +48,6 @@ export const ActionButtons: React.FC<Props> = ({
   isDisabled,
 }) => {
   const animationValue = useSharedValue(BUTTON_HEIGHT);
-
   useEffect(() => {
     if (txStatus !== TRANSACTION_STATUS.NONE) {
       animationValue.value = withTiming(BUTTONS_CONTAINER_HEIGHT, {
@@ -114,7 +113,7 @@ export const ActionButtons: React.FC<Props> = ({
         onPress={onPressActionButton}
         type={BUTTON_TYPE.ACTION_SECONDARY}
         text={actionButtonText}
-        error={!isEnoughBalance}
+        error={!isSlippageOpen && !isEnoughBalance}
         style={[styles.button]}
         textStyle={styles.buttonText}
         disabled={isDisabled}

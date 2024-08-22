@@ -187,7 +187,7 @@ export const DragUpFromBottom = React.forwardRef<
             scrollEnabled={isScrollEnabled}
             bounces={false}
             onScroll={scrollHandler}
-            scrollEventThrottle={1}
+            scrollEventThrottle={17}
             showsVerticalScrollIndicator={false}
             style={styles.scrollContainer}>
             {children}

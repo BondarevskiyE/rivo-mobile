@@ -6,47 +6,54 @@ export type Vault = {
   token_address: `0x${string}`;
   strategies: Strategy[];
   chain: Chains;
-  shortDescription: string;
+  short_description: string;
   description: string;
   logo: 'eth' | 'dollar';
   apy: number;
   tvl: number;
-  allTvl: number;
+  max_tvl_cap: number;
   holders: number;
-  riskLevel: number;
+  risk_level: number;
   price: number;
   id: string;
   advantages: {image: string; text: string}[];
+  mechanics: string;
+  maintance: string;
+  rewards: string;
+  smart_ctr_sec_score: number;
+  smart_ctr_sec_text: string;
+  user_metrics_score: number;
+  user_metrics_text: string;
+  complexity_score: number;
+  complexity_text: string;
+  perf_fee_image: string;
+  managment_fee_image: string;
   audits?: Audit[];
-  strategiesInside?: StrategyInside[];
 };
 
 export type Strategy = {
   chain: string;
   address: string;
-};
-
-export type StrategyInside = {
   name: string;
-  owner: string;
-  logoImageUrl: string;
-  backgroundImageUrl: string;
+  protocol: string;
+  logo_image_url: string;
+  bg_image_url: string;
   apy: string;
   allocation: string;
   tvl: string;
-  riskScore: string;
+  risk_score: string;
   holders: string;
-  description: string;
-  yieldSources: YieldSource[];
+  overview: string;
+  tags: SourceTag[];
 };
 
-export type YieldSource = {
+export type SourceTag = {
   name: string;
-  logoUrl: string;
+  image: string;
 };
 
 export type Audit = {
   name: string;
   url: string;
-  iconUrl: string;
+  image: string;
 };

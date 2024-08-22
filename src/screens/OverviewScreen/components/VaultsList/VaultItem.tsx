@@ -56,7 +56,7 @@ export const VaultItem: React.FC<Props> = ({item}) => {
             text="Earn"
           />
         </View>
-        <Text style={styles.description}>{item.shortDescription}</Text>
+        <Text style={styles.description}>{item.short_description}</Text>
       </View>
     </Pressable>
   );

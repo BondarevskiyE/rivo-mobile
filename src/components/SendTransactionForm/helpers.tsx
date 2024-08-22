@@ -6,7 +6,11 @@ import {FaceIdIcon} from '@/shared/ui/icons';
 import {Colors, Fonts} from '@/shared/ui';
 import {BIOMETRY_TYPE} from 'react-native-keychain';
 import {TouchIdIcon} from '@/shared/ui/icons/TouchIdIcon';
-import {TEXT_SIGN_POSITION, TRANSACTION_STATUS} from './types';
+import {
+  SEND_TRANSACTION_FORM_TYPE,
+  TEXT_SIGN_POSITION,
+  TRANSACTION_STATUS,
+} from './types';
 
 export const getInputFontSize = (inputLength: number) => {
   if (inputLength > 10) {
@@ -115,4 +119,22 @@ export const getTextSignPositionStyles = (position?: TEXT_SIGN_POSITION) => {
     default:
       return {};
   }
+};
+
+export const getTitleText = (
+  formType: SEND_TRANSACTION_FORM_TYPE,
+  isSlippageOpen: boolean,
+) => {
+  if (isSlippageOpen) {
+    return 'Invest slippage';
+  }
+
+  if (formType === SEND_TRANSACTION_FORM_TYPE.INVEST) {
+    return 'Invest';
+  }
+  if (formType === SEND_TRANSACTION_FORM_TYPE.WITHDRAW) {
+    return 'Withdraw';
+  }
+
+  return '';
 };

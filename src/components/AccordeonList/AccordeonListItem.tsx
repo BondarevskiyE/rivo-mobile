@@ -138,12 +138,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   wrapper: {
-    marginTop: 16,
+    paddingTop: 16,
     paddingHorizontal: 16,
     width: '100%',
     position: 'absolute',
     display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'center',
   },
   dividerLine: {
     width: '100%',

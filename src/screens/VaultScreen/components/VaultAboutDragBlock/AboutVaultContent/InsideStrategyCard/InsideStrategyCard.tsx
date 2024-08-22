@@ -10,7 +10,7 @@ import Animated, {
 
 import RNFadedScrollView from 'rn-faded-scrollview';
 
-import {StrategyInside} from '@/shared/types';
+import {Strategy} from '@/shared/types';
 import {Colors, Fonts} from '@/shared/ui';
 import {abbreviateNumber} from '@/shared/lib/format';
 import {
@@ -24,7 +24,7 @@ import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {SourceTag} from './SourceTag';
 
 interface Props {
-  item: StrategyInside;
+  item: Strategy;
   isOpen?: boolean;
 }
 
@@ -74,14 +74,14 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
     <View style={styles.container}>
       <Animated.View style={[styles.imageContainer, imageContainerStyle]}>
         <ImageBackground
-          source={{uri: item.backgroundImageUrl}}
+          source={{uri: item.bg_image_url}}
           style={styles.image}
           resizeMode="cover"
         />
         <Animated.View
           style={[styles.logoImageContainer, logoImageContainerStyle]}>
           <Animated.Image
-            source={{uri: item.logoImageUrl}}
+            source={{uri: item.logo_image_url}}
             resizeMode="cover"
             style={[styles.logoImage, logoImageStyle]}
           />
@@ -93,7 +93,7 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
         <Animated.View
           style={[styles.nameContainer, contentItemStyle, nameContainerStyle]}>
           <Text style={styles.nameText}>{item.name}</Text>
-          <Text style={styles.nameSubText}>{`by ${item.owner}`}</Text>
+          <Text style={styles.nameSubText}>{`by ${item.protocol}`}</Text>
         </Animated.View>
         <RNFadedScrollView
           bounces={false}
@@ -163,7 +163,9 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
                     <Text style={styles.infoStringTitle}>Risk score</Text>
                   </View>
                   <View style={styles.flexRow}>
-                    <Text style={styles.infoStringValue}>{item.riskScore}</Text>
+                    <Text style={styles.infoStringValue}>
+                      {item.risk_score}
+                    </Text>
                     <Text
                       style={[styles.infoStringTitle, styles.infoSubstring]}>
                       of 5
@@ -184,18 +186,18 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
 
                 <Text style={styles.contentTitle}>Strategy overview</Text>
 
-                <Text>{item.description}</Text>
-                <Text>{item.description}</Text>
-                <Text>{item.description}</Text>
-                <Text>{item.description}</Text>
+                <Text>{item.overview}</Text>
+                <Text>{item.overview}</Text>
+                <Text>{item.overview}</Text>
+                <Text>{item.overview}</Text>
                 <Text style={styles.contentTitle}>Strategy overview</Text>
 
                 <View style={styles.sourcesContainer}>
-                  {item.yieldSources.map(source => (
+                  {item.tags.map(tag => (
                     <SourceTag
-                      name={source.name}
-                      imgUrl={source.logoUrl}
-                      key={source.name}
+                      name={tag.name}
+                      imgUrl={tag.image}
+                      key={tag.name}
                     />
                   ))}
                 </View>

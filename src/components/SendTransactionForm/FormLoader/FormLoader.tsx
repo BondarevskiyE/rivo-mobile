@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 
-import {TRANSACTION_STATUS} from '../types';
+import {SEND_TRANSACTION_FORM_TYPE, TRANSACTION_STATUS} from '../types';
 import {Fonts} from '@/shared/ui';
 import {getLoaderBackgroundColor, getLoaderTextColor} from './helpers';
 import {LoaderIcon} from './LoaderIcon';
@@ -12,7 +12,7 @@ const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 interface Props {
   isLoading: boolean;
   txStatus: TRANSACTION_STATUS;
-  isInvest: boolean;
+  formType: SEND_TRANSACTION_FORM_TYPE;
 }
 
 const LOADER_TEXT = {
@@ -29,7 +29,7 @@ const LONG_WAITING_TIMEOUT = 10000;
 export const FormLoader: React.FC<Props> = ({
   isLoading,
   txStatus,
-  isInvest,
+  formType,
 }) => {
   const [text, setText] = useState(LOADER_TEXT.LOADING);
 
@@ -49,23 +49,24 @@ export const FormLoader: React.FC<Props> = ({
   useEffect(() => {
     switch (txStatus) {
       case TRANSACTION_STATUS.SUCCESS: {
-        const successText = isInvest
-          ? LOADER_TEXT.SUCCESS_INVEST
-          : LOADER_TEXT.SUCCESS_WITHDRAW;
+        const successText =
+          formType === SEND_TRANSACTION_FORM_TYPE.INVEST
+            ? LOADER_TEXT.SUCCESS_INVEST
+            : LOADER_TEXT.SUCCESS_WITHDRAW;
         setText(successText);
         break;
       }
       case TRANSACTION_STATUS.FAIL: {
-        const failText = isInvest
-          ? LOADER_TEXT.FAIL_INVEST
-          : LOADER_TEXT.FAIL_WITHDRAW;
+        const failText =
+          formType === SEND_TRANSACTION_FORM_TYPE.INVEST
+            ? LOADER_TEXT.FAIL_INVEST
+            : LOADER_TEXT.FAIL_WITHDRAW;
         setText(failText);
         break;
       }
       default:
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [txStatus]);
+  }, [txStatus, formType]);
 
   const textColor = getLoaderTextColor(txStatus);
   const loaderBackgroundColor = getLoaderBackgroundColor(txStatus);

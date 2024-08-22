@@ -9,6 +9,7 @@ export const useInputFormat = (params?: Params) => {
   const maxValue = params?.maxValue;
 
   const [inputValue, setInputValue] = useState<string>('');
+  const [isError, setIsError] = useState<boolean>(false);
   // only for empty dot (amount).0)
   const [additionalValue, setAdditionalValue] = useState<string>('');
 
@@ -16,12 +17,17 @@ export const useInputFormat = (params?: Params) => {
     if (inputValue.length > 10) {
       return;
     }
+
     setInputValue(prev => {
       const isPrevSymbolDot = !!additionalValue;
       const isDotSymbol = symbol === '.';
 
       if (maxValue && +`${prev}${symbol}` > maxValue) {
-        return prev;
+        setIsError(true);
+        setTimeout(() => {
+          setIsError(false);
+        });
+        return prev; //TODO think about it
       }
 
       // we don't need two dots
@@ -83,6 +89,7 @@ export const useInputFormat = (params?: Params) => {
     onRemoveSymbol,
     onChangeByPercent,
     manualChangeValue,
+    isError,
     inputValue: inputValue,
     additionalValue,
   };

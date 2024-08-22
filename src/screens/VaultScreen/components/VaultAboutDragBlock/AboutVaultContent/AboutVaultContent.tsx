@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   Image,
   ScrollView,
@@ -21,7 +21,10 @@ import {
   InfoQuestionIcon,
   OrangePlusCircleIcon,
 } from '@/shared/ui/icons';
-import {indexManagmentItems, riskScoringAccordeonItems} from './mocks';
+import {
+  getIndexManagmentAccordeonItems,
+  getRiskScoringAccordeonItems,
+} from './helpers';
 
 import {InsideStrategyCard} from './InsideStrategyCard';
 import {IndexUpdates} from './IndexUpdates';
@@ -46,7 +49,30 @@ export const AboutVaultContent: React.FC<Props> = ({
   imageShiftValue,
   setIsInvestButtonShown,
 }) => {
-  const riskScore = vault.riskLevel * 2 * 10;
+  const riskScore = vault.risk_level * 2 * 10;
+
+  const indexManagmentAccordeonItems = useMemo(
+    () =>
+      getIndexManagmentAccordeonItems({
+        mechanics: vault.mechanics,
+        maintance: vault.maintance,
+        rewards: vault.rewards,
+      }),
+    [vault],
+  );
+
+  const riskScoringAccordeonItems = useMemo(
+    () =>
+      getRiskScoringAccordeonItems({
+        smart_ctr_sec_score: vault.smart_ctr_sec_score,
+        smart_ctr_sec_text: vault.smart_ctr_sec_text,
+        user_metrics_score: vault.user_metrics_score,
+        user_metrics_text: vault.user_metrics_text,
+        complexity_score: vault.complexity_score,
+        complexity_text: vault.complexity_text,
+      }),
+    [vault],
+  );
 
   return (
     <LinearGradient
@@ -72,14 +98,14 @@ export const AboutVaultContent: React.FC<Props> = ({
           Inside the index
         </Text>
 
-        {vault.strategiesInside && (
+        {vault.strategies && (
           <ScrollView
             horizontal
             bounces={false}
             showsHorizontalScrollIndicator={false}
             style={{flex: 1, overflow: 'visible', zIndex: 9}}
             contentContainerStyle={{gap: 8}}>
-            {vault.strategiesInside.map(item => (
+            {vault.strategies.map(item => (
               <ExpandableCard onPress={setIsInvestButtonShown} key={item.name}>
                 <InsideStrategyCard item={item} />
               </ExpandableCard>
@@ -95,7 +121,7 @@ export const AboutVaultContent: React.FC<Props> = ({
           ]}>
           Index management
         </Text>
-        <AccordeonList items={indexManagmentItems} />
+        <AccordeonList items={indexManagmentAccordeonItems} />
 
         <View
           style={[
@@ -127,7 +153,7 @@ export const AboutVaultContent: React.FC<Props> = ({
               {vault.audits.map(audit => (
                 <ExternalLinkTag
                   url={audit.url}
-                  iconUrl={audit.iconUrl}
+                  iconUrl={audit.image}
                   key={audit.name}>
                   {audit.name}
                 </ExternalLinkTag>

@@ -32,7 +32,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
               rotation={0}
               delay={300}
               duration={500}
-              fill={((vault?.tvl || 0) / (vault?.allTvl || 0)) * 100}
+              fill={((vault?.tvl || 0) / (vault?.max_tvl_cap || 0)) * 100}
               tintColor={Colors.ui_grey_13}
               backgroundColor={Colors.ui_grey_95}
             />
@@ -40,7 +40,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
           <View>
             <Text style={styles.whiteText}>{abbreviateNumber(vault?.tvl)}</Text>
             <Text style={styles.greyText}>
-              of {abbreviateNumber(vault?.allTvl)} TVL
+              of {abbreviateNumber(vault?.max_tvl_cap)} TVL
             </Text>
           </View>
         </View>
@@ -67,7 +67,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
           </View>
           <View>
             <Text style={styles.whiteText}>
-              {vault.riskLevel}
+              {vault.risk_level}
               {/** TODO change color depending on riskLevel*/}
             </Text>
             <Text style={styles.greyText}>Risk Level</Text>

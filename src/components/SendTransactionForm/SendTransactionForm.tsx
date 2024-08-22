@@ -28,11 +28,13 @@ import {
 } from './types';
 import {FormLoader} from './FormLoader';
 import {ActionButtons} from './ActionButtons';
-import {ArrowLineIcon} from '@/shared/ui/icons';
+import {ArrowLineIcon, CloseIcon} from '@/shared/ui/icons';
 import {scannerUrls} from '@/shared/constants';
 import {openInAppBrowser} from '@/shared/lib/url';
 import {InviteFriendsBadge} from './InviteFriendsBadge';
 import {AmountInfo} from './AmountInfo';
+import {hideElementStyles} from '@/shared/constants/styles';
+import {getTitleText} from './helpers';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -101,6 +103,7 @@ export const SendTransactionForm: React.FC<Props> = ({
     manualChangeValue: manualChangeSlippageValue,
     inputValue: slippageValue,
     additionalValue: additionalSlippageValue,
+    isError: isSlippageError,
   } = useInputFormat({maxValue: MAX_SLIPPAGE});
 
   const onPressPercentButton = (percent: number) => {
@@ -203,69 +206,70 @@ export const SendTransactionForm: React.FC<Props> = ({
     opacity: loadingValue.value,
   }));
 
-  const isInvestForm = formType === SEND_TRANSACTION_FORM_TYPE.INVEST;
+  const titleText = getTitleText(formType, isSlippageOpen);
 
   const isEnoughBalance = +amountValue <= cashAccountBalance;
-  const isMaxSlippage = +slippageValue >= MAX_SLIPPAGE;
   const inputValue = isSlippageOpen ? slippageValue : amountValue;
   const isInputZero = inputValue === '' || inputValue === '0';
-  const isButtonDisabled = isInputZero || !isEnoughBalance || isLoading;
+  const isSendTxButtonDisabled = isInputZero || !isEnoughBalance || isLoading;
 
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.loaderContainer, loaderStyles]}>
         <FormLoader
           isLoading={isLoading}
-          isInvest={isInvestForm}
+          formType={formType}
           txStatus={txStatus}
         />
       </Animated.View>
 
       <View style={styles.resultContainer}>
         <Animated.View style={[styles.headerContainer, loadingOpacityStyles]}>
-          <Pressable style={[styles.backIconContainer]} onPress={onCloseForm}>
+          <Pressable
+            style={[
+              styles.backIconContainer,
+              isSlippageOpen && hideElementStyles,
+            ]}
+            onPress={onCloseForm}>
             <ArrowLineIcon color={Colors.ui_white} />
           </Pressable>
           <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>
-              {isInvestForm ? 'Invest' : 'Withdraw'}
-            </Text>
+            <Text style={styles.titleText}>{titleText}</Text>
             <Text
               style={[
-                [styles.text, styles.greyText],
+                styles.text,
+                styles.greyText,
+                isSlippageOpen && styles.displayNone,
               ]}>{`Available balance: $${formattedBalance}`}</Text>
           </View>
           <Pressable
             onPress={onClickSettings}
             style={styles.settingsIconContainer}>
-            <SettingsIcon />
+            {isSlippageOpen ? <CloseIcon /> : <SettingsIcon />}
           </Pressable>
         </Animated.View>
 
         <Animated.View style={loadingAmountContainerStyles}>
-          {isSlippageOpen ? (
-            <AmountOutput
-              value={slippageValue}
-              textSign="%"
-              textSignPosition={TEXT_SIGN_POSITION.RIGHT}
-              additionalValue={additionalSlippageValue}
-              onPressAutofillButton={onPressPercentButton}
-              autofillButtons={slippageAutofillButtons}
-              loadingValue={loadingValue}
-              isError={isMaxSlippage}
-            />
-          ) : (
-            <AmountOutput
-              value={amountValue}
-              textSign="$"
-              textSignPosition={TEXT_SIGN_POSITION.UP_LEFT}
-              additionalValue={additionalAmountValue}
-              onPressAutofillButton={onPressPercentButton}
-              autofillButtons={autofillButton}
-              loadingValue={loadingValue}
-              isError={!isEnoughBalance}
-            />
-          )}
+          <AmountOutput
+            value={isSlippageOpen ? slippageValue : amountValue}
+            textSign={isSlippageOpen ? '%' : '$'}
+            textSignPosition={
+              isSlippageOpen
+                ? TEXT_SIGN_POSITION.RIGHT
+                : TEXT_SIGN_POSITION.UP_LEFT
+            }
+            additionalValue={
+              isSlippageOpen ? additionalSlippageValue : additionalAmountValue
+            }
+            onPressAutofillButton={onPressPercentButton}
+            autofillButtons={
+              isSlippageOpen ? slippageAutofillButtons : autofillButton
+            }
+            loadingValue={loadingValue}
+            isError={isSlippageOpen ? isSlippageError : !isEnoughBalance}
+            key={isSlippageOpen ? 'slippage-value' : 'amount-value'}
+          />
+
           <AmountInfo
             investValue={amountValue}
             isSlippageOpen={isSlippageOpen}
@@ -295,7 +299,7 @@ export const SendTransactionForm: React.FC<Props> = ({
         onSaveSlippage={onSaveSlippage}
         isSlippageOpen={isSlippageOpen}
         isEnoughBalance={isEnoughBalance}
-        isDisabled={isButtonDisabled}
+        isDisabled={!isSlippageOpen && isSendTxButtonDisabled}
         isInputEmpty={isInputZero}
         isLoading={isLoading}
         biometryType={isBiometryEnabled ? biometryType : null}
@@ -389,5 +393,8 @@ const styles = StyleSheet.create({
         rotate: '180deg',
       },
     ],
+  },
+  displayNone: {
+    display: 'none',
   },
 });
