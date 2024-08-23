@@ -145,7 +145,6 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
           vault={vaultById}
           dragAnimationValue={carouselValue}
           isBigCarouselContainer={isBigCarouselContainer}
-          carouselAnimation={carouselValue}
           openInvestForm={openInvestForm}
         />
       </ReAnimated.View>

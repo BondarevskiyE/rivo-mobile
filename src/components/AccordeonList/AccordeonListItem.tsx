@@ -4,6 +4,7 @@ import React, {useEffect} from 'react';
 import {
   Image,
   ImageURISource,
+  LayoutAnimation,
   Pressable,
   StyleSheet,
   Text,
@@ -45,6 +46,7 @@ export const AccordeonListItem: React.FC<Props> = ({
   const derivedHeight = useDerivedValue(() => height.value * openValue.value);
 
   useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut); // FIX maybe remove
     if (openId === id) {
       openValue.value = withTiming(1, {
         duration: 200,

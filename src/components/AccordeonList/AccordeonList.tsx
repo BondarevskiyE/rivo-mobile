@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {memo, useState} from 'react';
 import {ImageURISource, StyleSheet, View} from 'react-native';
 import {AccordeonListItem} from './AccordeonListItem';
 import {Colors} from '@/shared/ui';
@@ -14,7 +14,7 @@ interface Props {
   items: AccordeonItem[];
 }
 
-export const AccordeonList: React.FC<Props> = ({items}) => {
+export const AccordeonList: React.FC<Props> = memo(({items}) => {
   const [openId, setOpenId] = useState<string | null>(null);
 
   const openItem = (id: string | null) => {
@@ -37,7 +37,7 @@ export const AccordeonList: React.FC<Props> = ({items}) => {
       ))}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

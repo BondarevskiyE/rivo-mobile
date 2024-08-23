@@ -25,7 +25,6 @@ const {width} = Dimensions.get('window');
 interface Props {
   vault: Vault;
   isBigCarouselContainer: boolean;
-  carouselAnimation: SharedValue<number>;
   dragAnimationValue: SharedValue<number>;
   openInvestForm: () => void;
 }
@@ -41,7 +40,6 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   vault,
   dragAnimationValue,
   isBigCarouselContainer,
-  carouselAnimation,
   openInvestForm,
 }) => {
   const positionValue = useSharedValue(0);
@@ -108,7 +106,7 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
         </Suspense> */}
         <AboutVaultContent
           vault={vault}
-          imageShiftValue={carouselAnimation}
+          imageShiftValue={dragAnimationValue}
           setIsInvestButtonShown={setIsInvestButtonShown}
         />
       </DragUpFromBottom>

@@ -29,65 +29,70 @@ export const InfoBlock: React.FC<Props> = ({
   advantages,
 }) => {
   const containerStyles = useAnimatedStyle(() => ({
-    marginTop: interpolate(
-      imageShiftValue.value,
-      [0, -400],
-      [-120, 0],
-      Extrapolation.CLAMP,
-    ),
+    transform: [
+      {
+        translateY: interpolate(
+          imageShiftValue.value,
+          [0, -400],
+          [-120, 0],
+          Extrapolation.CLAMP,
+        ),
+      },
+    ],
   }));
   return (
     <View style={styles.container}>
-      <ReAnimated.View style={[styles.imageContainer, containerStyles]}>
-        <Image source={Images.vaultInfoMock} style={styles.image} />
-      </ReAnimated.View>
-      <View style={styles.contentContainer}>
-        <View style={styles.collapsableTextContainer}>
-          <CollapsableText
-            text={descriptionText}
-            fontSize={16}
-            linePadding={9}
-            minLines={3}
-            SecondaryButton={
-              <ExternalLink url="https://rivo.xyz">
-                <View style={styles.viewOnchainButton}>
-                  <Text style={styles.viewOnchainText}>View onchain</Text>
-                  <GlobeIcon />
+      <ReAnimated.View style={containerStyles}>
+        <View style={[styles.imageContainer]}>
+          <Image source={Images.vaultInfoMock} style={styles.image} />
+        </View>
+        <View style={styles.contentContainer}>
+          <View style={styles.collapsableTextContainer}>
+            <CollapsableText
+              text={descriptionText}
+              fontSize={16}
+              linePadding={9}
+              minLines={3}
+              SecondaryButton={
+                <ExternalLink url="https://rivo.xyz">
+                  <View style={styles.viewOnchainButton}>
+                    <Text style={styles.viewOnchainText}>View onchain</Text>
+                    <GlobeIcon />
+                  </View>
+                </ExternalLink>
+              }
+            />
+          </View>
+          <View style={styles.dividerLine} />
+          <View style={styles.storiesContainer}>
+            <VideoStories
+              footerComponent={
+                <View style={{height: 63, backgroundColor: Colors.ui_black}}>
+                  <Button
+                    text="Invest"
+                    style={styles.investButton}
+                    textStyle={styles.investButtonText}
+                    type={BUTTON_TYPE.ACTION_SECONDARY}
+                    onPress={() => Alert.alert('invest!')}
+                  />
                 </View>
-              </ExternalLink>
-            }
-          />
-        </View>
-        <View style={styles.dividerLine} />
-        <View style={styles.storiesContainer}>
-          <VideoStories
-            footerComponent={
-              <View style={{height: 63, backgroundColor: Colors.ui_black}}>
-                <Button
-                  text="Invest"
-                  style={styles.investButton}
-                  textStyle={styles.investButtonText}
-                  type={BUTTON_TYPE.ACTION_SECONDARY}
-                  onPress={() => Alert.alert('invest!')}
+              }
+            />
+          </View>
+          <View style={styles.dividerLine} />
+          <View style={styles.advantagesBlock}>
+            {advantages.map(advantage => (
+              <View key={advantage.text} style={styles.advantagesBlockItem}>
+                <Image
+                  source={{uri: advantage.image}}
+                  style={styles.advantageImage}
                 />
+                <Text style={styles.advantageText}>{advantage.text}</Text>
               </View>
-            }
-          />
+            ))}
+          </View>
         </View>
-        <View style={styles.dividerLine} />
-        <View style={styles.advantagesBlock}>
-          {advantages.map(advantage => (
-            <View key={advantage.text} style={styles.advantagesBlockItem}>
-              <Image
-                source={{uri: advantage.image}}
-                style={styles.advantageImage}
-              />
-              <Text style={styles.advantageText}>{advantage.text}</Text>
-            </View>
-          ))}
-        </View>
-      </View>
-      <View />
+      </ReAnimated.View>
     </View>
   );
 };

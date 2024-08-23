@@ -60,9 +60,9 @@ export const CollapsableText: React.FC<Props> = ({
   });
   return (
     <View>
-      <ReAnimated.View style={descriptionStyle}>
+      <ReAnimated.View style={[styles.textContainer, descriptionStyle]}>
         <Text
-          style={styles.description}
+          style={styles.text}
           onTextLayout={e => {
             // use onTextLayout to get number of lines
             if (Platform.OS === 'android') {
@@ -91,7 +91,10 @@ export const CollapsableText: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {},
-  description: {
+  textContainer: {
+    overflow: 'hidden',
+  },
+  text: {
     fontFamily: Fonts.regular,
     fontSize: descriptionFontSize,
     lineHeight: 24,

@@ -7106,7 +7106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hoist-non-react-statics@npm:^3.3.0, hoist-non-react-statics@npm:^3.3.2":
+"hoist-non-react-statics@npm:^3.3.0":
   version: 3.3.2
   resolution: "hoist-non-react-statics@npm:3.3.2"
   dependencies:
@@ -10240,15 +10240,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-animatable@npm:^1.3.3":
-  version: 1.4.0
-  resolution: "react-native-animatable@npm:1.4.0"
-  dependencies:
-    prop-types: ^15.8.1
-  checksum: a1b211aff745b97351d78643d641fa298f7d71524eaf22fee8a69257ce52e85d6b3caf8e7fd26a521af34984fba7402b7c632c35ea69d618769387d1dcb6b32a
-  languageName: node
-  linkType: hard
-
 "react-native-circular-progress@npm:^1.4.0":
   version: 1.4.0
   resolution: "react-native-circular-progress@npm:1.4.0"
@@ -10278,6 +10269,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: c0d4bb538da25334c124d94c6761b361f5b2a8e9a16fd2735a4f86cb47636c6e4e370fea48b67c5ac1e65e51097a92b3964f0e21ccd8860639d3b7b04e9eb3f6
+  languageName: node
+  linkType: hard
+
+"react-native-collapsible@npm:^1.6.1":
+  version: 1.6.1
+  resolution: "react-native-collapsible@npm:1.6.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: ec28769002dd29290f3a9e49ebb7d8ac93a7dfd759669a06f3c235983548e622269b267753b32c4f41224ca5ea6b71bc497fd8594bba0d1e28566f44318a06b7
   languageName: node
   linkType: hard
 
@@ -10624,19 +10625,6 @@ __metadata:
   bin:
     react-native: cli.js
   checksum: 3ac8df993a8ca1e2598049dfcdd10ef5708292be37137c7c39884f36044b83b2cbb7b1354059b48551b3570135ea8570c914e64a882a5d51e641d33c40f759bd
-  languageName: node
-  linkType: hard
-
-"react-navigation-heavy-screen@npm:^1.2.1":
-  version: 1.2.1
-  resolution: "react-navigation-heavy-screen@npm:1.2.1"
-  dependencies:
-    hoist-non-react-statics: ^3.3.2
-    react-native-animatable: ^1.3.3
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 361ba7b27337bb7e87d71742b6959b5499c314a59c3aafffa324d8f4ceab62c847a3d6a9fd685b14789a40dd4590c107aad64e981659b772018dbf865e41ffcf
   languageName: node
   linkType: hard
 
@@ -11097,6 +11085,7 @@ __metadata:
     react-native-circular-progress: ^1.4.0
     react-native-clean-project: ^4.0.3
     react-native-click-outside: ^0.1.1
+    react-native-collapsible: ^1.6.1
     react-native-config: ^1.5.2
     react-native-device-info: ^11.1.0
     react-native-encrypted-storage: ^4.0.3
@@ -11118,7 +11107,6 @@ __metadata:
     react-native-video: "github:freeboub/react-native-video#chore/fixAppBoot"
     react-native-webview: ^13.10.5
     react-native-webview-crypto: ^0.0.25
-    react-navigation-heavy-screen: ^1.2.1
     react-qr-code: ^2.0.15
     react-random-reveal: ^2.0.0
     readable-stream: ^4.5.2
