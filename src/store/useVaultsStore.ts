@@ -38,14 +38,14 @@ export const useVaultsStore = create<VaultsState>()(
         for (let i = 0; i < strategies.length; i++) {
           const current = strategies[i];
 
-          // if (!vaultUpdatesLengthMap?.[current.address]) {
-          set({
-            vaultUpdatesLengthMap: {
-              ...vaultUpdatesLengthMap,
-              [current.address]: 0,
-            },
-          });
-          // }
+          if (!vaultUpdatesLengthMap?.[current.address]) {
+            set({
+              vaultUpdatesLengthMap: {
+                ...vaultUpdatesLengthMap,
+                [current.address]: 0,
+              },
+            });
+          }
 
           const price = await getVaultPrice(current.address, current.chain);
           current.price = price?.value || 0;
