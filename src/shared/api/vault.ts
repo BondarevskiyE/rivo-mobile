@@ -1,9 +1,5 @@
-import Config from 'react-native-config';
-
-import {sendRequest} from './index';
+import {LOCUS_API_URL, sendRequest} from './index';
 import {TPendleStructRaw, TPendleStruct} from '../types/pendleStruct';
-
-const LOCUS_API_URL = Config.LOCUS_API_URL;
 
 const fetchStructByStrategy = (
   strategyAddress: string,

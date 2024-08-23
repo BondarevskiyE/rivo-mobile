@@ -39,3 +39,9 @@ export interface StrategiesEntity {
   chain: string;
   address: string;
 }
+
+export interface IndexUpdate {
+  event: string;
+  description: string;
+  date: string;
+}

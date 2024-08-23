@@ -183,7 +183,6 @@ export const DragUpFromBottom = React.forwardRef<
             <View style={styles.line} />
           </Pressable>
           <AScrollView
-            onContentSizeChange={console.log}
             ref={scrollRef}
             scrollEnabled={isScrollEnabled}
             bounces={false}

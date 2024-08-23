@@ -2,14 +2,17 @@ import axios, {AxiosResponse} from 'axios';
 import Config from 'react-native-config';
 import {
   ApyResponse,
+  IndexUpdate,
   PriceResponse,
   TRequestParams,
   TvlResponse,
   UserBalanceResponse,
   VaultResponse,
 } from './types';
+import {Chains} from '../constants';
 
 export const apiUrl = Config.RIVO_API_URL;
+export const LOCUS_API_URL = Config.LOCUS_API_URL;
 
 export const sendRequest = async <T, D = object>({
   url,
@@ -89,7 +92,7 @@ export const getActiveVaults = async (): Promise<VaultResponse | null> => {
 
 export const getVaultTvl = async (
   address: string,
-  chain: string,
+  chain: Chains,
 ): Promise<TvlResponse | null> => {
   return await sendRequest<TvlResponse | null>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_tvl`,
@@ -98,7 +101,7 @@ export const getVaultTvl = async (
 
 export const getVaultPrice = async (
   address: string,
-  chain: string,
+  chain: Chains,
 ): Promise<PriceResponse | null> => {
   return await sendRequest<PriceResponse>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_price`,
@@ -107,7 +110,7 @@ export const getVaultPrice = async (
 
 export const getVaultApy = async (
   address: string,
-  chain: string,
+  chain: Chains,
 ): Promise<ApyResponse | null> => {
   return await sendRequest<ApyResponse>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_apy`,
@@ -116,7 +119,7 @@ export const getVaultApy = async (
 
 export const getStrategyApy = async (
   address: string,
-  chain: string,
+  chain: Chains,
 ): Promise<ApyResponse | null> => {
   return await sendRequest<ApyResponse>({
     url: `${apiUrl}/v1/chain/${chain}/strategy/${address}/apy`,
@@ -126,5 +129,23 @@ export const getStrategyApy = async (
 export const getHolders = async (address: string, chain: string) => {
   return await sendRequest<number>({
     url: `${apiUrl}/v1/chain/${chain}/address/${address}/holders`,
+  });
+};
+
+export const getLastIndexUpdate = (
+  chain: Chains,
+  vaultName: string,
+): Promise<IndexUpdate | null> => {
+  return sendRequest<IndexUpdate>({
+    url: `${LOCUS_API_URL}/chain/${chain}/vault/${vaultName}/last_update_info`,
+  });
+};
+
+export const getAllIndexUpdates = (
+  chain: Chains,
+  vaultName: string,
+): Promise<IndexUpdate[] | null> => {
+  return sendRequest<IndexUpdate[]>({
+    url: `${LOCUS_API_URL}/chain/${chain}/vault/${vaultName}/update_info`,
   });
 };

@@ -5,9 +5,11 @@ import RNFadedScrollView from 'rn-faded-scrollview';
 import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon} from '@/shared/ui/icons';
 import {WhiteInfoModal} from '@/modal-manager';
+import {IndexUpdateWithActiveStatus} from './helpers';
+import {IndexUpdateItem} from './IndexUpdateItem/IndexUpdateItem';
 
 interface Props {
-  updates: string[];
+  updates: IndexUpdateWithActiveStatus[];
 }
 
 export const IndexUpdatesModal: React.FC<Props> = ({updates}) => {
@@ -36,10 +38,13 @@ export const IndexUpdatesModal: React.FC<Props> = ({updates}) => {
               fadeSize={80}
               isCloseToEnd={value => setIsShowArrow(!value)}
               fadeColors={['rgba(248, 242, 239, 0)', 'rgba(248, 242, 239, 1)']}>
-              {/* <Text style={[styles.text, styles.textMargin]}>
-            The index is being supported by the Rivo team, consistently managing
-            the set of strategies and tokens inside the index.
-          </Text> */}
+              {updates.map((update, index) => (
+                <IndexUpdateItem
+                  update={update}
+                  isLastItem={index + 1 === updates.length}
+                  key={update.date}
+                />
+              ))}
             </RNFadedScrollView>
             {isShowArrow && (
               <View style={styles.arrowIconContainer}>

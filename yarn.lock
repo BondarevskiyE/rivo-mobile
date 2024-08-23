@@ -10051,7 +10051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -10272,16 +10272,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-collapsible@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "react-native-collapsible@npm:1.6.1"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: ec28769002dd29290f3a9e49ebb7d8ac93a7dfd759669a06f3c235983548e622269b267753b32c4f41224ca5ea6b71bc497fd8594bba0d1e28566f44318a06b7
-  languageName: node
-  linkType: hard
-
 "react-native-config@npm:^1.5.2":
   version: 1.5.3
   resolution: "react-native-config@npm:1.5.3"
@@ -10291,6 +10281,23 @@ __metadata:
     react-native-windows:
       optional: true
   checksum: 0eb74e0a10ae6e96422671482da83dea16571f4f5ad848d1f18015dccbecb9cbc066788df72a88c630abf4aed0edb7616ec27704817cff18bd6ed7d61979d671
+  languageName: node
+  linkType: hard
+
+"react-native-dash@npm:^0.0.11":
+  version: 0.0.11
+  resolution: "react-native-dash@npm:0.0.11"
+  dependencies:
+    prop-types: ^15.5.10
+    react-native-measureme: 0.0.2
+  checksum: f0078fb4b420f0c8fca9a22d01401544b7b7438aeaf3f15f6cc5db61208efb2b59b720caa20e5b1b4518ce6cc77e666a5cf6748178fbbb8b088d3902e962e96e
+  languageName: node
+  linkType: hard
+
+"react-native-dashed-line@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "react-native-dashed-line@npm:1.1.0"
+  checksum: 8be97e53929b9ec16c98037e8c59429e7784d1d93c60750e3a572185518fd4ff8b8cbe947707d991b6c0ea040ce71630517a2737b09b1b11f4814fbadb5d2c81
   languageName: node
   linkType: hard
 
@@ -10416,6 +10423,13 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
+  languageName: node
+  linkType: hard
+
+"react-native-measureme@npm:0.0.2":
+  version: 0.0.2
+  resolution: "react-native-measureme@npm:0.0.2"
+  checksum: d508106b7f980aab38beab646527f6da6b9f6a47624ff3188050148159eb174898354419a87689f5a8dc7250d6331e2a384a3615c4e7884454f771b9c64a370c
   languageName: node
   linkType: hard
 
@@ -11085,8 +11099,9 @@ __metadata:
     react-native-circular-progress: ^1.4.0
     react-native-clean-project: ^4.0.3
     react-native-click-outside: ^0.1.1
-    react-native-collapsible: ^1.6.1
     react-native-config: ^1.5.2
+    react-native-dash: ^0.0.11
+    react-native-dashed-line: ^1.1.0
     react-native-device-info: ^11.1.0
     react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.16.2

@@ -81,7 +81,7 @@ export const AboutVaultContent: React.FC<Props> = ({
       <View style={styles.container}>
         <View style={[styles.flexRowContainer, styles.titleMarginBottom]}>
           <Text style={styles.title}>Overview</Text>
-          <IndexUpdates />
+          <IndexUpdates vault={vault} />
         </View>
 
         <InfoBlock
