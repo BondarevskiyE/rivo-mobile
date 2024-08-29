@@ -1,6 +1,7 @@
 import type {Method} from 'axios';
 
 import {ChartDotElement} from '../types/chart';
+import {Vault} from '../types';
 
 export type TRequestParams<D> = {
   url: string;
@@ -29,16 +30,16 @@ export type UserBalanceResponse = {
 }[];
 
 export type VaultResponse = Vault[];
-export interface Vault {
-  name: string;
-  chain: string;
-  address: string;
-  strategies?: StrategiesEntity[] | null;
-}
-export interface StrategiesEntity {
-  chain: string;
-  address: string;
-}
+// export interface Vault {
+//   name: string;
+//   chain: string;
+//   address: string;
+//   strategies?: StrategiesEntity[] | null;
+// }
+// export interface StrategiesEntity {
+//   chain: string;
+//   address: string;
+// }
 
 export interface IndexUpdate {
   event: string;

@@ -106,7 +106,9 @@ export const AboutVaultContent: React.FC<Props> = ({
             style={{flex: 1, overflow: 'visible', zIndex: 9}}
             contentContainerStyle={{gap: 8}}>
             {vault.strategies.map(item => (
-              <ExpandableCard onPress={setIsInvestButtonShown} key={item.name}>
+              <ExpandableCard
+                onPress={setIsInvestButtonShown}
+                key={item.address}>
                 <InsideStrategyCard item={item} />
               </ExpandableCard>
             ))}
@@ -154,8 +156,8 @@ export const AboutVaultContent: React.FC<Props> = ({
                 <ExternalLinkTag
                   url={audit.url}
                   iconUrl={audit.image}
-                  key={audit.name}>
-                  {audit.name}
+                  key={audit.text}>
+                  {audit.text}
                 </ExternalLinkTag>
               ))}
             </ScrollView>

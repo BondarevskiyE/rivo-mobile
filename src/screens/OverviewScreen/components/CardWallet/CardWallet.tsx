@@ -1,19 +1,10 @@
 import React from 'react';
-import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 
 import {formatNumber, shortenAddress} from '@/shared/lib/format';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {useUserStore} from '@/store/useUserStore';
-import Modal, {QRDepositModal} from '@/modal-manager';
-
-const openQRDepositModal = (address: string) => {
-  Modal.show({
-    children: <QRDepositModal address={address} />,
-    dismissable: true,
-    position: 'bottom',
-  });
-};
 
 export const CardWallet = () => {
   const userBalance = useBalanceStore(state => state.userBalance);
@@ -23,9 +14,7 @@ export const CardWallet = () => {
     formatNumber(userBalance).split('.');
 
   return (
-    <Pressable
-      onPress={() => openQRDepositModal(walletAddress)}
-      style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground
         source={Images.userCard}
         resizeMode="cover"
@@ -53,7 +42,7 @@ export const CardWallet = () => {
           <Text style={styles.address}>{shortenAddress(walletAddress)}</Text>
         </View>
       </ImageBackground>
-    </Pressable>
+    </View>
   );
 };
 

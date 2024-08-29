@@ -3,16 +3,18 @@ import {ImageBackground, StyleSheet, Text, View} from 'react-native';
 import Animated, {
   Easing,
   interpolate,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import {SvgUri} from 'react-native-svg';
 
 import RNFadedScrollView from 'rn-faded-scrollview';
 
 import {Strategy} from '@/shared/types';
 import {Colors, Fonts} from '@/shared/ui';
-import {abbreviateNumber} from '@/shared/lib/format';
+import {abbreviateNumber, formatNumber} from '@/shared/lib/format';
 import {
   AMarkIcon,
   ArrowLineIcon,
@@ -31,13 +33,22 @@ interface Props {
 export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
   const containerValue = useSharedValue(0);
 
-  const [isShowArrow, setIsShowArrow] = useState(true);
+  const [isShowArrow, setIsShowArrow] = useState(false);
+
+  const [scrollContainerHeight, setScrollContainerHeight] = useState(0);
+  const [scrollContentHeight, setScrollContentHeight] = useState(0);
 
   useEffect(() => {
-    containerValue.value = withTiming(isOpen ? 1 : 0, {
-      duration: 300,
-      easing: Easing.inOut(Easing.ease),
-    });
+    containerValue.value = withTiming(
+      isOpen ? 1 : 0,
+      {
+        duration: 300,
+        easing: Easing.inOut(Easing.ease),
+      },
+      () => {
+        runOnJS(setIsShowArrow)(true);
+      },
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
@@ -70,6 +81,11 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
     marginBottom: interpolate(containerValue.value, [0, 1], [31, 27]),
   }));
 
+  const weeklyApy = formatNumber(item.apy, 3);
+  const riskScore = formatNumber(item.risk_score, 3);
+
+  const isScrollableList = scrollContentHeight > scrollContainerHeight;
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.imageContainer, imageContainerStyle]}>
@@ -80,11 +96,9 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
         />
         <Animated.View
           style={[styles.logoImageContainer, logoImageContainerStyle]}>
-          <Animated.Image
-            source={{uri: item.logo_image_url}}
-            resizeMode="cover"
-            style={[styles.logoImage, logoImageStyle]}
-          />
+          <Animated.View style={[styles.logoImage, logoImageStyle]}>
+            <SvgUri uri={item.logo_image_url} width={'100%'} height={'100%'} />
+          </Animated.View>
         </Animated.View>
       </Animated.View>
 
@@ -104,7 +118,13 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
           horizontal={false}
           fadeSize={180}
           isCloseToEnd={value => setIsShowArrow(!value)}
-          fadeColors={['rgba(248, 242, 239, 0)', 'rgba(248, 242, 239, 1)']}>
+          fadeColors={['rgba(248, 242, 239, 0)', 'rgba(248, 242, 239, 1)']}
+          onLayout={e => {
+            setScrollContainerHeight(e.nativeEvent.layout.height);
+          }}
+          onContentSizeChange={(_, height) => {
+            setScrollContentHeight(height);
+          }}>
           <Animated.View style={contentItemStyle}>
             <View style={styles.infoString}>
               <View style={[styles.flexRow]}>
@@ -113,7 +133,7 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
                 </View>
                 <Text style={styles.infoStringTitle}>Weekly apy</Text>
               </View>
-              <Text style={styles.infoStringValue}>{`${item.apy}%`}</Text>
+              <Text style={styles.infoStringValue}>{`${weeklyApy}%`}</Text>
             </View>
             <View style={styles.infoString}>
               <View style={styles.flexRow}>
@@ -163,9 +183,7 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
                     <Text style={styles.infoStringTitle}>Risk score</Text>
                   </View>
                   <View style={styles.flexRow}>
-                    <Text style={styles.infoStringValue}>
-                      {item.risk_score}
-                    </Text>
+                    <Text style={styles.infoStringValue}>{riskScore}</Text>
                     <Text
                       style={[styles.infoStringTitle, styles.infoSubstring]}>
                       of 5
@@ -187,17 +205,14 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
                 <Text style={styles.contentTitle}>Strategy overview</Text>
 
                 <Text>{item.overview}</Text>
-                <Text>{item.overview}</Text>
-                <Text>{item.overview}</Text>
-                <Text>{item.overview}</Text>
-                <Text style={styles.contentTitle}>Strategy overview</Text>
+                <Text style={styles.contentTitle}>Yield source</Text>
 
                 <View style={styles.sourcesContainer}>
                   {item.tags.map(tag => (
                     <SourceTag
-                      name={tag.name}
+                      name={tag.text}
                       imgUrl={tag.image}
-                      key={tag.name}
+                      key={tag.text}
                     />
                   ))}
                 </View>
@@ -205,7 +220,7 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
             )}
           </Animated.View>
         </RNFadedScrollView>
-        {isShowArrow && isOpen && (
+        {isScrollableList && isShowArrow && isOpen && (
           <View style={styles.arrowIconContainer}>
             <ArrowLineIcon
               color={Colors.ui_grey_735}

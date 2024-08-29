@@ -1,14 +1,14 @@
-import React, {useRef} from 'react';
+import React from 'react';
 
 import {
   Pressable,
   StyleSheet,
   Text,
-  Animated,
   ViewStyle,
   StyleProp,
   TextStyle,
 } from 'react-native';
+import Animated, {useSharedValue, withTiming} from 'react-native-reanimated';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {withChildren} from '@/shared/types';
@@ -23,6 +23,8 @@ const getColor = (type: BUTTON_TYPE) => {
       return Colors.ui_dark_blue;
     case BUTTON_TYPE.ACTION_SECONDARY:
       return Colors.ui_white;
+    case BUTTON_TYPE.ACTION_DARK:
+      return Colors.ui_orange_80;
   }
 };
 
@@ -36,6 +38,8 @@ const getBackgroundColor = (type: BUTTON_TYPE) => {
       return Colors.transparent;
     case BUTTON_TYPE.ACTION_SECONDARY:
       return Colors.ui_orange_80;
+    case BUTTON_TYPE.ACTION_DARK:
+      return Colors.ui_brown_90;
   }
 };
 
@@ -44,6 +48,7 @@ export enum BUTTON_TYPE {
   SECONDARY,
   ACTION,
   ACTION_SECONDARY,
+  ACTION_DARK,
 }
 
 type Props = {
@@ -51,6 +56,7 @@ type Props = {
   text: string | React.ReactNode;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  disabledStyle?: StyleProp<ViewStyle>;
   type?: BUTTON_TYPE;
   disabled?: boolean;
   error?: boolean;
@@ -62,25 +68,19 @@ export const Button = ({
   type = BUTTON_TYPE.PRIMAL,
   style,
   textStyle,
+  disabledStyle,
   disabled = false,
   error = false,
   children,
   ...props
 }: Props) => {
-  const animated = useRef(new Animated.Value(1)).current;
+  const animatedValue = useSharedValue(1);
+
   const fadeIn = () => {
-    Animated.timing(animated, {
-      toValue: 0.8,
-      duration: 100,
-      useNativeDriver: true,
-    }).start();
+    animatedValue.value = withTiming(0.8, {duration: 100});
   };
   const fadeOut = () => {
-    Animated.timing(animated, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
+    animatedValue.value = withTiming(1, {duration: 200});
   };
 
   const backgroundColor = getBackgroundColor(type);
@@ -96,22 +96,24 @@ export const Button = ({
       <Animated.View
         style={[
           styles.button,
-          {backgroundColor, opacity: animated},
-          disabled && styles.disabled,
+          {backgroundColor, opacity: animatedValue},
+          disabled && [styles.disabled, disabledStyle],
           style,
           error && styles.errorButton,
         ]}>
         {children}
         {text && (
-          <Text
-            style={[
-              styles.buttonText,
-              {color},
-              textStyle,
-              error && styles.errorText,
-            ]}>
-            {text}
-          </Text>
+          <Animated.View>
+            <Text
+              style={[
+                styles.buttonText,
+                {color},
+                textStyle,
+                error && styles.errorText,
+              ]}>
+              {text}
+            </Text>
+          </Animated.View>
         )}
       </Animated.View>
     </Pressable>
@@ -121,6 +123,8 @@ export const Button = ({
 const styles = StyleSheet.create({
   button: {
     position: 'relative',
+    flexDirection: 'row',
+    gap: 7,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 18,

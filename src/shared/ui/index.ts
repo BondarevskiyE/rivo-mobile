@@ -13,6 +13,7 @@ export const Colors = {
   ui_white: '#FFF',
   ui_grey_02: '#fafafa',
   ui_grey_03: '#ececec',
+  ui_grey_04: '#f1eeef',
   ui_grey_05: '#F2F2F2',
   ui_grey_07: '#d7d9dd',
   ui_grey_10: '#DBDBDB',
@@ -31,6 +32,7 @@ export const Colors = {
   ui_grey_65: '#8d8d8d',
 
   ui_grey_70: '#888888',
+  ui_grey_71: '#808080',
   ui_grey_72: '#7b7e79',
   ui_grey_73: '#8c8c8c',
 
@@ -56,11 +58,13 @@ export const Colors = {
   ui_beige_50: '#e9c7b4',
 
   ui_orange_20: '#feefe5',
+  ui_orange_22: '#fcf0e0',
   ui_orange_25: '#f9e8df',
   ui_orange_40: '#C17830',
   ui_orange_45: '#AB6927',
   ui_orange_60: '#FAA51C',
   ui_orange_70: '#FA8112',
+  ui_orange_79: '#f96104',
   ui_orange_80: '#F95E00',
 
   ui_red_40: '#330900',
@@ -69,19 +73,22 @@ export const Colors = {
 
   ui_brown_90: '#190a00',
 
+  ui_green_10: '#e4f7e4',
   ui_green_40: '#6CCF30',
   ui_green_45: '#6BCD30',
   ui_green_46: '#6dca35',
   ui_green_50: '#5CB924',
+  ui_green_52: '#50C750',
   ui_green_55: '#28b91d',
-
   ui_green_70: '#1EC31A',
   ui_green_75: '#2CDB1D',
 
   ui_green_80: '#202a1a',
   ui_green_90: '#1d2717',
 
-  ui_purple_50: '#2A254C',
+  ui_purple_10: '#f4ecfe',
+  ui_purple_50: '#b97afa',
+  ui_purple_90: '#2A254C',
 
   ui_black_55: '#222222',
   ui_black_60: '#232323',
@@ -91,6 +98,10 @@ export const Colors = {
   ui_black_75: '#101010',
   ui_black_80: '#111111',
   ui_black: '#000000',
+
+  ui_blue_10: '#eaf2fe',
+  ui_blue_50: '#68a4ed',
+
   transparent: 'transparent',
 
   // background
@@ -150,6 +161,8 @@ export const Images = {
 
   fivePercent: require('../../../assets/images/fee-structure/five-percent.png'),
   tenPercent: require('../../../assets/images/fee-structure/ten-percent.png'),
+
+  qrLogo: require('../../../assets/images/qr-logo.png'),
 };
 
 export const Videos = {

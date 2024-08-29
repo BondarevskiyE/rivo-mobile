@@ -10,7 +10,6 @@ import {
 import {
   OverviewScreen,
   LightingScreen,
-  PlusScreen,
   ChartsScreen,
   NotificationsScreen,
   PassCodeScreen,
@@ -54,7 +53,6 @@ const TabsRoot = () => {
           name={HOME_SCREEN_TABS.LIGHTING}
           component={LightingScreen}
         />
-        <Tab.Screen name={HOME_SCREEN_TABS.PLUS} component={PlusScreen} />
         <Tab.Screen name={HOME_SCREEN_TABS.CHARTS} component={ChartsScreen} />
         <Tab.Screen
           name={HOME_SCREEN_TABS.NOTIFICATIONS}
@@ -74,7 +72,7 @@ export const HomeStack = () => {
   const isPassCodeEntered = useLoginStore(state => state.isPassCodeEntered);
 
   return (
-    <View style={{position: 'relative', flex: 1}}>
+    <View style={{position: 'relative', flex: 1, zIndex: 2}}>
       <LinearGradient
         colors={['rgba(255, 255, 255, 1)', 'rgba(238, 231, 231, 1)']}
         style={{

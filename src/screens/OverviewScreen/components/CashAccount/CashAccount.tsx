@@ -1,4 +1,4 @@
-import {formatValue} from '@/shared/lib';
+import {formatNumber} from '@/shared/lib/format';
 import {Colors, Fonts} from '@/shared/ui';
 import {DollarIconWithShadow} from '@/shared/ui/icons';
 import {ArrowUpIcon} from '@/shared/ui/icons/ArrowUpIcon';
@@ -9,7 +9,7 @@ import {StyleSheet, Text, View} from 'react-native';
 export const CashAccount = () => {
   const cashAccountBalance = useBalanceStore(state => state.cashAccountBalance);
   const [cashAccountBalanceInteger, cashAccountBalanceFraction] =
-    formatValue(cashAccountBalance).split('.');
+    formatNumber(cashAccountBalance).split('.');
 
   return (
     <View style={styles.container}>
@@ -33,10 +33,9 @@ export const CashAccount = () => {
           <Text style={styles.cashAccountInteger}>
             {cashAccountBalanceInteger}
           </Text>
-          <Text
-            style={
-              styles.cashAccountFraction
-            }>{`.${cashAccountBalanceFraction}`}</Text>
+          <Text style={styles.cashAccountFraction}>{`.${
+            cashAccountBalanceFraction || 0
+          }`}</Text>
         </View>
         <View style={styles.apyValueContainer}>
           <ArrowUpIcon />

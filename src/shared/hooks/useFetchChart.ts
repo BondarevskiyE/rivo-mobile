@@ -56,7 +56,7 @@ export const useFetchChart = ({
       chartData = await getChartVaultBalance(userAddress, vaultAddress, period);
     }
 
-    chartData && setData(formatChartData(chartData));
+    chartData && setData(formatChartData(chartData, type));
 
     setIsLoading(false);
   };

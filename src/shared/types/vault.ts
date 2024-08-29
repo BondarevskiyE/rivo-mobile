@@ -32,13 +32,13 @@ export type Vault = {
 };
 
 export type Strategy = {
-  chain: string;
+  chain: Chains;
   address: string;
   name: string;
   protocol: string;
   logo_image_url: string;
   bg_image_url: string;
-  apy: string;
+  apy: number;
   allocation: string;
   tvl: string;
   risk_score: string;
@@ -48,12 +48,12 @@ export type Strategy = {
 };
 
 export type SourceTag = {
-  name: string;
+  text: string;
   image: string;
 };
 
 export type Audit = {
-  name: string;
+  text: string;
   url: string;
   image: string;
 };

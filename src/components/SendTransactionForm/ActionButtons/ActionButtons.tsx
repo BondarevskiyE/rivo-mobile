@@ -120,9 +120,9 @@ export const ActionButtons: React.FC<Props> = ({
       />
       <Button
         onPress={onPressAdditionalButton}
-        type={BUTTON_TYPE.ACTION_SECONDARY}
+        type={BUTTON_TYPE.ACTION_DARK}
         text={additionalButtonText}
-        style={[styles.button, styles.additionalButton]}
+        style={[styles.button]}
         textStyle={styles.additionalButtonText}
       />
     </Animated.View>
@@ -144,9 +144,9 @@ const styles = StyleSheet.create({
     fontSize: 17,
     color: Colors.ui_white,
   },
-  additionalButton: {
-    backgroundColor: Colors.ui_brown_90,
-  },
+  // additionalButton: {
+  //   backgroundColor: Colors.ui_brown_90,
+  // },
   additionalButtonText: {
     fontFamily: Fonts.semiBold,
     fontSize: 17,

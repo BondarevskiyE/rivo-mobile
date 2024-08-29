@@ -1,0 +1,1 @@
+export {QRWithLogo} from './QRWithLogo';

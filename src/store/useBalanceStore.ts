@@ -10,6 +10,7 @@ interface BalanceState {
   setUserBalancce: (balance: number) => void;
   setTotalEarned: (earned: number) => void;
   setCashAccountBalance: (balance: number) => void;
+  resetBalances: () => void;
 }
 
 export const useBalanceStore = create<BalanceState>()(set => ({
@@ -40,4 +41,11 @@ export const useBalanceStore = create<BalanceState>()(set => ({
   setTotalEarned: (earned: number) => set({totalEarned: earned}),
   setCashAccountBalance: (balance: number) =>
     set({cashAccountBalance: balance}),
+  resetBalances: () => {
+    set({
+      userBalance: 0.0,
+      totalEarned: 0.0,
+      cashAccountBalance: 0.0,
+    });
+  },
 }));

@@ -9,7 +9,6 @@ export const getIndexUpdatesWithStatuses = (
   storedUpdatesLength: number,
 ): IndexUpdateWithActiveStatus[] => {
   return fetchedUpdates.map((update, index) => {
-    console.log(index + 1, storedUpdatesLength);
     return {
       ...update,
       isActive: index + 1 > storedUpdatesLength,

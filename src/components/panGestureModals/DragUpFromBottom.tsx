@@ -3,9 +3,10 @@ import React, {useCallback, useImperativeHandle, useRef, useState} from 'react';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 import ReAnimated, {
   SharedValue,
+  runOnJS,
+  useAnimatedReaction,
   useAnimatedScrollHandler,
   useAnimatedStyle,
-  useDerivedValue,
   useSharedValue,
   withSpring,
   withTiming,
@@ -40,6 +41,7 @@ export const DragUpFromBottom = React.forwardRef<
     ref,
   ) => {
     const [initialYCoordinate, setInitialYCoordinate] = useState(0);
+    const [isScrollListEnabled, setIsScrollListEnabled] = useState(false);
 
     const scrollRef = useRef<ScrollView>(null);
 
@@ -170,9 +172,14 @@ export const DragUpFromBottom = React.forwardRef<
       scrollY.value = Math.round(contentOffset.y);
     });
 
-    const isScrollEnabled = useDerivedValue(() => {
-      return active.value && scrollingState.value;
-    });
+    useAnimatedReaction(
+      () => active.value && scrollingState.value,
+      (currentValue, previousValue) => {
+        if (currentValue !== previousValue) {
+          runOnJS(setIsScrollListEnabled)(currentValue);
+        }
+      },
+    );
 
     return (
       <GestureDetector gesture={gesture}>
@@ -184,7 +191,7 @@ export const DragUpFromBottom = React.forwardRef<
           </Pressable>
           <AScrollView
             ref={scrollRef}
-            scrollEnabled={isScrollEnabled}
+            scrollEnabled={isScrollListEnabled}
             bounces={false}
             onScroll={scrollHandler}
             scrollEventThrottle={17}

@@ -2,10 +2,11 @@ import {create} from 'zustand';
 import {persist, createJSONStorage} from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {Vault} from '@/shared/types';
-import {vaultsData} from '@/shared/config/vaultsData';
+import {Strategy, Vault} from '@/shared/types';
 import {
+  getActiveVaults,
   getHolders,
+  getStrategyApy,
   // getActiveVaults,
   getVaultApy,
   getVaultPrice,
@@ -28,15 +29,13 @@ export const useVaultsStore = create<VaultsState>()(
       vaults: [],
       vaultUpdatesLengthMap: {},
       fetchVaults: async () => {
-        // const test = await getActiveVaults(); // TODO here is active vaults
-        // console.log('test: ', test);
-        const strategies = [...vaultsData]; // TODO change to backend request
-        let strategiesWithInfo = [];
+        const vaults = (await getActiveVaults()) || [];
+        let vaultsWithInfo = [];
 
         const vaultUpdatesLengthMap = get().vaultUpdatesLengthMap;
 
-        for (let i = 0; i < strategies.length; i++) {
-          const current = strategies[i];
+        for (let i = 0; i < vaults.length; i++) {
+          const current = vaults[i];
 
           if (!vaultUpdatesLengthMap?.[current.address]) {
             set({
@@ -59,10 +58,28 @@ export const useVaultsStore = create<VaultsState>()(
           const holders = await getHolders(current.address, current.chain);
           current.holders = holders || 0;
 
-          strategiesWithInfo.push(current);
+          let formattedStrategies: Strategy[] = [];
+
+          await Promise.all(
+            current.strategies.map(async strategy => {
+              const strategyApy = await getStrategyApy(
+                strategy.address,
+                strategy.chain,
+              );
+              let formattedStrategy = {
+                ...strategy,
+                apy: strategyApy?.value || 0,
+              };
+              formattedStrategies.push(formattedStrategy);
+            }),
+          );
+
+          current.strategies = formattedStrategies;
+
+          vaultsWithInfo.push(current);
         }
 
-        set({vaults: strategiesWithInfo});
+        set({vaults: vaultsWithInfo});
       },
       setVaultUpdatesLength: (address: string, updatesLength: number) => {
         set({
@@ -80,6 +97,7 @@ export const useVaultsStore = create<VaultsState>()(
       name: 'vaults-store',
       storage: createJSONStorage(() => AsyncStorage),
       partialize: state => ({
+        // persist only indexUpdates
         vaultUpdatesLengthMap: state.vaultUpdatesLengthMap,
       }),
     },

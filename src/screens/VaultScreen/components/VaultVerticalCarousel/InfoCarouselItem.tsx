@@ -5,7 +5,11 @@ import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Colors, Fonts, Videos} from '@/shared/ui';
 import {Vault} from '@/shared/types';
 import {EthereumIcon, HoldersIcon} from '@/shared/ui/icons';
-import {abbreviateNumber, getFormatValue} from '@/shared/lib/format';
+import {
+  abbreviateNumber,
+  formatNumber,
+  getFormatValue,
+} from '@/shared/lib/format';
 import {VideoBackground} from '@/components/VideoBackground';
 
 interface Props {
@@ -67,7 +71,7 @@ export const InfoCarouselItem: React.FC<Props> = ({vault}) => {
           </View>
           <View>
             <Text style={styles.whiteText}>
-              {vault.risk_level}
+              {formatNumber(vault.risk_level)}
               {/** TODO change color depending on riskLevel*/}
             </Text>
             <Text style={styles.greyText}>Risk Level</Text>

@@ -24,14 +24,14 @@ export const abbreviateNumber = (value: number, fractionDigits = 1): string => {
   const tier = (Math.log10(Math.abs(value)) / 3) | 0;
 
   if (tier === 0) {
-    return value.toFixed(0).toString();
+    return value?.toFixed(0).toString();
   }
 
   const suffix = SI_SYMBOL[tier];
   const scale = Math.pow(10, tier * 3);
   const scaled = value / scale;
 
-  return `${scaled.toFixed(fractionDigits)}${suffix}`;
+  return `${formatNumber(scaled, fractionDigits)}${suffix}`;
 };
 
 export const countDecimals = (val: string, digits = 5): number => {

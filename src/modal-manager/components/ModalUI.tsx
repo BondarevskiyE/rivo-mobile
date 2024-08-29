@@ -34,14 +34,27 @@ export const ModalUI = ({
 }: ModalUIProps) => {
   const {children} = data;
   const {style} = config || {};
-  const {dismissable, position, backdropOpacity = 0.4} = options;
+
+  const {
+    dismissable,
+    position,
+    backdropOpacity = 0.4,
+    animationIn,
+    animationInTiming,
+    animationOut,
+    animationOutTiming,
+  } = options;
 
   const onBackdropPress = useCallback(() => {
     if (dismissable) {
       hide({});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dismissable]);
+
+  const onModalHide = useCallback(() => {
+    onHide();
+  }, [onHide]);
 
   if (!children) {
     return null;
@@ -51,13 +64,21 @@ export const ModalUI = ({
     <RNModal
       {...RNModal.defaultProps}
       isVisible={isVisible}
-      useNativeDriver
+      // useNativeDriver
+      useNativeDriverForBackdrop
+      hideModalContentWhileAnimating
+      animationIn={animationIn}
+      animationInTiming={animationInTiming}
+      animationOut={animationOut}
+      animationOutTiming={animationOutTiming}
       deviceHeight={SCREEN_HEIGHT}
       deviceWidth={SCREEN_WIDTH}
       style={[modalPositionStyles[position], styles.modal, style]}
       onBackdropPress={onBackdropPress}
       avoidKeyboard={false}
-      onModalHide={onHide}
+      onModalHide={onModalHide}
+      // hasBackdrop={!!backdropOpacity || !!onBackdropPress}
+      // coverScreen={!!backdropOpacity || !!onBackdropPress}
       backdropOpacity={backdropOpacity}>
       {children}
     </RNModal>
@@ -83,6 +104,7 @@ const modalPositionStyles = StyleSheet.create({
     marginHorizontal: 12,
     marginTop: FLOAT_TOP_MODAL_MARGIN,
   },
+  custom: {},
 });
 
 const styles = StyleSheet.create({

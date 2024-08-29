@@ -1,6 +1,7 @@
 import {Colors, Fonts} from '@/shared/ui';
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import {SvgUri} from 'react-native-svg';
 
 interface Props {
   imgUrl: string;
@@ -10,7 +11,7 @@ interface Props {
 export const SourceTag: React.FC<Props> = ({imgUrl, name}) => {
   return (
     <View style={styles.container}>
-      <Image source={{uri: imgUrl}} style={styles.image} />
+      <SvgUri uri={imgUrl} style={styles.image} width={20} height={20} />
       <Text style={styles.text}>{name}</Text>
     </View>
   );

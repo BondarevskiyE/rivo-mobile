@@ -24,7 +24,7 @@ export const TabIcon: React.FC<Props> = ({onPress, tabName, isFocused}) => {
           styles.container,
           {backgroundColor: isPlusTab ? Colors.ui_orange_80 : backgroundColor},
         ]}>
-        <Icon color={iconColor} />
+        <Icon color={isPlusTab ? Colors.ui_white : iconColor} />
       </View>
     </Pressable>
   );

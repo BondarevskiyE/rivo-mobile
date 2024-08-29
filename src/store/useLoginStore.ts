@@ -11,6 +11,7 @@ import {KernelClient} from './types';
 import {AUTH_SCREENS} from '@/navigation/types/authStack';
 import {checkIsUserAlreadyRegistered, userSigninBackend} from '@/shared/api';
 import {useBalanceStore} from './useBalanceStore';
+import {usePointsStore} from './usePointsStore';
 
 interface LoginState {
   isLoading: boolean;
@@ -87,7 +88,9 @@ export const useLoginStore = create<LoginState>()(set => ({
   logout: async () => {
     const {setUserInfo, setWalletAddress, setIsLoggedIn} =
       useUserStore.getState();
+    const {resetBalances} = useBalanceStore.getState();
     const {setKernelClient} = useZeroDevStore.getState();
+    const {setPoints} = usePointsStore.getState();
     try {
       const isLoggedOut = await logoutWeb3Auth();
 
@@ -96,6 +99,8 @@ export const useLoginStore = create<LoginState>()(set => ({
         setWalletAddress('');
         setIsLoggedIn(false);
         setKernelClient(null);
+        resetBalances();
+        setPoints(0);
         resetKeychainCredentials();
         return true;
       }

@@ -8,6 +8,10 @@ export type UseModalParams = {
 
 const DEFAULT_OPTIONS: ModalOptions = {
   dismissable: true,
+  animationIn: 'slideInUp',
+  animationInTiming: 300,
+  animationOut: 'slideOutDown',
+  animationOutTiming: 300,
   position: 'center',
   animated: false,
 };
@@ -41,6 +45,12 @@ export const useModal = ({defaultOptions}: UseModalParams) => {
       setOptions({
         dismissable: params.dismissable ?? initialOptions.dismissable,
         position: params.position ?? initialOptions.position,
+        animationIn: params.animationIn ?? initialOptions.animationIn,
+        animationInTiming:
+          params.animationInTiming ?? initialOptions.animationInTiming,
+        animationOut: params.animationOut ?? initialOptions.animationOut,
+        animationOutTiming:
+          params.animationOutTiming ?? initialOptions.animationOutTiming,
         animated: params.animated,
         backdropOpacity: params.backdropOpacity,
         onHide: params.onHide,

@@ -33,7 +33,7 @@ export const VaultItem: React.FC<Props> = ({item}) => {
         <View style={styles.upperBlock}>
           <View style={styles.titleBlock}>
             <Icon
-              color={Colors.ui_purple_50}
+              color={Colors.ui_purple_90}
               style={styles.icon}
               shadowColor={'rgba(42, 37, 76, 0.1)'}
               width={36}
