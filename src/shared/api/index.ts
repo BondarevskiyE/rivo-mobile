@@ -2,6 +2,7 @@ import axios, {AxiosResponse} from 'axios';
 import Config from 'react-native-config';
 import {
   ApyResponse,
+  EarnedIndexResponse,
   IndexUpdate,
   PriceResponse,
   TRequestParams,
@@ -78,9 +79,20 @@ export const getUserBalance = async (
   });
 };
 
-export const getUserBalanceForce = async (address: string): Promise<void> => {
-  await sendRequest<void>({
+export const getUserBalanceForce = async (
+  address: string,
+): Promise<UserBalanceResponse | null> => {
+  return await sendRequest<UserBalanceResponse>({
     url: `${apiUrl}/v1/user/${address}/balance_force`,
+  });
+};
+
+export const getTotalBalance = async (
+  address: string,
+): Promise<UserBalanceResponse | null> => {
+  return await sendRequest<UserBalanceResponse>({
+    url: `${apiUrl}/v1/user/${address}/total_balance
+`,
   });
 };
 
@@ -147,5 +159,14 @@ export const getAllIndexUpdates = (
 ): Promise<IndexUpdate[] | null> => {
   return sendRequest<IndexUpdate[]>({
     url: `${LOCUS_API_URL}/chain/${chain}/vault/${vaultName}/update_info`,
+  });
+};
+
+export const getUserIndexEarned = (
+  userAddress: string,
+  vaultAddress: string,
+): Promise<EarnedIndexResponse | null> => {
+  return sendRequest<EarnedIndexResponse>({
+    url: `${apiUrl}/v1/user/${userAddress}/index/${vaultAddress}/earned`,
   });
 };

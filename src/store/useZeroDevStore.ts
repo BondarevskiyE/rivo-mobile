@@ -134,7 +134,6 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
         amount: withdrawTokenUserBalance,
       });
 
-      console.log('swapToUSDCReceipt: ', swapToUSDCReceipt);
       Alert.alert('Success');
       return swapToUSDCReceipt;
     } catch (error) {
@@ -153,9 +152,6 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
 
       const receipt = await sendUSDCToAddress(amount, toAddress);
 
-      console.log('receipt: ', receipt);
-
-      Alert.alert('Success');
       return receipt;
     } catch (error) {
       console.log(error);

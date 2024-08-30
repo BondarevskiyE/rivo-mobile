@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
+import Animated, {
+  SharedValue,
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {Button} from '@/components/general';
@@ -16,6 +21,7 @@ const addressPlaceholder = 'Arbitrum address';
 interface Props {
   sendToAddress: string;
   onChangeSendToAddress: (address: string) => void;
+  loadingValue: SharedValue<number>;
 }
 
 const getInputText = (input: string) => {
@@ -35,6 +41,7 @@ const getInputText = (input: string) => {
 export const PasteAddress: React.FC<Props> = ({
   sendToAddress,
   onChangeSendToAddress,
+  loadingValue,
 }) => {
   const [isCameraShown, setIsCameraShown] = useState<boolean>(false);
 
@@ -56,12 +63,17 @@ export const PasteAddress: React.FC<Props> = ({
     onCloseCameraScanner();
   };
 
+  const containerStyles = useAnimatedStyle(() => ({
+    top: interpolate(loadingValue.value, [0, 1], [0, -35]),
+    opacity: interpolate(loadingValue.value, [0, 1], [1, 0]),
+  }));
+
   const text = getInputText(sendToAddress);
 
   const isLongText = text.length >= 27;
 
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, containerStyles]}>
       {isCameraShown && (
         <CameraScanner
           onReadCode={onReadCode}
@@ -108,7 +120,7 @@ export const PasteAddress: React.FC<Props> = ({
           <ScanIcon width={18} height={18} />
         </Button>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

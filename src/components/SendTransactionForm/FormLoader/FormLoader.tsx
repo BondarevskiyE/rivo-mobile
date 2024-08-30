@@ -20,8 +20,10 @@ const LOADER_TEXT = {
   LONG_WAITING: 'It may take some time',
   SUCCESS_INVEST: 'Invest completed',
   SUCCESS_WITHDRAW: 'Invest completed',
+  SUCCESS_SEND: 'Sent successfully!',
   FAIL_INVEST: 'Failed to invest',
   FAIL_WITHDRAW: 'Failed to withdraw',
+  FAIL_SEND: 'Failed to send',
 };
 
 const LONG_WAITING_TIMEOUT = 10000;
@@ -47,24 +49,26 @@ export const FormLoader: React.FC<Props> = ({
   }, []);
 
   useEffect(() => {
-    switch (txStatus) {
-      case TRANSACTION_STATUS.SUCCESS: {
-        const successText =
-          formType === SEND_TRANSACTION_FORM_TYPE.INVEST
-            ? LOADER_TEXT.SUCCESS_INVEST
-            : LOADER_TEXT.SUCCESS_WITHDRAW;
-        setText(successText);
-        break;
+    if (txStatus === TRANSACTION_STATUS.SUCCESS) {
+      switch (formType) {
+        case SEND_TRANSACTION_FORM_TYPE.INVEST:
+          return setText(LOADER_TEXT.SUCCESS_INVEST);
+        case SEND_TRANSACTION_FORM_TYPE.WITHDRAW:
+          return setText(LOADER_TEXT.SUCCESS_WITHDRAW);
+        case SEND_TRANSACTION_FORM_TYPE.SEND:
+          return setText(LOADER_TEXT.SUCCESS_SEND);
       }
-      case TRANSACTION_STATUS.FAIL: {
-        const failText =
-          formType === SEND_TRANSACTION_FORM_TYPE.INVEST
-            ? LOADER_TEXT.FAIL_INVEST
-            : LOADER_TEXT.FAIL_WITHDRAW;
-        setText(failText);
-        break;
+    }
+
+    if (txStatus === TRANSACTION_STATUS.FAIL) {
+      switch (formType) {
+        case SEND_TRANSACTION_FORM_TYPE.INVEST:
+          return setText(LOADER_TEXT.FAIL_INVEST);
+        case SEND_TRANSACTION_FORM_TYPE.WITHDRAW:
+          return setText(LOADER_TEXT.FAIL_WITHDRAW);
+        case SEND_TRANSACTION_FORM_TYPE.SEND:
+          return setText(LOADER_TEXT.FAIL_SEND);
       }
-      default:
     }
   }, [txStatus, formType]);
 

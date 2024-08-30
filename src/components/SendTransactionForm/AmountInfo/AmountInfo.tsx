@@ -7,12 +7,15 @@ import {InvestEstimate} from '../InvestEstimate';
 import {SEND_TRANSACTION_FORM_TYPE} from '../types';
 import {fadeScaleEntering} from '@/customAnimations/fadeScaleEntering';
 import {fadeScaleExiting} from '@/customAnimations/fadeScaleExiting';
+import {shortenAddress} from '@/shared/lib/format';
 
 interface Props {
   investValue: string;
   isSlippageOpen: boolean;
   formType: SEND_TRANSACTION_FORM_TYPE;
   apy: number;
+  sendToAddress: string;
+  isLoadingScreen: boolean;
 }
 
 export const AmountInfo: React.FC<Props> = ({
@@ -20,6 +23,8 @@ export const AmountInfo: React.FC<Props> = ({
   formType,
   apy,
   isSlippageOpen,
+  sendToAddress,
+  isLoadingScreen,
 }) => {
   if (isSlippageOpen) {
     return (
@@ -47,6 +52,17 @@ export const AmountInfo: React.FC<Props> = ({
         <Text style={styles.text}>
           Funds will be deposited to your Rivo’s Cash Account
         </Text>
+      </Animated.View>
+    );
+  }
+
+  if (formType === SEND_TRANSACTION_FORM_TYPE.SEND && isLoadingScreen) {
+    return (
+      <Animated.View
+        entering={fadeScaleEntering}
+        exiting={fadeScaleExiting}
+        style={[styles.textContainer, {height: 20, top: -110}]}>
+        <Text style={styles.text}>{`To ${shortenAddress(sendToAddress)}`}</Text>
       </Animated.View>
     );
   }

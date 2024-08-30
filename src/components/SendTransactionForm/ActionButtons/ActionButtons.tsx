@@ -5,7 +5,7 @@ import {BIOMETRY_TYPE} from 'react-native-keychain';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {getActionButtonText, getAdditionalButtonText} from '../helpers';
 import {Colors, Fonts} from '@/shared/ui';
-import {TRANSACTION_STATUS} from '../types';
+import {SEND_TRANSACTION_FORM_TYPE, TRANSACTION_STATUS} from '../types';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -26,10 +26,12 @@ interface Props {
   isSlippageOpen: boolean;
   isInputEmpty: boolean;
   isEnoughBalance: boolean;
+  isSendAddressEmpty: boolean;
   isSendAddressValid: boolean;
   isLoading: boolean;
   biometryType: BIOMETRY_TYPE | null;
   txStatus: TRANSACTION_STATUS;
+  formType: SEND_TRANSACTION_FORM_TYPE;
   isDisabled: boolean;
 }
 
@@ -43,8 +45,10 @@ export const ActionButtons: React.FC<Props> = ({
   isSlippageOpen,
   isInputEmpty,
   isEnoughBalance,
+  isSendAddressEmpty,
   isSendAddressValid,
   isLoading,
+  formType,
   biometryType,
   txStatus,
   isDisabled,
@@ -101,7 +105,9 @@ export const ActionButtons: React.FC<Props> = ({
   const actionButtonText = getActionButtonText({
     isInputEmpty,
     isEnoughBalance,
+    isSendAddressEmpty,
     isSendAddressValid,
+    formType,
     isLoading,
     biometryType,
     txStatus,
@@ -110,7 +116,11 @@ export const ActionButtons: React.FC<Props> = ({
 
   const additionalButtonText = getAdditionalButtonText(txStatus);
 
-  const isError = (!isSlippageOpen && !isEnoughBalance) || !isSendAddressValid;
+  const isError =
+    (!isSlippageOpen && !isEnoughBalance) ||
+    (formType === SEND_TRANSACTION_FORM_TYPE.SEND &&
+      !isSendAddressEmpty &&
+      !isSendAddressValid);
 
   return (
     <Animated.View style={[styles.container, containerStyles]}>

@@ -30,19 +30,15 @@ export type UserBalanceResponse = {
 }[];
 
 export type VaultResponse = Vault[];
-// export interface Vault {
-//   name: string;
-//   chain: string;
-//   address: string;
-//   strategies?: StrategiesEntity[] | null;
-// }
-// export interface StrategiesEntity {
-//   chain: string;
-//   address: string;
-// }
 
 export interface IndexUpdate {
   event: string;
   description: string;
   date: string;
+}
+
+export interface EarnedIndexResponse {
+  Percent: number;
+  Usd: number;
+  Want: number;
 }

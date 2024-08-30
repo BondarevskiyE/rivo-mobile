@@ -16,7 +16,11 @@ import Animated, {
 
 import {getInputFontSize, getTextSignPositionStyles} from '../helpers';
 import {Colors, Fonts} from '@/shared/ui';
-import {AutofillButtons, TEXT_SIGN_POSITION} from '../types';
+import {
+  AutofillButtons,
+  SEND_TRANSACTION_FORM_TYPE,
+  TEXT_SIGN_POSITION,
+} from '../types';
 
 import {AmountOutputSymbol} from './AmountOutputSymbol';
 import {fadeScaleEntering} from '@/customAnimations/fadeScaleEntering';
@@ -26,6 +30,7 @@ import {isSmallScreenDevice} from '@/shared/lib/screen';
 interface Props {
   value: string;
   additionalValue: string;
+  formType: SEND_TRANSACTION_FORM_TYPE;
   loadingValue: SharedValue<number>;
   isError: boolean;
   autofillButtons: AutofillButtons;
@@ -37,6 +42,7 @@ interface Props {
 export const AmountOutput: React.FC<Props> = ({
   value,
   additionalValue,
+  formType,
   isError,
   autofillButtons,
   onPressAutofillButton,
@@ -75,13 +81,19 @@ export const AmountOutput: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, isError]);
 
+  const isSendFormType = formType === SEND_TRANSACTION_FORM_TYPE.SEND;
+
   const buttonsStyles = useAnimatedStyle(() => ({
     opacity: interpolate(loadingValue.value, [0, 0.5, 1], [1, 0, 0]),
     top: interpolate(loadingValue.value, [0, 1], [0, 50]),
   }));
 
   const amountContainerStyles = useAnimatedStyle(() => ({
-    top: interpolate(loadingValue.value, [0, 1], [0, 35]),
+    top: interpolate(
+      loadingValue.value,
+      [0, 1],
+      [0, isSendFormType ? -60 : 35],
+    ),
   }));
 
   const isInputEmpty = value === '';

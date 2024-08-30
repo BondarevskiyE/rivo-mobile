@@ -1,12 +1,19 @@
-import {getUserBalance, getUserBalanceForce} from '@/shared/api';
+import {
+  // getTotalBalance,
+  getUserBalance,
+  getUserBalanceForce,
+  getUserIndexEarned,
+} from '@/shared/api';
 import {create} from 'zustand';
 import {useUserStore} from './useUserStore';
+import {useVaultsStore} from './useVaultsStore';
 
 interface BalanceState {
   userBalance: number;
   totalEarned: number;
   cashAccountBalance: number;
   fetchBalance: (force?: boolean) => void;
+  fetchTotalEarnedByVaults: () => void;
   setUserBalancce: (balance: number) => void;
   setTotalEarned: (earned: number) => void;
   setCashAccountBalance: (balance: number) => void;
@@ -19,6 +26,10 @@ export const useBalanceStore = create<BalanceState>()(set => ({
   cashAccountBalance: 0.0,
   fetchBalance: async (force?: boolean) => {
     const walletAddress = useUserStore.getState().walletAddress;
+
+    // const totalBalance = await getTotalBalance(walletAddress);
+
+    // console.log('total: ', totalBalance);
 
     if (walletAddress) {
       let balanceResponse;
@@ -36,6 +47,24 @@ export const useBalanceStore = create<BalanceState>()(set => ({
       balance &&
         set({userBalance: balance.amount, cashAccountBalance: balance.amount});
     }
+  },
+  fetchTotalEarnedByVaults: async () => {
+    const userAddress = useUserStore.getState().walletAddress;
+    const vaults = useVaultsStore.getState().vaults;
+
+    let totalEarned = 0;
+
+    await Promise.all(
+      vaults.map(async vault => {
+        const earned = await getUserIndexEarned(userAddress, vault.address);
+        if (!earned) {
+          return;
+        }
+        totalEarned += earned.Usd;
+      }),
+    );
+
+    set({totalEarned});
   },
   setUserBalancce: (balance: number) => set({userBalance: balance}),
   setTotalEarned: (earned: number) => set({totalEarned: earned}),

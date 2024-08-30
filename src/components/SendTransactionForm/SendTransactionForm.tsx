@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Dimensions, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, View} from 'react-native';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -9,9 +9,9 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import {GetUserOperationReceiptReturnType} from 'permissionless';
+import {isAddress} from 'viem';
 
 import {Colors, Fonts} from '@/shared/ui';
-import {SettingsIcon} from '@/shared/ui/icons/SettingsIcon';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {formatNumber} from '@/shared/lib/format';
 import {InputAmountKeyboard} from '@/components/InputAmountKeyboard';
@@ -27,15 +27,12 @@ import {
 } from './types';
 import {FormLoader} from './FormLoader';
 import {ActionButtons} from './ActionButtons';
-import {ArrowLineIcon, CloseIcon} from '@/shared/ui/icons';
 import {Chains, scannerUrls} from '@/shared/constants';
 import {openInAppBrowser} from '@/shared/helpers/url';
 import {InviteFriendsBadge} from './InviteFriendsBadge';
 import {AmountInfo} from './AmountInfo';
-import {hideElementStyles} from '@/shared/constants/styles';
-import {getTitleText} from './helpers';
 import {PasteAddress} from './PasteAddress';
-import {isAddress} from 'viem';
+import {FormHeader} from './FormHeader';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -163,6 +160,11 @@ export const SendTransactionForm: React.FC<Props> = ({
 
     openLoadingScreen();
 
+    // setTimeout(() => {
+    //   setTxStatus(TRANSACTION_STATUS.SUCCESS);
+    //   setIsLoading(false);
+    // }, 5000);
+
     const receipt = await onSendTransaction(
       amountValue,
       sendToAddress as `0x${string}`,
@@ -216,15 +218,25 @@ export const SendTransactionForm: React.FC<Props> = ({
     opacity: loadingValue.value,
   }));
 
-  const titleText = getTitleText(formType, isSlippageOpen);
+  const isSendFormType = formType === SEND_TRANSACTION_FORM_TYPE.SEND;
 
-  const isSendAddressValid = sendToAddress === '' || isAddress(sendToAddress);
+  const isSendAddressEmpty = sendToAddress === '';
+  const isSendAddressValid = isAddress(sendToAddress);
 
   const isEnoughBalance = +amountValue <= cashAccountBalance;
+
   const inputValue = isSlippageOpen ? slippageValue : amountValue;
-  const isInputZero = inputValue === '' || inputValue === '0';
+
+  const isInputZero = !+inputValue;
+
   const isSendTxButtonDisabled =
-    isInputZero || !isEnoughBalance || isLoading || !isSendAddressValid;
+    isInputZero ||
+    !isEnoughBalance ||
+    isLoading ||
+    (isSendFormType && isSendAddressEmpty) ||
+    (isSendFormType && !isSendAddressValid);
+
+  const isLoadingScreen = isLoading || txStatus !== TRANSACTION_STATUS.NONE;
 
   return (
     <View style={styles.container}>
@@ -237,33 +249,14 @@ export const SendTransactionForm: React.FC<Props> = ({
       </Animated.View>
 
       <View style={styles.resultContainer}>
-        <Animated.View style={[styles.headerContainer, loadingOpacityStyles]}>
-          <Pressable
-            style={[
-              styles.backIconContainer,
-              isSlippageOpen && hideElementStyles,
-            ]}
-            onPress={onCloseForm}>
-            <ArrowLineIcon color={Colors.ui_white} />
-          </Pressable>
-          <View style={styles.titleContainer}>
-            <Text style={styles.titleText}>{titleText}</Text>
-            <Text
-              style={[
-                styles.text,
-                styles.greyText,
-                isSlippageOpen && styles.displayNone,
-              ]}>{`Available balance: $${formattedBalance}`}</Text>
-          </View>
-          {formType === SEND_TRANSACTION_FORM_TYPE.SEND ? (
-            <View style={styles.iconMock} />
-          ) : (
-            <Pressable
-              onPress={onClickSettings}
-              style={styles.settingsIconContainer}>
-              {isSlippageOpen ? <CloseIcon /> : <SettingsIcon />}
-            </Pressable>
-          )}
+        <Animated.View style={loadingOpacityStyles}>
+          <FormHeader
+            onClose={onCloseForm}
+            onClickSettings={onClickSettings}
+            formType={formType}
+            isSlippageOpen={isSlippageOpen}
+            balance={formattedBalance}
+          />
         </Animated.View>
 
         <Animated.View style={loadingAmountContainerStyles}>
@@ -271,6 +264,7 @@ export const SendTransactionForm: React.FC<Props> = ({
             <PasteAddress
               sendToAddress={sendToAddress}
               onChangeSendToAddress={onChangeSendToAddress}
+              loadingValue={loadingValue}
             />
           )}
           <AmountOutput
@@ -289,6 +283,7 @@ export const SendTransactionForm: React.FC<Props> = ({
               isSlippageOpen ? slippageAutofillButtons : autofillButton
             }
             loadingValue={loadingValue}
+            formType={formType}
             isError={isSlippageOpen ? isSlippageError : !isEnoughBalance}
             key={isSlippageOpen ? 'slippage-value' : 'amount-value'}
           />
@@ -298,11 +293,16 @@ export const SendTransactionForm: React.FC<Props> = ({
             isSlippageOpen={isSlippageOpen}
             apy={apy || 0}
             formType={formType}
+            sendToAddress={sendToAddress}
+            isLoadingScreen={isLoadingScreen}
           />
           {txStatus === TRANSACTION_STATUS.SUCCESS && (
             <Animated.View
               entering={FadeIn.duration(500)}
-              exiting={FadeOut.duration(500)}>
+              exiting={FadeOut.duration(500)}
+              style={{
+                top: formType === SEND_TRANSACTION_FORM_TYPE.SEND ? -70 : 0,
+              }}>
               <InviteFriendsBadge />
             </Animated.View>
           )}
@@ -322,10 +322,12 @@ export const SendTransactionForm: React.FC<Props> = ({
         onSaveSlippage={onSaveSlippage}
         isSlippageOpen={isSlippageOpen}
         isEnoughBalance={isEnoughBalance}
+        isSendAddressEmpty={isSendAddressEmpty}
         isSendAddressValid={isSendAddressValid}
         isDisabled={!isSlippageOpen && isSendTxButtonDisabled}
         isInputEmpty={isInputZero}
         isLoading={isLoading}
+        formType={formType}
         biometryType={isBiometryEnabled ? biometryType : null}
         txStatus={txStatus}
       />

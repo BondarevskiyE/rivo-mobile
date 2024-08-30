@@ -27,8 +27,10 @@ export const getInputFontSize = (inputLength: number) => {
 interface GetActionButtonTextParams {
   isInputEmpty: boolean;
   isEnoughBalance: boolean;
+  isSendAddressEmpty: boolean;
   isSendAddressValid: boolean;
   isLoading: boolean;
+  formType: SEND_TRANSACTION_FORM_TYPE;
   biometryType: BIOMETRY_TYPE | null;
   txStatus: TRANSACTION_STATUS;
   isSlippageOpen: boolean;
@@ -37,7 +39,9 @@ interface GetActionButtonTextParams {
 export const getActionButtonText = ({
   isInputEmpty,
   isEnoughBalance,
+  isSendAddressEmpty,
   isSendAddressValid,
+  formType,
   isLoading,
   biometryType,
   txStatus,
@@ -45,10 +49,6 @@ export const getActionButtonText = ({
 }: GetActionButtonTextParams) => {
   if (isSlippageOpen) {
     return 'Save';
-  }
-
-  if (!isSendAddressValid) {
-    return 'Invalid address';
   }
 
   if (isLoading) {
@@ -69,6 +69,16 @@ export const getActionButtonText = ({
 
   if (!isEnoughBalance) {
     return 'Insufificient balance';
+  }
+
+  if (formType === SEND_TRANSACTION_FORM_TYPE.SEND) {
+    if (!isInputEmpty && isSendAddressEmpty) {
+      return 'Paste or scan address';
+    }
+
+    if (!isSendAddressEmpty && !isSendAddressValid) {
+      return 'Invalid address';
+    }
   }
 
   if (biometryType) {

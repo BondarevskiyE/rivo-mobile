@@ -7,11 +7,11 @@ import {
   getActiveVaults,
   getHolders,
   getStrategyApy,
-  // getActiveVaults,
   getVaultApy,
   getVaultPrice,
   getVaultTvl,
 } from '@/shared/api';
+import {useBalanceStore} from './useBalanceStore';
 
 type IndexUpdatesMap = Record<string, number>;
 
@@ -29,6 +29,9 @@ export const useVaultsStore = create<VaultsState>()(
       vaults: [],
       vaultUpdatesLengthMap: {},
       fetchVaults: async () => {
+        const fetchTotalEarnedByVaults =
+          useBalanceStore.getState().fetchTotalEarnedByVaults;
+
         const vaults = (await getActiveVaults()) || [];
         let vaultsWithInfo = [];
 
@@ -80,6 +83,8 @@ export const useVaultsStore = create<VaultsState>()(
         }
 
         set({vaults: vaultsWithInfo});
+
+        fetchTotalEarnedByVaults();
       },
       setVaultUpdatesLength: (address: string, updatesLength: number) => {
         set({
