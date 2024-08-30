@@ -157,7 +157,7 @@ export const data: Data = {
             <BankCardIcon color={Colors.ui_green_52} width={17} height={12} />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.PURCHASE,
+        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.SELL,
       },
       {
         title: 'Send USDC on Arbitrum',
@@ -173,7 +173,7 @@ export const data: Data = {
             <PaperPlaneIcon width={15} height={17} />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.PURCHASE,
+        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.SEND,
       },
       {
         title: 'Swap or Bridge to USDC to Arbitrum',

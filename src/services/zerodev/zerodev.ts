@@ -20,6 +20,7 @@ import {createKernelDefiClient, baseTokenAddresses} from '@zerodev/defi';
 import {
   BUNDLER_RPC,
   PAYMASTER_RPC,
+  USDC_ARBITRUM_ADDRESS,
   USDC_DECIMALS,
   ZERODEV_API_KEY,
 } from '@/shared/constants';
@@ -34,6 +35,10 @@ import {getContract} from '../viem';
 export const entryPoint = ENTRYPOINT_ADDRESS_V07;
 
 export const chain = arbitrum;
+
+// sometimes transactions will be reverted with out of gas, zerodev doesn't give enought gas estimation
+// so we need to increase gas estimation by percent
+const GAS_MULTIPLIER = 105;
 
 export const initZeroDevClient = async (
   smartAccountSigner: SmartAccountSigner<'custom', `0x${string}`>,
@@ -126,34 +131,29 @@ interface SwapTokenToUsdcParams {
 export const swapTokenToUsdc = async ({
   fromTokenAddress,
   amount,
-}: SwapTokenToUsdcParams) => {
-  try {
-    const kernelClient = useZeroDevStore.getState().kernelClient;
+}: SwapTokenToUsdcParams): Promise<GetUserOperationReceiptReturnType> => {
+  const kernelClient = useZeroDevStore.getState().kernelClient;
 
-    if (!kernelClient) {
-      throw new Error('no kernelClient');
-    }
-
-    const defiClient = createKernelDefiClient(kernelClient, ZERODEV_API_KEY);
-
-    const swapToUSDCUserOpHash = await defiClient.sendSwapUserOp({
-      fromToken: fromTokenAddress,
-      fromAmount: amount,
-      toToken: baseTokenAddresses[arbitrum.id].USDC,
-
-      gasToken: 'sponsored',
-    });
-    // @ts-ignore
-    const bundlerClient = await kernelClient.extend(bundlerActions(entryPoint));
-    const receipt = await bundlerClient.waitForUserOperationReceipt({
-      hash: swapToUSDCUserOpHash,
-    });
-
-    return receipt;
-  } catch (error) {
-    console.log(error);
-    Alert.alert(`swapUsdcToToken error: ${error}`);
+  if (!kernelClient) {
+    throw new Error('no kernelClient');
   }
+
+  const defiClient = createKernelDefiClient(kernelClient, ZERODEV_API_KEY);
+
+  const swapToUSDCUserOpHash = await defiClient.sendSwapUserOp({
+    fromToken: fromTokenAddress,
+    fromAmount: amount,
+    toToken: baseTokenAddresses[arbitrum.id].USDC,
+
+    gasToken: 'sponsored',
+  });
+  // @ts-ignore
+  const bundlerClient = await kernelClient.extend(bundlerActions(entryPoint));
+  const receipt = await bundlerClient.waitForUserOperationReceipt({
+    hash: swapToUSDCUserOpHash,
+  });
+
+  return receipt;
 };
 
 interface InvestUserOperationParams {
@@ -207,7 +207,8 @@ export const sendInvestUserOperation = async ({
   const userOpInvestTxHash = await kernelClient.sendUserOperation({
     userOperation: {
       ...investUserOperationData,
-      callGasLimit: (investUserOp.callGasLimit * BigInt(104)) / BigInt(100),
+      callGasLimit:
+        (investUserOp.callGasLimit * BigInt(GAS_MULTIPLIER)) / BigInt(100),
     },
     // @ts-ignore FIX why type is incompitible
     account: kernelClient.account,
@@ -295,7 +296,8 @@ export const sendWithdrawUserOperation = async ({
   const userOpWithdrawTxHash = await kernelClient.sendUserOperation({
     userOperation: {
       ...withdrapUserOperationData,
-      callGasLimit: (withdrawUserOp.callGasLimit * BigInt(104)) / BigInt(100),
+      callGasLimit:
+        (withdrawUserOp.callGasLimit * BigInt(GAS_MULTIPLIER)) / BigInt(100),
     },
     // @ts-ignore FIX why type is incompitible
     account: kernelClient.account,
@@ -308,4 +310,49 @@ export const sendWithdrawUserOperation = async ({
   });
 
   return withdrawTxReceipt;
+};
+
+export const sendUSDCToAddress = async (
+  amount: string,
+  toAddress: `0x${string}`,
+): Promise<GetUserOperationReceiptReturnType> => {
+  const kernelClient = useZeroDevStore.getState().kernelClient as KernelClient;
+
+  if (!kernelClient) {
+    throw new Error('no kernelClient');
+  }
+
+  const tokenAmountBigInt = getTokenValueBigInt(amount, USDC_DECIMALS);
+
+  const sendUserOperationData = {
+    callData: await kernelClient.account.encodeCallData([
+      {
+        to: USDC_ARBITRUM_ADDRESS,
+        value: BigInt(0),
+        data: encodeFunctionData({
+          abi: ERC20ABI,
+          functionName: 'transfer',
+          args: [toAddress, tokenAmountBigInt],
+        }),
+      },
+    ]),
+  };
+
+  const userOpSendTxHash = await kernelClient.sendUserOperation({
+    userOperation: {
+      ...sendUserOperationData,
+      // callGasLimit:
+      //   (withdrawUserOp.callGasLimit * BigInt(GAS_MULTIPLIER)) / BigInt(100),
+    },
+    // @ts-ignore FIX why type is incompitible
+    account: kernelClient.account,
+  });
+
+  // @ts-ignore
+  const bundlerClient = kernelClient.extend(bundlerActions(entryPoint));
+  const receipt = await bundlerClient.waitForUserOperationReceipt({
+    hash: userOpSendTxHash,
+  });
+
+  return receipt;
 };

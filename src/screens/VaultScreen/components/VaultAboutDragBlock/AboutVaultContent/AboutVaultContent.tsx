@@ -191,7 +191,7 @@ export const AboutVaultContent: React.FC<Props> = ({
               style={styles.feeStructureImage}
             />
             <View style={styles.feeStructureItemTextContainer}>
-              <Text>Performance fee</Text>
+              <Text>Managment fee</Text>
               <InfoQuestionIcon />
             </View>
           </View>

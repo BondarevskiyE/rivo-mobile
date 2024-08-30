@@ -15,6 +15,7 @@ import {HOME_SCREEN_TABS} from '@/navigation/types/homeStack';
 import {Route} from '@react-navigation/native';
 import {TabList} from './TabList';
 import {openDepositAndWithdrawalModal} from '@/modal-manager/modals/DepositAndWithdrawalModal';
+import {useAppState} from '@/shared/hooks/useAppState';
 
 export const TABBAR_HEIGHT = 56;
 export const TABBAR_BOTTOM_OFFSET = 20;
@@ -53,6 +54,13 @@ export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
       navigation.navigate(route.name, route.params);
     }
   };
+
+  // play close animation when user went to background. Because modals will be closed
+  useAppState({
+    onBackground: () => {
+      onClosePlusTab();
+    },
+  });
 
   const leftSideRoutesStyle = useAnimatedStyle(() => ({
     transform: [

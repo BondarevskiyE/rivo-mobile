@@ -4,7 +4,6 @@ import {initialWindowMetrics} from 'react-native-safe-area-context';
 import Animated, {
   FadeIn,
   FadeOut,
-  SlideInDown,
   interpolate,
   useAnimatedStyle,
   useSharedValue,

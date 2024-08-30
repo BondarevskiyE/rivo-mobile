@@ -26,6 +26,7 @@ interface Props {
   isSlippageOpen: boolean;
   isInputEmpty: boolean;
   isEnoughBalance: boolean;
+  isSendAddressValid: boolean;
   isLoading: boolean;
   biometryType: BIOMETRY_TYPE | null;
   txStatus: TRANSACTION_STATUS;
@@ -42,6 +43,7 @@ export const ActionButtons: React.FC<Props> = ({
   isSlippageOpen,
   isInputEmpty,
   isEnoughBalance,
+  isSendAddressValid,
   isLoading,
   biometryType,
   txStatus,
@@ -99,6 +101,7 @@ export const ActionButtons: React.FC<Props> = ({
   const actionButtonText = getActionButtonText({
     isInputEmpty,
     isEnoughBalance,
+    isSendAddressValid,
     isLoading,
     biometryType,
     txStatus,
@@ -107,14 +110,16 @@ export const ActionButtons: React.FC<Props> = ({
 
   const additionalButtonText = getAdditionalButtonText(txStatus);
 
+  const isError = (!isSlippageOpen && !isEnoughBalance) || !isSendAddressValid;
+
   return (
     <Animated.View style={[styles.container, containerStyles]}>
       <Button
         onPress={onPressActionButton}
         type={BUTTON_TYPE.ACTION_SECONDARY}
         text={actionButtonText}
-        error={!isSlippageOpen && !isEnoughBalance}
-        style={[styles.button]}
+        error={isError}
+        style={styles.button}
         textStyle={styles.buttonText}
         disabled={isDisabled}
       />

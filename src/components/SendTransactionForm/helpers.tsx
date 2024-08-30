@@ -27,6 +27,7 @@ export const getInputFontSize = (inputLength: number) => {
 interface GetActionButtonTextParams {
   isInputEmpty: boolean;
   isEnoughBalance: boolean;
+  isSendAddressValid: boolean;
   isLoading: boolean;
   biometryType: BIOMETRY_TYPE | null;
   txStatus: TRANSACTION_STATUS;
@@ -36,6 +37,7 @@ interface GetActionButtonTextParams {
 export const getActionButtonText = ({
   isInputEmpty,
   isEnoughBalance,
+  isSendAddressValid,
   isLoading,
   biometryType,
   txStatus,
@@ -43,6 +45,10 @@ export const getActionButtonText = ({
 }: GetActionButtonTextParams) => {
   if (isSlippageOpen) {
     return 'Save';
+  }
+
+  if (!isSendAddressValid) {
+    return 'Invalid address';
   }
 
   if (isLoading) {

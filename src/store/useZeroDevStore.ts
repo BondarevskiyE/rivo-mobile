@@ -6,6 +6,7 @@ import {web3AuthReconnect} from '@/services/web3auth';
 import {
   initZeroDevClient,
   sendInvestUserOperation,
+  sendUSDCToAddress,
   sendWithdrawUserOperation,
   swapTokenToUsdc,
   swapUsdcToToken,
@@ -27,7 +28,14 @@ interface ZeroDevState {
     vault: Vault,
     amount: string,
   ) => Promise<GetUserOperationReceiptReturnType | null>;
-  withdraw: (vault: Vault, amount: string) => void;
+  withdraw: (
+    vault: Vault,
+    amount: string,
+  ) => Promise<GetUserOperationReceiptReturnType | null>;
+  sendUSDCToAddress: (
+    amount: string,
+    toAddress: `0x${string}`,
+  ) => Promise<GetUserOperationReceiptReturnType | null>;
   reconnectZeroDev: () => void;
 }
 
@@ -95,7 +103,7 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
         strategy => strategy.address,
       ) as `0x${string}`[];
 
-      const withdrawTxReceipt = await sendWithdrawUserOperation({
+      await sendWithdrawUserOperation({
         vaultAddress: vault.address as `0x${string}`,
         vaultAbi: VaultABI,
         withdrawAmount: amount,
@@ -104,8 +112,6 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
         userAddress: userAddress as `0x${string}`,
         strategiesAddresses,
       });
-
-      console.log('withdrawTxReceipt: ', withdrawTxReceipt);
 
       const vaultTokenContract = getContract({
         contractAddress: vault.token_address as `0x${string}`,
@@ -130,9 +136,31 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
 
       console.log('swapToUSDCReceipt: ', swapToUSDCReceipt);
       Alert.alert('Success');
+      return swapToUSDCReceipt;
     } catch (error) {
       console.log(error);
       Alert.alert(`something went wrong: ${error}`);
+      return null;
+    }
+  },
+  sendUSDCToAddress: async (amount: string, toAddress: `0x${string}`) => {
+    try {
+      const kernelClient = get().kernelClient;
+
+      if (!kernelClient) {
+        throw new Error('something went wrong');
+      }
+
+      const receipt = await sendUSDCToAddress(amount, toAddress);
+
+      console.log('receipt: ', receipt);
+
+      Alert.alert('Success');
+      return receipt;
+    } catch (error) {
+      console.log(error);
+      Alert.alert(`something went wrong: ${error}`);
+      return null;
     }
   },
   reconnectZeroDev: async () => {

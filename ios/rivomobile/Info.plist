@@ -35,6 +35,8 @@
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+  	<string>$(PRODUCT_NAME) Would Like to Access the Camera</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenRunde-Bold.otf</string>

@@ -78,6 +78,10 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
     playInvestFormAnimation(false);
   };
 
+  const onSendTransaction = async (amount: string) => {
+    return await invest(vaultById, amount);
+  };
+
   const carouselStyle = useAnimatedStyle(() => ({
     transform: [
       {
@@ -123,8 +127,9 @@ export const VaultScreen: React.FC<Props> = ({route, navigation}) => {
       {isInvestFormOpen && (
         <ReAnimated.View style={[styles.investForm, investFormStyle]}>
           <SendTransactionForm
-            vault={vaultById}
-            onSendTransaction={invest}
+            chain={vaultById.chain}
+            apy={vaultById.apy}
+            onSendTransaction={onSendTransaction}
             onCloseForm={closeInvestForm}
             onCloseScreen={goBack}
             formType={SEND_TRANSACTION_FORM_TYPE.INVEST}

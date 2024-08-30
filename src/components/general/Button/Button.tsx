@@ -74,7 +74,7 @@ export const Button = ({
   children,
   ...props
 }: Props) => {
-  const animatedValue = useSharedValue(1);
+  const animatedValue = useSharedValue(disabled ? 0.3 : 1);
 
   const fadeIn = () => {
     animatedValue.value = withTiming(0.8, {duration: 100});
@@ -97,8 +97,8 @@ export const Button = ({
         style={[
           styles.button,
           {backgroundColor, opacity: animatedValue},
-          disabled && [styles.disabled, disabledStyle],
           style,
+          disabled && [styles.disabled, disabledStyle],
           error && styles.errorButton,
         ]}>
         {children}

@@ -11,14 +11,14 @@ import {fadeScaleExiting} from '@/customAnimations/fadeScaleExiting';
 interface Props {
   investValue: string;
   isSlippageOpen: boolean;
-  vaultApy: number;
   formType: SEND_TRANSACTION_FORM_TYPE;
+  apy: number;
 }
 
 export const AmountInfo: React.FC<Props> = ({
   investValue,
   formType,
-  vaultApy,
+  apy,
   isSlippageOpen,
 }) => {
   if (isSlippageOpen) {
@@ -35,7 +35,7 @@ export const AmountInfo: React.FC<Props> = ({
   }
 
   if (formType === SEND_TRANSACTION_FORM_TYPE.INVEST) {
-    return <InvestEstimate value={investValue} apy={vaultApy} />;
+    return <InvestEstimate value={investValue} apy={apy} />;
   }
 
   if (formType === SEND_TRANSACTION_FORM_TYPE.WITHDRAW) {

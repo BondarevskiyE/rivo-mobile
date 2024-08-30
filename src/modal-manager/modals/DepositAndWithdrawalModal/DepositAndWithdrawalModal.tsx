@@ -17,6 +17,7 @@ import {PlusIcon} from '@/shared/ui/icons';
 import {MenuModal} from './MenuModal';
 import {DEPOSIT_WITHDRAWAL_MODAL_STEPS} from './types';
 import {ReceiveScreen} from './ReceiveScreen';
+import {SendScreen} from './SendScreen';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -74,6 +75,9 @@ export const DepositAndWithdrawalModal: React.FC<Props> = ({onCloseModal}) => {
     <>
       {modalStep === DEPOSIT_WITHDRAWAL_MODAL_STEPS.RECEIVE && (
         <ReceiveScreen onClose={goBackToDepositMenu} />
+      )}
+      {modalStep === DEPOSIT_WITHDRAWAL_MODAL_STEPS.SEND && (
+        <SendScreen onClose={goBackToWithdrawaltMenu} />
       )}
       {isModalMenuOpen && (
         <Animated.View

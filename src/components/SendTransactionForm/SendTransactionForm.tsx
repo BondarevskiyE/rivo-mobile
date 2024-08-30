@@ -16,7 +16,6 @@ import {useBalanceStore} from '@/store/useBalanceStore';
 import {formatNumber} from '@/shared/lib/format';
 import {InputAmountKeyboard} from '@/components/InputAmountKeyboard';
 import {useInputFormat} from '@/shared/hooks/useInputFormat';
-import {Vault} from '@/shared/types';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {getCredentialsWithBiometry} from '@/services/keychain';
 import {AmountOutput} from './AmountOutput/AmountOutput';
@@ -29,25 +28,28 @@ import {
 import {FormLoader} from './FormLoader';
 import {ActionButtons} from './ActionButtons';
 import {ArrowLineIcon, CloseIcon} from '@/shared/ui/icons';
-import {scannerUrls} from '@/shared/constants';
-import {openInAppBrowser} from '@/shared/lib/url';
+import {Chains, scannerUrls} from '@/shared/constants';
+import {openInAppBrowser} from '@/shared/helpers/url';
 import {InviteFriendsBadge} from './InviteFriendsBadge';
 import {AmountInfo} from './AmountInfo';
 import {hideElementStyles} from '@/shared/constants/styles';
 import {getTitleText} from './helpers';
+import {PasteAddress} from './PasteAddress';
+import {isAddress} from 'viem';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 interface Props {
-  vault: Vault;
   formType: SEND_TRANSACTION_FORM_TYPE;
+  chain: Chains;
   onSendTransaction: (
-    vault: Vault,
     amount: string,
+    toAddress?: `0x${string}`,
   ) => Promise<GetUserOperationReceiptReturnType | null>;
   onCloseForm: () => void;
   onCloseScreen: () => void;
   autofillButton?: AutofillButtons;
+  apy?: number;
 }
 
 const MAX_SLIPPAGE = 25;
@@ -64,8 +66,11 @@ const slippageAutofillButtons = [
   {name: '5%', percent: 5},
 ];
 
+const defaultSlippage = '1';
+
 export const SendTransactionForm: React.FC<Props> = ({
-  vault,
+  apy,
+  chain,
   onSendTransaction,
   onCloseForm,
   onCloseScreen,
@@ -77,12 +82,13 @@ export const SendTransactionForm: React.FC<Props> = ({
     TRANSACTION_STATUS.NONE,
   );
   const [txHash, setTxHash] = useState<string>('');
-  const [slippage, setSlippage] = useState<string>('1');
+  const [slippage, setSlippage] = useState<string>(defaultSlippage);
   const [isSlippageOpen, setIsSlippageOpen] = useState<boolean>(false);
+  const [sendToAddress, setSendToAddress] = useState<string>('');
 
   const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
   const biometryType = useSettingsStore(state => state.biometryType);
-  const cashAccountBalance = useBalanceStore(state => state.cashAccountBalance);
+  const cashAccountBalance = useBalanceStore(state => state.cashAccountBalance); // TODO think about withdrawals, we need a balance of vaults tokens
 
   const loadingValue = useSharedValue(0);
 
@@ -157,11 +163,11 @@ export const SendTransactionForm: React.FC<Props> = ({
 
     openLoadingScreen();
 
-    // setTimeout(() => {
-    //   setTxStatus(TRANSACTION_STATUS.SUCCESS);
-    //   setIsLoading(false);
-    // }, 1000);
-    const receipt = await onSendTransaction(vault, amountValue);
+    const receipt = await onSendTransaction(
+      amountValue,
+      sendToAddress as `0x${string}`,
+    );
+
     if (receipt) {
       setTxHash(receipt?.receipt.transactionHash);
       setTxStatus(
@@ -174,16 +180,20 @@ export const SendTransactionForm: React.FC<Props> = ({
   };
 
   const onGoToScanner = () => {
-    openInAppBrowser(`${scannerUrls[vault.chain]}/tx/${txHash}`);
+    openInAppBrowser(`${scannerUrls[chain]}/tx/${txHash}`);
   };
 
   const onGoToSupport = () => {
-    openInAppBrowser('https://www.rivo.xyz/');
+    openInAppBrowser('https://www.rivo.xyz/'); // TODO need support link
   };
 
   const onClickSettings = () => {
     setIsSlippageOpen(prev => !prev);
     manualChangeSlippageValue(slippage);
+  };
+
+  const onChangeSendToAddress = (address: string) => {
+    setSendToAddress(address);
   };
 
   const formattedBalance = formatNumber(cashAccountBalance, 3, ',');
@@ -208,10 +218,13 @@ export const SendTransactionForm: React.FC<Props> = ({
 
   const titleText = getTitleText(formType, isSlippageOpen);
 
+  const isSendAddressValid = sendToAddress === '' || isAddress(sendToAddress);
+
   const isEnoughBalance = +amountValue <= cashAccountBalance;
   const inputValue = isSlippageOpen ? slippageValue : amountValue;
   const isInputZero = inputValue === '' || inputValue === '0';
-  const isSendTxButtonDisabled = isInputZero || !isEnoughBalance || isLoading;
+  const isSendTxButtonDisabled =
+    isInputZero || !isEnoughBalance || isLoading || !isSendAddressValid;
 
   return (
     <View style={styles.container}>
@@ -242,14 +255,24 @@ export const SendTransactionForm: React.FC<Props> = ({
                 isSlippageOpen && styles.displayNone,
               ]}>{`Available balance: $${formattedBalance}`}</Text>
           </View>
-          <Pressable
-            onPress={onClickSettings}
-            style={styles.settingsIconContainer}>
-            {isSlippageOpen ? <CloseIcon /> : <SettingsIcon />}
-          </Pressable>
+          {formType === SEND_TRANSACTION_FORM_TYPE.SEND ? (
+            <View style={styles.iconMock} />
+          ) : (
+            <Pressable
+              onPress={onClickSettings}
+              style={styles.settingsIconContainer}>
+              {isSlippageOpen ? <CloseIcon /> : <SettingsIcon />}
+            </Pressable>
+          )}
         </Animated.View>
 
         <Animated.View style={loadingAmountContainerStyles}>
+          {formType === SEND_TRANSACTION_FORM_TYPE.SEND && (
+            <PasteAddress
+              sendToAddress={sendToAddress}
+              onChangeSendToAddress={onChangeSendToAddress}
+            />
+          )}
           <AmountOutput
             value={isSlippageOpen ? slippageValue : amountValue}
             textSign={isSlippageOpen ? '%' : '$'}
@@ -273,7 +296,7 @@ export const SendTransactionForm: React.FC<Props> = ({
           <AmountInfo
             investValue={amountValue}
             isSlippageOpen={isSlippageOpen}
-            vaultApy={vault.apy}
+            apy={apy || 0}
             formType={formType}
           />
           {txStatus === TRANSACTION_STATUS.SUCCESS && (
@@ -299,6 +322,7 @@ export const SendTransactionForm: React.FC<Props> = ({
         onSaveSlippage={onSaveSlippage}
         isSlippageOpen={isSlippageOpen}
         isEnoughBalance={isEnoughBalance}
+        isSendAddressValid={isSendAddressValid}
         isDisabled={!isSlippageOpen && isSendTxButtonDisabled}
         isInputEmpty={isInputZero}
         isLoading={isLoading}
