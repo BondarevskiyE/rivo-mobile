@@ -24,6 +24,7 @@ import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import {CopyIcon} from '@/shared/ui/icons/CopyIcon';
 import {LockIcon} from '@/shared/ui/icons/LockIcon';
 import {HomeStackProps, HOME_SCREENS} from '@/navigation/types/homeStack';
+import {isAndroid} from '@/shared/helpers/system';
 
 type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.RECEIVE_SCREEN>;
 
@@ -60,7 +61,7 @@ export const ReceiveScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const opacityBlurStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(blurValue.value, [0, 1], [0.4, 1]),
+    opacity: interpolate(blurValue.value, [0, 1], [isAndroid ? 1 : 0.4, 1]),
   }));
 
   return (
@@ -82,9 +83,13 @@ export const ReceiveScreen: React.FC<Props> = ({navigation}) => {
           <Animated.View style={[styles.blurContainer, opacityBlurStyle]}>
             {isBlurred && (
               <Animated.View
-                style={[styles.absolute, {zIndex: 9}]}
+                style={[styles.absolute, {zIndex: 9, overflow: 'hidden'}]}
                 exiting={FadeOut}>
-                <BlurView blurType="dark" blurAmount={10} style={styles.blur} />
+                <BlurView
+                  blurType="dark"
+                  blurAmount={isAndroid ? 15 : 10}
+                  style={styles.blur}
+                />
               </Animated.View>
             )}
             <View style={styles.qrContainer}>
