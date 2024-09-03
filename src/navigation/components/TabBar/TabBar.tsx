@@ -1,5 +1,5 @@
 import {BottomTabBarProps} from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Animated, {
   Extrapolation,
@@ -14,8 +14,7 @@ import {Colors} from '@/shared/ui';
 import {HOME_SCREEN_TABS} from '@/navigation/types/homeStack';
 import {Route} from '@react-navigation/native';
 import {TabList} from './TabList';
-import {openDepositAndWithdrawalModal} from '@/modal-manager/modals/DepositAndWithdrawalModal';
-import {useAppState} from '@/shared/hooks/useAppState';
+import {DepositAndWithdrawalMenu} from './DepositAndWithdrawalMenu';
 
 export const TABBAR_HEIGHT = 56;
 export const TABBAR_BOTTOM_OFFSET = 20;
@@ -23,24 +22,16 @@ export const TABBAR_BOTTOM_OFFSET = 20;
 export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
   const plusTabValue = useSharedValue(0);
 
-  const onClosePlusTab = () => {
-    plusTabValue.value = withSpring(0, {
+  const [isDepositAndWithdrawalMenuOpen, setIsDepositAndWithdrawalMenuOpen] =
+    useState(false);
+
+  const onToggleDepositAndWithdrawalMenu = () => {
+    plusTabValue.value = withSpring(isDepositAndWithdrawalMenuOpen ? 0 : 1, {
       stiffness: 90,
       damping: 20,
       mass: 1,
     });
-  };
-
-  const onOpenPlusTab = () => {
-    plusTabValue.value = withSpring(1, {
-      stiffness: 90,
-      damping: 20,
-      mass: 1,
-    });
-
-    setTimeout(() => {
-      openDepositAndWithdrawalModal({onHide: onClosePlusTab});
-    }, 200);
+    setIsDepositAndWithdrawalMenuOpen(prev => !prev);
   };
 
   const onPressTab = (route: Route<string>, isFocused: boolean) => {
@@ -54,13 +45,6 @@ export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
       navigation.navigate(route.name, route.params);
     }
   };
-
-  // play close animation when user went to background. Because modals will be closed
-  useAppState({
-    onBackground: () => {
-      onClosePlusTab();
-    },
-  });
 
   const leftSideRoutesStyle = useAnimatedStyle(() => ({
     transform: [
@@ -76,7 +60,7 @@ export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
   const rightSideRoutesStyle = useAnimatedStyle(() => ({
     transform: [
       {
-        translateX: interpolate(plusTabValue.value, [0, 1], [0, -150]),
+        translateX: interpolate(plusTabValue.value, [0, 1], [0, -165]),
       },
       {
         scaleY: interpolate(plusTabValue.value, [0, 1], [1, 0.7]),
@@ -117,48 +101,55 @@ export const TabBar: React.FC<BottomTabBarProps> = ({state, navigation}) => {
   const rightSideRoutes = state.routes.slice(middleTabIndex, routesLength);
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.tabListContainer, {paddingLeft: 30, right: -40}]}>
-        <Animated.View
-          style={[
-            styles.tabListBackground,
-            styles.tabListRadiusLeft,
-            {paddingRight: 40},
-            leftSideRoutesStyle,
-          ]}>
-          <TabList
-            routes={leftSideRoutes}
-            onPress={onPressTab}
-            currentTabIndex={state.index}
-          />
+    <>
+      {isDepositAndWithdrawalMenuOpen && (
+        <DepositAndWithdrawalMenu
+          onCloseMenu={onToggleDepositAndWithdrawalMenu}
+        />
+      )}
+      <View style={styles.container}>
+        <View style={[styles.tabListContainer, {paddingLeft: 30, right: -40}]}>
+          <Animated.View
+            style={[
+              styles.tabListBackground,
+              styles.tabListRadiusLeft,
+              {paddingRight: 40},
+              leftSideRoutesStyle,
+            ]}>
+            <TabList
+              routes={leftSideRoutes}
+              onPress={onPressTab}
+              currentTabIndex={state.index}
+            />
+          </Animated.View>
+        </View>
+        <Animated.View style={[styles.plusTab, plusScaleTabStyle]}>
+          <Animated.View style={plusRotateTabStyle}>
+            <TabIcon
+              tabName={HOME_SCREEN_TABS.PLUS}
+              onPress={onToggleDepositAndWithdrawalMenu}
+              isFocused={false}
+            />
+          </Animated.View>
         </Animated.View>
+        <View style={[styles.tabListContainer, {paddingRight: 30, left: -40}]}>
+          <Animated.View
+            style={[
+              styles.tabListBackground,
+              {paddingLeft: 40},
+              styles.tabListRadiusRight,
+              rightSideRoutesStyle,
+            ]}>
+            <TabList
+              routes={rightSideRoutes}
+              onPress={onPressTab}
+              // we start count from the middle of the routes array
+              currentTabIndex={state.index - middleTabIndex}
+            />
+          </Animated.View>
+        </View>
       </View>
-      <Animated.View style={[styles.plusTab, plusScaleTabStyle]}>
-        <Animated.View style={plusRotateTabStyle}>
-          <TabIcon
-            tabName={HOME_SCREEN_TABS.PLUS}
-            onPress={onOpenPlusTab}
-            isFocused={false}
-          />
-        </Animated.View>
-      </Animated.View>
-      <View style={[styles.tabListContainer, {paddingRight: 30, left: -40}]}>
-        <Animated.View
-          style={[
-            styles.tabListBackground,
-            {paddingLeft: 40},
-            styles.tabListRadiusRight,
-            rightSideRoutesStyle,
-          ]}>
-          <TabList
-            routes={rightSideRoutes}
-            onPress={onPressTab}
-            // we start count from the middle of the routes array
-            currentTabIndex={state.index - middleTabIndex}
-          />
-        </Animated.View>
-      </View>
-    </View>
+    </>
   );
 };
 
@@ -171,7 +162,7 @@ const styles = StyleSheet.create({
 
     flexDirection: 'row',
     gap: 8,
-    zIndex: 9999,
+    zIndex: 9,
   },
   plusTab: {
     justifyContent: 'center',

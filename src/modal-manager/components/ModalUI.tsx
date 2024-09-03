@@ -43,6 +43,8 @@ export const ModalUI = ({
     animationInTiming,
     animationOut,
     animationOutTiming,
+    backdropTransitionInTiming,
+    backdropTransitionOutTiming,
   } = options;
 
   const onBackdropPress = useCallback(() => {
@@ -71,14 +73,14 @@ export const ModalUI = ({
       animationInTiming={animationInTiming}
       animationOut={animationOut}
       animationOutTiming={animationOutTiming}
+      backdropTransitionInTiming={backdropTransitionInTiming}
+      backdropTransitionOutTiming={backdropTransitionOutTiming}
       deviceHeight={SCREEN_HEIGHT}
       deviceWidth={SCREEN_WIDTH}
       style={[modalPositionStyles[position], styles.modal, style]}
       onBackdropPress={onBackdropPress}
       avoidKeyboard={false}
       onModalHide={onModalHide}
-      // hasBackdrop={!!backdropOpacity || !!onBackdropPress}
-      // coverScreen={!!backdropOpacity || !!onBackdropPress}
       backdropOpacity={backdropOpacity}>
       {children}
     </RNModal>

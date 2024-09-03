@@ -12,6 +12,8 @@ const DEFAULT_OPTIONS: ModalOptions = {
   animationInTiming: 300,
   animationOut: 'slideOutDown',
   animationOutTiming: 300,
+  backdropTransitionInTiming: 50,
+  backdropTransitionOutTiming: 50,
   position: 'center',
   animated: false,
 };
@@ -51,6 +53,12 @@ export const useModal = ({defaultOptions}: UseModalParams) => {
         animationOut: params.animationOut ?? initialOptions.animationOut,
         animationOutTiming:
           params.animationOutTiming ?? initialOptions.animationOutTiming,
+        backdropTransitionInTiming:
+          params.backdropTransitionInTiming ??
+          initialOptions.backdropTransitionInTiming,
+        backdropTransitionOutTiming:
+          params.backdropTransitionOutTiming ??
+          initialOptions.backdropTransitionOutTiming,
         animated: params.animated,
         backdropOpacity: params.backdropOpacity,
         onHide: params.onHide,

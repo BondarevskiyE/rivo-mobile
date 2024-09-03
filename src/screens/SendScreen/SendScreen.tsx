@@ -1,20 +1,23 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {StackScreenProps} from '@react-navigation/stack';
 
 import {SendTransactionForm} from '@/components/SendTransactionForm';
 import {SEND_TRANSACTION_FORM_TYPE} from '@/components/SendTransactionForm/types';
 import {chain, chainsMap} from '@/shared/constants/chain';
 import {Colors} from '@/shared/ui';
-import {initialWindowMetrics} from 'react-native-safe-area-context';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
 import {useZeroDevStore} from '@/store/useZeroDevStore';
+import {HomeStackProps, HOME_SCREENS} from '@/navigation/types/homeStack';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
-interface Props {
-  onClose: () => void;
-}
+type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.SEND_SCREEN>;
 
-export const SendScreen: React.FC<Props> = ({onClose}) => {
+export const SendScreen: React.FC<Props> = ({navigation}) => {
   const sendUSDCToAddress = useZeroDevStore(state => state.sendUSDCToAddress);
+
+  const onClose = () => {
+    navigation.goBack();
+  };
 
   const onSendTransaction = async (
     amount: string,
@@ -25,7 +28,7 @@ export const SendScreen: React.FC<Props> = ({onClose}) => {
   };
 
   return (
-    <Animated.View style={styles.container} entering={FadeIn} exiting={FadeOut}>
+    <SafeAreaView style={styles.container}>
       <SendTransactionForm
         formType={SEND_TRANSACTION_FORM_TYPE.SEND}
         chain={chainsMap[chain.id]}
@@ -33,7 +36,7 @@ export const SendScreen: React.FC<Props> = ({onClose}) => {
         onCloseForm={onClose}
         onCloseScreen={onClose}
       />
-    </Animated.View>
+    </SafeAreaView>
   );
 };
 
@@ -41,8 +44,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    paddingTop: initialWindowMetrics?.insets.top,
-    paddingBottom: initialWindowMetrics?.insets.bottom,
     backgroundColor: Colors.ui_black,
 
     zIndex: 3,

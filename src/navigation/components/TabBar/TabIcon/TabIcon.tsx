@@ -12,6 +12,7 @@ interface Props {
 
 export const TabIcon: React.FC<Props> = ({onPress, tabName, isFocused}) => {
   const Icon = getIconByName(tabName);
+
   const isPlusTab = tabName === HOME_SCREEN_TABS.PLUS;
 
   const backgroundColor = isFocused ? Colors.ui_white : Colors.transparent;

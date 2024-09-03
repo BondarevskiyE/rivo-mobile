@@ -25,6 +25,11 @@ import {
   HomeStackProps,
   HomeTabsProps,
 } from './types/homeStack';
+import {SwapOrBridgeScreen} from '@/screens/SwapOrBridgeScreen';
+import {SendScreen} from '@/screens/SendScreen';
+import {forFade} from './StyleInterpolators/forFade';
+import {ReceiveScreen} from '@/screens/ReceiveScreen';
+import {PurchaseOrSellScreen} from '@/screens/PurchaseOrSellScreen';
 // import {useAppStore} from '@/store/useAppStore';
 
 const Stack = createStackNavigator<HomeStackProps>();
@@ -89,6 +94,98 @@ export const HomeStack = () => {
           <Stack.Screen
             name={HOME_SCREENS.VAULT_SCREEN}
             component={VaultScreen}
+            options={{
+              gestureEnabled: false,
+              transitionSpec: {
+                open: {
+                  animation: 'spring',
+                  config: {
+                    stiffness: 320,
+                    damping: 40,
+                    mass: 1,
+                  },
+                },
+                close: {
+                  animation: 'spring',
+                  config: {
+                    stiffness: 320,
+                    damping: 40,
+                    mass: 1,
+                  },
+                },
+              },
+              cardStyleInterpolator: moveBottomToTop,
+            }}
+          />
+          <Stack.Screen
+            name={HOME_SCREENS.SEND_SCREEN}
+            component={SendScreen}
+            options={{
+              gestureEnabled: false,
+              transitionSpec: {
+                open: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+                close: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+              },
+              cardStyleInterpolator: forFade,
+            }}
+          />
+          <Stack.Screen
+            name={HOME_SCREENS.PURCHASE_OR_SELL_SCREEN}
+            component={PurchaseOrSellScreen}
+            options={{
+              gestureEnabled: false,
+              transitionSpec: {
+                open: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+                close: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+              },
+              cardStyleInterpolator: forFade,
+            }}
+          />
+          <Stack.Screen
+            name={HOME_SCREENS.RECEIVE_SCREEN}
+            component={ReceiveScreen}
+            options={{
+              gestureEnabled: false,
+              transitionSpec: {
+                open: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+                close: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+              },
+              cardStyleInterpolator: forFade,
+            }}
+          />
+          <Stack.Screen
+            name={HOME_SCREENS.SWAP_OR_BRIDGE_SCREEN}
+            component={SwapOrBridgeScreen}
             options={{
               gestureEnabled: false,
               transitionSpec: {

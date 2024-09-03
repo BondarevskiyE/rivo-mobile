@@ -148,8 +148,13 @@ export const getTitleText = (
   if (formType === SEND_TRANSACTION_FORM_TYPE.INVEST) {
     return 'Invest';
   }
+
   if (formType === SEND_TRANSACTION_FORM_TYPE.WITHDRAW) {
     return 'Withdraw';
+  }
+
+  if (formType === SEND_TRANSACTION_FORM_TYPE.SEND) {
+    return 'Send';
   }
 
   return '';

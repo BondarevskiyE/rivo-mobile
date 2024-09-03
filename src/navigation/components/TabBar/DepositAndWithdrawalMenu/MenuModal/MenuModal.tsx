@@ -1,12 +1,13 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import * as RootNavigation from '@/navigation/RootNavigation';
 
 import {CheckShieldIcon, CloseIcon, ArrowLineIcon} from '@/shared/ui/icons';
 import {Colors, Fonts} from '@/shared/ui';
-import {ModalButton} from '../ModalButton';
+import {MenuButton} from '../MenuButton';
 import {DEPOSIT_WITHDRAWAL_MODAL_STEPS} from '../types';
-import {data} from './data';
+import {data} from '../menuMapData';
 
 interface Props {
   onCloseModal: () => void;
@@ -50,16 +51,28 @@ export const MenuModal: React.FC<Props> = ({
         )}
       </Pressable>
       {modalData?.title && <Text style={styles.title}>{modalData.title}</Text>}
-      {modalData?.buttons.map(({Icon, actionStep, text, title, withArrow}) => (
-        <ModalButton
-          title={title}
-          text={text}
-          onPress={() => goToStep(actionStep)}
-          withArrow={withArrow}
-          Icon={Icon}
-          key={title}
-        />
-      ))}
+      {modalData?.buttons.map(
+        ({Icon, actionStep, actionScreen, text, title, withArrow}) => (
+          <MenuButton
+            title={title}
+            text={text}
+            onPress={() => {
+              if (actionScreen) {
+                RootNavigation.navigate(actionScreen);
+                // onCloseModal();
+                return;
+              }
+
+              if (actionStep) {
+                goToStep(actionStep);
+              }
+            }}
+            withArrow={withArrow}
+            Icon={Icon}
+            key={title}
+          />
+        ),
+      )}
       {modalData?.withProtectedShield && (
         <View style={styles.bottomBlock}>
           <CheckShieldIcon color={Colors.ui_orange_80} />

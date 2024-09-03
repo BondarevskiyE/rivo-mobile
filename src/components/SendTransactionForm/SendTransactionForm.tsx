@@ -340,6 +340,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'space-between',
     padding: 12,
+    paddingBottom: 0,
     flex: 1,
     backgroundColor: Colors.ui_black,
   },

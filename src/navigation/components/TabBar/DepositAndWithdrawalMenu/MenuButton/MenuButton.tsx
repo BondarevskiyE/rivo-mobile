@@ -12,7 +12,7 @@ interface Props {
   withArrow?: boolean;
 }
 
-export const ModalButton: React.FC<Props> = ({
+export const MenuButton: React.FC<Props> = ({
   Icon,
   title,
   text,

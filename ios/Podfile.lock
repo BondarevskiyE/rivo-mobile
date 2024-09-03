@@ -1061,7 +1061,7 @@ PODS:
     - Yoga
   - react-native-web-browser (1.1.0):
     - React-Core
-  - react-native-webview (13.10.5):
+  - react-native-webview (13.12.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1736,7 +1736,7 @@ SPEC CHECKSUMS:
   react-native-skia: 4857f8a85d0e4fc152c7b8aff4fbcc7573be1cf9
   react-native-video: 142a54631c8c3e49bb2f0a3c90d05e729a3f15e3
   react-native-web-browser: 087b454e1e94b58b40ba73f54251d77486144d19
-  react-native-webview: 553abd09f58e340fdc7746c9e2ae096839e99911
+  react-native-webview: 28f272327e795799d33eefc2d17aec08edc54d88
   React-nativeconfig: ba9a2e54e2f0882cf7882698825052793ed4c851
   React-NativeModulesApple: 8d11ff8955181540585c944cf48e9e7236952697
   React-perflogger: ed4e0c65781521e0424f2e5e40b40cc7879d737e

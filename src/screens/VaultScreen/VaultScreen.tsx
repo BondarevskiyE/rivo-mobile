@@ -167,11 +167,9 @@ export const styles = StyleSheet.create({
     position: 'relative',
     flex: 1,
     zIndex: 2,
-    // paddingTop: 10,
   },
   dragBlockContainer: {
     position: 'relative',
-
     zIndex: 3,
   },
   investForm: {

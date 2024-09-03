@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 
-import {DEPOSIT_WITHDRAWAL_MODAL_STEPS} from '../types';
+import {DEPOSIT_WITHDRAWAL_MODAL_STEPS} from './types';
 import {PlusIcon} from '@/shared/ui/icons';
 import {Colors} from '@/shared/ui';
 import {FullArrowIcon} from '@/shared/ui/icons/FullArrowIcon';
@@ -9,12 +9,14 @@ import {BankCardIcon} from '@/shared/ui/icons/BankCardIcon';
 import {QRIcon} from '@/shared/ui/icons/QRIcon';
 import {BilateralArrowIcon} from '@/shared/ui/icons/BilateralArrowIcon';
 import {PaperPlaneIcon} from '@/shared/ui/icons/PaperPlaneIcon';
+import {HOME_SCREENS} from '@/navigation/types/homeStack';
 
 interface ModalButton {
   title: string;
   text: string;
-  actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS;
+  actionStep?: DEPOSIT_WITHDRAWAL_MODAL_STEPS;
   Icon: React.ReactNode;
+  actionScreen?: HOME_SCREENS;
   withArrow?: boolean;
 }
 
@@ -98,7 +100,7 @@ export const data: Data = {
             <BankCardIcon color={Colors.ui_green_52} width={17} height={12} />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.PURCHASE,
+        actionScreen: HOME_SCREENS.PURCHASE_OR_SELL_SCREEN,
       },
       {
         title: 'Receive USDC on Arbitrum',
@@ -114,7 +116,7 @@ export const data: Data = {
             <QRIcon color={Colors.ui_blue_50} width={17} height={14} />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.RECEIVE,
+        actionScreen: HOME_SCREENS.RECEIVE_SCREEN,
       },
       {
         title: 'Swap or Bridge to USDC to Arbitrum',
@@ -134,7 +136,7 @@ export const data: Data = {
             />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.SWAP_OR_BRIDGE,
+        actionScreen: HOME_SCREENS.SWAP_OR_BRIDGE_SCREEN,
       },
     ],
   },
@@ -157,7 +159,7 @@ export const data: Data = {
             <BankCardIcon color={Colors.ui_green_52} width={17} height={12} />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.SELL,
+        actionScreen: HOME_SCREENS.PURCHASE_OR_SELL_SCREEN,
       },
       {
         title: 'Send USDC on Arbitrum',
@@ -173,7 +175,7 @@ export const data: Data = {
             <PaperPlaneIcon width={15} height={17} />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.SEND,
+        actionScreen: HOME_SCREENS.SEND_SCREEN,
       },
       {
         title: 'Swap or Bridge to USDC to Arbitrum',
@@ -193,7 +195,7 @@ export const data: Data = {
             />
           </View>
         ),
-        actionStep: DEPOSIT_WITHDRAWAL_MODAL_STEPS.SWAP_OR_BRIDGE,
+        actionScreen: HOME_SCREENS.SWAP_OR_BRIDGE_SCREEN,
       },
     ],
   },

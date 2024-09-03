@@ -1,3 +1,4 @@
+import {isAndroid} from '@/shared/helpers/system';
 import * as React from 'react';
 import Svg, {SvgProps, Path} from 'react-native-svg';
 
@@ -10,7 +11,7 @@ export const WalletIcon = (props: SvgProps) => (
       clipRule="evenodd"
     />
     <Path
-      stroke="transparent"
+      stroke={isAndroid ? 'white' : 'transparent'}
       strokeLinecap="round"
       strokeWidth={1.8}
       d="M16 14h1.2"

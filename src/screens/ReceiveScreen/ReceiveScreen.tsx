@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
-import {initialWindowMetrics} from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import Animated, {
   FadeIn,
   FadeOut,
@@ -12,6 +12,7 @@ import Animated, {
 import {BlurView} from '@react-native-community/blur';
 import Clipboard from '@react-native-clipboard/clipboard';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import {StackScreenProps} from '@react-navigation/stack';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {CloseIcon} from '@/shared/ui/icons/CloseIcon';
@@ -22,12 +23,11 @@ import {Button} from '@/components';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import {CopyIcon} from '@/shared/ui/icons/CopyIcon';
 import {LockIcon} from '@/shared/ui/icons/LockIcon';
+import {HomeStackProps, HOME_SCREENS} from '@/navigation/types/homeStack';
 
-interface Props {
-  onClose: () => void;
-}
+type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.RECEIVE_SCREEN>;
 
-export const ReceiveScreen: React.FC<Props> = ({onClose}) => {
+export const ReceiveScreen: React.FC<Props> = ({navigation}) => {
   const [isBlurred, setIsBlurred] = useState<boolean>(true);
   const [isChecked, setIsChecked] = useState<boolean>(false);
 
@@ -36,6 +36,10 @@ export const ReceiveScreen: React.FC<Props> = ({onClose}) => {
   const blurValue = useSharedValue(0);
 
   const walletAddress = useUserStore(state => state.walletAddress);
+
+  const onClose = () => {
+    navigation.goBack();
+  };
 
   const onPressCheckBox = () => {
     setIsChecked(prev => !prev);
@@ -60,7 +64,7 @@ export const ReceiveScreen: React.FC<Props> = ({onClose}) => {
   }));
 
   return (
-    <Animated.View style={styles.container} entering={FadeIn} exiting={FadeOut}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.view}>
         <Pressable style={styles.closeIconContainer} onPress={onClose}>
           <CloseIcon color={Colors.ui_white} />
@@ -153,7 +157,7 @@ export const ReceiveScreen: React.FC<Props> = ({onClose}) => {
           </Animated.View>
         )}
       </View>
-    </Animated.View>
+    </SafeAreaView>
   );
 };
 
@@ -161,8 +165,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
 
-    paddingTop: initialWindowMetrics?.insets.top,
-    paddingBottom: initialWindowMetrics?.insets.bottom,
     backgroundColor: Colors.ui_black,
 
     zIndex: 3,

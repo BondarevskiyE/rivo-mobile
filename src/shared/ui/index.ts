@@ -48,6 +48,7 @@ export const Colors = {
   ui_grey_80: '#494949',
 
   ui_grey_82: '#434343',
+  ui_gray_83: '#474747',
   ui_grey_90: '#373737',
   ui_grey_95: '#313131',
   ui_grey_97: '#2c2c2c',
@@ -170,6 +171,11 @@ export const Images = {
   tenPercent: require('../../../assets/images/fee-structure/ten-percent.png'),
 
   qrLogo: require('../../../assets/images/qr-logo.png'),
+
+  swapOrBridgeTutorial1: require('../../../assets/images/swap-or-bridge-tutorial/slide1.png'),
+  swapOrBridgeTutorial2: require('../../../assets/images/swap-or-bridge-tutorial/slide2.png'),
+  swapOrBridgeTutorial3: require('../../../assets/images/swap-or-bridge-tutorial/slide3.png'),
+  swapOrBridgeTutorial4: require('../../../assets/images/swap-or-bridge-tutorial/slide4.png'),
 };
 
 export const Videos = {

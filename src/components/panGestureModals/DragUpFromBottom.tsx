@@ -94,6 +94,7 @@ export const DragUpFromBottom = React.forwardRef<
     };
 
     const context = useSharedValue({y: 0});
+
     const gesture = Gesture.Pan()
       .onTouchesMove((e, state) => {
         const isScrollZero = scrollY.value === 0;
@@ -108,6 +109,7 @@ export const DragUpFromBottom = React.forwardRef<
       })
       .onUpdate(event => {
         const newValue = event.translationY + context.value.y;
+
         if (newValue > 0) {
           return;
         }

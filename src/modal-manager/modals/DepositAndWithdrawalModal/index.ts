@@ -1,1 +1,0 @@
-export {openDepositAndWithdrawalModal} from './DepositAndWithdrawalModal';

@@ -78,6 +78,8 @@ export type ModalOptions = {
   animationOut?: ModalAnimationInType;
   animationInTiming?: number;
   animationOutTiming?: number;
+  backdropTransitionInTiming?: number;
+  backdropTransitionOutTiming?: number;
   animated?: boolean;
   backdropOpacity?: number;
   onHide?: () => void;
