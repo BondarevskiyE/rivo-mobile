@@ -20,3 +20,14 @@ export type KernelClient = KernelAccountClient<
   Chain,
   KernelSmartAccount<EntryPoint>
 >;
+
+export interface IndexEarned {
+  Percent: number;
+  Usd: number;
+  Want: number;
+}
+
+export interface IndexBalance {
+  usd: number;
+  token: number;
+}

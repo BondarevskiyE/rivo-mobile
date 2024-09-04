@@ -2,6 +2,7 @@ import type {Method} from 'axios';
 
 import {ChartDotElement} from '../types/chart';
 import {Vault} from '../types';
+import {IndexEarned} from '@/store/types';
 
 export type TRequestParams<D> = {
   url: string;
@@ -29,6 +30,14 @@ export type UserBalanceResponse = {
   amount: number;
 }[];
 
+export type TotalUserBalanceResponse = {
+  tokens: {
+    token_name: string;
+    address: string;
+    amount: number;
+  }[];
+};
+
 export type VaultResponse = Vault[];
 
 export interface IndexUpdate {
@@ -37,8 +46,4 @@ export interface IndexUpdate {
   date: string;
 }
 
-export interface EarnedIndexResponse {
-  Percent: number;
-  Usd: number;
-  Want: number;
-}
+export type EarnedIndexResponse = IndexEarned;

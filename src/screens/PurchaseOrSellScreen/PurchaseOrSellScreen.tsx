@@ -41,8 +41,6 @@ export const PurchaseOrSellScreen: React.FC<Props> = ({navigation}) => {
   const navigationRedirect = (navState: WebViewNavigation) => {
     const url = navState.url;
 
-    console.log(url);
-
     if (url.includes('app.symbiosis.finance')) {
       if (navState.canGoBack && navState.loading) {
         webViewRef.current?.goBack();

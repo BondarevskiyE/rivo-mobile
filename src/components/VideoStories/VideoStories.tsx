@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {forwardRef} from 'react';
 import {View} from 'react-native';
 import InstagramStories, {
   InstagramStoriesPublicMethods,
@@ -58,30 +58,32 @@ const stories: InstagramStoryProps[] = [
   },
 ];
 
-export const VideoStories: React.FC<Props> = ({footerComponent}) => {
-  const ref = useRef<InstagramStoriesPublicMethods>(null);
+export const VideoStories = forwardRef<InstagramStoriesPublicMethods, Props>(
+  ({footerComponent}, ref) => {
+    // const ref = useRef<InstagramStoriesPublicMethods>(null);
 
-  return (
-    <View>
-      <InstagramStories
-        ref={ref}
-        avatarBorderColors={['#F95E00', '#F9750E', '#F9B233']}
-        stories={stories}
-        avatarSize={100}
-        modalAnimationDuration={300}
-        storyAnimationDuration={400}
-        avatarListContainerStyle={{gap: 12}}
-        avatarSeenBorderColors={[Colors.ui_grey_70]}
-        saveProgress
-        mediaContainerStyle={{borderRadius: 32}}
-        imageProps={{borderRadius: 32}}
-        imageStyles={{borderRadius: 32}}
-        // @ts-ignore
-        footerComponent={footerComponent}
-      />
-    </View>
-  );
-};
+    return (
+      <View>
+        <InstagramStories
+          ref={ref}
+          avatarBorderColors={['#F95E00', '#F9750E', '#F9B233']}
+          stories={stories}
+          avatarSize={100}
+          modalAnimationDuration={300}
+          storyAnimationDuration={400}
+          avatarListContainerStyle={{gap: 12}}
+          avatarSeenBorderColors={[Colors.ui_grey_70]}
+          saveProgress
+          mediaContainerStyle={{borderRadius: 32}}
+          imageProps={{borderRadius: 32}}
+          imageStyles={{borderRadius: 32}}
+          // @ts-ignore
+          footerComponent={footerComponent}
+        />
+      </View>
+    );
+  },
+);
 
 // const styles = StyleSheet.create({
 //   container: {

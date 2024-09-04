@@ -15,7 +15,6 @@ export type Vault = {
   holders: number;
   risk_level: number;
   price: number;
-  id: string;
   advantages: {image: string; text: string}[];
   mechanics: string;
   maintance: string;
@@ -26,6 +25,8 @@ export type Vault = {
   user_metrics_text: string;
   complexity_score: number;
   complexity_text: string;
+  quality_underlying_asset_score: number;
+  quality_underlying_asset_text: string;
   perf_fee_image: string;
   managment_fee_image: string;
   audits?: Audit[];

@@ -19,6 +19,10 @@ import {useUserStore} from '@/store/useUserStore';
 import {userSigninBackend} from '@/shared/api';
 import {useVaultsStore} from '@/store/useVaultsStore';
 import {useBalanceStore} from '@/store/useBalanceStore';
+import {
+  FIVE_MINUTES_IN_MILISECONDS,
+  THIRTY_SECONDS_IN_MILISECONDS,
+} from '@/shared/constants/time';
 // FIX @react-native-clipboard/clipboard library throw this error
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 
@@ -36,6 +40,9 @@ export const App = () => {
   const userInfo = useUserStore(state => state.userInfo);
   const fetchBalance = useBalanceStore(state => state.fetchBalance);
   const fetchVaults = useVaultsStore(state => state.fetchVaults);
+  const fetchTotalEarnedByVaults = useBalanceStore(
+    state => state.fetchTotalEarnedByVaults,
+  );
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
@@ -82,12 +89,17 @@ export const App = () => {
     if (isLoggedIn) {
       loadData();
 
-      const interval = setInterval(async () => {
+      const intervalBalance = setInterval(async () => {
         fetchBalance();
-      }, 20000);
+      }, THIRTY_SECONDS_IN_MILISECONDS);
+
+      const intervalEarned = setInterval(async () => {
+        fetchTotalEarnedByVaults();
+      }, FIVE_MINUTES_IN_MILISECONDS);
 
       return () => {
-        clearInterval(interval);
+        clearInterval(intervalBalance);
+        clearInterval(intervalEarned);
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

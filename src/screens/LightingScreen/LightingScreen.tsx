@@ -57,8 +57,8 @@ export function LightingScreen() {
     ])) as bigint;
 
     setPendleBalance(getTokenValueStr(balance, 18));
-    const isForceFetchBalance = true;
-    fetchBalance(isForceFetchBalance);
+
+    fetchBalance();
   };
 
   useEffect(() => {

@@ -67,6 +67,8 @@ interface GetRiskScoringAccordeonItemsParams {
   user_metrics_text: string;
   complexity_score: number;
   complexity_text: string;
+  quality_underlying_asset_score: number;
+  quality_underlying_asset_text: string;
 }
 
 export const getRiskScoringAccordeonItems = ({
@@ -76,6 +78,8 @@ export const getRiskScoringAccordeonItems = ({
   user_metrics_text,
   complexity_score,
   complexity_text,
+  quality_underlying_asset_score,
+  quality_underlying_asset_text,
 }: GetRiskScoringAccordeonItemsParams) => [
   {
     image: Images.checkShield,
@@ -204,7 +208,7 @@ export const getRiskScoringAccordeonItems = ({
             fontSize: 14,
             color: Colors.ui_white,
           }}>
-          4.9
+          {quality_underlying_asset_score}
         </Text>
       </View>
     ),
@@ -216,11 +220,7 @@ export const getRiskScoringAccordeonItems = ({
             fontSize: 16,
             color: Colors.ui_grey_70,
           }}>
-          The index is being supported by the Rivo team, consistently managing
-          the set of strategies and tokens inside the index. Existing strategies
-          can be unwound and replaced under following circumstances: Strategy
-          APY falls below the benchmark Strategy, underlying assets or protocols
-          are subject to an exploit or are operating under extreme conditions
+          {quality_underlying_asset_text}
         </Text>
       </View>
     ),

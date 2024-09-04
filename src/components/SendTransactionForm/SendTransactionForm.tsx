@@ -12,7 +12,6 @@ import {GetUserOperationReceiptReturnType} from 'permissionless';
 import {isAddress} from 'viem';
 
 import {Colors, Fonts} from '@/shared/ui';
-import {useBalanceStore} from '@/store/useBalanceStore';
 import {formatNumber} from '@/shared/lib/format';
 import {InputAmountKeyboard} from '@/components/InputAmountKeyboard';
 import {useInputFormat} from '@/shared/hooks/useInputFormat';
@@ -39,6 +38,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 interface Props {
   formType: SEND_TRANSACTION_FORM_TYPE;
   chain: Chains;
+  balance: number;
   onSendTransaction: (
     amount: string,
     toAddress?: `0x${string}`,
@@ -68,6 +68,7 @@ const defaultSlippage = '1';
 export const SendTransactionForm: React.FC<Props> = ({
   apy,
   chain,
+  balance,
   onSendTransaction,
   onCloseForm,
   onCloseScreen,
@@ -85,7 +86,6 @@ export const SendTransactionForm: React.FC<Props> = ({
 
   const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
   const biometryType = useSettingsStore(state => state.biometryType);
-  const cashAccountBalance = useBalanceStore(state => state.cashAccountBalance); // TODO think about withdrawals, we need a balance of vaults tokens
 
   const loadingValue = useSharedValue(0);
 
@@ -114,7 +114,7 @@ export const SendTransactionForm: React.FC<Props> = ({
       onChangeSlippageByPercent(100, percent);
       return;
     }
-    onChangeAmountByPercent(cashAccountBalance, percent);
+    onChangeAmountByPercent(balance, percent);
   };
 
   const onAddSymbol = (symbol: string) => {
@@ -198,7 +198,7 @@ export const SendTransactionForm: React.FC<Props> = ({
     setSendToAddress(address);
   };
 
-  const formattedBalance = formatNumber(cashAccountBalance, 3, ',');
+  const formattedBalance = formatNumber(balance, 3, ',');
 
   const loadingOpacityStyles = useAnimatedStyle(() => ({
     opacity: interpolate(loadingValue.value, [0, 1], [1, 0]),
@@ -223,7 +223,7 @@ export const SendTransactionForm: React.FC<Props> = ({
   const isSendAddressEmpty = sendToAddress === '';
   const isSendAddressValid = isAddress(sendToAddress);
 
-  const isEnoughBalance = +amountValue <= cashAccountBalance;
+  const isEnoughBalance = +amountValue <= balance;
 
   const inputValue = isSlippageOpen ? slippageValue : amountValue;
 

@@ -42,12 +42,16 @@ interface Props {
   vault: Vault;
   imageShiftValue: SharedValue<number>;
   setIsInvestButtonShown: (isShown: boolean) => void;
+  openInvestForm: () => void;
+  openWithdrawForm: () => void;
 }
 
 export const AboutVaultContent: React.FC<Props> = ({
   vault,
   imageShiftValue,
   setIsInvestButtonShown,
+  openInvestForm,
+  openWithdrawForm,
 }) => {
   const riskScore = vault.risk_level * 2 * 10;
 
@@ -70,6 +74,8 @@ export const AboutVaultContent: React.FC<Props> = ({
         user_metrics_text: vault.user_metrics_text,
         complexity_score: vault.complexity_score,
         complexity_text: vault.complexity_text,
+        quality_underlying_asset_score: vault.quality_underlying_asset_score,
+        quality_underlying_asset_text: vault.quality_underlying_asset_text,
       }),
     [vault],
   );
@@ -85,9 +91,12 @@ export const AboutVaultContent: React.FC<Props> = ({
         </View>
 
         <InfoBlock
+          vault={vault}
           descriptionText={vault.description}
           imageShiftValue={imageShiftValue}
           advantages={vault.advantages}
+          openInvestForm={openInvestForm}
+          openWithdrawForm={openWithdrawForm}
         />
         <Text
           style={[

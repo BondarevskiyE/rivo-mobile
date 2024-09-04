@@ -17,16 +17,18 @@ import {Vault} from '@/shared/types';
 import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
+import {useBalanceStore} from '@/store/useBalanceStore';
 
 // const Content = lazy(() => import('./AboutVaultContent'));
 
-const {width} = Dimensions.get('window');
+const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 interface Props {
   vault: Vault;
   isBigCarouselContainer: boolean;
   dragAnimationValue: SharedValue<number>;
   openInvestForm: () => void;
+  openWithdrawForm: () => void;
 }
 
 // below the screen
@@ -41,7 +43,12 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   dragAnimationValue,
   isBigCarouselContainer,
   openInvestForm,
+  openWithdrawForm,
 }) => {
+  const indexBalance = useBalanceStore(
+    state => state.indexesBalanceMap?.[vault.address.toLowerCase()],
+  );
+
   const positionValue = useSharedValue(0);
   const buttonShownValue = useSharedValue(0);
 
@@ -81,12 +88,14 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
         [0, smallCarouselContainerPosition, bigCarouselContainerPosition],
         [
           -50,
-          (initialWindowMetrics?.insets.bottom || 0) + 16,
-          (initialWindowMetrics?.insets.bottom || 0) + 86,
+          (initialWindowMetrics?.insets.bottom || 0) + 22,
+          (initialWindowMetrics?.insets.bottom || 0) + 92,
         ],
       ),
     };
   });
+
+  const isIndexWithBalance = !!indexBalance?.usd;
 
   return (
     <ReAnimated.View style={[styles.container, {top: positionValue}]}>
@@ -108,16 +117,32 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
           vault={vault}
           imageShiftValue={dragAnimationValue}
           setIsInvestButtonShown={setIsInvestButtonShown}
+          openInvestForm={openInvestForm}
+          openWithdrawForm={openWithdrawForm}
         />
       </DragUpFromBottom>
       <ReAnimated.View style={[styles.buttonContainer, buttonStyles]}>
         <Button
           text="Invest"
-          style={styles.investButton}
-          textStyle={styles.investButtonText}
+          style={[
+            styles.sendTxButton,
+            isIndexWithBalance
+              ? styles.halfWidthButton
+              : styles.fullWidthButton,
+          ]}
+          textStyle={styles.sendTxButtonText}
           type={BUTTON_TYPE.ACTION_SECONDARY}
           onPress={openInvestForm}
         />
+        {isIndexWithBalance && (
+          <Button
+            text="Withdraw"
+            style={[styles.sendTxButton, styles.halfWidthButton]}
+            textStyle={styles.sendTxButtonText}
+            type={BUTTON_TYPE.ACTION}
+            onPress={openWithdrawForm}
+          />
+        )}
       </ReAnimated.View>
     </ReAnimated.View>
   );
@@ -134,15 +159,25 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    width: width - 12 - 12,
-    left: 12,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    width: SCREEN_WIDTH - 12 - 12,
+    gap: 4,
+    // left: 12,
     zIndex: 8,
   },
-  investButton: {
+  fullWidthButton: {
+    width: SCREEN_WIDTH - 24,
+  },
+  halfWidthButton: {
+    width: SCREEN_WIDTH / 2 - 12,
+  },
+  sendTxButton: {
     height: 56,
+    flex: 1,
     borderRadius: 28,
   },
-  investButtonText: {
+  sendTxButtonText: {
     fontFamily: Fonts.bold,
     fontSize: 17,
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, StyleSheet, Alert, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 import * as RootNavigation from '@/navigation/RootNavigation';
 import {Vault} from '@/shared/types';
@@ -24,7 +24,15 @@ export const VaultItem: React.FC<Props> = ({item}) => {
       : EthereumCircleIconWithShadow;
 
   const openVaultScreen = () => {
-    RootNavigation.navigate(HOME_SCREENS.VAULT_SCREEN, {vaultId: item.id});
+    RootNavigation.navigate(HOME_SCREENS.VAULT_SCREEN, {
+      vaultAddress: item.address.toLowerCase(),
+    });
+  };
+
+  const openInvestScreen = () => {
+    RootNavigation.navigate(HOME_SCREENS.INVEST_SCREEN, {
+      vaultAddress: item.address.toLowerCase(),
+    });
   };
 
   return (
@@ -50,9 +58,7 @@ export const VaultItem: React.FC<Props> = ({item}) => {
           <Button
             type={BUTTON_TYPE.ACTION}
             style={styles.button}
-            onPress={() => {
-              Alert.alert(item.name);
-            }}
+            onPress={openInvestScreen}
             text="Earn"
           />
         </View>

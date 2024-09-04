@@ -80,9 +80,7 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
         investAmount: investTokenUserBalance,
       });
 
-      const isForceBalanceRequest = true;
-
-      await fetchBalance(isForceBalanceRequest);
+      await fetchBalance();
       return investTxReceipt;
     } catch (error) {
       console.log(error);

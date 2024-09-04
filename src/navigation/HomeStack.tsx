@@ -30,6 +30,7 @@ import {SendScreen} from '@/screens/SendScreen';
 import {forFade} from './StyleInterpolators/forFade';
 import {ReceiveScreen} from '@/screens/ReceiveScreen';
 import {PurchaseOrSellScreen} from '@/screens/PurchaseOrSellScreen';
+import {InvestScreen} from '@/screens/InvestScreen/InvestScreen';
 // import {useAppStore} from '@/store/useAppStore';
 
 const Stack = createStackNavigator<HomeStackProps>();
@@ -115,6 +116,28 @@ export const HomeStack = () => {
                 },
               },
               cardStyleInterpolator: moveBottomToTop,
+            }}
+          />
+          <Stack.Screen
+            name={HOME_SCREENS.INVEST_SCREEN}
+            component={InvestScreen}
+            options={{
+              gestureEnabled: false,
+              transitionSpec: {
+                open: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+                close: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+              },
+              cardStyleInterpolator: forFade,
             }}
           />
           <Stack.Screen

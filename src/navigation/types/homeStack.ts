@@ -1,6 +1,7 @@
 export enum HOME_SCREENS {
   HOME_SCREEN = 'home_screen',
   VAULT_SCREEN = 'vault_screen',
+  INVEST_SCREEN = 'invest_screen',
   RECEIVE_SCREEN = 'receive_screen',
   SEND_SCREEN = 'send_screen',
   SWAP_OR_BRIDGE_SCREEN = 'swap_or_bridge_screen',
@@ -10,7 +11,10 @@ export enum HOME_SCREENS {
 export type HomeStackProps = {
   [HOME_SCREENS.HOME_SCREEN]: undefined;
   [HOME_SCREENS.VAULT_SCREEN]: {
-    vaultId: string;
+    vaultAddress: string;
+  };
+  [HOME_SCREENS.INVEST_SCREEN]: {
+    vaultAddress: string;
   };
   [HOME_SCREENS.RECEIVE_SCREEN]: undefined;
   [HOME_SCREENS.SEND_SCREEN]: undefined;

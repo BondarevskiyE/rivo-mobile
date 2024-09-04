@@ -1,7 +1,7 @@
 import {formatNumber} from '@/shared/lib/format';
 import {Colors, Fonts} from '@/shared/ui';
 import {DollarIconWithShadow} from '@/shared/ui/icons';
-import {ArrowUpIcon} from '@/shared/ui/icons/ArrowUpIcon';
+// import {ArrowUpIcon} from '@/shared/ui/icons/ArrowUpIcon';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
@@ -24,7 +24,7 @@ export const CashAccount = () => {
         />
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Cash Account</Text>
-          <Text style={styles.subTitle}>4% APY from US Treasury</Text>
+          {/* <Text style={styles.subTitle}>4% APY from US Treasury</Text> */}
         </View>
       </View>
       <View>
@@ -37,10 +37,10 @@ export const CashAccount = () => {
             cashAccountBalanceFraction || 0
           }`}</Text>
         </View>
-        <View style={styles.apyValueContainer}>
+        {/* <View style={styles.apyValueContainer}>
           <ArrowUpIcon />
           <Text style={styles.apyValue}>$0</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

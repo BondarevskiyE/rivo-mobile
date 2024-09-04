@@ -72,9 +72,7 @@ export const useLoginStore = create<LoginState>()(set => ({
 
       setWalletAddress(kernelClient.account.address);
 
-      const isForceBalanceRequest = true;
-
-      !isUserAlreadyRegistered && (await fetchBalance(isForceBalanceRequest));
+      !isUserAlreadyRegistered && (await fetchBalance());
 
       await userSigninBackend(kernelClient.account.address, user.email || '');
 

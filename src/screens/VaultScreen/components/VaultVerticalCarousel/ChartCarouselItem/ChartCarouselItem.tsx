@@ -17,6 +17,8 @@ import {useFetchChart} from '@/shared/hooks';
 import {CHART_PERIODS, ChartType} from '@/shared/types/chart';
 import {Vault} from '@/shared/types';
 import {useUserStore} from '@/store/useUserStore';
+import {useBalanceStore} from '@/store/useBalanceStore';
+import {getIndexEarnedText} from './helpers';
 
 interface Props {
   focusChartSlide: () => void;
@@ -45,6 +47,9 @@ export const ChartCarouselItem: React.FC<Props> = ({
   changeDragBlockSize,
 }) => {
   const chartContainerSizeValue = useSharedValue(0);
+  const indexEarned = useBalanceStore(
+    state => state.indexesEarnedMap?.[vault.address],
+  );
 
   const [selectedPeriod, setSelectedPeriod] = useState<CHART_PERIODS>(
     CHART_PERIODS.MONTH,
@@ -134,6 +139,8 @@ export const ChartCarouselItem: React.FC<Props> = ({
     );
   }, [chartData]);
 
+  const indexEarnedText = getIndexEarnedText(indexEarned);
+
   return (
     <Pressable onPress={focusChartSlide}>
       <ReAnimated.View
@@ -167,7 +174,7 @@ export const ChartCarouselItem: React.FC<Props> = ({
             <>
               <View style={styles.totalEarnedContainer}>
                 <Text style={styles.textTitle}>Yield Earned:</Text>
-                <Text style={styles.totalEarnedValue}>+3.8% • $12.2</Text>
+                <Text style={styles.totalEarnedValue}>{indexEarnedText}</Text>
               </View>
               <View style={styles.pointsContainer}>
                 <Text style={styles.textTitle}>Rivo Points earned:</Text>

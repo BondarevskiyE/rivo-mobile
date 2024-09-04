@@ -6,8 +6,9 @@ import {
   IndexUpdate,
   PriceResponse,
   TRequestParams,
+  TotalUserBalanceResponse,
   TvlResponse,
-  UserBalanceResponse,
+  // UserBalanceResponse,
   VaultResponse,
 } from './types';
 import {Chains} from '../constants';
@@ -71,28 +72,27 @@ export const checkIsUserAlreadyRegistered = async (
   });
 };
 
-export const getUserBalance = async (
-  address: string,
-): Promise<UserBalanceResponse | null> => {
-  return await sendRequest<UserBalanceResponse>({
-    url: `${apiUrl}/v1/user/${address}/balance`,
-  });
-};
+// export const getUserBalance = async (
+//   address: string,
+// ): Promise<UserBalanceResponse | null> => {
+//   return await sendRequest<UserBalanceResponse>({
+//     url: `${apiUrl}/v1/user/${address}/balance`,
+//   });
+// };
 
-export const getUserBalanceForce = async (
-  address: string,
-): Promise<UserBalanceResponse | null> => {
-  return await sendRequest<UserBalanceResponse>({
-    url: `${apiUrl}/v1/user/${address}/balance_force`,
-  });
-};
+// export const getUserBalanceForce = async (
+//   address: string,
+// ): Promise<UserBalanceResponse | null> => {
+//   return await sendRequest<UserBalanceResponse>({
+//     url: `${apiUrl}/v1/user/${address}/balance_force`,
+//   });
+// };
 
 export const getTotalBalance = async (
   address: string,
-): Promise<UserBalanceResponse | null> => {
-  return await sendRequest<UserBalanceResponse>({
-    url: `${apiUrl}/v1/user/${address}/total_balance
-`,
+): Promise<TotalUserBalanceResponse | null> => {
+  return await sendRequest<TotalUserBalanceResponse>({
+    url: `${apiUrl}/v1/user/${address}/total_balance`,
   });
 };
 

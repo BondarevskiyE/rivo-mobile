@@ -10,23 +10,31 @@ import {Colors} from '@/shared/ui';
 import {useZeroDevStore} from '@/store/useZeroDevStore';
 import {HomeStackProps, HOME_SCREENS} from '@/navigation/types/homeStack';
 import {useBalanceStore} from '@/store/useBalanceStore';
+import {useVaultsStore} from '@/store/useVaultsStore';
+import {Vault} from '@/shared/types';
 
-type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.SEND_SCREEN>;
+type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.INVEST_SCREEN>;
 
-export const SendScreen: React.FC<Props> = ({navigation}) => {
+export const InvestScreen: React.FC<Props> = ({route, navigation}) => {
+  const {vaultAddress} = route.params;
+
+  const vaultByAddress = useVaultsStore(
+    state =>
+      state.vaults.find(item => item.address.toLowerCase() === vaultAddress),
+
+    // there couldn't be undefined
+  ) as Vault;
+
   const cashAccountBalance = useBalanceStore(state => state.cashAccountBalance);
 
-  const sendUSDCToAddress = useZeroDevStore(state => state.sendUSDCToAddress);
+  const invest = useZeroDevStore(state => state.invest);
 
   const onClose = () => {
     navigation.goBack();
   };
 
-  const onSendTransaction = async (
-    amount: string,
-    toAddress?: `0x${string}`,
-  ) => {
-    const receipt = await sendUSDCToAddress(amount, toAddress as `0x${string}`);
+  const onSendTransaction = async (amount: string) => {
+    const receipt = await invest(vaultByAddress, amount);
 
     return receipt;
   };
@@ -34,7 +42,7 @@ export const SendScreen: React.FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <SendTransactionForm
-        formType={SEND_TRANSACTION_FORM_TYPE.SEND}
+        formType={SEND_TRANSACTION_FORM_TYPE.INVEST}
         balance={cashAccountBalance}
         chain={chainsMap[chain.id]}
         onSendTransaction={onSendTransaction}

@@ -64,6 +64,7 @@ export const useVaultsStore = create<VaultsState>()(
           let formattedStrategies: Strategy[] = [];
 
           await Promise.all(
+            // TODO think about dynamicParams field instead of fetching in fetchVaults method
             current.strategies.map(async strategy => {
               const strategyApy = await getStrategyApy(
                 strategy.address,

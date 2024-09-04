@@ -36,7 +36,7 @@ export const entryPoint = ENTRYPOINT_ADDRESS_V07;
 
 export const chain = arbitrum;
 
-// sometimes transactions will be reverted with out of gas, zerodev doesn't give enought gas estimation
+// sometimes transactions will be reverted with out of gas, zerodev doesn't give enough gas estimation
 // so we need to increase gas estimation by percent
 const GAS_MULTIPLIER = 105;
 
