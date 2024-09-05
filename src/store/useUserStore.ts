@@ -13,6 +13,8 @@ interface UserState {
   setIsLoggedIn: (bool: boolean) => void;
   setUserInfo: (user: User | null) => void;
   setWalletAddress: (address: string) => void;
+
+  resetUser: () => void;
 }
 
 export const useUserStore = create<UserState>()(
@@ -30,6 +32,12 @@ export const useUserStore = create<UserState>()(
       setWalletAddress: (address: string) => {
         set({walletAddress: address});
       },
+      resetUser: () =>
+        set({
+          userInfo: null,
+          walletAddress: '',
+          onboardingStep: 1,
+        }),
     }),
     {
       name: 'user-store',

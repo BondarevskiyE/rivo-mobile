@@ -30,12 +30,21 @@ interface Props {
 
 type DropdownItem = {label: string; value: ChartType};
 
-const dropdownVariants: DropdownItem[] = [
-  {label: 'Balance', value: 'balance'},
+const defaultDropdowns: DropdownItem[] = [
   {label: 'Price', value: 'price'},
   {label: 'TVL', value: 'tvl'},
   {label: 'APY', value: 'apy'},
 ];
+
+const getDropdownVariants = (isBalanceExist: boolean): DropdownItem[] => {
+  const balanceDropdown: DropdownItem = {label: 'Balance', value: 'balance'};
+
+  if (isBalanceExist) {
+    return [balanceDropdown, ...defaultDropdowns];
+  }
+
+  return defaultDropdowns;
+};
 
 const periods = Object.values(CHART_PERIODS);
 
@@ -46,16 +55,22 @@ export const ChartCarouselItem: React.FC<Props> = ({
   vault,
   changeDragBlockSize,
 }) => {
-  const chartContainerSizeValue = useSharedValue(0);
-  const indexEarned = useBalanceStore(
-    state => state.indexesEarnedMap?.[vault.address],
+  const indexBalance = useBalanceStore(
+    state => state.indexesBalanceMap?.[vault.address.toLowerCase()],
   );
+
+  const dropdownVariants = getDropdownVariants(!!indexBalance?.token);
 
   const [selectedPeriod, setSelectedPeriod] = useState<CHART_PERIODS>(
     CHART_PERIODS.MONTH,
   );
-  const [selectedChartType, setSelectedChartType] = useState<ChartType>(
-    dropdownVariants[1].value,
+  const [selectedChartTypeDropdown, setSelectedChartTypeDropdown] =
+    useState<DropdownItem>(dropdownVariants[0]);
+
+  const chartContainerSizeValue = useSharedValue(0);
+
+  const indexEarned = useBalanceStore(
+    state => state.indexesEarnedMap?.[vault.address],
   );
 
   const userAddress = useUserStore(state => state.walletAddress);
@@ -65,7 +80,7 @@ export const ChartCarouselItem: React.FC<Props> = ({
     vaultAddress: vault.address,
     chain: vault.chain,
     period: selectedPeriod,
-    type: selectedChartType,
+    type: selectedChartTypeDropdown.value,
   });
 
   const [shownValue, setShownValue] = useState<number>(
@@ -74,9 +89,7 @@ export const ChartCarouselItem: React.FC<Props> = ({
 
   const [changePercent, setChangePercent] = useState<string>(
     formatValue(
-      (1 -
-        chartData?.[chartData.length - 2]?.value /
-          chartData?.[chartData.length - 1]?.value) *
+      (chartData?.[chartData.length - 1]?.value / chartData?.[0]?.value - 1) *
         100,
     ),
   );
@@ -103,8 +116,12 @@ export const ChartCarouselItem: React.FC<Props> = ({
   };
 
   const onSelectDropdownOption = (option: DropdownItem) => {
-    focusChartSlide();
-    setSelectedChartType(option.value);
+    // timeout to be in time with animation of drag blog size changing
+    setTimeout(() => {
+      focusChartSlide();
+    }, 300);
+
+    setSelectedChartTypeDropdown(option);
     if (option.value === 'balance') {
       changeDragBlockSize(true);
       return;
@@ -112,13 +129,7 @@ export const ChartCarouselItem: React.FC<Props> = ({
     changeDragBlockSize(false);
   };
 
-  const isPositiveChangePercent = +changePercent > 0;
-
-  const changePercentColor = isPositiveChangePercent
-    ? Colors.ui_green_45
-    : Colors.ui_grey_74;
-
-  const isBalanceChart = selectedChartType === 'balance';
+  const isBalanceChart = selectedChartTypeDropdown.value === 'balance';
 
   useEffect(() => {
     if (isBalanceChart) {
@@ -128,16 +139,30 @@ export const ChartCarouselItem: React.FC<Props> = ({
     chartContainerSizeValue.value = withTiming(390);
   }, [chartContainerSizeValue, isBalanceChart]);
 
+  // set changePercent for new chart data
   useEffect(() => {
     setChangePercent(
       formatValue(
-        (1 -
-          chartData?.[chartData.length - 2]?.value /
-            chartData?.[chartData.length - 1]?.value) *
+        (chartData?.[chartData.length - 1]?.value / chartData?.[0]?.value - 1) *
           100,
       ),
     );
   }, [chartData]);
+
+  // choose balance chart if the user has the index balance
+  useEffect(() => {
+    if (indexBalance?.token) {
+      setSelectedChartTypeDropdown({label: 'Balance', value: 'balance'});
+      changeDragBlockSize(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [indexBalance?.token]);
+
+  const isPositiveChangePercent = +changePercent > 0;
+
+  const changePercentColor = isPositiveChangePercent
+    ? Colors.ui_green_45
+    : Colors.ui_grey_74;
 
   const indexEarnedText = getIndexEarnedText(indexEarned);
 
@@ -152,7 +177,9 @@ export const ChartCarouselItem: React.FC<Props> = ({
         <View style={styles.topMenu}>
           <View style={styles.topMenuMain}>
             <View>
-              <Text style={styles.chartValue}>${formatValue(shownValue)}</Text>
+              <Text style={styles.chartValue}>
+                ${formatValue(shownValue || 0)}
+              </Text>
               {!isBalanceChart && (
                 <Text
                   style={[
@@ -165,7 +192,7 @@ export const ChartCarouselItem: React.FC<Props> = ({
             </View>
             <Dropdown
               data={dropdownVariants}
-              initialSelected={dropdownVariants[1]}
+              selected={selectedChartTypeDropdown}
               onSelect={onSelectDropdownOption}
               dropdownPosition={isChartOpen ? 'bottom' : 'top'}
             />

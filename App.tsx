@@ -51,7 +51,7 @@ export const App = () => {
   const clearHighlight = useOnboardingStore(state => state.clearHighlight);
   const reconnectZeroDev = useZeroDevStore(state => state.reconnectZeroDev);
 
-  useAppState({
+  const {appState} = useAppState({
     onChange: () => {},
     onForeground: () => {},
     onBackground: () => {
@@ -86,7 +86,7 @@ export const App = () => {
   }, []);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && appState === 'active') {
       loadData();
 
       const intervalBalance = setInterval(async () => {
@@ -103,7 +103,7 @@ export const App = () => {
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn]);
+  }, [isLoggedIn, appState]);
 
   return (
     <Providers>

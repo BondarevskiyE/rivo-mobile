@@ -34,7 +34,8 @@ export type TotalUserBalanceResponse = {
   tokens: {
     token_name: string;
     address: string;
-    amount: number;
+    balance_usd: number;
+    balance_token: number;
   }[];
 };
 

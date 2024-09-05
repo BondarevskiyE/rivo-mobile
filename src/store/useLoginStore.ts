@@ -84,21 +84,19 @@ export const useLoginStore = create<LoginState>()(set => ({
   },
 
   logout: async () => {
-    const {setUserInfo, setWalletAddress, setIsLoggedIn} =
-      useUserStore.getState();
+    const {setIsLoggedIn, resetUser} = useUserStore.getState();
     const {resetBalances} = useBalanceStore.getState();
     const {setKernelClient} = useZeroDevStore.getState();
-    const {setPoints} = usePointsStore.getState();
+    const {resetPoints} = usePointsStore.getState();
     try {
       const isLoggedOut = await logoutWeb3Auth();
 
       if (isLoggedOut) {
-        setUserInfo(null);
-        setWalletAddress('');
+        resetUser();
         setIsLoggedIn(false);
         setKernelClient(null);
         resetBalances();
-        setPoints(0);
+        resetPoints();
         resetKeychainCredentials();
         return true;
       }

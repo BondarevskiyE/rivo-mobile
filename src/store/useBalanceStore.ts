@@ -45,13 +45,13 @@ export const useBalanceStore = create<BalanceState>()(set => ({
       balanceResponse?.tokens?.forEach(token => {
         // cash account balance
         if (token.address.toLowerCase() === USDC_ARBITRUM_ADDRESS) {
-          cashAccountBalance = token.amount;
+          cashAccountBalance = token.balance_usd;
         }
-        userBalance += token.amount;
+        userBalance += token.balance_usd;
 
         indexesBalanceMap[token.address.toLowerCase()] = {
-          usd: token.amount,
-          token: 0,
+          usd: token.balance_usd,
+          token: token.balance_token,
         };
       });
 
@@ -90,6 +90,8 @@ export const useBalanceStore = create<BalanceState>()(set => ({
       userBalance: 0.0,
       totalEarned: 0.0,
       cashAccountBalance: 0.0,
+      indexesEarnedMap: {},
+      indexesBalanceMap: {},
     });
   },
 }));

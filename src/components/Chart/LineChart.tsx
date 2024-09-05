@@ -12,6 +12,7 @@ import {ChartDotElement} from '@/shared/types/chart';
 import {Colors, Images} from '@/shared/ui';
 import {formatValue} from '@/shared/lib';
 import {SelectionDot} from './SelectionDot';
+import {WaveIcon} from '@/shared/ui/icons/WaveIcon';
 
 interface Props {
   data: ChartDotElement[];
@@ -22,6 +23,7 @@ interface Props {
 
 export const LineChart: React.FC<Props> = ({
   data,
+  isLoading,
   onChangeShownValue,
   onChangeChangePercent,
 }) => {
@@ -59,8 +61,7 @@ export const LineChart: React.FC<Props> = ({
     onChangeShownValue?.(data[data.length - 1].value);
     onChangeChangePercent?.(
       formatValue(
-        (1 - data?.[data.length - 2]?.value / data?.[data.length - 1]?.value) *
-          100,
+        (data?.[data.length - 1]?.value / data?.[0]?.value - 1) * 100,
       ),
     );
   };
@@ -71,19 +72,26 @@ export const LineChart: React.FC<Props> = ({
 
   return (
     <View style={styles.container}>
-      <LineGraph
-        points={data}
-        animated={true}
-        enablePanGesture={true}
-        color={isProgressive ? Colors.ui_green_45 : Colors.ui_grey_74}
-        style={styles.chart}
-        onGestureStart={() => playNetScaleAnimation(1)}
-        onGestureEnd={onGestureEnd}
-        onPointSelected={onPointSelected}
-        gradientFillColors={gradientFillColors}
-        SelectionDot={SelectionDot}
-        panGestureDelay={200}
-      />
+      {isLoading ? (
+        <WaveIcon
+          color={Colors.ui_grey_80}
+          style={{position: 'absolute', top: '50%', left: 15}}
+        />
+      ) : (
+        <LineGraph
+          points={data}
+          animated={true}
+          enablePanGesture={true}
+          color={isProgressive ? Colors.ui_green_45 : Colors.ui_grey_74}
+          style={styles.chart}
+          onGestureStart={() => playNetScaleAnimation(1)}
+          onGestureEnd={onGestureEnd}
+          onPointSelected={onPointSelected}
+          gradientFillColors={gradientFillColors}
+          SelectionDot={SelectionDot}
+          panGestureDelay={200}
+        />
+      )}
       <ReAnimated.Image
         source={Images.chartNet}
         style={[styles.netImage, netImageStyle]}

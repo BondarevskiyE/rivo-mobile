@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Pressable, View, Text, LayoutAnimation} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';
@@ -16,17 +16,17 @@ interface Props<T> {
   data: Array<T>;
   onSelect: (item: T) => void;
   dropdownPosition: 'top' | 'bottom';
-  initialSelected?: T;
+  selected?: T;
 }
 
 export function Dropdown<T extends DropdownItem>({
   data,
-  initialSelected,
+  selected,
   onSelect,
   dropdownPosition,
 }: Props<T>) {
   const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(
-    initialSelected || data[data.length - 1],
+    selected || data[data.length - 1],
   );
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,6 +54,12 @@ export function Dropdown<T extends DropdownItem>({
     setSelectedItem(option);
     onOpenDropdown();
   };
+
+  useEffect(() => {
+    if (selected) {
+      setSelectedItem(selected);
+    }
+  }, [selected]);
 
   const isTopPosition = dropdownPosition === 'top';
 

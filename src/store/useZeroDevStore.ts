@@ -89,6 +89,8 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
     }
   },
   withdraw: async (vault: Vault, amount: string) => {
+    const fetchBalance = useBalanceStore.getState().fetchBalance;
+
     try {
       const kernelClient = get().kernelClient;
       const userAddress = useUserStore.getState().walletAddress;
@@ -132,7 +134,8 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
         amount: withdrawTokenUserBalance,
       });
 
-      Alert.alert('Success');
+      await fetchBalance();
+
       return swapToUSDCReceipt;
     } catch (error) {
       console.log(error);

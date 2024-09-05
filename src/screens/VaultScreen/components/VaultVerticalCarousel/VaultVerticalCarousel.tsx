@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {FlatList, Pressable, StyleSheet, View, ViewToken} from 'react-native';
 import ReAnimated, {
   useAnimatedScrollHandler,
@@ -51,20 +51,8 @@ export const VaultVerticalCarousel: React.FC<Props> = ({
   ).current;
 
   const goToChartSlide = () => {
-    // only if we are on the first slide
-    if (currentSlideId === PAGES.INFO) {
-      carouselRef?.current?.scrollToEnd();
-    }
+    carouselRef?.current?.scrollToEnd();
   };
-
-  useEffect(() => {
-    if (isBigCarouselContainer) {
-      setTimeout(() => {
-        carouselRef?.current?.scrollToEnd();
-      }, 300);
-      return;
-    }
-  }, [isBigCarouselContainer]);
 
   return (
     <View style={styles.container}>
