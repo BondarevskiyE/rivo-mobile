@@ -1,42 +1,16 @@
-import React, {useMemo} from 'react';
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {Suspense, lazy} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SharedValue} from 'react-native-reanimated';
 
 import {Vault} from '@/shared/types';
-import {Colors, Fonts, Images} from '@/shared/ui';
+import {Colors, Fonts} from '@/shared/ui';
 import {InfoBlock} from './InfoBlock';
-import {AccordeonList} from '@/components/AccordeonList';
-import {ExpandableCard, ExternalLinkTag, RiskScoreCounter} from '@/components';
-import Modal from '@/modal-manager';
-import {
-  ArrowLineIcon,
-  InfoQuestionIcon,
-  OrangePlusCircleIcon,
-} from '@/shared/ui/icons';
-import {
-  getIndexManagmentAccordeonItems,
-  getRiskScoringAccordeonItems,
-} from './helpers';
 
-import {InsideStrategyCard} from './InsideStrategyCard';
 import {IndexUpdates} from './IndexUpdates';
-import {MethodologyModal} from './MethodologyModal';
+import {Loader} from '@/components/Loader';
 
-function openMethodologyModal() {
-  Modal.show({
-    children: <MethodologyModal />,
-    dismissable: true,
-    position: 'bottom',
-  });
-}
+const LazyContent = lazy(() => import('./LazyContentBlock'));
 
 interface Props {
   vault: Vault;
@@ -53,33 +27,6 @@ export const AboutVaultContent: React.FC<Props> = ({
   openInvestForm,
   openWithdrawForm,
 }) => {
-  const riskScore = vault.risk_level * 2 * 10;
-
-  const indexManagmentAccordeonItems = useMemo(
-    () =>
-      getIndexManagmentAccordeonItems({
-        mechanics: vault.mechanics,
-        maintance: vault.maintance,
-        rewards: vault.rewards,
-      }),
-    [vault],
-  );
-
-  const riskScoringAccordeonItems = useMemo(
-    () =>
-      getRiskScoringAccordeonItems({
-        smart_ctr_sec_score: vault.smart_ctr_sec_score,
-        smart_ctr_sec_text: vault.smart_ctr_sec_text,
-        user_metrics_score: vault.user_metrics_score,
-        user_metrics_text: vault.user_metrics_text,
-        complexity_score: vault.complexity_score,
-        complexity_text: vault.complexity_text,
-        quality_underlying_asset_score: vault.quality_underlying_asset_score,
-        quality_underlying_asset_text: vault.quality_underlying_asset_text,
-      }),
-    [vault],
-  );
-
   return (
     <LinearGradient
       style={{flex: 1, borderRadius: 10}}
@@ -98,113 +45,13 @@ export const AboutVaultContent: React.FC<Props> = ({
           openInvestForm={openInvestForm}
           openWithdrawForm={openWithdrawForm}
         />
-        <Text
-          style={[
-            styles.title,
-            styles.titleMarginBottom,
-            styles.titleMarginTop,
-          ]}>
-          Inside the index
-        </Text>
 
-        {vault.strategies && (
-          <ScrollView
-            horizontal
-            bounces={false}
-            showsHorizontalScrollIndicator={false}
-            style={{flex: 1, overflow: 'visible', zIndex: 9}}
-            contentContainerStyle={{gap: 8}}>
-            {vault.strategies.map(item => (
-              <ExpandableCard
-                onPress={setIsInvestButtonShown}
-                key={item.address}>
-                <InsideStrategyCard item={item} />
-              </ExpandableCard>
-            ))}
-          </ScrollView>
-        )}
-
-        <Text
-          style={[
-            styles.title,
-            styles.titleMarginBottom,
-            styles.titleMarginTop,
-          ]}>
-          Index management
-        </Text>
-        <AccordeonList items={indexManagmentAccordeonItems} />
-
-        <View
-          style={[
-            styles.flexRowContainer,
-            styles.titleMarginTop,
-            styles.titleMarginBottom,
-          ]}>
-          <Text style={[styles.title]}>Risk scoring</Text>
-          <TouchableOpacity
-            style={styles.methodologyContainer}
-            onPress={openMethodologyModal}>
-            <Text style={styles.methodologyText}>Methodology</Text>
-            <ArrowLineIcon color={Colors.ui_grey_72} width={8} height={8} />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.riskScoreContainer}>
-          <RiskScoreCounter percent={riskScore} />
-          {vault?.audits?.length && (
-            <ScrollView
-              bounces={false}
-              style={styles.auditScroll}
-              contentContainerStyle={styles.auditScrollContainer}
-              horizontal
-              showsHorizontalScrollIndicator={false}>
-              <View style={styles.risksSummary}>
-                <OrangePlusCircleIcon />
-                <Text style={styles.risksSummaryText}>Risks summary</Text>
-              </View>
-              {vault.audits.map(audit => (
-                <ExternalLinkTag
-                  url={audit.url}
-                  iconUrl={audit.image}
-                  key={audit.text}>
-                  {audit.text}
-                </ExternalLinkTag>
-              ))}
-            </ScrollView>
-          )}
-        </View>
-        <AccordeonList items={riskScoringAccordeonItems} />
-
-        <Text
-          style={[
-            styles.title,
-            styles.titleMarginBottom,
-            styles.titleMarginTop,
-          ]}>
-          Fee structure
-        </Text>
-
-        <View style={styles.feeStructure}>
-          <View style={styles.feeStructureItem}>
-            <Image
-              source={Images.fivePercent}
-              style={styles.feeStructureImage}
-            />
-            <View style={styles.feeStructureItemTextContainer}>
-              <Text>Performance fee</Text>
-              <InfoQuestionIcon />
-            </View>
-          </View>
-          <View style={styles.feeStructureItem}>
-            <Image
-              source={Images.tenPercent}
-              style={styles.feeStructureImage}
-            />
-            <View style={styles.feeStructureItemTextContainer}>
-              <Text>Managment fee</Text>
-              <InfoQuestionIcon />
-            </View>
-          </View>
-        </View>
+        <Suspense fallback={<Loader />}>
+          <LazyContent
+            vault={vault}
+            setIsInvestButtonShown={setIsInvestButtonShown}
+          />
+        </Suspense>
       </View>
     </LinearGradient>
   );

@@ -19,8 +19,6 @@ import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 
-// const Content = lazy(() => import('./AboutVaultContent'));
-
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 interface Props {
@@ -106,13 +104,6 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
           isBigCarouselContainer ? smallCarouselContainerPosition : 0
         }
         dragAnimationValue={dragAnimationValue}>
-        {/* <Suspense fallback={<Text>Loading</Text>}>
-          <Content
-            vault={vault}
-            imageShiftValue={carouselAnimation}
-            setIsInvestButtonShown={setIsInvestButtonShown}
-          />
-        </Suspense> */}
         <AboutVaultContent
           vault={vault}
           imageShiftValue={dragAnimationValue}
