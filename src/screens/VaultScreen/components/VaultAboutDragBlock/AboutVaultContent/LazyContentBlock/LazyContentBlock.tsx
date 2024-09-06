@@ -1,12 +1,6 @@
 import React, {useMemo} from 'react';
-import {
-  Text,
-  ScrollView,
-  View,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-} from 'react-native';
+import {Text, View, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native-gesture-handler';
 
 import Modal from '@/modal-manager';
 import {ExpandableCard, RiskScoreCounter, ExternalLinkTag} from '@/components';
@@ -77,20 +71,19 @@ export const LazyContentBlock: React.FC<Props> = ({
         Inside the index
       </Text>
 
-      {vault.strategies && (
-        <ScrollView
-          horizontal
-          bounces={false}
-          showsHorizontalScrollIndicator={false}
-          style={{flex: 1, overflow: 'visible', zIndex: 9}}
-          contentContainerStyle={{gap: 8}}>
-          {vault.strategies.map(item => (
-            <ExpandableCard onPress={setIsInvestButtonShown} key={item.address}>
-              <InsideStrategyCard item={item} />
-            </ExpandableCard>
-          ))}
-        </ScrollView>
-      )}
+      <ScrollView
+        horizontal
+        bounces={false}
+        removeClippedSubviews={false}
+        showsHorizontalScrollIndicator={false}
+        style={{zIndex: 9, overflow: 'visible'}}
+        contentContainerStyle={{gap: 8, overflow: 'visible'}}>
+        {vault.strategies?.map(item => (
+          <ExpandableCard onPress={setIsInvestButtonShown} key={item.address}>
+            <InsideStrategyCard item={item} key={item.address} />
+          </ExpandableCard>
+        ))}
+      </ScrollView>
 
       <Text
         style={[styles.title, styles.titleMarginBottom, styles.titleMarginTop]}>

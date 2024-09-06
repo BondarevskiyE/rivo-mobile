@@ -11,7 +11,6 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Modal,
-  LayoutChangeEvent,
   StyleProp,
   ViewStyle,
   Pressable,
@@ -50,16 +49,12 @@ export const ExpandableCard: React.FC<Props> = ({
   containerStyles,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [cardPosition, setCardPosition] = useState({x: 0, y: 0});
 
   const cardWidth = useSharedValue(initialCardWidth);
   const cardHeight = useSharedValue(initialCardHeight);
   const cardBorderRadius = useSharedValue(24);
   const cardTop = useSharedValue(0);
   const cardLeft = useSharedValue(0);
-
-  const cardTopModal = useSharedValue(cardPosition.x);
-  const cardLeftModal = useSharedValue(cardPosition.y);
 
   const modalOpacity = useSharedValue(0);
 
@@ -89,17 +84,7 @@ export const ExpandableCard: React.FC<Props> = ({
           easing: Easing.inOut(Easing.ease),
         });
 
-        cardTopModal.value = withTiming(x, {
-          duration: EXPAND_TIME,
-          easing: Easing.inOut(Easing.ease),
-        });
-
         cardLeft.value = withTiming(0, {
-          duration: EXPAND_TIME,
-          easing: Easing.inOut(Easing.ease),
-        });
-
-        cardLeftModal.value = withTiming(y, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
@@ -128,24 +113,8 @@ export const ExpandableCard: React.FC<Props> = ({
           },
         );
 
-        cardTopModal.value = withTiming(
-          SCREEN_HEIGHT - expandedCardHeight - paddingBottom,
-          {
-            duration: EXPAND_TIME,
-            easing: Easing.inOut(Easing.ease),
-          },
-        );
-
         cardLeft.value = withTiming(
           SCREEN_WIDTH - x - expandedCardWidth - paddingHorizontal,
-          {
-            duration: EXPAND_TIME,
-            easing: Easing.inOut(Easing.ease),
-          },
-        );
-
-        cardLeftModal.value = withTiming(
-          SCREEN_WIDTH - expandedCardWidth - paddingHorizontal,
           {
             duration: EXPAND_TIME,
             easing: Easing.inOut(Easing.ease),
@@ -162,13 +131,6 @@ export const ExpandableCard: React.FC<Props> = ({
     });
   };
 
-  const onLayout = (e: LayoutChangeEvent) => {
-    const x = e.nativeEvent.layout.x;
-    const y = e.nativeEvent.layout.y;
-
-    setCardPosition({x, y});
-  };
-
   const animatedStyle = useAnimatedStyle(() => {
     return {
       width: cardWidth.value,
@@ -179,15 +141,15 @@ export const ExpandableCard: React.FC<Props> = ({
     };
   });
 
-  const animatedModalStyle = useAnimatedStyle(() => {
-    return {
-      width: cardWidth.value,
-      height: cardHeight.value,
-      borderRadius: cardBorderRadius.value,
-      top: cardTopModal.value,
-      left: cardLeftModal.value,
-    };
-  });
+  // const animatedModalStyle = useAnimatedStyle(() => {
+  //   return {
+  //     width: cardWidth.value,
+  //     height: cardHeight.value,
+  //     borderRadius: cardBorderRadius.value,
+  //     top: cardTopModal.value,
+  //     left: cardLeftModal.value,
+  //   };
+  // });
 
   const containerStyle = useAnimatedStyle(() => ({
     zIndex: cardHeight.value,
@@ -206,8 +168,7 @@ export const ExpandableCard: React.FC<Props> = ({
   return (
     <Animated.View
       style={[styles.container, containerStyle]}
-      ref={containerRef}
-      onLayout={onLayout}>
+      ref={containerRef}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <Animated.View style={[styles.card, animatedStyle]}>
           {renderChildren()}
@@ -228,7 +189,14 @@ export const ExpandableCard: React.FC<Props> = ({
             style={[
               styles.card,
               containerStyles,
-              animatedModalStyle,
+              // animatedModalStyle,
+              {
+                width: SCREEN_WIDTH - 2 * paddingHorizontal,
+                height: expandedCardHeight,
+                borderRadius: 32,
+                top: SCREEN_HEIGHT - expandedCardHeight - paddingBottom,
+                left: SCREEN_WIDTH - expandedCardWidth - paddingHorizontal,
+              },
               modalOpacityStyle,
             ]}>
             <Pressable style={styles.closeIconContainer} onPress={handlePress}>
@@ -247,7 +215,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     height: initialCardHeight,
     width: initialCardWidth,
-    flex: 1,
+    // flex: 1,
   },
   modalOverlay: {
     flex: 1,

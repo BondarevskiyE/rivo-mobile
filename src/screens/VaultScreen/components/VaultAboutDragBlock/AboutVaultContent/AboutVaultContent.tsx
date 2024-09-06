@@ -1,5 +1,5 @@
 import React, {Suspense, lazy} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SharedValue} from 'react-native-reanimated';
 
@@ -11,6 +11,8 @@ import {IndexUpdates} from './IndexUpdates';
 import {Loader} from '@/components/Loader';
 
 const LazyContent = lazy(() => import('./LazyContentBlock'));
+
+const {width: WIDTH_SCREEN} = Dimensions.get('window');
 
 interface Props {
   vault: Vault;
@@ -46,7 +48,12 @@ export const AboutVaultContent: React.FC<Props> = ({
           openWithdrawForm={openWithdrawForm}
         />
 
-        <Suspense fallback={<Loader />}>
+        <Suspense
+          fallback={
+            <View style={styles.loaderContainer}>
+              <Loader />
+            </View>
+          }>
           <LazyContent
             vault={vault}
             setIsInvestButtonShown={setIsInvestButtonShown}
@@ -59,7 +66,6 @@ export const AboutVaultContent: React.FC<Props> = ({
 
 const styles = StyleSheet.create({
   container: {
-    // height: '90%',
     paddingTop: 10,
     paddingHorizontal: 12,
     paddingBottom: 200,
@@ -140,5 +146,11 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.regular,
     fontSize: 15,
     color: Colors.ui_grey_72,
+  },
+  loaderContainer: {
+    width: WIDTH_SCREEN,
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

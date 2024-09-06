@@ -69,7 +69,6 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
   }));
 
   const contentContainerStyle = useAnimatedStyle(() => ({
-    // paddingHorizontal: interpolate(containerValue.value, [0, 1], [8, 12]),
     paddingTop: interpolate(containerValue.value, [0, 1], [28, 33]),
   }));
 
@@ -236,6 +235,8 @@ export const InsideStrategyCard: React.FC<Props> = memo(({item, isOpen}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // width: 170,
+    // height: 232,
     backgroundColor: Colors.ui_white,
   },
   imageContainer: {
