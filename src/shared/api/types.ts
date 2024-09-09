@@ -23,6 +23,11 @@ export type TvlResponse = VaultInfoResponse;
 export type ApyResponse = VaultInfoResponse;
 
 export type ChartResponse = ChartDotElement[];
+export type ChartResponseBalance = {
+  balance: number;
+  date: string;
+  want_tokens: number;
+}[];
 
 export type UserBalanceResponse = {
   token_name: string;

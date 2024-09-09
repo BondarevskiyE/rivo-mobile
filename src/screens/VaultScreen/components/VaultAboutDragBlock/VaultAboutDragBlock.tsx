@@ -18,6 +18,7 @@ import {AboutVaultContent} from './AboutVaultContent';
 import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
+import {isSmallScreenDeviceWidth} from '@/shared/lib/screen';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -33,7 +34,8 @@ interface Props {
 const INITIAL_TRANSLATE_Y = 600;
 
 const smallCarouselContainerPosition =
-  (initialWindowMetrics?.insets.top || 0) + 10;
+  (initialWindowMetrics?.insets.top || 0) +
+  (isSmallScreenDeviceWidth ? 25 : 10);
 const bigCarouselContainerPosition = smallCarouselContainerPosition + 70;
 
 export const VaultAboutDragBlock: React.FC<Props> = ({

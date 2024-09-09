@@ -53,11 +53,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 11,
     paddingLeft: 13,
+    // height: 65,
   },
   dash: {
     position: 'relative',
     top: 7,
     minHeight: 60,
+    maxHeight: 70,
   },
   dashMock: {
     paddingLeft: 1.5,

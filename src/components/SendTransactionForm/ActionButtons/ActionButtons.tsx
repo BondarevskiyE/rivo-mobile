@@ -117,7 +117,9 @@ export const ActionButtons: React.FC<Props> = ({
   const additionalButtonText = getAdditionalButtonText(txStatus);
 
   const isError =
-    (!isSlippageOpen && !isEnoughBalance) ||
+    (!isSlippageOpen &&
+      txStatus === TRANSACTION_STATUS.NONE &&
+      !isEnoughBalance) ||
     (formType === SEND_TRANSACTION_FORM_TYPE.SEND &&
       !isSendAddressEmpty &&
       !isSendAddressValid);
@@ -131,7 +133,7 @@ export const ActionButtons: React.FC<Props> = ({
         error={isError}
         style={styles.button}
         textStyle={styles.buttonText}
-        disabled={isDisabled}
+        disabled={txStatus === TRANSACTION_STATUS.NONE && isDisabled}
       />
       <Button
         onPress={onPressAdditionalButton}

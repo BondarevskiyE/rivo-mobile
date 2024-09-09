@@ -3,11 +3,11 @@ import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 
 import {DialPadSymbol} from './DialPadSymbol';
 import {dialPadSymbols} from './lib';
-import {isSmallScreenDevice} from '@/shared/lib/screen';
+import {isSmallScreenDeviceHeight} from '@/shared/lib/screen';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
-const symbolSizeMultiplier = isSmallScreenDevice ? 0.16 : 0.2;
+const symbolSizeMultiplier = isSmallScreenDeviceHeight ? 0.16 : 0.2;
 
 export const DIALPAD_SYMBOL_SIZE = SCREEN_WIDTH * symbolSizeMultiplier;
 const NUM_COLUMNS = 3;

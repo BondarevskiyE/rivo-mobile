@@ -1,6 +1,6 @@
 import {apiUrl, sendRequest} from './';
 import {CHART_PERIODS} from '../types/chart';
-import {ChartResponse} from './types';
+import {ChartResponse, ChartResponseBalance} from './types';
 
 export const getChartVaultTvl = async (
   address: string,
@@ -26,8 +26,8 @@ export const getChartVaultBalance = async (
   userAddress: string,
   vaultAddress: string,
   period: CHART_PERIODS,
-): Promise<ChartResponse | null> => {
-  return await sendRequest<ChartResponse | null>({
+): Promise<ChartResponseBalance | null> => {
+  return await sendRequest<ChartResponseBalance | null>({
     url: `${apiUrl}/v1/user/${userAddress}/index/${vaultAddress}/balance_hist?period=${period}`,
   });
 };

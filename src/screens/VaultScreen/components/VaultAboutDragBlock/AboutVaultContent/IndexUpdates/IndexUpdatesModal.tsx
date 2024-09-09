@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   scrollContainer: {
-    flex: 1,
+    // flex: 1,
     marginBottom: 20,
   },
   arrowIconContainer: {

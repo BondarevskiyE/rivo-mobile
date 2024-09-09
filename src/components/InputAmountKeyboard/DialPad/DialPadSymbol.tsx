@@ -5,7 +5,7 @@ import Animated from 'react-native-reanimated';
 import {useDialPadSymbolAnimation} from './hooks';
 import {Colors} from '@/shared/ui';
 import {DIALPAD_SYMBOL_SIZE} from './DialPad';
-import {isSmallScreenDevice} from '@/shared/lib/screen';
+import {isSmallScreenDeviceHeight} from '@/shared/lib/screen';
 
 interface Props {
   onPress: (symbol: string) => void;
@@ -19,8 +19,8 @@ const getSymbolElement = (symbolName: string) => {
         <ArrowLineIcon
           style={styles.deleteIcon}
           color={Colors.ui_white}
-          width={isSmallScreenDevice ? 15 : 20}
-          height={isSmallScreenDevice ? 17 : 22}
+          width={isSmallScreenDeviceHeight ? 15 : 20}
+          height={isSmallScreenDeviceHeight ? 17 : 22}
         />
       );
 

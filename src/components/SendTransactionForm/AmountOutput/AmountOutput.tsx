@@ -25,7 +25,7 @@ import {
 import {AmountOutputSymbol} from './AmountOutputSymbol';
 import {fadeScaleEntering} from '@/customAnimations/fadeScaleEntering';
 import {fadeScaleExiting} from '@/customAnimations/fadeScaleExiting';
-import {isSmallScreenDevice} from '@/shared/lib/screen';
+import {isSmallScreenDeviceHeight} from '@/shared/lib/screen';
 
 interface Props {
   value: string;
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     alignItems: 'center',
-    marginTop: isSmallScreenDevice ? 20 : 40,
+    marginTop: isSmallScreenDeviceHeight ? 20 : 40,
     marginBottom: 20,
   },
   amountTextPositionContainer: {

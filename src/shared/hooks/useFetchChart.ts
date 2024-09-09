@@ -6,6 +6,8 @@ import {
   getChartVaultTvl,
   getChartVaultBalance,
 } from '../api/chart';
+import {useBalanceStore} from '@/store/useBalanceStore';
+import {formatNumber} from '../lib/format';
 
 interface Params {
   userAddress: string;
@@ -17,7 +19,7 @@ interface Params {
 
 type ReturnType = {isLoading: boolean; data: ChartDotElement[]};
 
-const formatChartData = (data: any[], type?: ChartType) => {
+const formatChartData = (data: any[], type?: ChartType): ChartDotElement[] => {
   return data.map(item => {
     return {
       value: type === 'balance' ? item?.balance : item?.value,
@@ -33,12 +35,16 @@ export const useFetchChart = ({
   period,
   type,
 }: Params): ReturnType => {
+  const indexBalance = useBalanceStore(
+    state => state.indexesBalanceMap?.[vaultAddress.toLowerCase()],
+  );
+
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState<ChartDotElement[]>([]);
 
   const fetchChartData = async () => {
     setIsLoading(true);
-    let chartData: ChartDotElement[] | null = null;
+    let chartData = null;
 
     if (type === 'apy') {
       chartData = await getChartVaultApy(vaultAddress, chain, period);
@@ -54,6 +60,19 @@ export const useFetchChart = ({
 
     if (type === 'balance') {
       chartData = await getChartVaultBalance(userAddress, vaultAddress, period);
+      if (
+        formatNumber(
+          chartData?.[chartData?.length - 1]?.balance || 0,
+          7,
+          '',
+        ) !== formatNumber(indexBalance.usd, 7, '')
+      ) {
+        chartData?.push({
+          balance: indexBalance.usd,
+          date: (new Date().getTime() / 1000).toString(),
+          want_tokens: indexBalance.token,
+        });
+      }
     }
 
     chartData && setData(formatChartData(chartData, type));
