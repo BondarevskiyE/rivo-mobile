@@ -1,7 +1,8 @@
-import {ArrowLineIcon} from '@/shared/ui/icons';
 import React from 'react';
 import {Pressable, Text, StyleSheet} from 'react-native';
 import Animated from 'react-native-reanimated';
+
+import { ArrowLineIcon } from '@/shared/ui/icons';
 import {useDialPadSymbolAnimation} from './hooks';
 import {Colors} from '@/shared/ui';
 import {DIALPAD_SYMBOL_SIZE} from './DialPad';

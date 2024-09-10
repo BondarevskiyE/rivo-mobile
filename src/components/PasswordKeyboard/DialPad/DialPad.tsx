@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {FlatList, StyleSheet, View} from 'react-native';
 
 import {DialPadSymbol} from './DialPadSymbol';
@@ -43,6 +43,8 @@ const styles = StyleSheet.create({
   },
   list: {
     flexGrow: 0,
+    padding: 40,
+    paddingBottom: 0,
     overflow: 'visible',
   },
 });

@@ -1,5 +1,5 @@
 import {Colors, Fonts} from '@/shared/ui';
-import React from 'react';
+
 import {StyleSheet, Text, View} from 'react-native';
 import {TooltipArrowIcon} from './TooltipArrowIcon';
 

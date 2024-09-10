@@ -8,6 +8,7 @@ import {
   ViewToken,
   // ViewToken,
 } from 'react-native';
+
 import {CardItem} from './types';
 import {SlideItem} from './SlideItem';
 import {Pagination} from './Pagination';

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React, { useEffect } from 'react';
 import Animated, {
   interpolate,
   useAnimatedStyle,
@@ -20,7 +20,7 @@ export const Loader: React.FC<Props> = ({size = 24, color = '#000'}) => {
   const svgValue = useSharedValue(0);
   const animation = useSharedValue(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     svgValue.value = withRepeat(withTiming(1, {duration: 2100}), -1, false);
 
     animation.value = withRepeat(withTiming(1, {duration: 1500}), -1, false);

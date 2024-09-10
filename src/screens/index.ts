@@ -1,12 +1,12 @@
-export {LightingScreen} from './LightingScreen';
-export {ChartsScreen} from './ChartsScreen';
-export {NotificationsScreen} from './NotificationsScreen';
-export {OverviewScreen} from './OverviewScreen';
+export {LightingScreen} from './home/LightingScreen';
+export {ChartsScreen} from './home/ChartsScreen';
+export {NotificationsScreen} from './home/NotificationsScreen';
+export {OverviewScreen} from './home/OverviewScreen';
 export {
   LoginScreen,
   CardCreatingScreen,
   EnableNotificationsScreen,
   PassCodeRegistrationScreen,
-} from './login';
+} from './auth';
 export {PassCodeScreen} from './PassCodeScreen';
-export {SettingsScreen} from './SettingsScreen';
+export {ProfileMenuScreen} from './profile/ProfileMenuScreen';

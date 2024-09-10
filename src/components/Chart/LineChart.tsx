@@ -29,13 +29,6 @@ export const LineChart: React.FC<Props> = ({
 }) => {
   const netImageValue = useSharedValue(0);
 
-  const isProgressive =
-    data?.[data.length - 1]?.value > data?.[data.length - 2]?.value;
-
-  const gradientFillColors = isProgressive
-    ? ['rgba(107, 205, 48, 0.04)', 'rgba(107, 205, 48, 0)']
-    : ['rgba(116, 116, 116, 0.1)', 'rgba(116, 116, 116, 0)'];
-
   const playNetScaleAnimation = (value: number) => {
     netImageValue.value = withSpring(value, {
       stiffness: 340,
@@ -43,10 +36,6 @@ export const LineChart: React.FC<Props> = ({
       mass: 1,
     });
   };
-
-  const netImageStyle = useAnimatedStyle(() => ({
-    transform: [{scale: interpolate(netImageValue.value, [0, 1], [1.3, 1.1])}],
-  }));
 
   const onPointSelected = (point: GraphPoint, prevPoint?: GraphPoint) => {
     onChangeShownValue?.(point.value);
@@ -65,6 +54,17 @@ export const LineChart: React.FC<Props> = ({
       ),
     );
   };
+
+  const netImageStyle = useAnimatedStyle(() => ({
+    transform: [{scale: interpolate(netImageValue.value, [0, 1], [1.3, 1.1])}],
+  }));
+
+  const isProgressive =
+    data?.[data.length - 1]?.value > data?.[data.length - 2]?.value;
+
+  const gradientFillColors = isProgressive
+    ? ['rgba(107, 205, 48, 0.04)', 'rgba(107, 205, 48, 0)']
+    : ['rgba(116, 116, 116, 0.1)', 'rgba(116, 116, 116, 0)'];
 
   if (!data.length) {
     return null;

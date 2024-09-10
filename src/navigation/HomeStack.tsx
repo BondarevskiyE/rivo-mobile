@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,12 +12,10 @@ import {
   LightingScreen,
   ChartsScreen,
   NotificationsScreen,
-  PassCodeScreen,
 } from '@/screens';
-import {useLoginStore} from '@/store/useLoginStore';
 import {TabBar} from './components';
 import {createStackNavigator} from '@react-navigation/stack';
-import {VaultScreen} from '@/screens/VaultScreen';
+import {VaultScreen} from '@/screens/home/VaultScreen';
 import {moveBottomToTop} from './StyleInterpolators';
 import {
   HOME_SCREENS,
@@ -25,12 +23,13 @@ import {
   HomeStackProps,
   HomeTabsProps,
 } from './types/homeStack';
-import {SwapOrBridgeScreen} from '@/screens/SwapOrBridgeScreen';
-import {SendScreen} from '@/screens/SendScreen';
+import {SwapOrBridgeScreen} from '@/screens/home/SwapOrBridgeScreen';
+import {SendScreen} from '@/screens/home/SendScreen';
 import {forFade} from './StyleInterpolators/forFade';
-import {ReceiveScreen} from '@/screens/ReceiveScreen';
-import {PurchaseOrSellScreen} from '@/screens/PurchaseOrSellScreen';
-import {InvestScreen} from '@/screens/InvestScreen/InvestScreen';
+import {ReceiveScreen} from '@/screens/home/ReceiveScreen';
+import {PurchaseOrSellScreen} from '@/screens/home/PurchaseOrSellScreen';
+import {InvestScreen} from '@/screens/home/InvestScreen/InvestScreen';
+
 // import {useAppStore} from '@/store/useAppStore';
 
 const Stack = createStackNavigator<HomeStackProps>();
@@ -75,8 +74,6 @@ const CustomTabBar = (props: BottomTabBarProps) => {
 };
 
 export const HomeStack = () => {
-  const isPassCodeEntered = useLoginStore(state => state.isPassCodeEntered);
-
   return (
     <View style={{position: 'relative', flex: 1, zIndex: 2}}>
       <LinearGradient
@@ -88,10 +85,10 @@ export const HomeStack = () => {
           top: 0,
           height: '100%',
         }}>
-        {!isPassCodeEntered && <PassCodeScreen />}
         <Stack.Navigator
           screenOptions={{headerShown: false, freezeOnBlur: true}}>
           <Stack.Screen name={HOME_SCREENS.HOME_SCREEN} component={TabsRoot} />
+
           <Stack.Screen
             name={HOME_SCREENS.VAULT_SCREEN}
             component={VaultScreen}

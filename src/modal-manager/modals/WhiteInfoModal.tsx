@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {Pressable, StyleSheet, View} from 'react-native';
 import {BaseBottomModalContainer} from '../components';
 import {Colors} from '@/shared/ui';

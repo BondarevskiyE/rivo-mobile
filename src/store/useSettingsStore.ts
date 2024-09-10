@@ -9,6 +9,8 @@ interface SettingsState {
   biometryType: BIOMETRY_TYPE | null;
   isNotificationsEnabled: boolean;
   isNotificationsDetermined: boolean;
+  isSystemAlertOpen: boolean;
+  setIsSystemAlertOpen: (bool: boolean) => void;
   setIsNotificationsEnabled: (bool: boolean) => void;
   setIsNotificationsDetermined: (bool: boolean) => void;
   setIsBiometryEnabled: (bool: boolean, type?: BIOMETRY_TYPE) => void;
@@ -21,6 +23,8 @@ export const useSettingsStore = create<SettingsState>()(
       isNotificationsEnabled: false,
       isNotificationsDetermined: false,
       biometryType: null,
+      isSystemAlertOpen: false,
+      setIsSystemAlertOpen: (bool: boolean) => set({isSystemAlertOpen: bool}),
       setIsNotificationsEnabled: (bool: boolean) =>
         set({isNotificationsEnabled: bool}),
       setIsNotificationsDetermined: (bool: boolean) =>
@@ -31,6 +35,12 @@ export const useSettingsStore = create<SettingsState>()(
     {
       name: 'settings-store',
       storage: createJSONStorage(() => AsyncStorage),
+      partialize: state => ({
+        isBiometryEnabled: state.isBiometryEnabled,
+        biometryType: state.biometryType,
+        isNotificationsEnabled: state.isNotificationsEnabled,
+        isNotificationsDetermined: state.isNotificationsDetermined,
+      }),
     },
   ),
 );

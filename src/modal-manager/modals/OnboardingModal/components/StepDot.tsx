@@ -1,6 +1,7 @@
-import {Colors} from '@/shared/ui';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import { StyleSheet, View } from 'react-native';
+
+import { Colors } from '@/shared/ui';
 
 interface Props {
   isActive: boolean;

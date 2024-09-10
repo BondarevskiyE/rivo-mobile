@@ -8,6 +8,7 @@ import {
   Dimensions,
   Animated,
 } from 'react-native';
+
 import {CardItem} from './types';
 import {Colors, Fonts} from '@/shared/ui';
 

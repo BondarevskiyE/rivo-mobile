@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {Dimensions, FlatList, StyleSheet, View} from 'react-native';
 
 import {DialPadSymbol} from './DialPadSymbol';

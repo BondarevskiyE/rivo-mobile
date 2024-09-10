@@ -1,6 +1,7 @@
 import React from 'react';
-import {DialPad} from './DialPad';
 import {View, StyleSheet} from 'react-native';
+
+import {DialPad} from './DialPad';
 import {Colors, Fonts} from '@/shared/ui';
 
 interface Props {

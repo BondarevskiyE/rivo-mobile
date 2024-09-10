@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {useLoginStore} from '@/store/useLoginStore';
@@ -12,20 +13,30 @@ import {
   getCredentialsWithPassword,
 } from '@/services/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {useAppState} from '@/shared/hooks';
 
 export const PassCodeScreen: React.FC = () => {
   const [isError, setIsError] = useState<boolean>(false);
+  const [isBiometryTried, setIsBiometryTried] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
 
   const setIsLoggedIn = useUserStore(state => state.setIsLoggedIn);
+
   const logout = useLoginStore(state => state.logout);
+
   const isBiometryEnabled = useSettingsStore(state => state.isBiometryEnabled);
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
   );
+
+  const {appState} = useAppState({
+    onBackground: () => {
+      // reset state when the user collapse the app
+      setIsBiometryTried(false);
+    },
+  });
 
   const onPinCodeFulfilled = async (pinCode: string) => {
     const credentials = await getCredentialsWithPassword();
@@ -68,6 +79,16 @@ export const PassCodeScreen: React.FC = () => {
       logout();
     }
   };
+
+  useEffect(() => {
+    // if user open the app after collapsing we need to try to pass through biometry if it is enabled
+    // isBiometryTried is true only if user already tried to pass
+    // appState === 'active' only when user open app after collapsing
+    if (isBiometryEnabled && appState === 'active' && !isBiometryTried) {
+      onClickBiometry();
+      setIsBiometryTried(true);
+    }
+  }, [appState]);
 
   return (
     <SafeAreaView style={styles.container}>

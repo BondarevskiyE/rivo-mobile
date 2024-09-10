@@ -7,7 +7,7 @@ import {
   ModalShowParams,
 } from '../types';
 import RNModal from 'react-native-modal';
-import React, {useCallback} from 'react';
+import  {useCallback} from 'react';
 
 export type ModalUIProps = {
   isVisible: boolean;

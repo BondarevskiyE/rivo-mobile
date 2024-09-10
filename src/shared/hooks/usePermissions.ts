@@ -1,6 +1,7 @@
 import {useCallback} from 'react';
 import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
 import {isIos, isAndroid} from '../helpers/system';
+import {useSettingsStore} from '@/store/useSettingsStore';
 
 export type TUsePermissionsReturnType = {
   isError?: boolean;
@@ -13,6 +14,10 @@ export enum EPermissionTypes {
 }
 
 export const usePermissions = (typeOfPermission: EPermissionTypes) => {
+  const setIsSystemAlertOpen = useSettingsStore(
+    state => state.setIsSystemAlertOpen,
+  );
+
   const getPermission = useCallback(() => {
     //check if typeOfPermission exist in EPermissionTypes
     if (
@@ -44,11 +49,15 @@ export const usePermissions = (typeOfPermission: EPermissionTypes) => {
 
   const askPermissions =
     useCallback(async (): Promise<TUsePermissionsReturnType> => {
+      // is is here to prevent passcode screen when we ask on android
+      setIsSystemAlertOpen(true);
       return new Promise<TUsePermissionsReturnType>(async (resolve, reject) => {
         //ask permissions from user
         //if error present, return error
         try {
           await request(getPermission()).then(result => {
+            setIsSystemAlertOpen(false);
+
             switch (result) {
               case RESULTS.UNAVAILABLE:
                 return reject({
@@ -82,6 +91,7 @@ export const usePermissions = (typeOfPermission: EPermissionTypes) => {
           });
         }
       });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getPermission]);
 
   return {

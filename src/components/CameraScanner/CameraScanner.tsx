@@ -1,7 +1,7 @@
 import {isIos} from '@/shared/helpers/system';
 import {useAppState} from '@/shared/hooks';
 import {Colors} from '@/shared/ui';
-import React, {useEffect, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Alert, StyleSheet} from 'react-native';
 
 import {
@@ -17,11 +17,16 @@ export interface ICameraScannerProps {
 
 export const CameraScanner = ({onReadCode}: ICameraScannerProps) => {
   const device = useCameraDevice('back');
+
   const camera = useRef<Camera>(null);
+
   const [isCameraInitialized, setIsCameraInitialized] = useState(isIos);
   const [isActive, setIsActive] = useState(isIos);
+
   const [flash, setFlash] = useState<'on' | 'off'>(isIos ? 'off' : 'on');
+
   const {appState} = useAppState();
+
   const [codeScanned, setCodeScanned] = useState('');
 
   useEffect(() => {

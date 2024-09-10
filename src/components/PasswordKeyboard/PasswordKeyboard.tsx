@@ -1,6 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {DialPad} from './DialPad';
+import React, { useEffect, useRef, useState } from 'react';
 import {View, StyleSheet, Animated, Easing} from 'react-native';
+
+import {DialPad} from './DialPad';
 import {Colors, Fonts} from '@/shared/ui';
 import {AnimatedDot} from './AnimatedDot';
 

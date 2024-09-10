@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {StyleSheet, Animated, ViewProps} from 'react-native';
 
 export const BaseBottomModalContainer = ({

@@ -1,6 +1,6 @@
 // How does it work - https://medium.com/@davidecarizzoni/react-native-create-easy-to-use-modal-manager-f5cb41020dbd
 
-import React, {
+import  {
   forwardRef,
   useCallback,
   useImperativeHandle,

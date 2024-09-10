@@ -11,8 +11,9 @@ import ReAnimated, {
   withSpring,
   withTiming,
 } from 'react-native-reanimated';
-import {Colors} from '@/shared/ui';
 import {ScrollView} from 'react-native-gesture-handler';
+
+import {Colors} from '@/shared/ui';
 
 const AScrollView = ReAnimated.createAnimatedComponent(ScrollView);
 

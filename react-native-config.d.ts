@@ -4,6 +4,7 @@ declare module 'react-native-config' {
     LOCUS_API_URL: string;
     WEB3AUTH_API_KEY: string;
     ZERODEV_API_KEY: string;
+    LIVE_CHAT_LICENSE_ID: string;
   }
 
   export const Config: NativeConfig;

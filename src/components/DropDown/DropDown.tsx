@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {StyleSheet, Pressable, View, Text, LayoutAnimation} from 'react-native';
 
 import {Colors, Fonts} from '@/shared/ui';

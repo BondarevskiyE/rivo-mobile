@@ -22,6 +22,14 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>metamask</string>
+		<string>trust</string>
+		<string>safe</string>
+		<string>rainbow</string>
+		<string>about:srcdoc</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -31,12 +39,12 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) Would Like to Access the Camera</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) Authentication with TouchId or FaceID</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>NSCameraUsageDescription</key>
-  	<string>$(PRODUCT_NAME) Would Like to Access the Camera</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenRunde-Bold.otf</string>
@@ -50,15 +58,6 @@
 	<array>
 		<string>arm64</string>
 	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-  		<string>metamask</string>
-  		<string>trust</string>
-  		<string>safe</string>
-  		<string>rainbow</string>
-		<string>about:srcdoc</string>
-  		<!-- Add other wallet schemes names here -->
-	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -71,6 +70,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-
 </dict>
 </plist>

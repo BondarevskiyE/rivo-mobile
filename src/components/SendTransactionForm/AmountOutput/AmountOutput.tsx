@@ -1,4 +1,3 @@
-import {formatThousandSeparator} from '@/shared/lib/format';
 import React, {useEffect} from 'react';
 import {View, Text, Pressable, StyleSheet} from 'react-native';
 import Animated, {
@@ -14,6 +13,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import {formatThousandSeparator} from '@/shared/lib/format';
 import {getInputFontSize, getTextSignPositionStyles} from '../helpers';
 import {Colors, Fonts} from '@/shared/ui';
 import {

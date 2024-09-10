@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import * as RootNavigation from '@/navigation/RootNavigation';
 
+import * as RootNavigation from '@/navigation/RootNavigation';
 import {CheckShieldIcon, CloseIcon, ArrowLineIcon} from '@/shared/ui/icons';
 import {Colors, Fonts} from '@/shared/ui';
 import {MenuButton} from '../MenuButton';

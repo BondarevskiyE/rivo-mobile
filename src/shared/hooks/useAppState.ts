@@ -1,3 +1,4 @@
+import {useSettingsStore} from '@/store/useSettingsStore';
 import {useState, useEffect} from 'react';
 import {AppState, AppStateStatus, Platform} from 'react-native';
 
@@ -13,6 +14,9 @@ export function useAppState(settings?: Params) {
     AppState.currentState,
   );
 
+  // is is here to prevent passcode screen when we ask on android
+  const isSystemAlertOpen = useSettingsStore(state => state.isSystemAlertOpen);
+
   useEffect(() => {
     function handleAppStateChange(nextAppState: AppStateStatus) {
       if (nextAppState === 'active' && appState !== 'active') {
@@ -20,13 +24,15 @@ export function useAppState(settings?: Params) {
       } else if (
         Platform.OS === 'android' &&
         appState === 'active' &&
-        nextAppState.match(/inactive|background/)
+        nextAppState.match(/inactive|background/) &&
+        !isSystemAlertOpen
       ) {
         isValidFunction(onBackground) && onBackground?.();
       } else if (
         Platform.OS === 'ios' &&
         appState === 'inactive' &&
-        nextAppState.match(/background/)
+        nextAppState.match(/background/) &&
+        !isSystemAlertOpen
       ) {
         isValidFunction(onBackground) && onBackground?.();
       }
@@ -39,7 +45,7 @@ export function useAppState(settings?: Params) {
     );
 
     return () => appStateSubscription.remove();
-  }, [onChange, onForeground, onBackground, appState]);
+  }, [onChange, onForeground, onBackground, appState, isSystemAlertOpen]);
 
   // settings validation
   function isValidFunction(func?: (params: any) => any) {

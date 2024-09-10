@@ -59,6 +59,16 @@ export const useFetchChart = ({
     }
 
     if (type === 'balance') {
+      // the last balance. indexBalance is loaded by forcing from blockchain so it is the actual balance
+      const lastPriceChartDot = {
+        balance: indexBalance.usd,
+        date: (new Date().getTime() / 1000).toString(),
+        want_tokens: indexBalance.token,
+      };
+
+      // while we load chartData we need to show the last balance
+      setData(formatChartData([lastPriceChartDot], type));
+
       chartData = await getChartVaultBalance(userAddress, vaultAddress, period);
       if (
         formatNumber(
@@ -67,11 +77,7 @@ export const useFetchChart = ({
           '',
         ) !== formatNumber(indexBalance.usd, 7, '')
       ) {
-        chartData?.push({
-          balance: indexBalance.usd,
-          date: (new Date().getTime() / 1000).toString(),
-          want_tokens: indexBalance.token,
-        });
+        chartData?.push(lastPriceChartDot);
       }
     }
 

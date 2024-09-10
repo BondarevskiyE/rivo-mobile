@@ -1,0 +1,1 @@
+export {SettingsMenuScreen} from './SettingsMenuScreen';

@@ -1,5 +1,3 @@
-import {Colors, Fonts} from '@/shared/ui';
-import {DiogonalArrowIcon} from '@/shared/ui/icons';
 import React from 'react';
 import {
   StyleSheet,
@@ -10,6 +8,9 @@ import {
   Pressable,
   Image,
 } from 'react-native';
+
+import {Colors, Fonts} from '@/shared/ui';
+import {DiogonalArrowIcon} from '@/shared/ui/icons';
 
 interface Props {
   url: string;
@@ -25,8 +26,8 @@ export const ExternalLinkTag: React.FC<Props> = ({
   style = {},
 }) => {
   const onPress = () =>
-    Linking.canOpenURL(url).then(() => {
-      Linking.openURL(url);
+    Linking.canOpenURL(url).then(supported => {
+      supported && Linking.openURL(url);
     });
 
   return (

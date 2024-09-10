@@ -1,6 +1,6 @@
 import {Colors, Fonts} from '@/shared/ui';
 import {usePointsStore} from '@/store/usePointsStore';
-import React from 'react';
+
 import {StyleSheet, Text, View} from 'react-native';
 
 export const PointsCounter = () => {

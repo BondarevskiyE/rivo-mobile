@@ -1,4 +1,3 @@
-import {Colors} from '@/shared/ui';
 import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import Animated, {
@@ -8,6 +7,8 @@ import Animated, {
   withRepeat,
   withTiming,
 } from 'react-native-reanimated';
+
+import {Colors} from '@/shared/ui';
 
 interface Props {
   isActive: boolean;

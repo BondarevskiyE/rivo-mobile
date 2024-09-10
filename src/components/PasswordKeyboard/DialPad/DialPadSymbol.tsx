@@ -1,7 +1,8 @@
-import {DeleteSymbolIcon, FaceIdIcon, ExitIcon} from '@/shared/ui/icons';
 import React from 'react';
 import {Pressable, Text, Dimensions} from 'react-native';
 import Animated from 'react-native-reanimated';
+
+import { DeleteSymbolIcon, FaceIdIcon, ExitIcon } from '@/shared/ui/icons';
 import {useDialPadSymbolAnimation} from './hooks';
 
 interface Props {

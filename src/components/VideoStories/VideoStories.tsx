@@ -3,8 +3,9 @@ import {View} from 'react-native';
 import InstagramStories, {
   InstagramStoriesPublicMethods,
 } from '@birdwingo/react-native-instagram-stories';
-import {Colors} from '@/shared/ui';
 import {InstagramStoryProps} from '@birdwingo/react-native-instagram-stories/src/core/dto/instagramStoriesDTO';
+
+import {Colors} from '@/shared/ui';
 
 // const {height, width} = Dimensions.get('window');
 interface Props {

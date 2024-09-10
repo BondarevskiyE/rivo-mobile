@@ -6,14 +6,14 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from 'react-native-reanimated';
+import {isAddress} from 'viem';
+import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {Button} from '@/components/general';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import {ScanIcon} from '@/shared/ui/icons/ScanIcon';
 import {shortenAddress} from '@/shared/lib/format';
-import {isAddress} from 'viem';
-import LinearGradient from 'react-native-linear-gradient';
 import {CameraScanner} from '@/components/CameraScanner';
 
 const addressPlaceholder = 'Arbitrum address';

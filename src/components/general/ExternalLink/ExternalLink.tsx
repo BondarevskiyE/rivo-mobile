@@ -9,8 +9,8 @@ interface Props {
 
 export const ExternalLink: React.FC<Props> = ({url, children, style = {}}) => {
   const onPress = () =>
-    Linking.canOpenURL(url).then(() => {
-      Linking.openURL(url);
+    Linking.canOpenURL(url).then(supported => {
+      supported && Linking.openURL(url);
     });
 
   return (

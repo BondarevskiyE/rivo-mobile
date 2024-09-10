@@ -1,4 +1,4 @@
-import {useRef, createRef, useState} from 'react';
+import React, {useRef, createRef, useState} from 'react';
 import {Dimensions, LayoutChangeEvent, ScrollView, View} from 'react-native';
 import {useHighlightableElements} from 'react-native-highlight-overlay';
 import {HighlightOptions} from 'react-native-highlight-overlay/lib/typescript/context/context';

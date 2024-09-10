@@ -1,0 +1,1 @@
+export {AboutRivoScreen} from './AboutRivoScreen';

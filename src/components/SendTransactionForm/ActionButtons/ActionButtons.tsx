@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
 import {StyleSheet} from 'react-native';
-import {BIOMETRY_TYPE} from 'react-native-keychain';
-
-import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
-import {getActionButtonText, getAdditionalButtonText} from '../helpers';
-import {Colors, Fonts} from '@/shared/ui';
-import {SEND_TRANSACTION_FORM_TYPE, TRANSACTION_STATUS} from '../types';
+import { BIOMETRY_TYPE } from 'react-native-keychain';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+
+import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
+import {getActionButtonText, getAdditionalButtonText} from '../helpers';
+import {Colors, Fonts} from '@/shared/ui';
+import {SEND_TRANSACTION_FORM_TYPE, TRANSACTION_STATUS} from '../types';
+
 
 const BUTTON_HEIGHT = 56;
 const BUTTONS_GAP = 12;
