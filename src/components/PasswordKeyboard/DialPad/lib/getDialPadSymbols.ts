@@ -1,9 +1,25 @@
+import {BIOMETRY_TYPE} from 'react-native-keychain';
+
+import {isFaceBiometry} from '@/services/keychain';
+
 interface Params {
   withBiometry: boolean;
   withExit: boolean;
+  biometryType: BIOMETRY_TYPE | null;
 }
 
-export const getDialPadSymbols = ({withBiometry, withExit}: Params) => {
+export const getDialPadSymbols = ({
+  withBiometry,
+  withExit,
+  biometryType,
+}: Params) => {
+  const getLastKeySymbol = () => {
+    if (withBiometry && biometryType) {
+      return isFaceBiometry(biometryType) ? 'faceId' : 'touchId';
+    }
+    return 'del';
+  };
+
   const dialPadSymbols = [
     '1',
     '2',
@@ -18,7 +34,7 @@ export const getDialPadSymbols = ({withBiometry, withExit}: Params) => {
     withExit ? 'exit' : '',
     '0',
     // show biometry icons if needed
-    withBiometry ? 'biometry' : 'del',
+    getLastKeySymbol(),
   ];
   return dialPadSymbols;
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import { LOGIN_PROVIDER } from '@web3auth/react-native-sdk';
+import {LOGIN_PROVIDER} from '@web3auth/react-native-sdk';
 import {StackScreenProps} from '@react-navigation/stack';
 
 import {authSliderData} from '@/shared/config';
@@ -9,6 +9,7 @@ import {useLoginStore} from '@/store/useLoginStore';
 import {Colors, Fonts} from '@/shared/ui';
 
 import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
+import {PrivacyPolicyUrl, TermsOfUseUrl} from '@/shared/constants/links';
 
 type Props = StackScreenProps<AuthStackProps, AUTH_SCREENS.LOGIN>;
 
@@ -32,15 +33,11 @@ export const LoginScreen: React.FC<Props> = () => {
           />
           <Text style={styles.captionText}>
             By continuing you agree to{' '}
-            <ExternalLink
-              url="https://www.rivo.xyz/terms-of-use"
-              style={styles.externalLink}>
+            <ExternalLink url={TermsOfUseUrl} style={styles.externalLink}>
               Terms of Use
             </ExternalLink>{' '}
             and{' '}
-            <ExternalLink
-              url="https://www.rivo.xyz/privacy-notice"
-              style={styles.externalLink}>
+            <ExternalLink url={PrivacyPolicyUrl} style={styles.externalLink}>
               Privacy Policy
             </ExternalLink>
           </Text>

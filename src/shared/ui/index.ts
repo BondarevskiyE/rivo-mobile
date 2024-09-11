@@ -16,6 +16,7 @@ export const Colors = {
   ui_grey_04: '#f1eeef',
   ui_grey_05: '#F2F2F2',
   ui_grey_06: '#f5f5f5',
+  ui_grey_065: '#ebedef',
   ui_grey_07: '#d7d9dd',
   ui_grey_10: '#DBDBDB',
   ui_grey_13: '#d9d9d9',

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {View, StyleSheet, Animated, Easing} from 'react-native';
 
 import {DialPad} from './DialPad';
@@ -37,7 +37,7 @@ export const PasswordKeyboard: React.FC<Props> = ({
       return;
     }
 
-    if (!!onClickBiometry && symbol === 'biometry') {
+    if (!!onClickBiometry && (symbol === 'faceId' || symbol === 'touchId')) {
       onClickBiometry();
       return;
     }

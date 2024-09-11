@@ -6,14 +6,18 @@ import {BIOMETRY_TYPE} from 'react-native-keychain';
 
 interface SettingsState {
   isBiometryEnabled: boolean;
+  // if it is null it is unsupported
   biometryType: BIOMETRY_TYPE | null;
   isNotificationsEnabled: boolean;
   isNotificationsDetermined: boolean;
+  isEmailNotificationsEnabled: boolean;
   isSystemAlertOpen: boolean;
   setIsSystemAlertOpen: (bool: boolean) => void;
   setIsNotificationsEnabled: (bool: boolean) => void;
   setIsNotificationsDetermined: (bool: boolean) => void;
-  setIsBiometryEnabled: (bool: boolean, type?: BIOMETRY_TYPE) => void;
+  setIsEmailNotificationsEnabled: (bool: boolean) => void;
+  setIsBiometryEnabled: (bool: boolean) => void;
+  setBiometryType: (type: BIOMETRY_TYPE | null) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -22,6 +26,7 @@ export const useSettingsStore = create<SettingsState>()(
       isBiometryEnabled: false,
       isNotificationsEnabled: false,
       isNotificationsDetermined: false,
+      isEmailNotificationsEnabled: true,
       biometryType: null,
       isSystemAlertOpen: false,
       setIsSystemAlertOpen: (bool: boolean) => set({isSystemAlertOpen: bool}),
@@ -29,8 +34,11 @@ export const useSettingsStore = create<SettingsState>()(
         set({isNotificationsEnabled: bool}),
       setIsNotificationsDetermined: (bool: boolean) =>
         set({isNotificationsDetermined: bool}),
-      setIsBiometryEnabled: (bool: boolean, type?: BIOMETRY_TYPE) =>
-        set({isBiometryEnabled: bool, biometryType: type || null}),
+      setIsEmailNotificationsEnabled: (bool: boolean) =>
+        set({isEmailNotificationsEnabled: bool}),
+      setIsBiometryEnabled: (bool: boolean) => set({isBiometryEnabled: bool}),
+      setBiometryType: (type: BIOMETRY_TYPE | null) =>
+        set({biometryType: type}),
     }),
     {
       name: 'settings-store',
@@ -40,6 +48,7 @@ export const useSettingsStore = create<SettingsState>()(
         biometryType: state.biometryType,
         isNotificationsEnabled: state.isNotificationsEnabled,
         isNotificationsDetermined: state.isNotificationsDetermined,
+        isEmailNotificationsEnabled: state.isEmailNotificationsEnabled,
       }),
     },
   ),

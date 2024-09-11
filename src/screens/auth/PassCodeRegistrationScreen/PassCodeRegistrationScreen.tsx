@@ -41,6 +41,8 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
     state => state.setIsBiometryEnabled,
   );
 
+  const setBiometryType = useSettingsStore(state => state.setBiometryType);
+
   const onPinCodeFulfilled = async (pinCode: string) => {
     if (!isRepeating) {
       setStoredPassCode(pinCode);
@@ -66,6 +68,8 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
     if (isPassCodesMatch) {
       const biometryType = await getBiometrySupportedType();
 
+      setBiometryType(biometryType || null);
+
       if (biometryType) {
         const isBiometryEnabled = await AsyncAlert({
           title: `Enable ${biometryType}?`,
@@ -74,7 +78,7 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
           rejectButtonText: "Don't Allow",
         });
 
-        setIsBiometryEnabled(isBiometryEnabled, biometryType);
+        setIsBiometryEnabled(isBiometryEnabled);
 
         if (isBiometryEnabled) {
           await saveCredentialsWithBiometry(user?.email, pinCode);
@@ -140,27 +144,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 60,
     color: Colors.ui_black,
-  },
-  errorText: {
-    fontFamily: Fonts.semiBold,
-    fontSize: 16,
-    marginTop: 12,
-    color: Colors.error_red,
-  },
-  lowerBlock: {
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dotsContainer: {
-    flexDirection: 'row',
-    gap: 24,
-    height: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 60,
-  },
-  dot: {
-    borderRadius: 22,
-    backgroundColor: 'black',
   },
 });

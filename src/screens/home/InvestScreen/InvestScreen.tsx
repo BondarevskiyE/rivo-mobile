@@ -44,6 +44,7 @@ export const InvestScreen: React.FC<Props> = ({route, navigation}) => {
       <SendTransactionForm
         formType={SEND_TRANSACTION_FORM_TYPE.INVEST}
         balance={cashAccountBalance}
+        apy={vaultByAddress.apy}
         chain={chainsMap[chain.id]}
         onSendTransaction={onSendTransaction}
         onCloseForm={onClose}

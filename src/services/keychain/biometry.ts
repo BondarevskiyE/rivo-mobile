@@ -5,6 +5,7 @@ export const KEYCHAIN_BIOMETRY_SERVICE_NAME = 'biometry-pincode';
 export const getBiometrySupportedType = async () => {
   try {
     const biometryType = await Keychain.getSupportedBiometryType();
+
     return biometryType;
   } catch (error) {
     return false;

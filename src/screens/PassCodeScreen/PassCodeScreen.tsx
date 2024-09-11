@@ -81,9 +81,9 @@ export const PassCodeScreen: React.FC = () => {
   };
 
   useEffect(() => {
-    // if user open the app after collapsing we need to try to pass through biometry if it is enabled
+    // if user open the app after collapsing we need to try to pass with biometry if it is enabled
     // isBiometryTried is true only if user already tried to pass
-    // appState === 'active' only when user open app after collapsing
+    // appState === 'active' only when user open the app after collapsing
     if (isBiometryEnabled && appState === 'active' && !isBiometryTried) {
       onClickBiometry();
       setIsBiometryTried(true);

@@ -6,6 +6,7 @@ import {SettingsMenuScreen} from '@/screens/profile/SettingsMenuScreen';
 import {HelpAndSupportScreen} from '@/screens/profile/HelpAndSupportScreen';
 import {moveBottomToTop} from './StyleInterpolators';
 import {AboutRivoScreen} from '@/screens/profile/AboutRivoScreen';
+import {ChangePasscodeScreen} from '@/screens/profile/ChangePasscodeScreen';
 
 const Stack = createStackNavigator<ProfileStackProps>();
 
@@ -54,6 +55,13 @@ export const ProfileStack = () => {
       <Stack.Screen
         name={PROFILE_SCREENS.ABOUT_RIVO}
         component={AboutRivoScreen}
+        options={{
+          ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name={PROFILE_SCREENS.CHANGE_PASSCODE}
+        component={ChangePasscodeScreen}
         options={{
           ...TransitionPresets.SlideFromRightIOS,
         }}

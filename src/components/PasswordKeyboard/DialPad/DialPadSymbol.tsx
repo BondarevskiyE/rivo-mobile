@@ -2,8 +2,9 @@ import React from 'react';
 import {Pressable, Text, Dimensions} from 'react-native';
 import Animated from 'react-native-reanimated';
 
-import { DeleteSymbolIcon, FaceIdIcon, ExitIcon } from '@/shared/ui/icons';
+import {DeleteSymbolIcon, FaceIdIcon, ExitIcon} from '@/shared/ui/icons';
 import {useDialPadSymbolAnimation} from './hooks';
+import {TouchIdIcon} from '@/shared/ui/icons/TouchIdIcon';
 
 interface Props {
   onPress: (symbol: string) => void;
@@ -16,8 +17,10 @@ const getSymbolElement = (symbolName: string) => {
       return <DeleteSymbolIcon />;
     case 'exit':
       return <ExitIcon />;
-    case 'biometry':
+    case 'faceId':
       return <FaceIdIcon />;
+    case 'touchId':
+      return <TouchIdIcon />;
     case '':
       return null;
     default:
@@ -39,6 +42,7 @@ const dialPadSize = width * 0.2;
 
 export const DialPadSymbol: React.FC<Props> = ({onPress, symbol}) => {
   const {pressIn, pressOut, styles} = useDialPadSymbolAnimation();
+
   return (
     <Pressable
       onPress={() => onPress(symbol)}

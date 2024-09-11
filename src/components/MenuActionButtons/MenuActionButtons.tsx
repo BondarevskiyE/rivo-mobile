@@ -1,10 +1,10 @@
 import {StyleSheet, View} from 'react-native';
 
-import {ActionMenuButton, ButtonType} from './types';
+import {ActionMenuButton} from './types';
 import {ActionButton} from './ActionButton';
 
 interface Props {
-  buttonsData: ActionMenuButton<ButtonType>[];
+  buttonsData: ActionMenuButton[];
 }
 
 export const MenuActionButtons: React.FC<Props> = ({buttonsData}) => {
@@ -15,10 +15,7 @@ export const MenuActionButtons: React.FC<Props> = ({buttonsData}) => {
 
         return (
           <ActionButton
-            Icon={button.Icon}
-            title={button.title}
-            type={button.type}
-            action={button.action}
+            button={button}
             isLastItem={isLastItem}
             key={button.title?.toString()}
           />

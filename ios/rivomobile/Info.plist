@@ -29,6 +29,8 @@
 		<string>safe</string>
 		<string>rainbow</string>
 		<string>about:srcdoc</string>
+		<string>twitter</string>
+		<string>tg</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

@@ -1,8 +1,8 @@
-
 import {FlatList, StyleSheet, View} from 'react-native';
 
 import {DialPadSymbol} from './DialPadSymbol';
 import {getDialPadSymbols} from './lib';
+import {useSettingsStore} from '@/store/useSettingsStore';
 
 interface Props {
   onPress: (symbol: string | number) => void;
@@ -15,7 +15,14 @@ export const DialPad = ({
   withBiometry = false,
   withExit = false,
 }: Props) => {
-  const dialPadSymbols = getDialPadSymbols({withBiometry, withExit});
+  const biometryType = useSettingsStore(state => state.biometryType);
+
+  const dialPadSymbols = getDialPadSymbols({
+    withBiometry,
+    withExit,
+    biometryType,
+  });
+
   return (
     <View style={styles.container}>
       <FlatList
