@@ -9,12 +9,10 @@ interface SettingsState {
   // if it is null it is unsupported
   biometryType: BIOMETRY_TYPE | null;
   isNotificationsEnabled: boolean;
-  isNotificationsDetermined: boolean;
   isEmailNotificationsEnabled: boolean;
   isSystemAlertOpen: boolean;
   setIsSystemAlertOpen: (bool: boolean) => void;
   setIsNotificationsEnabled: (bool: boolean) => void;
-  setIsNotificationsDetermined: (bool: boolean) => void;
   setIsEmailNotificationsEnabled: (bool: boolean) => void;
   setIsBiometryEnabled: (bool: boolean) => void;
   setBiometryType: (type: BIOMETRY_TYPE | null) => void;
@@ -25,15 +23,12 @@ export const useSettingsStore = create<SettingsState>()(
     set => ({
       isBiometryEnabled: false,
       isNotificationsEnabled: false,
-      isNotificationsDetermined: false,
       isEmailNotificationsEnabled: true,
       biometryType: null,
       isSystemAlertOpen: false,
       setIsSystemAlertOpen: (bool: boolean) => set({isSystemAlertOpen: bool}),
       setIsNotificationsEnabled: (bool: boolean) =>
         set({isNotificationsEnabled: bool}),
-      setIsNotificationsDetermined: (bool: boolean) =>
-        set({isNotificationsDetermined: bool}),
       setIsEmailNotificationsEnabled: (bool: boolean) =>
         set({isEmailNotificationsEnabled: bool}),
       setIsBiometryEnabled: (bool: boolean) => set({isBiometryEnabled: bool}),
@@ -47,7 +42,6 @@ export const useSettingsStore = create<SettingsState>()(
         isBiometryEnabled: state.isBiometryEnabled,
         biometryType: state.biometryType,
         isNotificationsEnabled: state.isNotificationsEnabled,
-        isNotificationsDetermined: state.isNotificationsDetermined,
         isEmailNotificationsEnabled: state.isEmailNotificationsEnabled,
       }),
     },

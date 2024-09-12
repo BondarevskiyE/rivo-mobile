@@ -27,6 +27,7 @@ export const DialPad = ({
     <View style={styles.container}>
       <FlatList
         data={dialPadSymbols}
+        showsVerticalScrollIndicator={false}
         numColumns={3}
         style={styles.list}
         keyExtractor={(_, index) => index.toString()}

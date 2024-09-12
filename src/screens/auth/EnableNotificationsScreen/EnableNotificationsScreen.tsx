@@ -1,6 +1,6 @@
 import React from 'react';
-import notifee, { AuthorizationStatus } from '@notifee/react-native';
-import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
+import {RESULTS} from 'react-native-permissions';
+import {StyleSheet, Text, View, Dimensions, Image, Alert} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {Colors, Fonts, Images} from '@/shared/ui';
@@ -10,6 +10,7 @@ import {useSettingsStore} from '@/store/useSettingsStore';
 import {useUserStore} from '@/store/useUserStore';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
+import {EPermissionTypes, usePermissions} from '@/shared/hooks/usePermissions';
 
 type Props = StackScreenProps<
   AuthStackProps,
@@ -25,18 +26,37 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
 
   const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
 
+  const {askPermissions} = usePermissions(EPermissionTypes.PUSH_NOTIFICATIONS);
+
   const onClickEnableNotifications = async () => {
-    const notificationsPermisions = await notifee.requestPermission();
-
-    const isAuthorized =
-      notificationsPermisions.authorizationStatus ===
-      AuthorizationStatus.AUTHORIZED;
-
-    if (isAuthorized) {
-      setIsNotificationsEnabled(true);
-    }
-
-    setIsloggedIn(true);
+    askPermissions()
+      .then(status => {
+        if (
+          status.type === RESULTS.LIMITED ||
+          status.type === RESULTS.GRANTED
+        ) {
+          // turn on internal state isNotificationsEnabled
+          setIsNotificationsEnabled(true);
+        }
+      })
+      .catch(error => {
+        if ('isError' in error && error.isError) {
+          Alert.alert(
+            error.errorMessage ||
+              'Something went wrong while taking notifications permission',
+          );
+        }
+        if ('type' in error) {
+          if (error.type === RESULTS.BLOCKED || error.type === RESULTS.DENIED) {
+            // turn off internal state isNotificationsEnabled if it not the first entering
+            setIsNotificationsEnabled(false);
+          }
+        }
+      })
+      .finally(() => {
+        // pass the user in the app in any way
+        setIsloggedIn(true);
+      });
   };
 
   const onFinishRegistration = () => {

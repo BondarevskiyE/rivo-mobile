@@ -5,10 +5,7 @@ import PolyfillCrypto from 'react-native-webview-crypto';
 import Routes from '@/navigation';
 import {Colors} from '@/shared/ui';
 import {useAppState} from '@/shared/hooks';
-import {
-  checkNotificationPermissions,
-  registerForegroundService,
-} from '@/services/notifee';
+import {registerForegroundService} from '@/services/notifee';
 import {Providers} from '@/Providers';
 import Modal from '@/modal-manager';
 import {useAppStore} from '@/store/useAppStore';
@@ -63,7 +60,6 @@ export const App = () => {
 
   const initializeApp = async () => {
     registerForegroundService();
-    checkNotificationPermissions();
     await reconnectZeroDev();
   };
 

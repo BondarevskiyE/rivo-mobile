@@ -1,20 +1,27 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, Text, Alert} from 'react-native';
+import {RESULTS} from 'react-native-permissions';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {useLoginStore} from '@/store/useLoginStore';
 import {useUserStore} from '@/store/useUserStore';
-import {PasswordKeyboard, AsyncAlert} from '@/components';
+import {PasswordKeyboard} from '@/components';
 import {PINCODE_LENGTH} from '@/shared/constants';
 import {
   saveCredentialsWithBiometry,
   saveCredentialsWithPassword,
   getBiometrySupportedType,
-  getCredentialsWithBiometry,
 } from '@/services/keychain';
 import {useSettingsStore} from '@/store/useSettingsStore';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AuthStackProps, AUTH_SCREENS} from '@/navigation/types/authStack';
+import {EPermissionTypes, usePermissions} from '@/shared/hooks/usePermissions';
+import {getPasscodeFormText} from './helpers';
+
+export enum REGISTER_PASSCODE_STEPS {
+  ENTER_PASSCODE,
+  REPEAT_PASSCODE,
+}
 
 type Props = StackScreenProps<
   AuthStackProps,
@@ -23,99 +30,107 @@ type Props = StackScreenProps<
 
 export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
   const [storedPassCode, setStoredPassCode] = useState<string>('');
-  const [isRepeating, setIsRepeating] = useState<boolean>(false);
+
+  const [step, setStep] = useState<REGISTER_PASSCODE_STEPS>(
+    REGISTER_PASSCODE_STEPS.ENTER_PASSCODE,
+  );
+
   const [attemptCounter, setAttemptCounter] = useState<number>(1);
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
-  const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
-
-  const isNotificationsDetermined = useSettingsStore(
-    state => state.isNotificationsDetermined,
-  );
 
   const setIsPassCodeEntered = useLoginStore(
     state => state.setIsPassCodeEntered,
   );
-  const setIsBiometryEnabled = useSettingsStore(
-    state => state.setIsBiometryEnabled,
-  );
+  const {setIsBiometryEnabled, setBiometryType} = useSettingsStore(state => ({
+    setIsBiometryEnabled: state.setIsBiometryEnabled,
+    setBiometryType: state.setBiometryType,
+  }));
 
-  const setBiometryType = useSettingsStore(state => state.setBiometryType);
+  const {askPermissions} = usePermissions(EPermissionTypes.BIOMETRY);
 
   const onPinCodeFulfilled = async (pinCode: string) => {
-    if (!isRepeating) {
-      setStoredPassCode(pinCode);
-      setIsRepeating(true);
-      return;
-    }
-
-    // unachievable, here just for ocassion when user cannot sign up
-    if (!user?.email) {
-      Alert.alert('login error', 'You need to login again', [
-        {
-          text: 'OK',
-          onPress: () => {
-            navigation.navigate(AUTH_SCREENS.LOGIN);
-          },
-        },
-      ]);
-      return;
-    }
-
-    const isPassCodesMatch = pinCode === storedPassCode;
-
-    if (isPassCodesMatch) {
-      const biometryType = await getBiometrySupportedType();
-
-      setBiometryType(biometryType || null);
-
-      if (biometryType) {
-        const isBiometryEnabled = await AsyncAlert({
-          title: `Enable ${biometryType}?`,
-          message: 'Short and complete sentence',
-          resolveButtonText: 'Allow',
-          rejectButtonText: "Don't Allow",
-        });
-
-        setIsBiometryEnabled(isBiometryEnabled);
-
-        if (isBiometryEnabled) {
-          await saveCredentialsWithBiometry(user?.email, pinCode);
-
-          await getCredentialsWithBiometry();
+    switch (step) {
+      case REGISTER_PASSCODE_STEPS.ENTER_PASSCODE: {
+        setStoredPassCode(pinCode);
+        setStep(REGISTER_PASSCODE_STEPS.REPEAT_PASSCODE);
+        break;
+      }
+      case REGISTER_PASSCODE_STEPS.REPEAT_PASSCODE: {
+        if (!user?.email) {
+          Alert.alert('login error', 'You need to login again', [
+            {
+              text: 'OK',
+              onPress: () => {
+                navigation.navigate(AUTH_SCREENS.LOGIN);
+              },
+            },
+          ]);
+          return;
         }
+
+        const isPassCodesMatch = pinCode === storedPassCode;
+
+        if (!isPassCodesMatch) {
+          setAttemptCounter(prev => prev + 1);
+          setIsError(true);
+
+          setTimeout(() => {
+            setIsError(false);
+            if (attemptCounter === 3) {
+              setStoredPassCode('');
+              setAttemptCounter(1);
+              setStep(REGISTER_PASSCODE_STEPS.ENTER_PASSCODE);
+            }
+          }, 1500);
+          return;
+        }
+
+        const biometryType = await getBiometrySupportedType();
+
+        setBiometryType(biometryType || null);
+
+        if (biometryType) {
+          await askPermissions()
+            .then(status => {
+              if (
+                status.type === RESULTS.LIMITED ||
+                status.type === RESULTS.GRANTED
+              ) {
+                // turn on internal state isBiometryEnabled
+                setIsBiometryEnabled(true);
+                saveCredentialsWithBiometry(user?.email, pinCode);
+              }
+            })
+            .catch(error => {
+              if ('isError' in error && error.isError) {
+                Alert.alert(
+                  error.errorMessage ||
+                    'Something went wrong while taking notifications permission',
+                );
+              }
+              if ('type' in error) {
+                if (
+                  error.type === RESULTS.BLOCKED ||
+                  error.type === RESULTS.DENIED
+                ) {
+                  // turn off internal state isBiometryEnabled if it not the first entering
+                  setIsBiometryEnabled(false);
+                }
+              }
+            });
+        }
+        await saveCredentialsWithPassword(user?.email, pinCode);
+
+        setIsPassCodeEntered(true);
+
+        navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
       }
-      await saveCredentialsWithPassword(user?.email, pinCode);
-
-      setIsPassCodeEntered(true);
-
-      if (isNotificationsDetermined) {
-        setIsloggedIn(true);
-        return;
-      }
-
-      navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
-
-      return;
     }
-
-    setAttemptCounter(prev => prev + 1);
-    setIsError(true);
-
-    setTimeout(() => {
-      setIsError(false);
-      if (attemptCounter === 3) {
-        setIsRepeating(false);
-        setStoredPassCode('');
-        setAttemptCounter(1);
-      }
-    }, 1500);
   };
 
-  const titleText = isRepeating
-    ? 'Repeat your passcode'
-    : 'Now let’s set up a passcode';
+  const titleText = getPasscodeFormText(step);
 
   return (
     <View style={styles.container}>

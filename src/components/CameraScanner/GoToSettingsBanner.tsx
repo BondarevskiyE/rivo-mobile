@@ -1,10 +1,9 @@
-
 import {StyleSheet, Text, View} from 'react-native';
+import {openSettings} from 'react-native-permissions';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {ScanIcon} from '@/shared/ui/icons/ScanIcon';
 import {Button} from '../general';
-import {goToSettings} from '@/shared/helpers/linking';
 import {BUTTON_TYPE} from '../general/Button/Button';
 
 export const GoToSettingsBanner = () => {
@@ -19,7 +18,7 @@ export const GoToSettingsBanner = () => {
       <View style={styles.buttonContainer}>
         <Button
           text="Open settings"
-          onPress={goToSettings}
+          onPress={openSettings}
           type={BUTTON_TYPE.ACTION_SECONDARY}
           style={styles.button}
           textStyle={styles.buttonText}

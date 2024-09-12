@@ -1,5 +1,12 @@
 import {useCallback} from 'react';
-import {PERMISSIONS, RESULTS, request} from 'react-native-permissions';
+import {
+  NotificationsResponse,
+  PERMISSIONS,
+  PermissionStatus,
+  RESULTS,
+  request,
+  requestNotifications,
+} from 'react-native-permissions';
 import {isIos, isAndroid} from '../helpers/system';
 import {useSettingsStore} from '@/store/useSettingsStore';
 
@@ -9,8 +16,16 @@ export type TUsePermissionsReturnType = {
   errorMessage?: string;
 };
 
+function isPushNotificationsResponse(
+  response: NotificationsResponse | PermissionStatus,
+): response is NotificationsResponse {
+  return typeof response === 'object' && !!response.status;
+}
+
 export enum EPermissionTypes {
   CAMERA = 'camera',
+  BIOMETRY = 'biometry',
+  PUSH_NOTIFICATIONS = 'push_notifications',
 }
 
 export const usePermissions = (typeOfPermission: EPermissionTypes) => {
@@ -30,8 +45,11 @@ export const usePermissions = (typeOfPermission: EPermissionTypes) => {
       switch (typeOfPermission) {
         case EPermissionTypes.CAMERA:
           return PERMISSIONS.IOS.CAMERA;
-        default:
-          return PERMISSIONS.IOS.CAMERA;
+        case EPermissionTypes.BIOMETRY:
+          return PERMISSIONS.IOS.FACE_ID;
+        // there is independent method for requesting push notifications access
+        case EPermissionTypes.PUSH_NOTIFICATIONS:
+          return typeOfPermission;
       }
     }
 
@@ -39,8 +57,11 @@ export const usePermissions = (typeOfPermission: EPermissionTypes) => {
       switch (typeOfPermission) {
         case EPermissionTypes.CAMERA:
           return PERMISSIONS.ANDROID.CAMERA;
-        default:
-          return PERMISSIONS.ANDROID.CAMERA;
+        case EPermissionTypes.BIOMETRY:
+          return PERMISSIONS.ANDROID.BODY_SENSORS;
+        // there is an independent method for requesting push notifications access
+        case EPermissionTypes.PUSH_NOTIFICATIONS:
+          return typeOfPermission;
       }
     }
 
@@ -55,10 +76,22 @@ export const usePermissions = (typeOfPermission: EPermissionTypes) => {
         //ask permissions from user
         //if error present, return error
         try {
-          await request(getPermission()).then(result => {
+          const permissionType = getPermission();
+
+          const requestPromise =
+            permissionType === EPermissionTypes.PUSH_NOTIFICATIONS
+              ? // there is independent method for requesting push notifications access
+                requestNotifications(['alert', 'badge', 'sound'])
+              : request(permissionType);
+
+          await requestPromise.then(result => {
             setIsSystemAlertOpen(false);
 
-            switch (result) {
+            const status = isPushNotificationsResponse(result)
+              ? result.status
+              : result;
+
+            switch (status) {
               case RESULTS.UNAVAILABLE:
                 return reject({
                   type: RESULTS.UNAVAILABLE,

@@ -28,6 +28,7 @@ export const ProfileStack = () => {
         name={PROFILE_SCREENS.SETTINGS_MENU}
         component={SettingsMenuScreen}
         options={{
+          gestureEnabled: true,
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />
@@ -56,6 +57,7 @@ export const ProfileStack = () => {
         name={PROFILE_SCREENS.ABOUT_RIVO}
         component={AboutRivoScreen}
         options={{
+          gestureEnabled: true,
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />
