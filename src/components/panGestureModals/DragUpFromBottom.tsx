@@ -26,6 +26,7 @@ type DragUpFromBottomProps = {
   initialTranslateY?: number;
   translateYOffset?: number;
   dragAnimationValue?: SharedValue<number>;
+  hideDragLine?: boolean;
 };
 
 export type DragUpFromBottomRefProps = {
@@ -38,7 +39,13 @@ export const DragUpFromBottom = React.forwardRef<
   DragUpFromBottomProps
 >(
   (
-    {children, initialTranslateY = 0, translateYOffset, dragAnimationValue},
+    {
+      children,
+      initialTranslateY = 0,
+      translateYOffset,
+      dragAnimationValue,
+      hideDragLine,
+    },
     ref,
   ) => {
     const [initialYCoordinate, setInitialYCoordinate] = useState(0);
@@ -189,9 +196,11 @@ export const DragUpFromBottom = React.forwardRef<
         <ReAnimated.View
           style={[styles.bottomSheetContainer, rBottomSheetStyle]}
           onLayout={e => setInitialYCoordinate(e.nativeEvent.layout.y)}>
-          <Pressable onPress={onPressDragLine}>
-            <View style={styles.line} />
-          </Pressable>
+          {!hideDragLine && (
+            <Pressable onPress={onPressDragLine}>
+              <View style={styles.line} />
+            </Pressable>
+          )}
           <AScrollView
             ref={scrollRef}
             scrollEnabled={isScrollListEnabled}

@@ -41,7 +41,7 @@ export const PurchaseScreen: React.FC<Props> = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView>
         <View style={styles.headerContainer}>
           <Pressable onPress={onClose} style={styles.closeIconContainer}>
             <CloseIcon width={14} height={14} color={Colors.ui_white} />
@@ -53,7 +53,8 @@ export const PurchaseScreen: React.FC<Props> = ({navigation}) => {
           <DragUpFromBottom
             ref={dragBlockRef}
             initialTranslateY={INITIAL_TRANSLATE_Y}
-            translateYOffset={-SCREEN_HEIGHT + 15}>
+            translateYOffset={-SCREEN_HEIGHT + 15}
+            hideDragLine>
             <TransakWidget
               widgetHeight={
                 SCREEN_HEIGHT -

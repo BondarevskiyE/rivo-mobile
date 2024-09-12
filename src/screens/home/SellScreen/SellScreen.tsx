@@ -53,7 +53,8 @@ export const SellScreen: React.FC<Props> = ({navigation}) => {
           <DragUpFromBottom
             ref={dragBlockRef}
             initialTranslateY={INITIAL_TRANSLATE_Y}
-            translateYOffset={-SCREEN_HEIGHT + 15}>
+            translateYOffset={-SCREEN_HEIGHT + 15}
+            hideDragLine>
             <TransakWidget
               widgetHeight={
                 SCREEN_HEIGHT -
