@@ -2686,6 +2686,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-community/netinfo@npm:^11.3.2":
+  version: 11.3.2
+  resolution: "@react-native-community/netinfo@npm:11.3.2"
+  peerDependencies:
+    react-native: ">=0.59"
+  checksum: 6ec29c1305655f66267a026d3af970a71aa77193b6ed6e6538613334c0470f75ae9d6e3fd7ad40f75d618d6a59d9e14d4986625666d6227f7273f756809f39d3
+  languageName: node
+  linkType: hard
+
 "@react-native-masked-view/masked-view@npm:^0.3.1":
   version: 0.3.1
   resolution: "@react-native-masked-view/masked-view@npm:0.3.1"
@@ -3536,6 +3545,24 @@ __metadata:
     "@rollup/rollup-linux-x64-gnu":
       optional: true
   checksum: cd754433591977f661baddb31c020a6f08f361e59ff7997ab18aa3ac99a46fbe27092a72253ef954bbbce9cad370d767b59688e7b3b0784666ca3a4ba31a1d1e
+  languageName: node
+  linkType: hard
+
+"@transak/react-native-sdk@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "@transak/react-native-sdk@npm:2.0.3"
+  dependencies:
+    pako: ^2.1.0
+    pusher-js: ^8.3.0
+    query-string: ^8.2.0
+  peerDependencies:
+    "@react-native-community/netinfo": "*"
+    "@types/react": "*"
+    react: "*"
+    react-native: "*"
+    react-native-inappbrowser-reborn: "*"
+    react-native-webview: "*"
+  checksum: d56a9a5f07d33fbb9b6ffc262486a986cdbbdc7c164c8bb76741da55a3f8a768e52c09bbca9e12f583882358b19023666faca86b58ca135072502bc31a798c70
   languageName: node
   linkType: hard
 
@@ -6153,6 +6180,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"decode-uri-component@npm:^0.4.1":
+  version: 0.4.1
+  resolution: "decode-uri-component@npm:0.4.1"
+  checksum: 0473924860986fb6ca19ee65a2af13e08801b4f3660475b058500ea8479ed715c919884a026b6bf4296dbb640d3cea74fadf45490b2439152fc548271d0201ec
+  languageName: node
+  linkType: hard
+
 "dedent@npm:^1.0.0":
   version: 1.5.3
   resolution: "dedent@npm:1.5.3"
@@ -7159,6 +7193,13 @@ __metadata:
   version: 1.1.0
   resolution: "filter-obj@npm:1.1.0"
   checksum: cf2104a7c45ff48e7f505b78a3991c8f7f30f28bd8106ef582721f321f1c6277f7751aacd5d83026cb079d9d5091082f588d14a72e7c5d720ece79118fa61e10
+  languageName: node
+  linkType: hard
+
+"filter-obj@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "filter-obj@npm:5.1.0"
+  checksum: ba7c24d9b2c0552ee87d268e07eca74483af61fb740545ffa809f7e9e5294de38cf163ecc55af0e8a40020af9a49512c32f4022de2a858b110420fc8bffa7c9c
   languageName: node
   linkType: hard
 
@@ -10284,6 +10325,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"opencollective-postinstall@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "opencollective-postinstall@npm:2.0.3"
+  bin:
+    opencollective-postinstall: index.js
+  checksum: 0a68c5cef135e46d11e665d5077398285d1ce5311c948e8327b435791c409744d4a6bb9c55bd6507fb5f2ef34b0ad920565adcdaf974cbdae701aead6f32b396
+  languageName: node
+  linkType: hard
+
 "optionator@npm:^0.9.3":
   version: 0.9.4
   resolution: "optionator@npm:0.9.4"
@@ -10387,6 +10437,13 @@ __metadata:
   version: 1.0.0
   resolution: "package-json-from-dist@npm:1.0.0"
   checksum: ac706ec856a5a03f5261e4e48fa974f24feb044d51f84f8332e2af0af04fbdbdd5bbbfb9cbbe354190409bc8307c83a9e38c6672c3c8855f709afb0006a009ea
+  languageName: node
+  linkType: hard
+
+"pako@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "pako@npm:2.1.0"
+  checksum: 71666548644c9a4d056bcaba849ca6fd7242c6cf1af0646d3346f3079a1c7f4a66ffec6f7369ee0dc88f61926c10d6ab05da3e1fca44b83551839e89edd75a3e
   languageName: node
   linkType: hard
 
@@ -10760,6 +10817,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pusher-js@npm:^8.3.0":
+  version: 8.3.0
+  resolution: "pusher-js@npm:8.3.0"
+  dependencies:
+    tweetnacl: ^1.0.3
+  checksum: 4a8a8e2c3079724e1918bbe11b948fdf6ff27287be482f60df8ef78f8c8910f549dba0938eb0b3e3014612aeacf72cdcc13aead47176bf0d0754b81ea98747c5
+  languageName: node
+  linkType: hard
+
 "qrcode@npm:^1.5.1":
   version: 1.5.4
   resolution: "qrcode@npm:1.5.4"
@@ -10791,6 +10857,17 @@ __metadata:
     split-on-first: ^1.0.0
     strict-uri-encode: ^2.0.0
   checksum: 91af02dcd9cc9227a052841d5c2eecb80a0d6489d05625df506a097ef1c59037cfb5e907f39b84643cbfd535c955abec3e553d0130a7b510120c37d06e0f4346
+  languageName: node
+  linkType: hard
+
+"query-string@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "query-string@npm:8.2.0"
+  dependencies:
+    decode-uri-component: ^0.4.1
+    filter-obj: ^5.1.0
+    split-on-first: ^3.0.0
+  checksum: 3e1949e52b94636214303105ba33c03222f8d0bb12fc6cb22e2e2142946899644db8efef8531c0ddb90b065dd053c8a1f36cac9adcc46aa04c44f20d65844237
   languageName: node
   linkType: hard
 
@@ -11058,6 +11135,18 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: e1c76daf1b1e7a6302bb718bf224804ef193f94124c2278feccd546311571e50adb46ae318fcc664079c2d0e88bcec4d54ee2c1f72fad31d0b1a3aebd6ed97d3
+  languageName: node
+  linkType: hard
+
+"react-native-inappbrowser-reborn@npm:^3.7.0":
+  version: 3.7.0
+  resolution: "react-native-inappbrowser-reborn@npm:3.7.0"
+  dependencies:
+    invariant: ^2.2.4
+    opencollective-postinstall: ^2.0.3
+  peerDependencies:
+    react-native: ">=0.56"
+  checksum: b2177addf05cc02a20c5b9b8397c410ccf2fffba6baf1a49fbeb199ceaf4b9d4e959549915c5221f4345f35ec96620ecf25f650a5e268793103d95ffa7e44127
   languageName: node
   linkType: hard
 
@@ -11746,6 +11835,7 @@ __metadata:
     "@react-native-async-storage/async-storage": ^1.23.1
     "@react-native-clipboard/clipboard": ^1.14.1
     "@react-native-community/blur": ^4.4.0
+    "@react-native-community/netinfo": ^11.3.2
     "@react-native-masked-view/masked-view": ^0.3.1
     "@react-native/babel-preset": 0.74.84
     "@react-native/eslint-config": ^0.75.2
@@ -11759,6 +11849,7 @@ __metadata:
     "@tanstack/react-query": ^5.45.1
     "@tanstack/react-query-persist-client": ^5.45.1
     "@toruslabs/react-native-web-browser": ^1.1.0
+    "@transak/react-native-sdk": ^2.0.3
     "@types/d3": ^7.4.3
     "@types/react": ^18.2.6
     "@types/react-native-video": ^5.0.20
@@ -11804,6 +11895,7 @@ __metadata:
     react-native-graph: ^1.1.0
     react-native-highlight-overlay: ^1.4.0
     react-native-hole-view: ^3.0.0-alpha4
+    react-native-inappbrowser-reborn: ^3.7.0
     react-native-intersection-observer: ^0.2.0
     react-native-keychain: ^8.2.0
     react-native-linear-gradient: ^2.8.3
@@ -12247,6 +12339,13 @@ __metadata:
   version: 1.1.0
   resolution: "split-on-first@npm:1.1.0"
   checksum: 16ff85b54ddcf17f9147210a4022529b343edbcbea4ce977c8f30e38408b8d6e0f25f92cd35b86a524d4797f455e29ab89eb8db787f3c10708e0b47ebf528d30
+  languageName: node
+  linkType: hard
+
+"split-on-first@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "split-on-first@npm:3.0.0"
+  checksum: 75dc27ecbac65cfbeab9a3b90cf046307220192d3d7a30e46aa0f19571cc9b4802aac813f3de2cc9b16f2e46aae72f275659b5d2614bb5369c77724d739e5f73
   languageName: node
   linkType: hard
 

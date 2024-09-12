@@ -1,55 +1,36 @@
 import React, {useEffect, useRef} from 'react';
 import {
   Dimensions,
-  Linking,
   Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {WebView, WebViewNavigation} from 'react-native-webview';
+import {StackScreenProps} from '@react-navigation/stack';
+import {initialWindowMetrics} from 'react-native-safe-area-context';
 
+import {HomeStackProps, HOME_SCREENS} from '@/navigation/types/homeStack';
 import {
   DragUpFromBottom,
   DragUpFromBottomRefProps,
 } from '@/components/panGestureModals';
 import {CloseIcon} from '@/shared/ui/icons';
 import {Colors, Fonts} from '@/shared/ui';
-
-import {initialWindowMetrics} from 'react-native-safe-area-context';
-import {HomeStackProps, HOME_SCREENS} from '@/navigation/types/homeStack';
-import {StackScreenProps} from '@react-navigation/stack';
+import {TransakWidget} from '@/components/TransakWidget';
+import {TRANSAK_WIDGET_TYPE} from '@/components/TransakWidget/types';
 
 const INITIAL_TRANSLATE_Y = 600;
 
 const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
-type Props = StackScreenProps<
-  HomeStackProps,
-  HOME_SCREENS.PURCHASE_OR_SELL_SCREEN
->;
+type Props = StackScreenProps<HomeStackProps, HOME_SCREENS.PURCHASE_SCREEN>;
 
-export const PurchaseOrSellScreen: React.FC<Props> = ({navigation}) => {
+export const PurchaseScreen: React.FC<Props> = ({navigation}) => {
   const dragBlockRef = useRef<DragUpFromBottomRefProps>(null);
-  const webViewRef = useRef<WebView>(null);
 
   const onClose = () => {
     navigation.goBack();
-  };
-
-  const navigationRedirect = (navState: WebViewNavigation) => {
-    const url = navState.url;
-
-    if (url.includes('app.symbiosis.finance')) {
-      if (navState.canGoBack && navState.loading) {
-        webViewRef.current?.goBack();
-      }
-    } else {
-      webViewRef.current?.stopLoading();
-      webViewRef.current?.goBack();
-      Linking.openURL(url);
-    }
   };
 
   useEffect(() => {
@@ -65,7 +46,7 @@ export const PurchaseOrSellScreen: React.FC<Props> = ({navigation}) => {
           <Pressable onPress={onClose} style={styles.closeIconContainer}>
             <CloseIcon width={14} height={14} color={Colors.ui_white} />
           </Pressable>
-          <Text style={styles.headerText}>Purchase or Sell</Text>
+          <Text style={styles.headerText}>Purchase</Text>
         </View>
 
         <View style={styles.dragContainer}>
@@ -73,12 +54,14 @@ export const PurchaseOrSellScreen: React.FC<Props> = ({navigation}) => {
             ref={dragBlockRef}
             initialTranslateY={INITIAL_TRANSLATE_Y}
             translateYOffset={-SCREEN_HEIGHT + 15}>
-            <WebView
-              source={{uri: 'https://app.symbiosis.finance/swap'}}
-              setSupportMultipleWindows={false}
-              ref={webViewRef}
-              onNavigationStateChange={navigationRedirect}
-              style={styles.webView}
+            <TransakWidget
+              widgetHeight={
+                SCREEN_HEIGHT -
+                (initialWindowMetrics?.insets.top || 0) -
+                (initialWindowMetrics?.insets.bottom || 0) -
+                22
+              }
+              widgetType={TRANSAK_WIDGET_TYPE.BUY}
             />
           </DragUpFromBottom>
         </View>

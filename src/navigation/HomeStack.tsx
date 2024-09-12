@@ -1,4 +1,3 @@
-
 import {StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient';
@@ -27,8 +26,9 @@ import {SwapOrBridgeScreen} from '@/screens/home/SwapOrBridgeScreen';
 import {SendScreen} from '@/screens/home/SendScreen';
 import {forFade} from './StyleInterpolators/forFade';
 import {ReceiveScreen} from '@/screens/home/ReceiveScreen';
-import {PurchaseOrSellScreen} from '@/screens/home/PurchaseOrSellScreen';
+import {PurchaseScreen} from '@/screens/home/PurchaseScreen';
 import {InvestScreen} from '@/screens/home/InvestScreen/InvestScreen';
+import {SellScreen} from '@/screens/home/SellScreen';
 
 // import {useAppStore} from '@/store/useAppStore';
 
@@ -160,8 +160,8 @@ export const HomeStack = () => {
             }}
           />
           <Stack.Screen
-            name={HOME_SCREENS.PURCHASE_OR_SELL_SCREEN}
-            component={PurchaseOrSellScreen}
+            name={HOME_SCREENS.PURCHASE_SCREEN}
+            component={PurchaseScreen}
             options={{
               gestureEnabled: false,
               transitionSpec: {
@@ -178,7 +178,29 @@ export const HomeStack = () => {
                   },
                 },
               },
-              cardStyleInterpolator: forFade,
+              cardStyleInterpolator: moveBottomToTop,
+            }}
+          />
+          <Stack.Screen
+            name={HOME_SCREENS.SELL_SCREEN}
+            component={SellScreen}
+            options={{
+              gestureEnabled: false,
+              transitionSpec: {
+                open: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+                close: {
+                  animation: 'timing',
+                  config: {
+                    duration: 200,
+                  },
+                },
+              },
+              cardStyleInterpolator: moveBottomToTop,
             }}
           />
           <Stack.Screen

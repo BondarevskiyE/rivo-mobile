@@ -5,6 +5,7 @@ declare module 'react-native-config' {
     WEB3AUTH_API_KEY: string;
     ZERODEV_API_KEY: string;
     LIVE_CHAT_LICENSE_ID: string;
+    TRANSAK_API_KEY: string;
   }
 
   export const Config: NativeConfig;

@@ -1,0 +1,1 @@
+export {TransakWidget} from './TransakWidget';

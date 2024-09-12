@@ -100,7 +100,7 @@ export const data: Data = {
             <BankCardIcon color={Colors.ui_green_52} width={17} height={12} />
           </View>
         ),
-        actionScreen: HOME_SCREENS.PURCHASE_OR_SELL_SCREEN,
+        actionScreen: HOME_SCREENS.PURCHASE_SCREEN,
       },
       {
         title: 'Receive USDC on Arbitrum',
@@ -159,7 +159,7 @@ export const data: Data = {
             <BankCardIcon color={Colors.ui_green_52} width={17} height={12} />
           </View>
         ),
-        actionScreen: HOME_SCREENS.PURCHASE_OR_SELL_SCREEN,
+        actionScreen: HOME_SCREENS.SELL_SCREEN,
       },
       {
         title: 'Send USDC on Arbitrum',
