@@ -4,7 +4,7 @@ import RNFadedScrollView from 'rn-faded-scrollview';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon} from '@/shared/ui/icons';
-import {WhiteInfoModal} from '@/modal-manager';
+import {WhiteInfoModal} from '@/modal-manager/templates/WhiteInfoModal';
 import {IndexUpdateWithActiveStatus} from './helpers';
 import {IndexUpdateItem} from './IndexUpdateItem/IndexUpdateItem';
 

@@ -3,5 +3,8 @@
   "bracketSameLine": true,
   "bracketSpacing": false,
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "importOrder": ["<THIRD_PARTY_MODULES>", "^@shared/(.*)$", "^[./]"],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }

@@ -1,27 +1,11 @@
-import React, {useEffect} from 'react';
-import {StatusBar, LogBox, Platform, UIManager} from 'react-native';
+import {StatusBar, Platform, UIManager} from 'react-native';
 import PolyfillCrypto from 'react-native-webview-crypto';
 
 import Routes from '@/navigation';
 import {Colors} from '@/shared/ui';
-import {useAppState} from '@/shared/hooks';
-import {registerForegroundService} from '@/services/notifee';
 import {Providers} from '@/Providers';
 import Modal from '@/modal-manager';
-import {useAppStore} from '@/store/useAppStore';
-import {useLoginStore} from '@/store/useLoginStore';
-import {useOnboardingStore} from '@/store/useOnboardingStore';
-import {useZeroDevStore} from '@/store/useZeroDevStore';
-import {useUserStore} from '@/store/useUserStore';
-import {userSigninBackend} from '@/shared/api';
-import {useVaultsStore} from '@/store/useVaultsStore';
-import {useBalanceStore} from '@/store/useBalanceStore';
-import {
-  FIVE_MINUTES_IN_MILISECONDS,
-  THIRTY_SECONDS_IN_MILISECONDS,
-} from '@/shared/constants/time';
-// FIX @react-native-clipboard/clipboard library throw this error
-LogBox.ignoreLogs(['new NativeEventEmitter']);
+import {useInitializeApp} from '@/shared/hooks/useInitializeApp';
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -30,76 +14,7 @@ if (Platform.OS === 'android') {
 }
 
 export const App = () => {
-  const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
-  const isLoggedIn = useUserStore(state => state.isLoggedIn);
-
-  const walletAddress = useUserStore(state => state.walletAddress);
-  const userInfo = useUserStore(state => state.userInfo);
-  const fetchBalance = useBalanceStore(state => state.fetchBalance);
-  const fetchVaults = useVaultsStore(state => state.fetchVaults);
-  const fetchTotalEarnedByVaults = useBalanceStore(
-    state => state.fetchTotalEarnedByVaults,
-  );
-
-  const setIsPassCodeEntered = useLoginStore(
-    state => state.setIsPassCodeEntered,
-  );
-
-  const clearHighlight = useOnboardingStore(state => state.clearHighlight);
-  const reconnectZeroDev = useZeroDevStore(state => state.reconnectZeroDev);
-
-  const {appState} = useAppState({
-    onChange: () => {},
-    onForeground: () => {},
-    onBackground: () => {
-      setIsPassCodeEntered(false);
-      Modal.hide();
-      clearHighlight();
-    },
-  });
-
-  const initializeApp = async () => {
-    registerForegroundService();
-    await reconnectZeroDev();
-  };
-
-  const loadData = async () => {
-    if (walletAddress && userInfo?.email) {
-      await userSigninBackend(walletAddress, userInfo?.email);
-    }
-
-    if (isLoggedIn) {
-      await fetchVaults();
-      await fetchBalance();
-    }
-
-    setIsAppLoading(false);
-  };
-
-  useEffect(() => {
-    initializeApp();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn && appState === 'active') {
-      loadData();
-
-      const intervalBalance = setInterval(async () => {
-        fetchBalance();
-      }, THIRTY_SECONDS_IN_MILISECONDS);
-
-      const intervalEarned = setInterval(async () => {
-        fetchTotalEarnedByVaults();
-      }, FIVE_MINUTES_IN_MILISECONDS);
-
-      return () => {
-        clearInterval(intervalBalance);
-        clearInterval(intervalEarned);
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoggedIn, appState]);
+  useInitializeApp();
 
   return (
     <Providers>

@@ -1,11 +1,11 @@
-import  {useState} from 'react';
+import {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import Unorderedlist from 'react-native-unordered-list';
 import RNFadedScrollView from 'rn-faded-scrollview';
 
 import {Colors, Fonts} from '@/shared/ui';
 import {ArrowLineIcon} from '@/shared/ui/icons';
-import {WhiteInfoModal} from '@/modal-manager';
+import {WhiteInfoModal} from '@/modal-manager/templates/WhiteInfoModal';
 
 export const MethodologyModal = () => {
   const [isShowArrow, setIsShowArrow] = useState(true);

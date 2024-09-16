@@ -54,7 +54,7 @@ export const TransakWidget: React.FC<Props> = ({
       },
     },
     isAutoFillUserData: true,
-    hideMenu: true,
+    // hideMenu: true,
     // .....
     // For the full list of query params refer Props section below
   };

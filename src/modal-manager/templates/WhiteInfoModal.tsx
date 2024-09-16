@@ -1,4 +1,3 @@
-
 import {Pressable, StyleSheet, View} from 'react-native';
 import {BaseBottomModalContainer} from '../components';
 import {Colors} from '@/shared/ui';
@@ -6,12 +5,12 @@ import {Modal} from '../Modal';
 import {CloseIcon} from '@/shared/ui/icons';
 import {withChildren} from '@/shared/types';
 
-type Props = withChildren;
+type Props = {height?: number} & withChildren;
 
-export const WhiteInfoModal = ({children}: Props) => {
+export const WhiteInfoModal = ({height = 380, children}: Props) => {
   return (
     <BaseBottomModalContainer>
-      <View style={styles.container}>
+      <View style={[styles.container, {height}]}>
         <Pressable style={styles.closeIconContainer} onPress={Modal.hide}>
           <CloseIcon color={Colors.ui_grey_73} />
         </Pressable>
@@ -27,7 +26,6 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
 
     backgroundColor: Colors.ui_white,
-    height: 380,
     borderRadius: 32,
     paddingTop: 64,
   },

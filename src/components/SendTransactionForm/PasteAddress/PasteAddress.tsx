@@ -95,7 +95,7 @@ export const PasteAddress: React.FC<Props> = ({
             styles.addressText,
             {
               left: isLongText ? -10 : 0,
-              color: sendToAddress.length ? Colors.ui_white : Colors.ui_grey_77,
+              color: sendToAddress.length ? Colors.ui_white : Colors.ui_grey_57,
             },
           ]}
           numberOfLines={1}

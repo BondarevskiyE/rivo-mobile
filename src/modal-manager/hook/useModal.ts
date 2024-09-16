@@ -12,8 +12,8 @@ const DEFAULT_OPTIONS: ModalOptions = {
   animationInTiming: 300,
   animationOut: 'slideOutDown',
   animationOutTiming: 300,
-  backdropTransitionInTiming: 50,
-  backdropTransitionOutTiming: 50,
+  backdropTransitionInTiming: 300,
+  backdropTransitionOutTiming: 300,
   position: 'center',
   animated: false,
 };

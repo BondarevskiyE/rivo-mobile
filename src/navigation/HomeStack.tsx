@@ -78,6 +78,8 @@ export const HomeStack = () => {
     <View style={{position: 'relative', flex: 1, zIndex: 2}}>
       <LinearGradient
         colors={['rgba(255, 255, 255, 1)', 'rgba(238, 231, 231, 1)']}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 1}}
         style={{
           position: 'absolute',
           left: 0,
