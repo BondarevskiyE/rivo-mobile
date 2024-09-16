@@ -53,3 +53,5 @@ export interface IndexUpdate {
 }
 
 export type EarnedIndexResponse = IndexEarned;
+
+export type RegisterNotificationResponse = {isOk: boolean};

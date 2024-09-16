@@ -5,6 +5,7 @@ import {
   EarnedIndexResponse,
   IndexUpdate,
   PriceResponse,
+  RegisterNotificationResponse,
   TRequestParams,
   TotalUserBalanceResponse,
   TvlResponse,
@@ -168,5 +169,13 @@ export const getUserIndexEarned = (
 ): Promise<EarnedIndexResponse | null> => {
   return sendRequest<EarnedIndexResponse>({
     url: `${apiUrl}/v1/user/${userAddress}/index/${vaultAddress}/earned`,
+  });
+};
+
+export const registerNotificationToken = (
+  id: string,
+): Promise<RegisterNotificationResponse | null> => {
+  return sendRequest<RegisterNotificationResponse>({
+    url: `${apiUrl}/v1/user/register_notification_id/${id}`,
   });
 };

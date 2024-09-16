@@ -12,7 +12,7 @@ import {useOnboardingStore} from '@/store/useOnboardingStore';
 import {useUserStore} from '@/store/useUserStore';
 import {useVaultsStore} from '@/store/useVaultsStore';
 import {useZeroDevStore} from '@/store/useZeroDevStore';
-import {userSigninBackend} from '../api';
+import {registerNotificationToken, userSigninBackend} from '../api';
 import {
   THIRTY_SECONDS_IN_MILISECONDS,
   FIVE_MINUTES_IN_MILISECONDS,
@@ -20,7 +20,7 @@ import {
 import {useAppState} from './useAppState';
 import {RemoteMessage} from '../types/notification';
 
-function onMessageReceived(message: RemoteMessage) {
+async function onMessageReceived(message: RemoteMessage) {
   notifee.displayNotification({
     title: message?.notification?.title,
     body: message?.notification?.body,
@@ -75,11 +75,9 @@ export const useInitializeApp = () => {
     // Get the token
     const token = await messaging().getToken();
 
-    // console.log('token: ', token);
+    await registerNotificationToken(token);
 
-    messaging().onMessage(onMessageReceived);
-    // @ts-ignore
-    messaging().setBackgroundMessageHandler(onMessageReceived);
+    // console.log('token: ', token);
 
     await reconnectZeroDev();
   };
@@ -99,6 +97,20 @@ export const useInitializeApp = () => {
 
   useEffect(() => {
     initializeApp();
+
+    const unsubscribeOnMessage = messaging().onMessage(onMessageReceived);
+    messaging().setBackgroundMessageHandler(onMessageReceived);
+
+    const unsibscribeOnTokenRefresh = messaging().onTokenRefresh(
+      async (token: string) => {
+        await registerNotificationToken(token);
+      },
+    );
+
+    return () => {
+      unsubscribeOnMessage();
+      unsibscribeOnTokenRefresh();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
