@@ -12,7 +12,7 @@ import {ChartDotElement} from '@/shared/types/chart';
 import {Colors, Images} from '@/shared/ui';
 import {formatValue} from '@/shared/lib';
 import {SelectionDot} from './SelectionDot';
-import {WaveIcon} from '@/shared/ui/icons/WaveIcon';
+import {WaveLoader} from './WaveLoader';
 
 interface Props {
   data: ChartDotElement[];
@@ -73,10 +73,9 @@ export const LineChart: React.FC<Props> = ({
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <WaveIcon
-          color={Colors.ui_grey_80}
-          style={{position: 'absolute', top: '50%', left: 15}}
-        />
+        <View style={{transform: [{translateY: -40}]}}>
+          <WaveLoader />
+        </View>
       ) : (
         <LineGraph
           points={data}

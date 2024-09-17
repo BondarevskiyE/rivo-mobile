@@ -31,7 +31,7 @@ const notificationsMock = [
     from: '235832681635',
     messageId: '17262315562341',
     notification: {
-      body: 'You have just implement push notification have just implement push notification',
+      body: 'Some information',
       title: 'sdf!!',
     },
   },

@@ -6,7 +6,6 @@ import {navigationRef} from './RootNavigation';
 import {HomeStack} from './HomeStack';
 import {AuthStack} from './AuthStack';
 
-import {useUserStore} from '@/store/useUserStore';
 import {ProfileStack} from './ProfileStack';
 import {useLoginStore} from '@/store/useLoginStore';
 import {PassCodeScreen} from '@/screens';
@@ -26,9 +25,10 @@ const Stack = createStackNavigator();
 const RootStack = createStackNavigator();
 
 export const Router = () => {
-  const isLoggedIn = useUserStore(state => state.isLoggedIn);
-
-  const isPassCodeEntered = useLoginStore(state => state.isPassCodeEntered);
+  const {isPassCodeEntered, isLoggedIn} = useLoginStore(state => ({
+    isPassCodeEntered: state.isPassCodeEntered,
+    isLoggedIn: state.isLoggedIn,
+  }));
 
   return (
     <NavigationContainer theme={navTheme} ref={navigationRef}>

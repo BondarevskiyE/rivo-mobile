@@ -30,7 +30,7 @@ const {height: SCREEN_HEIGHT} = Dimensions.get('window');
 
 const LIVE_CHAT_LICENSE_ID = Config.LIVE_CHAT_LICENSE_ID;
 
-const webViewLink = `https://secure.livechatinc.com/customer/action/open_chat?license_id=${LIVE_CHAT_LICENSE_ID}`;
+const webViewLink = `https://secure.livechatinc.com/customer/action/open_chat?license_id=${LIVE_CHAT_LICENSE_ID}&group=8`;
 
 type Props = StackScreenProps<
   ProfileStackProps,

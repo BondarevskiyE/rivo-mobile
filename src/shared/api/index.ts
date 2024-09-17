@@ -173,9 +173,10 @@ export const getUserIndexEarned = (
 };
 
 export const registerNotificationToken = (
-  id: string,
+  address: string,
+  token: string,
 ): Promise<RegisterNotificationResponse | null> => {
   return sendRequest<RegisterNotificationResponse>({
-    url: `${apiUrl}/v1/user/register_notification_id/${id}`,
+    url: `${apiUrl}/v1/user/${address}/notification_token/${token}/register`,
   });
 };

@@ -7,10 +7,10 @@ import {Colors, Fonts, Images} from '@/shared/ui';
 import {Button} from '@/components';
 import {BUTTON_TYPE} from '@/components/general/Button/Button';
 import {useSettingsStore} from '@/store/useSettingsStore';
-import {useUserStore} from '@/store/useUserStore';
 import {StackScreenProps} from '@react-navigation/stack';
 import {AUTH_SCREENS, AuthStackProps} from '@/navigation/types/authStack';
 import {EPermissionTypes, usePermissions} from '@/shared/hooks/usePermissions';
+import {useLoginStore} from '@/store/useLoginStore';
 
 type Props = StackScreenProps<
   AuthStackProps,
@@ -24,7 +24,7 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
     state => state.setIsNotificationsEnabled,
   );
 
-  const setIsloggedIn = useUserStore(state => state.setIsLoggedIn);
+  const setIsloggedIn = useLoginStore(state => state.setIsLoggedIn);
 
   const {askPermissions} = usePermissions(EPermissionTypes.PUSH_NOTIFICATIONS);
 

@@ -38,6 +38,11 @@ export const MarkAsReadButton = () => {
 
   const buttonStyles = useAnimatedStyle(() => ({
     width: interpolate(animationValue.value, [0, 1], [167, 86]),
+    transform: [
+      {
+        scale: interpolate(animationValue.value, [0, 0.5, 1], [1, 0.9, 1]),
+      },
+    ],
   }));
 
   const textStyles = useAnimatedStyle(() => ({

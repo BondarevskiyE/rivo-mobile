@@ -5,7 +5,6 @@ import {RemoteMessage} from '@/shared/types/notification';
 import {BellIcon} from '@/shared/ui/icons';
 import {SCREEN_HORIZONTAL_PADDING} from '../NotificationsScreen';
 import {getTimeString} from './helpers';
-import {openNotificationModal} from '../NotificationModal';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
@@ -19,7 +18,7 @@ export const NotificationItem: React.FC<Props> = ({message}) => {
   const time = getTimeString(message.sentTime || 0);
 
   const handleOpenNotificationModal = () => {
-    openNotificationModal(message);
+    console.log(message);
   };
 
   return (
@@ -28,12 +27,8 @@ export const NotificationItem: React.FC<Props> = ({message}) => {
         <BellIcon color={Colors.ui_orange_80} />
       </View>
       <View style={styles.textContainer}>
-        <Text style={styles.titleText} numberOfLines={1} ellipsizeMode="tail">
-          {message.notification?.title}
-        </Text>
-        <Text style={styles.bodyText} numberOfLines={1} ellipsizeMode="tail">
-          {message.notification?.body}
-        </Text>
+        <Text style={styles.titleText}>{message.notification?.title}</Text>
+        <Text style={styles.bodyText}>{message.notification?.body}</Text>
       </View>
       <View style={styles.timeContainer}>
         <Text style={styles.timeText}>{time}</Text>
@@ -64,7 +59,8 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     justifyContent: 'space-between',
-    maxWidth: NOTIFICATION_WIDTH - 116,
+    flexGrow: 1,
+    maxWidth: NOTIFICATION_WIDTH - 125,
   },
   titleText: {
     fontFamily: Fonts.medium,

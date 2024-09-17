@@ -1,5 +1,6 @@
 import {create} from 'zustand';
 import {LOGIN_PROVIDER_TYPE} from '@web3auth/react-native-sdk';
+import {persist, createJSONStorage} from 'zustand/middleware';
 
 import * as RootNavigation from '@/navigation/RootNavigation';
 import {useUserStore} from './useUserStore';
@@ -12,99 +13,121 @@ import {AUTH_SCREENS} from '@/navigation/types/authStack';
 import {checkIsUserAlreadyRegistered, userSigninBackend} from '@/shared/api';
 import {useBalanceStore} from './useBalanceStore';
 import {usePointsStore} from './usePointsStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface LoginState {
   isLoading: boolean;
+  isLoggedIn: boolean;
   isPassCodeEntered: boolean;
   setIsPassCodeEntered: (bool: boolean) => void;
   setIsLoading: (bool: boolean) => void;
+  setIsLoggedIn: (bool: boolean) => void;
 
   login: (loginProvider: LOGIN_PROVIDER_TYPE) => void;
 
   logout: () => void;
 }
 
-export const useLoginStore = create<LoginState>()(set => ({
-  isLoading: false,
-  isPassCodeEntered: false,
-  setIsPassCodeEntered: (bool: boolean) => set({isPassCodeEntered: bool}),
-  setIsLoading: (bool: boolean) => set({isLoading: bool}),
+export const useLoginStore = create<LoginState>()(
+  persist(
+    (set, get) => ({
+      isLoggedIn: false,
 
-  login: async (loginProvider: LOGIN_PROVIDER_TYPE) => {
-    const {setKernelClient} = useZeroDevStore.getState();
-    const {setUserInfo, setWalletAddress} = useUserStore.getState();
-    const {fetchBalance} = useBalanceStore.getState();
+      isLoading: false,
+      isPassCodeEntered: false,
+      setIsPassCodeEntered: (bool: boolean) => set({isPassCodeEntered: bool}),
+      setIsLoading: (bool: boolean) => set({isLoading: bool}),
 
-    try {
-      set({isLoading: true});
+      setIsLoggedIn: (bool: boolean) => set({isLoggedIn: bool}),
 
-      const {smartAccountSigner, user} = await web3AuthLogin(loginProvider);
+      login: async (loginProvider: LOGIN_PROVIDER_TYPE) => {
+        const {setKernelClient} = useZeroDevStore.getState();
+        const {setUserInfo, setWalletAddress} = useUserStore.getState();
+        const {fetchBalance} = useBalanceStore.getState();
 
-      if (!user || !user?.email) {
-        throw new Error('something went wrong with getting your account');
-      }
+        try {
+          set({isLoading: true});
 
-      const isUserAlreadyRegistered = await checkIsUserAlreadyRegistered(
-        user?.email,
-      );
+          const {smartAccountSigner, user} = await web3AuthLogin(loginProvider);
 
-      RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING, {
-        isUserAlreadyRegistered: !!isUserAlreadyRegistered,
-      });
+          if (!user || !user?.email) {
+            throw new Error('something went wrong with getting your account');
+          }
 
-      const kernelClient = await initZeroDevClient(smartAccountSigner);
+          const isUserAlreadyRegistered = await checkIsUserAlreadyRegistered(
+            user?.email,
+          );
 
-      setKernelClient(kernelClient as KernelClient);
+          RootNavigation.navigate(AUTH_SCREENS.CARD_CREATING, {
+            isUserAlreadyRegistered: !!isUserAlreadyRegistered,
+          });
 
-      const [givenName, familyName] = (user?.name || '')?.split(' ');
+          const kernelClient = await initZeroDevClient(smartAccountSigner);
 
-      const formattedUser = {
-        id: user.idToken || '',
-        name: user.name || '',
-        email: user.email || '',
-        photo: user.profileImage || '',
-        givenName,
-        familyName,
-        loginProvider,
-      };
+          setKernelClient(kernelClient as KernelClient);
 
-      setUserInfo({...formattedUser, loginProvider});
+          const [givenName, familyName] = (user?.name || '')?.split(' ');
 
-      setWalletAddress(kernelClient.account.address);
+          const formattedUser = {
+            id: user.idToken || '',
+            name: user.name || '',
+            email: user.email || '',
+            photo: user.profileImage || '',
+            givenName,
+            familyName,
+            loginProvider,
+          };
 
-      !isUserAlreadyRegistered && (await fetchBalance());
+          setUserInfo({...formattedUser, loginProvider});
 
-      await userSigninBackend(kernelClient.account.address, user.email || '');
+          setWalletAddress(kernelClient.account.address);
 
-      set({isLoading: false});
-    } catch (error) {
-      console.log(`${loginProvider} login error: ${error}`);
-      RootNavigation.navigate(AUTH_SCREENS.LOGIN);
-    }
-  },
+          !isUserAlreadyRegistered && (await fetchBalance());
 
-  logout: async () => {
-    const {setIsLoggedIn, resetUser} = useUserStore.getState();
-    const {resetBalances} = useBalanceStore.getState();
-    const {setKernelClient} = useZeroDevStore.getState();
-    const {resetPoints} = usePointsStore.getState();
-    try {
-      const isLoggedOut = await logoutWeb3Auth();
+          await userSigninBackend(
+            kernelClient.account.address,
+            user.email || '',
+          );
 
-      if (isLoggedOut) {
-        resetUser();
-        setIsLoggedIn(false);
-        setKernelClient(null);
-        resetBalances();
-        resetPoints();
-        resetKeychainCredentials();
-        return true;
-      }
+          set({isLoading: false});
+        } catch (error) {
+          console.log(`${loginProvider} login error: ${error}`);
+          RootNavigation.navigate(AUTH_SCREENS.LOGIN);
+        }
+      },
 
-      return false;
-    } catch (error) {
-      console.log(`web3Auth logout error: ${error}`);
-      return false;
-    }
-  },
-}));
+      logout: async () => {
+        const setIsLoggedIn = get().setIsLoggedIn;
+        const {resetUser} = useUserStore.getState();
+        const {resetBalances} = useBalanceStore.getState();
+        const {setKernelClient} = useZeroDevStore.getState();
+        const {resetPoints} = usePointsStore.getState();
+        try {
+          const isLoggedOut = await logoutWeb3Auth();
+
+          if (isLoggedOut) {
+            resetUser();
+            setIsLoggedIn(false);
+            setKernelClient(null);
+            resetBalances();
+            resetPoints();
+            resetKeychainCredentials();
+            return true;
+          }
+
+          return false;
+        } catch (error) {
+          console.log(`web3Auth logout error: ${error}`);
+          return false;
+        }
+      },
+    }),
+    {
+      name: 'login-store',
+      storage: createJSONStorage(() => AsyncStorage),
+      partialize: state => ({
+        isLoggedIn: state.isLoggedIn,
+      }),
+    },
+  ),
+);

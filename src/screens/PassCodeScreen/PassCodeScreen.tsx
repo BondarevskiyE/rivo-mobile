@@ -21,7 +21,7 @@ export const PassCodeScreen: React.FC = () => {
 
   const user = useUserStore(state => state.userInfo);
 
-  const setIsLoggedIn = useUserStore(state => state.setIsLoggedIn);
+  const setIsLoggedIn = useLoginStore(state => state.setIsLoggedIn);
 
   const logout = useLoginStore(state => state.logout);
 

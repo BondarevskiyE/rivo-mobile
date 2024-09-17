@@ -5,12 +5,10 @@ import {persist, createJSONStorage} from 'zustand/middleware';
 import {User} from './types';
 
 interface UserState {
-  isLoggedIn: boolean;
   userInfo: User | null;
   walletAddress: string;
   onboardingStep: number;
   setOnboardingStep: (step: number) => void;
-  setIsLoggedIn: (bool: boolean) => void;
   setUserInfo: (user: User | null) => void;
   setWalletAddress: (address: string) => void;
 
@@ -20,12 +18,10 @@ interface UserState {
 export const useUserStore = create<UserState>()(
   persist(
     set => ({
-      isLoggedIn: false,
       userInfo: null,
       walletAddress: '',
       onboardingStep: 1,
       setOnboardingStep: (step: number) => set({onboardingStep: step}),
-      setIsLoggedIn: (bool: boolean) => set({isLoggedIn: bool}),
       setUserInfo: (user: User | null) => {
         set({userInfo: user});
       },

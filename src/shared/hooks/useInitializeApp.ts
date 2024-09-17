@@ -12,7 +12,7 @@ import {useOnboardingStore} from '@/store/useOnboardingStore';
 import {useUserStore} from '@/store/useUserStore';
 import {useVaultsStore} from '@/store/useVaultsStore';
 import {useZeroDevStore} from '@/store/useZeroDevStore';
-import {registerNotificationToken, userSigninBackend} from '../api';
+import {registerNotificationToken} from '../api';
 import {
   THIRTY_SECONDS_IN_MILISECONDS,
   FIVE_MINUTES_IN_MILISECONDS,
@@ -21,6 +21,7 @@ import {useAppState} from './useAppState';
 import {RemoteMessage} from '../types/notification';
 
 async function onMessageReceived(message: RemoteMessage) {
+  console.log(message);
   notifee.displayNotification({
     title: message?.notification?.title,
     body: message?.notification?.body,
@@ -30,11 +31,11 @@ async function onMessageReceived(message: RemoteMessage) {
 export const useInitializeApp = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
 
-  const {walletAddress, isLoggedIn, userInfo} = useUserStore(state => ({
+  const {walletAddress} = useUserStore(state => ({
     walletAddress: state.walletAddress,
-    isLoggedIn: state.isLoggedIn,
-    userInfo: state.userInfo,
   }));
+
+  const isLoggedIn = useLoginStore(state => state.isLoggedIn);
 
   const {fetchBalance, fetchTotalEarnedByVaults} = useBalanceStore(state => ({
     fetchBalance: state.fetchBalance,
@@ -68,54 +69,56 @@ export const useInitializeApp = () => {
   const initializeApp = async () => {
     registerForegroundService();
 
-    fetchNotifications();
-    // Register the device with FCM
-    // await messaging().registerDeviceForRemoteMessages();
-
     // Get the token
     const token = await messaging().getToken();
+    const apn = await messaging().app.options;
 
-    await registerNotificationToken(token);
+    console.log(token);
+    console.log(apn);
 
-    // console.log('token: ', token);
+    await registerNotificationToken(walletAddress, token);
 
     await reconnectZeroDev();
   };
 
-  const loadData = async () => {
-    if (walletAddress && userInfo?.email) {
-      await userSigninBackend(walletAddress, userInfo?.email);
-    }
-
+  // fetch only if user is logged in
+  useEffect(() => {
     if (isLoggedIn) {
-      await fetchVaults();
-      await fetchBalance();
+      initializeApp();
+
+      messaging().registerDeviceForRemoteMessages();
+
+      const unsubscribeOnMessage = messaging().onMessage(onMessageReceived);
+
+      messaging().setBackgroundMessageHandler(onMessageReceived);
+
+      const unsibscribeOnTokenRefresh = messaging().onTokenRefresh(
+        async (token: string) => {
+          await registerNotificationToken(walletAddress, token);
+        },
+      );
+
+      fetchNotifications();
+
+      return () => {
+        unsubscribeOnMessage();
+        unsibscribeOnTokenRefresh();
+      };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoggedIn]);
+
+  const loadData = async () => {
+    await fetchVaults();
+    await fetchBalance();
 
     setIsAppLoading(false);
   };
 
+  // refetch everyime user reopen the app after collapsing
   useEffect(() => {
-    initializeApp();
-
-    const unsubscribeOnMessage = messaging().onMessage(onMessageReceived);
-    messaging().setBackgroundMessageHandler(onMessageReceived);
-
-    const unsibscribeOnTokenRefresh = messaging().onTokenRefresh(
-      async (token: string) => {
-        await registerNotificationToken(token);
-      },
-    );
-
-    return () => {
-      unsubscribeOnMessage();
-      unsibscribeOnTokenRefresh();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn && appState === 'active') {
+    // we don't need to load data when user collapsed the app
+    if (isLoggedIn && appState !== 'background') {
       loadData();
 
       const intervalBalance = setInterval(async () => {
