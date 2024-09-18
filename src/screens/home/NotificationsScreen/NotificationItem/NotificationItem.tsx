@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const NotificationItem: React.FC<Props> = ({message}) => {
-  const time = getTimeString(message.sentTime || 0);
+  const time = getTimeString(+(message.sentTime || 0));
 
   const handleOpenNotificationModal = () => {
     console.log(message);

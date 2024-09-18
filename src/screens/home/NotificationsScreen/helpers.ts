@@ -27,7 +27,7 @@ export function createNotificationsMapByDate(
   const currentDate = DateTime.now();
 
   return messages.reduce((acc, msg) => {
-    const msgDate = DateTime.fromMillis(msg.sentTime || 0)
+    const msgDate = DateTime.fromMillis(+(msg.sentTime || 0))
       .setLocale('en-us')
       .toUTC()
       .toLocal();

@@ -9,6 +9,7 @@ interface NotificationsStore {
   isLoading: boolean;
   setIsLoading: (isLoading: boolean) => void;
   fetchNotifications: () => void;
+  addNotification: (notification: Notification) => void;
   markNotificationAsRead: (id: string) => void;
   markAllAsRead: () => void;
 }
@@ -57,6 +58,9 @@ export const useNotificationsStore = create<NotificationsStore>()(
       set({isLoading: true});
       set({notifications: notificationsMock});
       set({isLoading: false});
+    },
+    addNotification: (notification: Notification) => {
+      set({notifications: [...get().notifications, notification]});
     },
     markNotificationAsRead: async (id: string) => {
       console.log(id);

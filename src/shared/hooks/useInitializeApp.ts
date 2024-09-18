@@ -42,8 +42,11 @@ export const useInitializeApp = () => {
     fetchTotalEarnedByVaults: state.fetchTotalEarnedByVaults,
   }));
 
-  const fetchNotifications = useNotificationsStore(
-    state => state.fetchNotifications,
+  const {fetchNotifications, addNotification} = useNotificationsStore(
+    state => ({
+      fetchNotifications: state.fetchNotifications,
+      addNotification: state.addNotification,
+    }),
   );
 
   const fetchVaults = useVaultsStore(state => state.fetchVaults);
@@ -81,16 +84,19 @@ export const useInitializeApp = () => {
     await reconnectZeroDev();
   };
 
+  const handleMessageReceived = async (message: RemoteMessage) => {
+    onMessageReceived(message);
+    addNotification(message);
+  };
+
   // fetch only if user is logged in
   useEffect(() => {
     if (isLoggedIn) {
       initializeApp();
 
-      messaging().registerDeviceForRemoteMessages();
+      const unsubscribeOnMessage = messaging().onMessage(handleMessageReceived);
 
-      const unsubscribeOnMessage = messaging().onMessage(onMessageReceived);
-
-      messaging().setBackgroundMessageHandler(onMessageReceived);
+      messaging().setBackgroundMessageHandler(handleMessageReceived);
 
       const unsibscribeOnTokenRefresh = messaging().onTokenRefresh(
         async (token: string) => {

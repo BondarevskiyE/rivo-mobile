@@ -19,7 +19,7 @@
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		C1313E9B4A39ACBFEDF204A1 /* Pods_rivomobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEB3C957201B4E9337BDF4AB /* Pods_rivomobile.framework */; };
 		D0D1CD5DC559EA7E40020682 /* Pods_rivomobile_rivomobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94F25156833F725B2ECE3742 /* Pods_rivomobile_rivomobileTests.framework */; };
-		ECC7D8AB2C945111002C45A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ECC7D8AA2C945111002C45A7 /* GoogleService-Info.plist */; };
+		EC25B09A2C9AC18C0049C93C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EC25B0992C9AC18C0049C93C /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +54,7 @@
 		94F25156833F725B2ECE3742 /* Pods_rivomobile_rivomobileTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rivomobile_rivomobileTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACB9771D861AF7F80DE98FF2 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = rivomobile/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		C3348EC9C6AB44CEB0AF52B9 /* OpenRunde-Bold.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenRunde-Bold.otf"; path = "../assets/fonts/OpenRunde-Bold.otf"; sourceTree = "<group>"; };
-		ECC7D8AA2C945111002C45A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EC25B0992C9AC18C0049C93C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ECC7D8AC2C94544E002C45A7 /* rivomobile.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = rivomobile.entitlements; path = rivomobile/rivomobile.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EEB3C957201B4E9337BDF4AB /* Pods_rivomobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_rivomobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,7 +133,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				ECC7D8AA2C945111002C45A7 /* GoogleService-Info.plist */,
+				EC25B0992C9AC18C0049C93C /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* rivomobile */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* rivomobileTests */,
@@ -276,7 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				ECC7D8AB2C945111002C45A7 /* GoogleService-Info.plist in Resources */,
+				EC25B09A2C9AC18C0049C93C /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				76BB08B90871F8EB47039D6C /* PrivacyInfo.xcprivacy in Resources */,
 				31C4FBE18E4647129ECC4CEC /* OpenRunde-Bold.otf in Resources */,

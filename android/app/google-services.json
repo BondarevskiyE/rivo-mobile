@@ -1,51 +1,26 @@
 {
   "project_info": {
-    "project_number": "235832681635",
-    "project_id": "rivo-test",
-    "storage_bucket": "rivo-test.appspot.com"
+    "project_number": "1049389361205",
+    "project_id": "rivo-c2d3d",
+    "storage_bucket": "rivo-c2d3d.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:235832681635:android:6cc2a78c8cef8306248b16",
+        "mobilesdk_app_id": "1:1049389361205:android:7d389957c36446d720697c",
         "android_client_info": {
           "package_name": "com.rivomobile"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "235832681635-vm3mhtc0vijs97nun07stoqtiqsn2uag.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.rivomobile",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "235832681635-c6jual4ctgrd7nvikti309cp8d7dqcmn.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAsnmKhnPhK5xPrtu_BQoJUdi_7hZ8mYvg"
+          "current_key": "AIzaSyC3-6f2MI7rhAIKK_ojzOLoRHb8MJoHz7I"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "235832681635-c6jual4ctgrd7nvikti309cp8d7dqcmn.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "235832681635-3gr6a373koj6vl0ek64vlvtm6u4vrtjb.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.rivomobile"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
