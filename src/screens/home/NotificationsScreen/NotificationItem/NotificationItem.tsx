@@ -4,7 +4,7 @@ import {Colors, Fonts} from '@/shared/ui';
 import {RemoteMessage} from '@/shared/types/notification';
 import {BellIcon} from '@/shared/ui/icons';
 import {SCREEN_HORIZONTAL_PADDING} from '../NotificationsScreen';
-import {getTimeString} from './helpers';
+import {getTimeString} from '@/shared/helpers/time';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
 

@@ -22,7 +22,7 @@ export const buttons: ActionMenuButton[] = [
     title: 'Settings',
     type: ButtonType.INTERNAL,
     action: () => {
-      RootNavigation.navigate(PROFILE_SCREENS.SETTINGS_MENU);
+      RootNavigation.navigate(PROFILE_SCREENS.SETTINGS_MENU_SCREEN);
     },
     Icon: GearIcon,
   },
@@ -30,7 +30,7 @@ export const buttons: ActionMenuButton[] = [
     title: 'Help & Support',
     type: ButtonType.INTERNAL,
     action: () => {
-      RootNavigation.navigate(PROFILE_SCREENS.HELP_AND_SUPPORT);
+      RootNavigation.navigate(PROFILE_SCREENS.HELP_AND_SUPPORT_SCREEN);
     },
     Icon: HelpSupportIcon,
   },
@@ -38,7 +38,7 @@ export const buttons: ActionMenuButton[] = [
     title: 'About Rivo',
     type: ButtonType.INTERNAL,
     action: () => {
-      RootNavigation.navigate(PROFILE_SCREENS.ABOUT_RIVO);
+      RootNavigation.navigate(PROFILE_SCREENS.ABOUT_RIVO_SCREEN);
     },
     Icon: InfoExclamationIcon,
   },

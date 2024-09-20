@@ -1,15 +1,21 @@
+import {StyleSheet, Text, Pressable} from 'react-native';
+
+import * as RootNavigation from '@/navigation/RootNavigation';
 import {Colors, Fonts} from '@/shared/ui';
 import {usePointsStore} from '@/store/usePointsStore';
-
-import {StyleSheet, Text, View} from 'react-native';
+import {ROOT_STACKS} from '@/navigation/types/rootStack';
 
 export const PointsCounter = () => {
   const points = usePointsStore(state => state.points);
 
+  const handleGoToPointsMenu = () => {
+    RootNavigation.navigate(ROOT_STACKS.POINTS_STACK);
+  };
+
   return (
-    <View style={styles.container}>
+    <Pressable onPress={handleGoToPointsMenu} style={styles.container}>
       <Text style={styles.text}>{`${points} Points`}</Text>
-    </View>
+    </Pressable>
   );
 };
 

@@ -12,7 +12,10 @@ import {ArrowLineIcon} from '@/shared/ui/icons';
 import {MenuActionButtons} from '@/components/MenuActionButtons';
 import {aboutButtons} from './buttonsData';
 
-type Props = StackScreenProps<ProfileStackProps, PROFILE_SCREENS.ABOUT_RIVO>;
+type Props = StackScreenProps<
+  ProfileStackProps,
+  PROFILE_SCREENS.ABOUT_RIVO_SCREEN
+>;
 
 export const AboutRivoScreen: React.FC<Props> = ({navigation}) => {
   const handleGoBack = () => {

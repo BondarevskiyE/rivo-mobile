@@ -1,4 +1,5 @@
 import Config from 'react-native-config';
+
 export * from './chain';
 
 export const ZERODEV_API_KEY = Config.ZERODEV_API_KEY;

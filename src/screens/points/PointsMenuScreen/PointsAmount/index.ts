@@ -1,0 +1,1 @@
+export {PointsAmount} from './PointsAmount';

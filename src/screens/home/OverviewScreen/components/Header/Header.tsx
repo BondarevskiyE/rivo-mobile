@@ -64,13 +64,13 @@ export const Header: React.FC<Props> = ({cardAnimationValue}) => {
     ],
   }));
 
-  const handleGoToSettingsMenu = () => {
+  const handleGoToProfileMenu = () => {
     RootNavigation.navigate(ROOT_STACKS.PROFILE_STACK);
   };
 
   return (
     <View style={styles.container}>
-      <Pressable onPress={handleGoToSettingsMenu}>
+      <Pressable onPress={handleGoToProfileMenu}>
         <Image
           source={{uri: user?.photo || DEFAULT_USER_PHOTO}}
           style={styles.photo}

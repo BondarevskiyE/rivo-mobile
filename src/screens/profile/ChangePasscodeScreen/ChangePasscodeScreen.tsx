@@ -21,7 +21,7 @@ import {useUserStore} from '@/store/useUserStore';
 
 type Props = StackScreenProps<
   ProfileStackProps,
-  PROFILE_SCREENS.CHANGE_PASSCODE
+  PROFILE_SCREENS.CHANGE_PASSCODE_SCREEN
 >;
 
 export enum CHANGE_PASSCODE_STEPS {

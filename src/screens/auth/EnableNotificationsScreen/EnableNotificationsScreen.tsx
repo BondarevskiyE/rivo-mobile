@@ -87,7 +87,7 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
         <Button
           text="Not now"
           onPress={onFinishRegistration}
-          type={BUTTON_TYPE.SECONDARY}
+          type={BUTTON_TYPE.TRANSPARENT}
         />
       </View>
     </View>

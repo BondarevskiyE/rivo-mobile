@@ -1,14 +1,17 @@
 import notifee, {AndroidAction, EventType} from '@notifee/react-native';
+import * as RootNavigation from '@/navigation/RootNavigation';
+import {Linking} from 'react-native';
 
 export const createBackgroundEventNotificationsHandler = () => {
   return notifee.onBackgroundEvent(async ({type, detail}) => {
     const {notification, pressAction} = detail;
+    console.log('detail: ', detail);
     if (
       notification?.id &&
       type === EventType.PRESS &&
       pressAction?.id === 'default'
     ) {
-      await notifee.cancelNotification(notification.id);
+      // await notifee.cancelNotification(notification.id);
     }
   });
 };
@@ -20,6 +23,11 @@ export const registerForegroundService = () => {
         console.log('User dismissed notification', detail.notification);
         break;
       case EventType.PRESS:
+        if (detail.notification?.data?.link) {
+          RootNavigation.navigate(
+            detail.notification?.data?.link as RootNavigation.ScreenName,
+          );
+        }
         console.log('User pressed notification', detail.notification);
         break;
     }

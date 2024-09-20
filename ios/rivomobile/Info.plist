@@ -31,6 +31,7 @@
 		<string>about:srcdoc</string>
 		<string>twitter</string>
 		<string>tg</string>
+		<string>itms-apps</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

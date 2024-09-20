@@ -19,8 +19,10 @@ const getColor = (type: BUTTON_TYPE) => {
       return Colors.ui_orange_80;
     case BUTTON_TYPE.PRIMAL:
       return Colors.ui_white;
-    case BUTTON_TYPE.SECONDARY:
+    case BUTTON_TYPE.TRANSPARENT:
       return Colors.ui_dark_blue;
+    case BUTTON_TYPE.SECONDARY:
+      return Colors.ui_orange_80;
     case BUTTON_TYPE.ACTION_SECONDARY:
       return Colors.ui_white;
     case BUTTON_TYPE.ACTION_DARK:
@@ -34,8 +36,10 @@ const getBackgroundColor = (type: BUTTON_TYPE) => {
       return Colors.ui_orange_25;
     case BUTTON_TYPE.PRIMAL:
       return Colors.ui_dark_blue;
-    case BUTTON_TYPE.SECONDARY:
+    case BUTTON_TYPE.TRANSPARENT:
       return Colors.transparent;
+    case BUTTON_TYPE.SECONDARY:
+      return Colors.ui_brown_20;
     case BUTTON_TYPE.ACTION_SECONDARY:
       return Colors.ui_orange_80;
     case BUTTON_TYPE.ACTION_DARK:
@@ -47,6 +51,7 @@ export enum BUTTON_TYPE {
   PRIMAL,
   SECONDARY,
   ACTION,
+  TRANSPARENT,
   ACTION_SECONDARY,
   ACTION_DARK,
 }

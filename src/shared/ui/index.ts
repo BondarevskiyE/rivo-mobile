@@ -59,6 +59,7 @@ export const Colors = {
   ui_grey_90: '#373737',
   ui_grey_95: '#313131',
   ui_grey_97: '#2c2c2c',
+  ui_grey_98: '#191919',
   ui_grey_99: '#212121',
 
   grey_text: '#838A91',
@@ -69,6 +70,8 @@ export const Colors = {
   ui_beige_20: '#EEE7E7',
   ui_beige_30: '#eae2dd',
   ui_beige_50: '#e9c7b4',
+  ui_beige_60: '#b19c91',
+  ui_beige_61: '#9d928a',
 
   ui_orange_20: '#feefe5',
   ui_orange_22: '#fcf0e0',
@@ -84,6 +87,7 @@ export const Colors = {
   ui_red_80: '#fc2b00',
   ui_red_83: '#fa3002',
 
+  ui_brown_20: '#2f2015',
   ui_brown_40: '#201106',
   ui_brown_50: '#302116',
   ui_brown_90: '#190a00',
@@ -93,6 +97,7 @@ export const Colors = {
   ui_green_45: '#6BCD30',
   ui_green_46: '#6dca35',
   ui_green_50: '#5CB924',
+  ui_green_51: '#51ab1b',
   ui_green_52: '#50C750',
   ui_green_55: '#28b91d',
   ui_green_70: '#1EC31A',
@@ -105,9 +110,11 @@ export const Colors = {
   ui_purple_50: '#b97afa',
   ui_purple_90: '#2A254C',
 
+  ui_black_50: '#312522',
   ui_black_55: '#222222',
   ui_black_60: '#232323',
   ui_black_63: '#1e222e',
+  ui_black_64: '#1d1b19',
   ui_black_65: '#1a1a1a',
   ui_black_70: '#1C1C1C',
   ui_black_75: '#101010',
@@ -184,6 +191,16 @@ export const Images = {
   swapOrBridgeTutorial2: require('../../../assets/images/swap-or-bridge-tutorial/slide2.png'),
   swapOrBridgeTutorial3: require('../../../assets/images/swap-or-bridge-tutorial/slide3.png'),
   swapOrBridgeTutorial4: require('../../../assets/images/swap-or-bridge-tutorial/slide4.png'),
+
+  pointsScreenBackground: require('../../../assets/images/points-screen/points_screen_background.png'),
+  coin1: require('../../../assets/images/points-screen/coin_1.png'),
+  coin2: require('../../../assets/images/points-screen/coin_2.png'),
+  pointsStar: require('../../../assets/images/points-screen/star.png'),
+
+  pointsMaskBackground: require('../../../assets/images/points-screen/points_amount_mask.png'),
+  referFriendMask: require('../../../assets/images/points-screen/refer_friend_mask.png'),
+  pointsPedestal: require('../../../assets/images/points-screen/points_pedestal.png'),
+  pointsLeaderboardBg: require('../../../assets/images/points-screen/leaderboard-bg.png'),
 };
 
 export const Videos = {

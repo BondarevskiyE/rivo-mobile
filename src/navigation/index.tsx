@@ -12,6 +12,8 @@ import {PassCodeScreen} from '@/screens';
 import {ROOT_STACKS} from './types/rootStack';
 
 import {moveBottomToTop} from './StyleInterpolators';
+import {PointsStack} from './PointsStack';
+import {linkingMap} from './deepLinking';
 
 const navTheme = {
   ...DefaultTheme,
@@ -31,7 +33,10 @@ export const Router = () => {
   }));
 
   return (
-    <NavigationContainer theme={navTheme} ref={navigationRef}>
+    <NavigationContainer
+      theme={navTheme}
+      ref={navigationRef}
+      linking={linkingMap}>
       {
         // if user is logged in
         // we show PassCode screen every time the user collapse the application
@@ -56,6 +61,28 @@ export const Router = () => {
             <RootStack.Screen
               name={ROOT_STACKS.PROFILE_STACK}
               component={ProfileStack}
+              options={{
+                gestureEnabled: false,
+                transitionSpec: {
+                  open: {
+                    animation: 'timing',
+                    config: {
+                      duration: 300,
+                    },
+                  },
+                  close: {
+                    animation: 'timing',
+                    config: {
+                      duration: 300,
+                    },
+                  },
+                },
+                cardStyleInterpolator: moveBottomToTop,
+              }}
+            />
+            <RootStack.Screen
+              name={ROOT_STACKS.POINTS_STACK}
+              component={PointsStack}
               options={{
                 gestureEnabled: false,
                 transitionSpec: {

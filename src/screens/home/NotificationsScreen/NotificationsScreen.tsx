@@ -2,13 +2,12 @@ import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 
 import {NotificationItem} from './NotificationItem';
-import {createNotificationsMapByDate} from './helpers';
 import {Colors, Fonts} from '@/shared/ui';
 import {GradientBellIcon} from '@/shared/ui/icons/GradientBellIcon';
-// import {RemoteMessage} from '@/shared/types/notification';
 import {MarkAsReadButton} from './MarkAsReadButton';
 import {useNotificationsStore} from '@/store/useNotificationsStore';
 import {Loader} from '@/components/Loader';
+import {createItemsMapByDate} from '@/shared/helpers/mapByDate';
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
@@ -20,7 +19,10 @@ export const NotificationsScreen = () => {
     isLoading: state.isLoading,
   }));
 
-  const notificationsMapByDate = createNotificationsMapByDate(notifications);
+  const notificationsMapByDate = createItemsMapByDate(
+    notifications,
+    'sentTime',
+  );
 
   if (isLoading) {
     return (

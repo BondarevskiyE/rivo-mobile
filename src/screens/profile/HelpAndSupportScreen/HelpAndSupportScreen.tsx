@@ -34,7 +34,7 @@ const webViewLink = `https://secure.livechatinc.com/customer/action/open_chat?li
 
 type Props = StackScreenProps<
   ProfileStackProps,
-  PROFILE_SCREENS.HELP_AND_SUPPORT
+  PROFILE_SCREENS.HELP_AND_SUPPORT_SCREEN
 >;
 
 export const HelpAndSupportScreen: React.FC<Props> = ({navigation}) => {

@@ -3,7 +3,10 @@ import messaging from '@react-native-firebase/messaging';
 import notifee from '@notifee/react-native';
 
 import Modal from '@/modal-manager';
-import {registerForegroundService} from '@/services/notifee';
+import {
+  registerForegroundService,
+  // registerBackgroundService,
+} from '@/services/notifee';
 import {useAppStore} from '@/store/useAppStore';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {useLoginStore} from '@/store/useLoginStore';
@@ -71,6 +74,7 @@ export const useInitializeApp = () => {
 
   const initializeApp = async () => {
     registerForegroundService();
+    // registerBackgroundService();
 
     // Get the token
     const token = await messaging().getToken();
@@ -96,7 +100,7 @@ export const useInitializeApp = () => {
 
       const unsubscribeOnMessage = messaging().onMessage(handleMessageReceived);
 
-      messaging().setBackgroundMessageHandler(handleMessageReceived);
+      // messaging().setBackgroundMessageHandler(handleMessageReceived);
 
       const unsibscribeOnTokenRefresh = messaging().onTokenRefresh(
         async (token: string) => {

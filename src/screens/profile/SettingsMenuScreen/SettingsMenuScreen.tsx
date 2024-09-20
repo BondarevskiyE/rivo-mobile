@@ -16,7 +16,10 @@ import {
   getPushNotificationButtons,
 } from './buttonsData';
 
-type Props = StackScreenProps<ProfileStackProps, PROFILE_SCREENS.SETTINGS_MENU>;
+type Props = StackScreenProps<
+  ProfileStackProps,
+  PROFILE_SCREENS.SETTINGS_MENU_SCREEN
+>;
 
 export const SettingsMenuScreen: React.FC<Props> = ({navigation}) => {
   const handleGoBack = () => {

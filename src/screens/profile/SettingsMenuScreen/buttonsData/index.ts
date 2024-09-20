@@ -40,7 +40,7 @@ export const getPasscodeButtons = (): ActionMenuButton[] => {
       title: 'Change passcode',
       type: ButtonType.INTERNAL,
       action: () => {
-        RootNavigation.navigate(PROFILE_SCREENS.CHANGE_PASSCODE);
+        RootNavigation.navigate(PROFILE_SCREENS.CHANGE_PASSCODE_SCREEN);
       },
       Icon: ChangePasscodeIcon,
     },

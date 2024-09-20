@@ -1,0 +1,1 @@
+export {PedestalPlace} from './PedestalPlace';

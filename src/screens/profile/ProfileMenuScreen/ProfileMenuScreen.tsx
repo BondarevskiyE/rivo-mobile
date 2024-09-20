@@ -9,7 +9,6 @@ import {
   PROFILE_SCREENS,
   ProfileStackProps,
 } from '@/navigation/types/profileStack';
-import {HOME_SCREENS} from '@/navigation/types/homeStack';
 import {CloseIcon} from '@/shared/ui/icons/CloseIcon';
 import {Colors, Fonts} from '@/shared/ui';
 import {useUserStore} from '@/store/useUserStore';
@@ -19,13 +18,16 @@ import {buttons, links} from './buttonsData';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
-type Props = StackScreenProps<ProfileStackProps, PROFILE_SCREENS.PROFILE_MENU>;
+type Props = StackScreenProps<
+  ProfileStackProps,
+  PROFILE_SCREENS.PROFILE_MENU_SCREEN
+>;
 
 export const ProfileMenuScreen: React.FC<Props> = ({navigation}) => {
   const user = useUserStore(state => state.userInfo);
 
   const handleGoBack = () => {
-    RootNavigation.navigate(HOME_SCREENS.HOME_SCREEN);
+    RootNavigation.navigationRef.goBack();
   };
 
   return (

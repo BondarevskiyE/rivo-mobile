@@ -1,0 +1,1 @@
+export {PointsHistoryScreen} from './PointsHistoryScreen';

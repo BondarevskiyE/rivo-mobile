@@ -18,14 +18,14 @@ export const ProfileStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen
-        name={PROFILE_SCREENS.PROFILE_MENU}
+        name={PROFILE_SCREENS.PROFILE_MENU_SCREEN}
         component={ProfileMenuScreen}
         options={{
           ...TransitionPresets.SlideFromRightIOS,
         }}
       />
       <Stack.Screen
-        name={PROFILE_SCREENS.SETTINGS_MENU}
+        name={PROFILE_SCREENS.SETTINGS_MENU_SCREEN}
         component={SettingsMenuScreen}
         options={{
           gestureEnabled: true,
@@ -33,7 +33,7 @@ export const ProfileStack = () => {
         }}
       />
       <Stack.Screen
-        name={PROFILE_SCREENS.HELP_AND_SUPPORT}
+        name={PROFILE_SCREENS.HELP_AND_SUPPORT_SCREEN}
         component={HelpAndSupportScreen}
         options={{
           transitionSpec: {
@@ -54,7 +54,7 @@ export const ProfileStack = () => {
         }}
       />
       <Stack.Screen
-        name={PROFILE_SCREENS.ABOUT_RIVO}
+        name={PROFILE_SCREENS.ABOUT_RIVO_SCREEN}
         component={AboutRivoScreen}
         options={{
           gestureEnabled: true,
@@ -62,7 +62,7 @@ export const ProfileStack = () => {
         }}
       />
       <Stack.Screen
-        name={PROFILE_SCREENS.CHANGE_PASSCODE}
+        name={PROFILE_SCREENS.CHANGE_PASSCODE_SCREEN}
         component={ChangePasscodeScreen}
         options={{
           ...TransitionPresets.SlideFromRightIOS,

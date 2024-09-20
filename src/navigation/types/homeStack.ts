@@ -1,12 +1,12 @@
 export enum HOME_SCREENS {
-  HOME_SCREEN = 'home_screen',
-  VAULT_SCREEN = 'vault_screen',
-  INVEST_SCREEN = 'invest_screen',
-  RECEIVE_SCREEN = 'receive_screen',
-  SEND_SCREEN = 'send_screen',
-  SWAP_OR_BRIDGE_SCREEN = 'swap_or_bridge_screen',
-  PURCHASE_SCREEN = 'purchase_screen',
-  SELL_SCREEN = 'sell_screen',
+  HOME_SCREEN = 'home',
+  VAULT_SCREEN = 'vault',
+  INVEST_SCREEN = 'invest',
+  RECEIVE_SCREEN = 'receive',
+  SEND_SCREEN = 'send',
+  SWAP_OR_BRIDGE_SCREEN = 'swap_or_bridge',
+  PURCHASE_SCREEN = 'purchase',
+  SELL_SCREEN = 'sell',
 }
 
 export type HomeStackProps = {

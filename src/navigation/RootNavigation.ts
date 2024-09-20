@@ -4,17 +4,20 @@ import {AuthStackProps, AUTH_SCREENS} from './types/authStack';
 import {HomeStackProps, HOME_SCREENS} from './types/homeStack';
 import {PROFILE_SCREENS, ProfileStackProps} from './types/profileStack';
 import {ROOT_STACKS, RootStackProps} from './types/rootStack';
+import {POINTS_SCREENS, PointsStackProps} from './types/pointsStack';
 
 type RootStackParamList = RootStackProps &
   AuthStackProps &
   HomeStackProps &
-  ProfileStackProps;
+  ProfileStackProps &
+  PointsStackProps;
 
 export type ScreenName =
   | ROOT_STACKS
   | HOME_SCREENS
   | AUTH_SCREENS
-  | PROFILE_SCREENS;
+  | PROFILE_SCREENS
+  | POINTS_SCREENS;
 
 export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
