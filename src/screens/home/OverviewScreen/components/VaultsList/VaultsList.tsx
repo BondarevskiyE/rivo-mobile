@@ -1,15 +1,23 @@
 import {useVaultsStore} from '@/store/useVaultsStore';
-import  {Fragment} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {VaultItem} from './VaultItem';
 import {Colors} from '@/shared/ui';
+import {Vault} from '@/shared/types';
 
 export const VaultsList = () => {
+  const [state, setState] = useState<Vault[]>([]);
   const vaults = useVaultsStore(state => state.vaults);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setState(vaults);
+    }, 5000);
+  }, [vaults]);
 
   return (
     <View style={styles.container}>
-      {vaults.map((vault, index) => {
+      {state.map((vault, index) => {
         const isLastItem = index === vaults.length - 1;
         return (
           <Fragment key={vault.name}>

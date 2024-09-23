@@ -1,11 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {StackScreenProps} from '@react-navigation/stack';
 
 import {createItemsMapByDate} from '@/shared/helpers/mapByDate';
 import {ArrowLineIcon} from '@/shared/ui/icons';
 import {PointsStackProps, POINTS_SCREENS} from '@/navigation/types/pointsStack';
-import {Colors, Fonts} from '@/shared/ui';
+import {Colors, Fonts, Images} from '@/shared/ui';
 import {PointsTxItem} from './types';
 import {ScrollView} from 'react-native-gesture-handler';
 import {PointsTransactionsItem} from './PointsTransactionsItem';
@@ -19,7 +19,7 @@ const pointsTxs: PointsTxItem[] = [
   {
     name: 'Daily investing',
     time: 1726481239214,
-    points: 999,
+    points: 997,
   },
   {
     name: 'Daily investing',
@@ -45,6 +45,8 @@ export const PointsHistoryScreen: React.FC<Props> = ({navigation}) => {
 
   const pointsTxsMapByDate = createItemsMapByDate(pointsTxs, 'time');
 
+  const pointsTxsMapByDateEntries = Object.entries(pointsTxsMapByDate);
+
   return (
     <SafeAreaView edges={['top']} style={styles.safeArea}>
       <View style={styles.container}>
@@ -52,16 +54,30 @@ export const PointsHistoryScreen: React.FC<Props> = ({navigation}) => {
           <ArrowLineIcon width={14} height={14} color={Colors.ui_white} />
         </Pressable>
 
-        <ScrollView
-          contentContainerStyle={styles.scrollList}
-          showsVerticalScrollIndicator={false}>
-          {Object.entries(pointsTxsMapByDate).map(([date, txs]) => (
-            <View key={date}>
-              <Text style={styles.dateText}>{date}</Text>
-              <PointsTransactionsItem items={txs} />
-            </View>
-          ))}
-        </ScrollView>
+        {pointsTxsMapByDateEntries.length ? (
+          <ScrollView
+            contentContainerStyle={styles.scrollList}
+            showsVerticalScrollIndicator={false}>
+            {pointsTxsMapByDateEntries.map(([date, txs], index) => (
+              <View key={date}>
+                <Text style={styles.dateText}>{date}</Text>
+                <PointsTransactionsItem items={txs} />
+              </View>
+            ))}
+          </ScrollView>
+        ) : (
+          <View style={styles.noPointsContainer}>
+            <Image
+              source={Images.noPointsHistoryBg}
+              style={styles.noPointsImage}
+              resizeMode="contain"
+            />
+            <Text style={styles.noPointsText}>
+              No points here yet. Time to change that&nbsp;- complete your first
+              task
+            </Text>
+          </View>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -76,7 +92,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: 'relative',
-    // paddingTop: 19,
   },
   backIconContainer: {
     position: 'absolute',
@@ -108,5 +123,20 @@ const styles = StyleSheet.create({
     color: Colors.ui_grey_70,
     marginLeft: 4,
     marginBottom: 12,
+  },
+  noPointsContainer: {
+    alignItems: 'center',
+    marginTop: 30,
+  },
+  noPointsImage: {
+    height: 180,
+  },
+  noPointsText: {
+    top: -20,
+    fontFamily: Fonts.regular,
+    fontSize: 14,
+    color: Colors.ui_grey_69,
+    textAlign: 'center',
+    paddingHorizontal: 59,
   },
 });

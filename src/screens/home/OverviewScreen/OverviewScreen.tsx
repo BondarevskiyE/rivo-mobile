@@ -1,4 +1,4 @@
-import  {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -45,6 +45,9 @@ export const OverviewScreen = () => {
   const insets = useSafeAreaInsets();
 
   const [isHideCard, setIsHideCard] = useState(false);
+
+  // we need to recalculate coordinates for onboarding guide highlights
+  const [isListSizeChanged, setIsListSizeChanged] = useState({});
 
   const cardAnimationValue = useSharedValue(1);
 
@@ -124,7 +127,11 @@ export const OverviewScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Header cardAnimationValue={cardAnimationValue} />
+      <Header
+        cardAnimationValue={cardAnimationValue}
+        // key to recalling onLayout function when new items in list appeared
+        key={`${isListSizeChanged}-header`}
+      />
       <RNFadedScrollView
         allowStartFade
         allowEndFade={false} // FIX remove if the list will be higher
@@ -136,6 +143,7 @@ export const OverviewScreen = () => {
         showsVerticalScrollIndicator={false}
         bounces={false}
         ref={scrollViewRef}
+        onContentSizeChange={setIsListSizeChanged}
         onLayout={onLayoutScrollView}>
         <View style={[styles.scrollArea]}>
           <ReAnimated.View
@@ -151,6 +159,8 @@ export const OverviewScreen = () => {
           <View
             style={styles.cashAccountContainer}
             ref={refs[HIGHLIGHT_ELEMENTS.CASH_ACCOUNT]}
+            // key to recalling onLayout function when new items in list appeared
+            key={`${isListSizeChanged}-cash-account`}
             onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.CASH_ACCOUNT, {
               mode: 'rectangle',
               borderRadius: 24,
@@ -161,6 +171,8 @@ export const OverviewScreen = () => {
 
           <View
             style={styles.vaultsListContainer}
+            // key to recalling onLayout function when new items in list appeared
+            key={`${isListSizeChanged}-vaults-list`}
             ref={refs[HIGHLIGHT_ELEMENTS.STRATEGIES_LIST]}
             onLayout={onLayoutElement(HIGHLIGHT_ELEMENTS.STRATEGIES_LIST, {
               mode: 'rectangle',

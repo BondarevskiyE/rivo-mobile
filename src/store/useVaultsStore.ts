@@ -17,6 +17,7 @@ type IndexUpdatesMap = Record<string, number>;
 
 interface VaultsState {
   vaults: Vault[];
+  isLoading: boolean;
   fetchVaults: () => void;
   vaultUpdatesLengthMap: IndexUpdatesMap;
   setVaultUpdatesLength: (address: string, length: number) => void;
@@ -27,8 +28,10 @@ export const useVaultsStore = create<VaultsState>()(
   persist(
     (set, get) => ({
       vaults: [],
+      isLoading: false,
       vaultUpdatesLengthMap: {},
       fetchVaults: async () => {
+        set({isLoading: true});
         const fetchTotalEarnedByVaults =
           useBalanceStore.getState().fetchTotalEarnedByVaults;
 
@@ -83,7 +86,7 @@ export const useVaultsStore = create<VaultsState>()(
           vaultsWithInfo.push(current);
         }
 
-        set({vaults: vaultsWithInfo});
+        set({vaults: vaultsWithInfo, isLoading: false});
 
         fetchTotalEarnedByVaults();
       },

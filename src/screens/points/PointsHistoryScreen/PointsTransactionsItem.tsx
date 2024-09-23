@@ -1,3 +1,4 @@
+import {Fragment} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 
 import {Colors, Fonts, Images} from '@/shared/ui';
@@ -15,10 +16,8 @@ export const PointsTransactionsItem: React.FC<Props> = ({items}) => {
         const time = getTimeString(item.time);
 
         return (
-          <>
-            <View
-              style={[styles.item, styles.row]}
-              key={`${item.time}-${item.points}`}>
+          <Fragment key={`${item.time}-${item.points}`}>
+            <View style={[styles.item, styles.row]}>
               <Image
                 source={Images.pointsStar}
                 style={styles.pointsStarIcon}
@@ -34,7 +33,7 @@ export const PointsTransactionsItem: React.FC<Props> = ({items}) => {
               </View>
             </View>
             {index !== items.length - 1 && <View style={styles.dividerLine} />}
-          </>
+          </Fragment>
         );
       })}
     </View>

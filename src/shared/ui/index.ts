@@ -201,6 +201,7 @@ export const Images = {
   referFriendMask: require('../../../assets/images/points-screen/refer_friend_mask.png'),
   pointsPedestal: require('../../../assets/images/points-screen/points_pedestal.png'),
   pointsLeaderboardBg: require('../../../assets/images/points-screen/leaderboard-bg.png'),
+  noPointsHistoryBg: require('../../../assets/images/points-screen/no_points_history_bg.png'),
 };
 
 export const Videos = {
