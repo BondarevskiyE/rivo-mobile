@@ -89,7 +89,10 @@ export const HomeStack = () => {
         }}>
         <Stack.Navigator
           screenOptions={{headerShown: false, freezeOnBlur: true}}>
-          <Stack.Screen name={HOME_SCREENS.HOME_SCREEN} component={TabsRoot} />
+          <Stack.Screen
+            name={HOME_SCREENS.HOME_SCREEN_TABS}
+            component={TabsRoot}
+          />
 
           <Stack.Screen
             name={HOME_SCREENS.VAULT_SCREEN}

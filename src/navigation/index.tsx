@@ -13,7 +13,7 @@ import {ROOT_STACKS} from './types/rootStack';
 
 import {moveBottomToTop} from './StyleInterpolators';
 import {PointsStack} from './PointsStack';
-import {linkingMap} from './deepLinking';
+import {linking} from './deepLinking';
 
 const navTheme = {
   ...DefaultTheme,
@@ -33,10 +33,7 @@ export const Router = () => {
   }));
 
   return (
-    <NavigationContainer
-      theme={navTheme}
-      ref={navigationRef}
-      linking={linkingMap}>
+    <NavigationContainer theme={navTheme} ref={navigationRef} linking={linking}>
       {
         // if user is logged in
         // we show PassCode screen every time the user collapse the application

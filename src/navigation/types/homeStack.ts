@@ -1,5 +1,5 @@
 export enum HOME_SCREENS {
-  HOME_SCREEN = 'home',
+  HOME_SCREEN_TABS = 'home_tabs',
   VAULT_SCREEN = 'vault',
   INVEST_SCREEN = 'invest',
   RECEIVE_SCREEN = 'receive',
@@ -10,7 +10,7 @@ export enum HOME_SCREENS {
 }
 
 export type HomeStackProps = {
-  [HOME_SCREENS.HOME_SCREEN]: undefined;
+  [HOME_SCREENS.HOME_SCREEN_TABS]: undefined;
   [HOME_SCREENS.VAULT_SCREEN]: {
     vaultAddress: string;
   };
