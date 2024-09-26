@@ -14,7 +14,6 @@ import {
   StyleProp,
   ViewStyle,
   Pressable,
-  Platform,
 } from 'react-native';
 import Animated, {
   Easing,
@@ -25,6 +24,7 @@ import Animated, {
 
 import {Colors} from '@/shared/ui';
 import {CloseIcon} from '@/shared/ui/icons';
+import {isAndroid} from '@/shared/helpers/system';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -134,7 +134,7 @@ export const ExpandableCard: React.FC<Props> = ({
       setIsOpen(!isOpen);
       onPress(isOpen);
 
-      if (Platform.OS === 'android') {
+      if (isAndroid) {
         modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
       } else {
         setTimeout(() => {
@@ -174,18 +174,15 @@ export const ExpandableCard: React.FC<Props> = ({
       ref={containerRef}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <Animated.View
-          style={[
-            styles.card,
-            Platform.OS === 'android' ? defaultSize : animatedStyle,
-          ]}>
-          {Platform.OS === 'android' ? children : renderChildren()}
+          style={[styles.card, isAndroid ? defaultSize : animatedStyle]}>
+          {isAndroid ? children : renderChildren()}
         </Animated.View>
       </TouchableWithoutFeedback>
 
       {isOpen && (
         <Modal
           transparent
-          animationType="none"
+          animationType={isAndroid ? 'slide' : 'none'}
           visible={isOpen}
           onRequestClose={handlePress}>
           <AnimatedPressable
