@@ -17,6 +17,16 @@ import {TelegramIcon} from '@/shared/ui/icons/TelegramIcon';
 import {XIcon} from '@/shared/ui/icons/XIcon';
 import {goToStore} from '@/shared/helpers/linking';
 
+export const txHistoryButton = [
+  {
+    title: 'History',
+    type: ButtonType.INTERNAL,
+    action: () => {
+      RootNavigation.navigate(PROFILE_SCREENS.TRANSACTION_HISTORY_SCREEN);
+    },
+  },
+];
+
 export const buttons: ActionMenuButton[] = [
   {
     title: 'Settings',

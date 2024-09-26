@@ -1,3 +1,6 @@
+import {RESULTS, openSettings} from 'react-native-permissions';
+import {Alert} from 'react-native';
+
 import * as RootNavigation from '@/navigation/RootNavigation';
 import {
   ActionMenuButton,
@@ -19,8 +22,7 @@ import {BellLineIcon} from '@/shared/ui/icons/BellLineIcon';
 import {useLoginStore} from '@/store/useLoginStore';
 import {AsyncAlert} from '@/components';
 import {EPermissionTypes, usePermissions} from '@/shared/hooks/usePermissions';
-import {RESULTS, openSettings} from 'react-native-permissions';
-import {Alert} from 'react-native';
+
 import {useUserStore} from '@/store/useUserStore';
 
 export const getPasscodeButtons = (): ActionMenuButton[] => {

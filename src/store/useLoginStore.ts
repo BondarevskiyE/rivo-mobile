@@ -14,6 +14,7 @@ import {checkIsUserAlreadyRegistered, userSigninBackend} from '@/shared/api';
 import {useBalanceStore} from './useBalanceStore';
 import {usePointsStore} from './usePointsStore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTransactionsHistoryStore} from './useTransactionsHistoryStore';
 
 interface LoginState {
   isLoading: boolean;
@@ -102,6 +103,7 @@ export const useLoginStore = create<LoginState>()(
         const {resetBalances} = useBalanceStore.getState();
         const {setKernelClient} = useZeroDevStore.getState();
         const {resetPoints} = usePointsStore.getState();
+        const {resetHistory} = useTransactionsHistoryStore.getState();
         try {
           const isLoggedOut = await logoutWeb3Auth();
 
@@ -111,6 +113,7 @@ export const useLoginStore = create<LoginState>()(
             setKernelClient(null);
             resetBalances();
             resetPoints();
+            resetHistory();
             resetKeychainCredentials();
             return true;
           }

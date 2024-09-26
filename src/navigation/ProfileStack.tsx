@@ -7,6 +7,7 @@ import {HelpAndSupportScreen} from '@/screens/profile/HelpAndSupportScreen';
 import {moveBottomToTop} from './StyleInterpolators';
 import {AboutRivoScreen} from '@/screens/profile/AboutRivoScreen';
 import {ChangePasscodeScreen} from '@/screens/profile/ChangePasscodeScreen';
+import {TransactionHistoryScreen} from '@/screens/profile/TransactionHistoryScreen';
 
 const Stack = createStackNavigator<ProfileStackProps>();
 
@@ -30,6 +31,27 @@ export const ProfileStack = () => {
         options={{
           gestureEnabled: true,
           ...TransitionPresets.SlideFromRightIOS,
+        }}
+      />
+      <Stack.Screen
+        name={PROFILE_SCREENS.TRANSACTION_HISTORY_SCREEN}
+        component={TransactionHistoryScreen}
+        options={{
+          transitionSpec: {
+            open: {
+              animation: 'timing',
+              config: {
+                duration: 300,
+              },
+            },
+            close: {
+              animation: 'timing',
+              config: {
+                duration: 300,
+              },
+            },
+          },
+          cardStyleInterpolator: moveBottomToTop,
         }}
       />
       <Stack.Screen

@@ -22,6 +22,7 @@ import {
 } from '../constants/time';
 import {useAppState} from './useAppState';
 import {RemoteMessage} from '../types/notification';
+import {useTransactionsHistoryStore} from '@/store/useTransactionsHistoryStore';
 
 async function onMessageReceived(message: RemoteMessage) {
   console.log(message);
@@ -50,6 +51,10 @@ export const useInitializeApp = () => {
       fetchNotifications: state.fetchNotifications,
       addNotification: state.addNotification,
     }),
+  );
+
+  const fetchTxHistory = useTransactionsHistoryStore(
+    state => state.fetchTxHistory,
   );
 
   const fetchVaults = useVaultsStore(state => state.fetchVaults);
@@ -97,6 +102,8 @@ export const useInitializeApp = () => {
   useEffect(() => {
     if (isLoggedIn) {
       initializeApp();
+
+      fetchTxHistory(walletAddress);
 
       const unsubscribeOnMessage = messaging().onMessage(handleMessageReceived);
 

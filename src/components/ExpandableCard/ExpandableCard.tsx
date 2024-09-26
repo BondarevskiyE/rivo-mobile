@@ -14,6 +14,7 @@ import {
   StyleProp,
   ViewStyle,
   Pressable,
+  Platform,
 } from 'react-native';
 import Animated, {
   Easing,
@@ -42,6 +43,14 @@ const expandedCardHeight = 677;
 const paddingHorizontal = 12;
 const paddingBottom = 20;
 const expandedCardWidth = SCREEN_WIDTH - paddingHorizontal * 2;
+
+const defaultSize = {
+  width: initialCardWidth,
+  height: initialCardHeight,
+  borderRadius: 24,
+  top: 0,
+  left: 0,
+};
 
 export const ExpandableCard: React.FC<Props> = ({
   onPress,
@@ -125,9 +134,13 @@ export const ExpandableCard: React.FC<Props> = ({
       setIsOpen(!isOpen);
       onPress(isOpen);
 
-      setTimeout(() => {
+      if (Platform.OS === 'android') {
         modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
-      }, EXPAND_TIME - 100);
+      } else {
+        setTimeout(() => {
+          modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
+        }, EXPAND_TIME - 100);
+      }
     });
   };
 
@@ -140,16 +153,6 @@ export const ExpandableCard: React.FC<Props> = ({
       left: cardLeft.value,
     };
   });
-
-  // const animatedModalStyle = useAnimatedStyle(() => {
-  //   return {
-  //     width: cardWidth.value,
-  //     height: cardHeight.value,
-  //     borderRadius: cardBorderRadius.value,
-  //     top: cardTopModal.value,
-  //     left: cardLeftModal.value,
-  //   };
-  // });
 
   const containerStyle = useAnimatedStyle(() => ({
     zIndex: cardHeight.value,
@@ -170,8 +173,12 @@ export const ExpandableCard: React.FC<Props> = ({
       style={[styles.container, containerStyle]}
       ref={containerRef}>
       <TouchableWithoutFeedback onPress={handlePress}>
-        <Animated.View style={[styles.card, animatedStyle]}>
-          {renderChildren()}
+        <Animated.View
+          style={[
+            styles.card,
+            Platform.OS === 'android' ? defaultSize : animatedStyle,
+          ]}>
+          {Platform.OS === 'android' ? children : renderChildren()}
         </Animated.View>
       </TouchableWithoutFeedback>
 
@@ -189,7 +196,6 @@ export const ExpandableCard: React.FC<Props> = ({
             style={[
               styles.card,
               containerStyles,
-              // animatedModalStyle,
               {
                 width: SCREEN_WIDTH - 2 * paddingHorizontal,
                 height: expandedCardHeight,

@@ -20,6 +20,7 @@ import {Vault} from '@/shared/types';
 import {getContract} from '@/services/viem';
 import {useBalanceStore} from './useBalanceStore';
 import {GetUserOperationReceiptReturnType} from 'permissionless';
+import {useTransactionsHistoryStore} from './useTransactionsHistoryStore';
 
 interface ZeroDevState {
   kernelClient: KernelClient | null;
@@ -49,11 +50,14 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
   ): Promise<GetUserOperationReceiptReturnType | null> => {
     const tokenContractAddress = vault.token_address;
 
+    const userAddress = useUserStore.getState().walletAddress;
+
     const fetchBalance = useBalanceStore.getState().fetchBalance;
 
-    try {
-      const userAddress = useUserStore.getState().walletAddress;
+    const fetchTxHistory =
+      useTransactionsHistoryStore.getState().fetchTxHistory;
 
+    try {
       const tokenContract = getContract({
         contractAddress: tokenContractAddress,
         abi: VaultTokenABI,
@@ -81,6 +85,7 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
       });
 
       await fetchBalance();
+      await fetchTxHistory(userAddress);
       return investTxReceipt;
     } catch (error) {
       console.log(error);
@@ -91,9 +96,13 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
   withdraw: async (vault: Vault, amount: string) => {
     const fetchBalance = useBalanceStore.getState().fetchBalance;
 
+    const userAddress = useUserStore.getState().walletAddress;
+
+    const fetchTxHistory =
+      useTransactionsHistoryStore.getState().fetchTxHistory;
+
     try {
       const kernelClient = get().kernelClient;
-      const userAddress = useUserStore.getState().walletAddress;
 
       if (!kernelClient) {
         throw new Error('something went wrong');
@@ -135,6 +144,8 @@ export const useZeroDevStore = create<ZeroDevState>()((set, get) => ({
       });
 
       await fetchBalance();
+
+      await fetchTxHistory(userAddress);
 
       return swapToUSDCReceipt;
     } catch (error) {

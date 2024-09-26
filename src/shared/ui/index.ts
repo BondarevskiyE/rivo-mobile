@@ -164,7 +164,10 @@ export const Images = {
   onboardingTask1: require('../../../assets/images/onboarding/task-mountains.png'),
   onboardingTask2: require('../../../assets/images/onboarding/task-sea.png'),
   onboardingTask3: require('../../../assets/images/onboarding/task-japan.png'),
-  onboardingCat: require('../../../assets/images/onboarding/onboarding-cat.png'),
+  onboardingSlide1: require('../../../assets/images/onboarding/onboarding-slide-1.png'),
+  onboardingSlide2: require('../../../assets/images/onboarding/onboarding-slide-2.png'),
+  onboardingSlide3: require('../../../assets/images/onboarding/onboarding-slide-3.png'),
+  onboardingSlide4: require('../../../assets/images/onboarding/onboarding-slide-4.png'),
 
   cardVariantCat: require('../../../assets/images/card/variants/cat.png'),
   cardVariantCarp: require('../../../assets/images/card/variants/carp.png'),
@@ -202,6 +205,8 @@ export const Images = {
   pointsPedestal: require('../../../assets/images/points-screen/points_pedestal.png'),
   pointsLeaderboardBg: require('../../../assets/images/points-screen/leaderboard-bg.png'),
   noPointsHistoryBg: require('../../../assets/images/points-screen/no_points_history_bg.png'),
+
+  clock: require('../../../assets/images/profile-screen/time-clock.png'),
 };
 
 export const Videos = {

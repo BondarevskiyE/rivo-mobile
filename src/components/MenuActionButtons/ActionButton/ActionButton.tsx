@@ -2,7 +2,7 @@ import {Pressable, StyleSheet, Text, View} from 'react-native';
 
 import {ActionMenuButton, ButtonType, isSwitchElement} from '../types';
 import {Colors, Fonts} from '@/shared/ui';
-import {ArrowLineIcon, DiogonalArrowIcon} from '@/shared/ui/icons';
+import {DiogonalArrowIcon} from '@/shared/ui/icons';
 import {Switch} from '@/components/Switch';
 
 interface Props {
@@ -26,12 +26,16 @@ export function ActionButton({button, isLastItem}: Props) {
       onPress={onPress}
       style={[styles.container, {borderBottomWidth: isLastItem ? 0 : 0.5}]}>
       <View style={styles.contentContainer}>
-        <Icon
-          color={Colors.ui_grey_70}
-          width={21}
-          height={21}
-          style={styles.icon}
-        />
+        {Icon ? (
+          <Icon
+            color={Colors.ui_grey_70}
+            width={21}
+            height={21}
+            style={styles.icon}
+          />
+        ) : (
+          <View style={[styles.icon, {width: 21, height: 21}]} />
+        )}
         <Text style={styles.titleText}>{title}</Text>
       </View>
 
@@ -44,9 +48,9 @@ export function ActionButton({button, isLastItem}: Props) {
           <DiogonalArrowIcon color={Colors.ui_grey_43} width={12} height={12} />
         )}
 
-        {type === ButtonType.INTERNAL && (
+        {/* {type === ButtonType.INTERNAL && (
           <ArrowLineIcon color={Colors.ui_grey_43} width={12} height={12} />
-        )}
+        )} */}
       </View>
     </Pressable>
   );

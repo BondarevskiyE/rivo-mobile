@@ -14,7 +14,7 @@ import {Colors, Fonts} from '@/shared/ui';
 import {useUserStore} from '@/store/useUserStore';
 import {DEFAULT_USER_PHOTO} from '@/shared/constants';
 import {MenuActionButtons} from '@/components/MenuActionButtons';
-import {buttons, links} from './buttonsData';
+import {buttons, links, txHistoryButton} from './buttonsData';
 import {ScrollView} from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -49,6 +49,10 @@ export const ProfileMenuScreen: React.FC<Props> = ({navigation}) => {
             />
             <Text style={styles.nameText}>{user?.name}</Text>
             <Text style={styles.emailText}>{user?.email}</Text>
+          </View>
+
+          <View style={{marginBottom: 12}}>
+            <MenuActionButtons buttonsData={txHistoryButton} />
           </View>
 
           <View style={{marginBottom: 12}}>

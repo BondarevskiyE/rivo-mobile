@@ -1,4 +1,4 @@
-import  {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {
   Dimensions,
   Image,
@@ -26,7 +26,7 @@ import {
   HIGHLIGHT_ELEMENTS,
   useOnboardingStore,
 } from '@/store/useOnboardingStore';
-import {Colors, Fonts, Images} from '@/shared/ui';
+import {Colors, Fonts} from '@/shared/ui';
 import {StepCounter} from './components';
 import {onboardingSteps} from './data/steps';
 import {ArrowLineIcon, CheckIcon} from '@/shared/ui/icons';
@@ -108,7 +108,7 @@ export const OnboardingModal = ({
 
   return (
     <ReAnimated.View style={[modalStyles.container, positionStyles]} {...props}>
-      <Image source={Images.onboardingCat} style={modalStyles.catImage} />
+      <Image source={activeStep.image} style={modalStyles.catImage} />
       <View style={modalStyles.contentBlock}>
         <View style={modalStyles.content}>
           <StepCounter activeId={activeStep.stepId} />
