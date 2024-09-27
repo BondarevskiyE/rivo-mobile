@@ -37,6 +37,8 @@ export const deepLinksConf = {
         [PROFILE_SCREENS.HELP_AND_SUPPORT_SCREEN]: 'help_and_support',
         [PROFILE_SCREENS.ABOUT_RIVO_SCREEN]: 'about',
         [PROFILE_SCREENS.CHANGE_PASSCODE_SCREEN]: 'change_passcode',
+        [PROFILE_SCREENS.TRANSACTION_HISTORY_SCREEN]:
+          'transaction_history/:hash',
       },
     },
     [ROOT_STACKS.POINTS_STACK]: {

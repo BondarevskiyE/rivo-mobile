@@ -24,14 +24,21 @@ import Animated, {
 
 import {Colors} from '@/shared/ui';
 import {CloseIcon} from '@/shared/ui/icons';
-import {isAndroid} from '@/shared/helpers/system';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
+
+type CardSize = {
+  width: number;
+  height: number;
+  borderRadius: number;
+};
 
 interface Props {
   onPress: (isOpen: boolean) => void;
   children: ReactElement<any, string | JSXElementConstructor<any>>;
+  initialSize?: CardSize;
   containerStyles?: StyleProp<ViewStyle>;
+  disableExpandEnimation?: boolean;
 }
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -55,13 +62,15 @@ const defaultSize = {
 export const ExpandableCard: React.FC<Props> = ({
   onPress,
   children,
+  initialSize = defaultSize,
   containerStyles,
+  disableExpandEnimation = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const cardWidth = useSharedValue(initialCardWidth);
-  const cardHeight = useSharedValue(initialCardHeight);
-  const cardBorderRadius = useSharedValue(24);
+  const cardWidth = useSharedValue(initialSize.width);
+  const cardHeight = useSharedValue(initialSize.height);
+  const cardBorderRadius = useSharedValue(initialSize.borderRadius);
   const cardTop = useSharedValue(0);
   const cardLeft = useSharedValue(0);
 
@@ -134,7 +143,7 @@ export const ExpandableCard: React.FC<Props> = ({
       setIsOpen(!isOpen);
       onPress(isOpen);
 
-      if (isAndroid) {
+      if (disableExpandEnimation) {
         modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
       } else {
         setTimeout(() => {
@@ -174,15 +183,18 @@ export const ExpandableCard: React.FC<Props> = ({
       ref={containerRef}>
       <TouchableWithoutFeedback onPress={handlePress}>
         <Animated.View
-          style={[styles.card, isAndroid ? defaultSize : animatedStyle]}>
-          {isAndroid ? children : renderChildren()}
+          style={[
+            styles.card,
+            disableExpandEnimation ? defaultSize : animatedStyle,
+          ]}>
+          {disableExpandEnimation ? children : renderChildren()}
         </Animated.View>
       </TouchableWithoutFeedback>
 
       {isOpen && (
         <Modal
           transparent
-          animationType={isAndroid ? 'slide' : 'none'}
+          animationType={disableExpandEnimation ? 'slide' : 'none'}
           visible={isOpen}
           onRequestClose={handlePress}>
           <AnimatedPressable

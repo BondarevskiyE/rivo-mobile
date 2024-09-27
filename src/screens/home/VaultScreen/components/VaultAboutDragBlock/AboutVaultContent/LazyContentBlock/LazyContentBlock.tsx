@@ -20,6 +20,7 @@ import {
 } from './helpers';
 
 import {MethodologyModal} from './MethodologyModal';
+import {isAndroid} from '@/shared/helpers/system';
 
 function openMethodologyModal() {
   Modal.show({
@@ -79,7 +80,10 @@ export const LazyContentBlock: React.FC<Props> = ({
         style={{zIndex: 9, overflow: 'visible'}}
         contentContainerStyle={{gap: 8, overflow: 'visible'}}>
         {vault.strategies?.map(item => (
-          <ExpandableCard onPress={setIsInvestButtonShown} key={item.address}>
+          <ExpandableCard
+            onPress={setIsInvestButtonShown}
+            disableExpandEnimation={isAndroid}
+            key={item.address}>
             <InsideStrategyCard item={item} key={item.address} />
           </ExpandableCard>
         ))}
