@@ -24,6 +24,8 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
+export const LIST_HORIZONTAL_PADDING = 12;
+
 type Props = StackScreenProps<
   ProfileStackProps,
   PROFILE_SCREENS.TRANSACTION_HISTORY_SCREEN
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
   },
   scrollList: {
     paddingBottom: 90,
-    paddingHorizontal: 12,
+    paddingHorizontal: LIST_HORIZONTAL_PADDING,
   },
   dateText: {
     fontFamily: Fonts.regular,

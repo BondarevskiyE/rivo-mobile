@@ -65,7 +65,7 @@ export const OnboardingModal = ({
     // Timeout for removing fade overlay while scrolling
     setTimeout(() => {
       highlightElement(activeStep.highlightElement);
-    }, 300);
+    }, 500);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeStep]);
@@ -76,6 +76,7 @@ export const OnboardingModal = ({
       Modal.hide();
       return;
     }
+
     setActiveStepIndex(index => index + 1);
   };
 

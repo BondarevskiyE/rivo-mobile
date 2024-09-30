@@ -1,4 +1,3 @@
-
 import {
   HighlightableElement,
   HighlightableElementProvider,
@@ -30,7 +29,8 @@ export const Providers = ({children}: withChildren) => {
               onDismiss={() => {}}
             />
             <HighlightableElement
-              // It is an empty element for showing faded overlay without highliting
+              // It is an empty element to show faded overlay without highliting
+              // react-native-highlight-overlay will show overlay but there is no coordinates to highlight
               id={HIGHLIGHT_ELEMENTS.NONE}
             />
           </HighlightableElementProvider>

@@ -82,7 +82,7 @@ export const LazyContentBlock: React.FC<Props> = ({
         {vault.strategies?.map(item => (
           <ExpandableCard
             onPress={setIsInvestButtonShown}
-            disableExpandEnimation={isAndroid}
+            disableExpandAnimation={isAndroid}
             key={item.address}>
             <InsideStrategyCard item={item} key={item.address} />
           </ExpandableCard>

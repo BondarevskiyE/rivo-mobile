@@ -12,7 +12,7 @@ import {
   // UserBalanceResponse,
   VaultResponse,
 } from './types';
-import {Chains} from '../constants';
+import {CHAINS} from '../constants';
 
 export const apiUrl = Config.RIVO_API_URL;
 export const LOCUS_API_URL = Config.LOCUS_API_URL;
@@ -105,7 +105,7 @@ export const getActiveVaults = async (): Promise<VaultResponse | null> => {
 
 export const getVaultTvl = async (
   address: string,
-  chain: Chains,
+  chain: CHAINS,
 ): Promise<TvlResponse | null> => {
   return await sendRequest<TvlResponse | null>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_tvl`,
@@ -114,7 +114,7 @@ export const getVaultTvl = async (
 
 export const getVaultPrice = async (
   address: string,
-  chain: Chains,
+  chain: CHAINS,
 ): Promise<PriceResponse | null> => {
   return await sendRequest<PriceResponse>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_price`,
@@ -123,7 +123,7 @@ export const getVaultPrice = async (
 
 export const getVaultApy = async (
   address: string,
-  chain: Chains,
+  chain: CHAINS,
 ): Promise<ApyResponse | null> => {
   return await sendRequest<ApyResponse>({
     url: `${apiUrl}/v1/chain/${chain}/vault/${address}/last_apy`,
@@ -132,7 +132,7 @@ export const getVaultApy = async (
 
 export const getStrategyApy = async (
   address: string,
-  chain: Chains,
+  chain: CHAINS,
 ): Promise<ApyResponse | null> => {
   return await sendRequest<ApyResponse>({
     url: `${apiUrl}/v1/chain/${chain}/strategy/${address}/apy`,
@@ -146,7 +146,7 @@ export const getHolders = async (address: string, chain: string) => {
 };
 
 export const getLastIndexUpdate = (
-  chain: Chains,
+  chain: CHAINS,
   vaultName: string,
 ): Promise<IndexUpdate | null> => {
   return sendRequest<IndexUpdate>({
@@ -155,7 +155,7 @@ export const getLastIndexUpdate = (
 };
 
 export const getAllIndexUpdates = (
-  chain: Chains,
+  chain: CHAINS,
   vaultName: string,
 ): Promise<IndexUpdate[] | null> => {
   return sendRequest<IndexUpdate[]>({

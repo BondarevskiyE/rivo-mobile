@@ -1,17 +1,23 @@
-import {arbitrum} from 'viem/chains';
+import {arbitrum, etherlink} from 'viem/chains';
 
-export const chain = arbitrum;
+export const chain = etherlink;
 
-export type Chains = 'ARB';
+export enum CHAINS {
+  ARB = 'ARB',
+  ETHERLINK = 'ETHERLINK',
+}
 
-export const chainsMap: Record<number, Chains> = {
-  [arbitrum.id]: 'ARB',
+export const chainsMap: Record<number, CHAINS> = {
+  [arbitrum.id]: CHAINS.ARB,
+  [etherlink.id]: CHAINS.ETHERLINK,
 };
 
 export const chainIds = {
-  ARB: arbitrum.id,
+  [CHAINS.ARB]: arbitrum.id,
+  [CHAINS.ETHERLINK]: etherlink.id,
 };
 
 export const scannerUrls = {
-  ARB: 'https://arbiscan.io/',
+  [CHAINS.ARB]: 'https://arbiscan.io/',
+  [CHAINS.ETHERLINK]: 'https://explorer.etherlink.com/',
 };

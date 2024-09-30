@@ -9,7 +9,6 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  TouchableWithoutFeedback,
   Modal,
   StyleProp,
   ViewStyle,
@@ -34,11 +33,13 @@ type CardSize = {
 };
 
 interface Props {
-  onPress: (isOpen: boolean) => void;
   children: ReactElement<any, string | JSXElementConstructor<any>>;
+  onPress?: (isOpen: boolean) => void;
   initialSize?: CardSize;
+  expandedSize?: CardSize;
   containerStyles?: StyleProp<ViewStyle>;
-  disableExpandEnimation?: boolean;
+  disableExpandAnimation?: boolean;
+  duplicateCardWhenExpand?: boolean;
 }
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -55,16 +56,22 @@ const defaultSize = {
   width: initialCardWidth,
   height: initialCardHeight,
   borderRadius: 24,
-  top: 0,
-  left: 0,
+};
+
+const defaultExpandedSize = {
+  width: expandedCardWidth,
+  height: expandedCardHeight,
+  borderRadius: 32,
 };
 
 export const ExpandableCard: React.FC<Props> = ({
   onPress,
   children,
   initialSize = defaultSize,
+  expandedSize = defaultExpandedSize,
   containerStyles,
-  disableExpandEnimation = false,
+  disableExpandAnimation = false,
+  duplicateCardWhenExpand = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -82,17 +89,17 @@ export const ExpandableCard: React.FC<Props> = ({
     containerRef.current?.measureInWindow((x, y) => {
       if (isOpen) {
         // Animate to initial size and position
-        cardWidth.value = withTiming(initialCardWidth, {
+        cardWidth.value = withTiming(initialSize.width, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
 
-        cardHeight.value = withTiming(initialCardHeight, {
+        cardHeight.value = withTiming(initialSize.height, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
 
-        cardBorderRadius.value = withTiming(24, {
+        cardBorderRadius.value = withTiming(initialSize.borderRadius, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
@@ -108,23 +115,23 @@ export const ExpandableCard: React.FC<Props> = ({
         });
       } else {
         // Animate to full screen size and position
-        cardWidth.value = withTiming(SCREEN_WIDTH - 2 * paddingHorizontal, {
+        cardWidth.value = withTiming(expandedSize.width, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
 
-        cardHeight.value = withTiming(expandedCardHeight, {
+        cardHeight.value = withTiming(expandedSize.height, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
 
-        cardBorderRadius.value = withTiming(32, {
+        cardBorderRadius.value = withTiming(expandedSize.borderRadius, {
           duration: EXPAND_TIME,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardTop.value = withTiming(
-          SCREEN_HEIGHT - y - expandedCardHeight - paddingBottom,
+          SCREEN_HEIGHT - y - expandedSize.height - paddingBottom,
           {
             duration: EXPAND_TIME,
             easing: Easing.inOut(Easing.ease),
@@ -132,7 +139,7 @@ export const ExpandableCard: React.FC<Props> = ({
         );
 
         cardLeft.value = withTiming(
-          SCREEN_WIDTH - x - expandedCardWidth - paddingHorizontal,
+          SCREEN_WIDTH - x - expandedSize.width - paddingHorizontal,
           {
             duration: EXPAND_TIME,
             easing: Easing.inOut(Easing.ease),
@@ -141,9 +148,9 @@ export const ExpandableCard: React.FC<Props> = ({
       }
 
       setIsOpen(!isOpen);
-      onPress(isOpen);
+      onPress?.(isOpen);
 
-      if (disableExpandEnimation) {
+      if (disableExpandAnimation) {
         modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
       } else {
         setTimeout(() => {
@@ -179,22 +186,34 @@ export const ExpandableCard: React.FC<Props> = ({
 
   return (
     <Animated.View
-      style={[styles.container, containerStyle]}
+      style={[
+        styles.container,
+        {width: initialSize.width, height: initialSize.height},
+        containerStyle,
+      ]}
       ref={containerRef}>
-      <TouchableWithoutFeedback onPress={handlePress}>
-        <Animated.View
-          style={[
-            styles.card,
-            disableExpandEnimation ? defaultSize : animatedStyle,
-          ]}>
-          {disableExpandEnimation ? children : renderChildren()}
-        </Animated.View>
-      </TouchableWithoutFeedback>
+      <Pressable onPress={handlePress}>
+        <>
+          <Animated.View
+            style={[
+              styles.card,
+              disableExpandAnimation ? initialSize : animatedStyle,
+              containerStyle,
+            ]}>
+            {disableExpandAnimation ? children : renderChildren()}
+          </Animated.View>
+          {duplicateCardWhenExpand && (
+            <View style={[styles.card, initialSize]}>
+              {disableExpandAnimation ? children : renderChildren()}
+            </View>
+          )}
+        </>
+      </Pressable>
 
       {isOpen && (
         <Modal
           transparent
-          animationType={disableExpandEnimation ? 'slide' : 'none'}
+          animationType={disableExpandAnimation ? 'slide' : 'none'}
           visible={isOpen}
           onRequestClose={handlePress}>
           <AnimatedPressable
@@ -206,11 +225,11 @@ export const ExpandableCard: React.FC<Props> = ({
               styles.card,
               containerStyles,
               {
-                width: SCREEN_WIDTH - 2 * paddingHorizontal,
-                height: expandedCardHeight,
-                borderRadius: 32,
-                top: SCREEN_HEIGHT - expandedCardHeight - paddingBottom,
-                left: SCREEN_WIDTH - expandedCardWidth - paddingHorizontal,
+                width: expandedSize.width,
+                height: expandedSize.height,
+                borderRadius: expandedSize.borderRadius,
+                top: SCREEN_HEIGHT - expandedSize.height - paddingBottom,
+                left: SCREEN_WIDTH - expandedSize.width - paddingHorizontal,
               },
               modalOpacityStyle,
             ]}>
@@ -228,9 +247,6 @@ export const ExpandableCard: React.FC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     position: 'relative',
-    height: initialCardHeight,
-    width: initialCardWidth,
-    // flex: 1,
   },
   modalOverlay: {
     flex: 1,
