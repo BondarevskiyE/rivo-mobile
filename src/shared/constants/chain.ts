@@ -1,6 +1,6 @@
 import {arbitrum, etherlink} from 'viem/chains';
 
-export const chain = etherlink;
+export const chain = arbitrum;
 
 export enum CHAINS {
   ARB = 'ARB',

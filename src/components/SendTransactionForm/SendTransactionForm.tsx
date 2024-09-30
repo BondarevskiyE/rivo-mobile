@@ -26,7 +26,7 @@ import {
 } from './types';
 import {FormLoader} from './FormLoader';
 import {ActionButtons} from './ActionButtons';
-import {Chains, scannerUrls} from '@/shared/constants';
+import {CHAINS, scannerUrls} from '@/shared/constants';
 import {openInAppBrowser} from '@/shared/helpers/url';
 import {InviteFriendsBadge} from './InviteFriendsBadge';
 import {AmountInfo} from './AmountInfo';
@@ -37,7 +37,7 @@ const {width: SCREEN_WIDTH} = Dimensions.get('window');
 
 interface Props {
   formType: SEND_TRANSACTION_FORM_TYPE;
-  chain: Chains;
+  chain: CHAINS;
   balance: number;
   onSendTransaction: (
     amount: string,

@@ -40,27 +40,25 @@ interface Props {
   containerStyles?: StyleProp<ViewStyle>;
   disableExpandAnimation?: boolean;
   duplicateCardWhenExpand?: boolean;
+  expandTime?: number;
 }
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
 
-const EXPAND_TIME = 250;
-const initialCardWidth = 170;
-const initialCardHeight = 232;
-const expandedCardHeight = 677;
+const DEFAULT_EXPAND_TIME = 250;
+
 const paddingHorizontal = 12;
 const paddingBottom = 20;
-const expandedCardWidth = SCREEN_WIDTH - paddingHorizontal * 2;
 
 const defaultSize = {
-  width: initialCardWidth,
-  height: initialCardHeight,
+  width: 170,
+  height: 232,
   borderRadius: 24,
 };
 
 const defaultExpandedSize = {
-  width: expandedCardWidth,
-  height: expandedCardHeight,
+  width: SCREEN_WIDTH - paddingHorizontal * 2,
+  height: 677,
   borderRadius: 32,
 };
 
@@ -72,6 +70,7 @@ export const ExpandableCard: React.FC<Props> = ({
   containerStyles,
   disableExpandAnimation = false,
   duplicateCardWhenExpand = false,
+  expandTime = DEFAULT_EXPAND_TIME,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -90,50 +89,50 @@ export const ExpandableCard: React.FC<Props> = ({
       if (isOpen) {
         // Animate to initial size and position
         cardWidth.value = withTiming(initialSize.width, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardHeight.value = withTiming(initialSize.height, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardBorderRadius.value = withTiming(initialSize.borderRadius, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardTop.value = withTiming(0, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardLeft.value = withTiming(0, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
       } else {
         // Animate to full screen size and position
         cardWidth.value = withTiming(expandedSize.width, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardHeight.value = withTiming(expandedSize.height, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardBorderRadius.value = withTiming(expandedSize.borderRadius, {
-          duration: EXPAND_TIME,
+          duration: expandTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardTop.value = withTiming(
           SCREEN_HEIGHT - y - expandedSize.height - paddingBottom,
           {
-            duration: EXPAND_TIME,
+            duration: expandTime,
             easing: Easing.inOut(Easing.ease),
           },
         );
@@ -141,7 +140,7 @@ export const ExpandableCard: React.FC<Props> = ({
         cardLeft.value = withTiming(
           SCREEN_WIDTH - x - expandedSize.width - paddingHorizontal,
           {
-            duration: EXPAND_TIME,
+            duration: expandTime,
             easing: Easing.inOut(Easing.ease),
           },
         );
@@ -152,11 +151,12 @@ export const ExpandableCard: React.FC<Props> = ({
 
       if (disableExpandAnimation) {
         modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
-      } else {
-        setTimeout(() => {
-          modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
-        }, EXPAND_TIME - 100);
+        return;
       }
+
+      setTimeout(() => {
+        modalOpacity.value = withTiming(isOpen ? 0 : 1, {duration: 300});
+      }, expandTime - 100);
     });
   };
 
@@ -181,6 +181,7 @@ export const ExpandableCard: React.FC<Props> = ({
   const renderChildren = useCallback(() => {
     return React.cloneElement(children, {
       isOpen,
+      animationTime: expandTime,
     });
   }, [children, isOpen]);
 
@@ -200,16 +201,17 @@ export const ExpandableCard: React.FC<Props> = ({
               disableExpandAnimation ? initialSize : animatedStyle,
               containerStyle,
             ]}>
+            {/* render children element. If disableExpandAnimation is true we don't pass isOpen prop */}
             {disableExpandAnimation ? children : renderChildren()}
           </Animated.View>
           {duplicateCardWhenExpand && (
-            <View style={[styles.card, initialSize]}>
-              {disableExpandAnimation ? children : renderChildren()}
-            </View>
+            // render duplicate that will be displayed on the same place when animation starts
+            <View style={[styles.card, initialSize]}>{children}</View>
           )}
         </>
       </Pressable>
 
+      {/* show modal above all to disable scroll and show dark overlay */}
       {isOpen && (
         <Modal
           transparent

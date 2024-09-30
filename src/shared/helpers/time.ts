@@ -5,3 +5,9 @@ export const getTimeString = (time: number) => {
 
   return date.toFormat('HH:mm');
 };
+
+export const getDateTimeString = (time: number) => {
+  const date = DateTime.fromMillis(time);
+
+  return date.toFormat('LLLL yy, HH:mm');
+};

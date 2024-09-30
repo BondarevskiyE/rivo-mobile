@@ -1,0 +1,1 @@
+export {TxHistoryItemsBlock} from './TxHistoryItemsBlock';

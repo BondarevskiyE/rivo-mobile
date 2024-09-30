@@ -21,10 +21,9 @@ import {
   PROFILE_SCREENS,
 } from '@/navigation/types/profileStack';
 import LinearGradient from 'react-native-linear-gradient';
+import {LIST_HORIZONTAL_PADDING} from './constants';
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
-
-export const LIST_HORIZONTAL_PADDING = 12;
 
 type Props = StackScreenProps<
   ProfileStackProps,
@@ -64,8 +63,8 @@ export const TransactionHistoryScreen: React.FC<Props> = ({navigation}) => {
             style={{paddingTop: 83}}
             contentContainerStyle={styles.scrollList}
             showsVerticalScrollIndicator={false}>
-            {Object.entries(txHistoryMapByDate).map(([date, txs]) => (
-              <View key={date}>
+            {Object.entries(txHistoryMapByDate).map(([date, txs], index) => (
+              <View key={date} style={{zIndex: 100 - index}}>
                 <Text style={styles.dateText}>{date}</Text>
                 <TxHistoryItemsBlock txs={txs} />
               </View>

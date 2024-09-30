@@ -11366,15 +11366,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-device-info@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "react-native-device-info@npm:13.0.0"
-  peerDependencies:
-    react-native: "*"
-  checksum: c86822bcdad1bb9d3b93bd750e199964c562d83e076df2f0984e24cadd19db7f8258e125ddede102be2314ed8349d2da2b671c998f70571027b84449773c583a
-  languageName: node
-  linkType: hard
-
 "react-native-encrypted-storage@npm:^4.0.3":
   version: 4.0.3
   resolution: "react-native-encrypted-storage@npm:4.0.3"
@@ -12228,7 +12219,6 @@ __metadata:
     react-native-click-outside: ^0.1.1
     react-native-config: ^1.5.2
     react-native-dashed-line: ^1.1.0
-    react-native-device-info: ^13.0.0
     react-native-encrypted-storage: ^4.0.3
     react-native-gesture-handler: ^2.16.2
     react-native-get-random-values: ^1.11.0

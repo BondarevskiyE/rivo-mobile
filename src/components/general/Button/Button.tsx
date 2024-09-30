@@ -47,6 +47,20 @@ const getBackgroundColor = (type: BUTTON_TYPE) => {
   }
 };
 
+const getStyles = (type: BUTTON_TYPE) => {
+  if (type === BUTTON_TYPE.PRIMAL) {
+    return {
+      borderRadius: 18,
+      height: 48,
+    };
+  }
+
+  return {
+    borderRadius: 40,
+    height: 56,
+  };
+};
+
 export enum BUTTON_TYPE {
   PRIMAL,
   SECONDARY,
@@ -90,6 +104,7 @@ export const Button = ({
 
   const backgroundColor = getBackgroundColor(type);
   const color = getColor(type);
+  const stylesByType = getStyles(type);
 
   return (
     <Pressable
@@ -101,6 +116,7 @@ export const Button = ({
       <Animated.View
         style={[
           styles.button,
+          stylesByType,
           {
             backgroundColor,
           },
