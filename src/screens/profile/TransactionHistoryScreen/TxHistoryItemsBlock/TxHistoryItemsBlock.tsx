@@ -18,6 +18,7 @@ export const TxHistoryItemsBlock: React.FC<Props> = ({txs}) => {
       {txs.map(tx => (
         <ExpandableCard
           expandTime={240}
+          collapseTime={180}
           initialSize={{
             width: SCREEN_WIDTH - LIST_HORIZONTAL_PADDING * 2,
             height: 72,

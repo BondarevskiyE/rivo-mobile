@@ -41,6 +41,7 @@ interface Props {
   disableExpandAnimation?: boolean;
   duplicateCardWhenExpand?: boolean;
   expandTime?: number;
+  collapseTime?: number;
 }
 
 const {width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('window');
@@ -71,6 +72,7 @@ export const ExpandableCard: React.FC<Props> = ({
   disableExpandAnimation = false,
   duplicateCardWhenExpand = false,
   expandTime = DEFAULT_EXPAND_TIME,
+  collapseTime = DEFAULT_EXPAND_TIME,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -89,27 +91,27 @@ export const ExpandableCard: React.FC<Props> = ({
       if (isOpen) {
         // Animate to initial size and position
         cardWidth.value = withTiming(initialSize.width, {
-          duration: expandTime,
+          duration: collapseTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardHeight.value = withTiming(initialSize.height, {
-          duration: expandTime,
+          duration: collapseTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardBorderRadius.value = withTiming(initialSize.borderRadius, {
-          duration: expandTime,
+          duration: collapseTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardTop.value = withTiming(0, {
-          duration: expandTime,
+          duration: collapseTime,
           easing: Easing.inOut(Easing.ease),
         });
 
         cardLeft.value = withTiming(0, {
-          duration: expandTime,
+          duration: collapseTime,
           easing: Easing.inOut(Easing.ease),
         });
       } else {
