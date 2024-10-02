@@ -3094,12 +3094,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@notifee/react-native@npm:^7.8.2":
-  version: 7.8.2
-  resolution: "@notifee/react-native@npm:7.8.2"
+"@notifee/react-native@npm:^9.0.2":
+  version: 9.0.2
+  resolution: "@notifee/react-native@npm:9.0.2"
   peerDependencies:
     react-native: "*"
-  checksum: f3b3ea116653d4dc7b50f8124898f9e22567ae30306225841d2057bc9ce40d451b15436dff3e60e0e042ffd7f34338054b202cd2dc61c5dc5eab7676b625b9f9
+  checksum: 2b46e360096dffea51803ff28a5e106d0bdea09651a72487728ee925f1748b2a374377c4db9e85f62fda8d7e16b0e0a2d7dcd4078c0342bac522bec364ccf21a
   languageName: node
   linkType: hard
 
@@ -12159,7 +12159,7 @@ __metadata:
     "@babel/traverse": ^7.25.3
     "@birdwingo/react-native-instagram-stories": ^1.3.4
     "@craftzdog/react-native-buffer": ^6.0.5
-    "@notifee/react-native": ^7.8.2
+    "@notifee/react-native": ^9.0.2
     "@react-native-async-storage/async-storage": ^1.23.1
     "@react-native-clipboard/clipboard": ^1.14.1
     "@react-native-community/blur": ^4.4.0

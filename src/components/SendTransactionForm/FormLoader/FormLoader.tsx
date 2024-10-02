@@ -19,7 +19,7 @@ const LOADER_TEXT = {
   LOADING: 'Just a moment',
   LONG_WAITING: 'It may take some time',
   SUCCESS_INVEST: 'Invest completed',
-  SUCCESS_WITHDRAW: 'Invest completed',
+  SUCCESS_WITHDRAWAL: 'Withdrawal completed',
   SUCCESS_SEND: 'Sent successfully!',
   FAIL_INVEST: 'Failed to invest',
   FAIL_WITHDRAW: 'Failed to withdraw',
@@ -54,7 +54,7 @@ export const FormLoader: React.FC<Props> = ({
         case SEND_TRANSACTION_FORM_TYPE.INVEST:
           return setText(LOADER_TEXT.SUCCESS_INVEST);
         case SEND_TRANSACTION_FORM_TYPE.WITHDRAW:
-          return setText(LOADER_TEXT.SUCCESS_WITHDRAW);
+          return setText(LOADER_TEXT.SUCCESS_WITHDRAWAL);
         case SEND_TRANSACTION_FORM_TYPE.SEND:
           return setText(LOADER_TEXT.SUCCESS_SEND);
       }

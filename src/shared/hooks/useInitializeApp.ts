@@ -5,7 +5,7 @@ import notifee from '@notifee/react-native';
 import Modal from '@/modal-manager';
 import {
   registerForegroundService,
-  // registerBackgroundService,
+  // createBackgroundEventNotificationsHandler,
 } from '@/services/notifee';
 import {useAppStore} from '@/store/useAppStore';
 import {useBalanceStore} from '@/store/useBalanceStore';
@@ -24,8 +24,7 @@ import {useAppState} from './useAppState';
 import {RemoteMessage} from '../types/notification';
 import {useTransactionsHistoryStore} from '@/store/useTransactionsHistoryStore';
 
-async function onMessageReceived(message: RemoteMessage) {
-  console.log(message);
+async function onNotificationReceived(message: RemoteMessage) {
   notifee.displayNotification({
     title: message?.notification?.title,
     body: message?.notification?.body,
@@ -80,6 +79,7 @@ export const useInitializeApp = () => {
   const initializeApp = async () => {
     registerForegroundService();
     // registerBackgroundService();
+    // createBackgroundEventNotificationsHandler();
 
     // Get the token
     const token = await messaging().getToken();
@@ -94,7 +94,8 @@ export const useInitializeApp = () => {
   };
 
   const handleMessageReceived = async (message: RemoteMessage) => {
-    onMessageReceived(message);
+    console.log('message: ', message);
+    onNotificationReceived(message);
     addNotification(message);
   };
 
@@ -107,7 +108,7 @@ export const useInitializeApp = () => {
 
       const unsubscribeOnMessage = messaging().onMessage(handleMessageReceived);
 
-      // messaging().setBackgroundMessageHandler(handleMessageReceived);
+      messaging().setBackgroundMessageHandler(handleMessageReceived);
 
       const unsibscribeOnTokenRefresh = messaging().onTokenRefresh(
         async (token: string) => {

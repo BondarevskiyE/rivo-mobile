@@ -6,6 +6,6 @@ import {App} from './App';
 import {name as appName} from './app.json';
 import {createBackgroundEventNotificationsHandler} from '@/services/notifee';
 
-createBackgroundEventNotificationsHandler();
+// createBackgroundEventNotificationsHandler();
 
 AppRegistry.registerComponent(appName, () => App);

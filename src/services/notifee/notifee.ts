@@ -1,6 +1,5 @@
 import notifee, {AndroidAction, EventType} from '@notifee/react-native';
-import * as RootNavigation from '@/navigation/RootNavigation';
-import {Linking} from 'react-native';
+import {openLink} from '@/shared/lib/utilities';
 
 export const createBackgroundEventNotificationsHandler = () => {
   return notifee.onBackgroundEvent(async ({type, detail}) => {
@@ -23,10 +22,9 @@ export const registerForegroundService = () => {
         console.log('User dismissed notification', detail.notification);
         break;
       case EventType.PRESS:
-        if (detail.notification?.data?.link) {
-          RootNavigation.navigate(
-            detail.notification?.data?.link as RootNavigation.ScreenName,
-          );
+        const link = `${detail.notification?.data?.link}`;
+        if (link) {
+          openLink(link);
         }
         console.log('User pressed notification', detail.notification);
         break;

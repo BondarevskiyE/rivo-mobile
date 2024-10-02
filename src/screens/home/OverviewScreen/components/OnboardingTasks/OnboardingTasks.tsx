@@ -1,4 +1,3 @@
-
 import {StyleSheet, Text, View} from 'react-native';
 
 import {useUserStore} from '@/store/useUserStore';

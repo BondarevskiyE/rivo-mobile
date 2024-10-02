@@ -1,4 +1,3 @@
-
 import {Text, View} from 'react-native';
 
 import {isFaceBiometry} from '@/services/keychain';
@@ -13,6 +12,14 @@ import {
 } from './types';
 
 export const getInputFontSize = (inputLength: number) => {
+  if (inputLength > 20) {
+    return 23;
+  }
+
+  if (inputLength > 15) {
+    return 27;
+  }
+
   if (inputLength > 10) {
     return 32;
   }
