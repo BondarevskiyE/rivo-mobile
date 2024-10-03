@@ -1,0 +1,1 @@
+export {InfoCarouselItem} from './InfoCarouselItem';

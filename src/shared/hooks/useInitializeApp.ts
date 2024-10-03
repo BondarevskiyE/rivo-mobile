@@ -1,9 +1,10 @@
 import {useEffect} from 'react';
 import messaging from '@react-native-firebase/messaging';
-import notifee from '@notifee/react-native';
 
 import Modal from '@/modal-manager';
 import {
+  checkInitialNotification,
+  displayNotification,
   registerForegroundService,
   // createBackgroundEventNotificationsHandler,
 } from '@/services/notifee';
@@ -23,13 +24,6 @@ import {
 import {useAppState} from './useAppState';
 import {RemoteMessage} from '../types/notification';
 import {useTransactionsHistoryStore} from '@/store/useTransactionsHistoryStore';
-
-async function onNotificationReceived(message: RemoteMessage) {
-  notifee.displayNotification({
-    title: message?.notification?.title,
-    body: message?.notification?.body,
-  });
-}
 
 export const useInitializeApp = () => {
   const setIsAppLoading = useAppStore(state => state.setIsAppLoading);
@@ -78,15 +72,11 @@ export const useInitializeApp = () => {
 
   const initializeApp = async () => {
     registerForegroundService();
-    // registerBackgroundService();
-    // createBackgroundEventNotificationsHandler();
 
     // Get the token
     const token = await messaging().getToken();
-    const apn = await messaging().app.options;
 
-    console.log(token);
-    console.log(apn);
+    // console.log(token);
 
     await registerNotificationToken(walletAddress, token);
 
@@ -94,8 +84,11 @@ export const useInitializeApp = () => {
   };
 
   const handleMessageReceived = async (message: RemoteMessage) => {
-    console.log('message: ', message);
-    onNotificationReceived(message);
+    displayNotification({
+      title: message?.notification?.title,
+      body: message?.notification?.body,
+    });
+
     addNotification(message);
   };
 
@@ -133,10 +126,13 @@ export const useInitializeApp = () => {
     setIsAppLoading(false);
   };
 
-  // refetch everyime user reopen the app after collapsing
+  // refetch everytime user reopen the app from collapsed state
   useEffect(() => {
     // we don't need to load data when user collapsed the app
     if (isLoggedIn && appState !== 'background') {
+      // check if the app was opened via notification
+      checkInitialNotification();
+
       loadData();
 
       const intervalBalance = setInterval(async () => {

@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
   scrollList: {
     paddingTop: 26,
-    paddingBottom: 90,
+    paddingBottom: 130,
   },
   dateText: {
     fontFamily: Fonts.regular,

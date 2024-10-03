@@ -11661,9 +11661,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-vision-camera@npm:^4.5.2":
-  version: 4.5.2
-  resolution: "react-native-vision-camera@npm:4.5.2"
+"react-native-vision-camera@npm:^4.5.3":
+  version: 4.5.3
+  resolution: "react-native-vision-camera@npm:4.5.3"
   peerDependencies:
     "@shopify/react-native-skia": "*"
     react: "*"
@@ -11677,7 +11677,7 @@ __metadata:
       optional: true
     react-native-worklets-core:
       optional: true
-  checksum: 19ee9f5a4105c47b6abfd8e4cf7558634e60f7d68ce6d9cc4a2c5b2b359d921c1121978637a2a4d571a75204a39141159438aac84f679c5ab33469052da8b671
+  checksum: 99d57a70f93134903ae25ef798947f79804ea00e3b58cbb21131115552e6f2950d2a3be9a6a237232ca6bab7b5031aa12d9ca2df659be39dc607d75997317abc
   languageName: node
   linkType: hard
 
@@ -12240,7 +12240,7 @@ __metadata:
     react-native-unordered-list: ^1.0.4
     react-native-url-polyfill: ^2.0.0
     react-native-video: "github:freeboub/react-native-video#chore/fixAppBoot"
-    react-native-vision-camera: ^4.5.2
+    react-native-vision-camera: ^4.5.3
     react-native-webview: ^13.12.1
     react-native-webview-crypto: ^0.0.25
     react-random-reveal: ^2.0.0

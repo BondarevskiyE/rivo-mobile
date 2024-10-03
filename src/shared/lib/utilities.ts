@@ -1,4 +1,5 @@
 import {Linking, Platform} from 'react-native';
+import {openInAppBrowser} from '../helpers/url';
 
 export const getDeepLink = (path = '') => {
   const scheme = 'rivomobile';
@@ -6,12 +7,14 @@ export const getDeepLink = (path = '') => {
   return prefix + path;
 };
 
-export const openLink = (link: string) => {
-  const url = link.includes('http') ? link : getDeepLink(link);
+export const openNotificationLink = (link: string) => {
+  const isExternalLink = link.includes('http');
+
+  const url = isExternalLink ? link : getDeepLink(link);
 
   Linking.canOpenURL(url).then(isOk => {
     if (isOk) {
-      Linking.openURL(url);
+      isExternalLink ? openInAppBrowser(url) : Linking.openURL(url);
     }
   });
 };

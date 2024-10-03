@@ -19,9 +19,9 @@ import {BUTTON_TYPE, Button} from '@/components/general/Button/Button';
 import {Fonts} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {isSmallScreenDeviceWidth} from '@/shared/lib/screen';
+import {isAndroid} from '@/shared/helpers/system';
 
 const {width: SCREEN_WIDTH} = Dimensions.get('window');
-
 interface Props {
   vault: Vault;
   isBigCarouselContainer: boolean;
@@ -38,6 +38,11 @@ const smallCarouselContainerPosition =
   (isSmallScreenDeviceWidth ? 25 : 10);
 const bigCarouselContainerPosition = smallCarouselContainerPosition + 70;
 
+const buttonsContainerSmallCarouselPosition =
+  smallCarouselContainerPosition - 10 + (isAndroid ? 20 : 0);
+const buttonsContainerBigCarouselPosition =
+  bigCarouselContainerPosition - 10 + (isAndroid ? 20 : 0);
+
 export const VaultAboutDragBlock: React.FC<Props> = ({
   vault,
   dragAnimationValue,
@@ -52,11 +57,11 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   const positionValue = useSharedValue(0);
   const buttonShownValue = useSharedValue(0);
 
-  const ref = useRef<DragUpFromBottomRefProps>(null);
+  const dragRef = useRef<DragUpFromBottomRefProps>(null);
 
   useEffect(() => {
     setTimeout(() => {
-      ref?.current?.scrollTo(0);
+      dragRef?.current?.scrollTo(0);
     }, 100);
   }, []);
 
@@ -88,8 +93,8 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
         [0, smallCarouselContainerPosition, bigCarouselContainerPosition],
         [
           -50,
-          (initialWindowMetrics?.insets.bottom || 0) + 22,
-          (initialWindowMetrics?.insets.bottom || 0) + 92,
+          buttonsContainerSmallCarouselPosition,
+          buttonsContainerBigCarouselPosition,
         ],
       ),
     };
@@ -100,11 +105,11 @@ export const VaultAboutDragBlock: React.FC<Props> = ({
   return (
     <ReAnimated.View style={[styles.container, {top: positionValue}]}>
       <DragUpFromBottom
-        ref={ref}
+        ref={dragRef}
         initialTranslateY={INITIAL_TRANSLATE_Y}
-        translateYOffset={
-          isBigCarouselContainer ? smallCarouselContainerPosition : 0
-        }
+        // translateYOffset={
+        //   isBigCarouselContainer ? smallCarouselContainerPosition : 0
+        // }
         dragAnimationValue={dragAnimationValue}>
         <AboutVaultContent
           vault={vault}
@@ -163,7 +168,7 @@ const styles = StyleSheet.create({
     width: SCREEN_WIDTH - 24,
   },
   halfWidthButton: {
-    width: SCREEN_WIDTH / 2 - 12,
+    width: SCREEN_WIDTH / 2 - 12 - 2,
   },
   sendTxButton: {
     height: 56,

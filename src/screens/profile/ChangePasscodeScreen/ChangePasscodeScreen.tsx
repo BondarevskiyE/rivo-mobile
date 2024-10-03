@@ -127,7 +127,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 63,
     paddingHorizontal: 12,
-    paddingBottom: 30,
   },
   title: {
     fontSize: 24,
@@ -135,7 +134,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.semiBold,
     lineHeight: 28.8,
     textAlign: 'center',
-    marginTop: 78,
+    marginTop: 10,
     color: Colors.ui_black,
   },
   closeIconContainer: {

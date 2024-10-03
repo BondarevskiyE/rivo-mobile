@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 10,
     paddingHorizontal: 12,
-    paddingBottom: 200,
+    paddingBottom: 230,
   },
   title: {
     fontFamily: Fonts.semiBold,

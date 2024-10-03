@@ -4,8 +4,8 @@ import 'react-native-url-polyfill/auto';
 import './globals';
 import {App} from './App';
 import {name as appName} from './app.json';
-import {createBackgroundEventNotificationsHandler} from '@/services/notifee';
+import {registerBackgroundService} from '@/services/notifee';
 
-// createBackgroundEventNotificationsHandler();
+registerBackgroundService();
 
 AppRegistry.registerComponent(appName, () => App);

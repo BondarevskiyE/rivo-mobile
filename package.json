@@ -69,7 +69,7 @@
     "react-native-shadow-2": "^7.1.0",
     "react-native-unordered-list": "^1.0.4",
     "react-native-video": "github:freeboub/react-native-video#chore/fixAppBoot",
-    "react-native-vision-camera": "^4.5.2",
+    "react-native-vision-camera": "^4.5.3",
     "react-random-reveal": "^2.0.0",
     "rn-faded-scrollview": "^1.0.13",
     "stream": "^0.0.3",

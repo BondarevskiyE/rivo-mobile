@@ -141,7 +141,7 @@ export const PasswordKeyboard: React.FC<Props> = ({
   return (
     <>
       <View style={styles.container}>
-        <View>
+        <View style={{marginBottom: 20}}>
           <Animated.View
             style={[
               styles.dotsContainer,

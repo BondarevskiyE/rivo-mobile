@@ -12,7 +12,10 @@ import {Colors} from '@/shared/ui';
 import {Pagination} from './Pagination/Pagination';
 import {Vault} from '@/shared/types';
 import {Page, PAGES} from './types';
-import {isSmallScreenDeviceWidth} from '@/shared/lib/screen';
+import {
+  CHART_CAROUSEL_BLOCK_HEIGHT,
+  INFO_CAROUSEL_BLOCK_HEIGHT,
+} from '../constant';
 
 interface Props {
   vault: Vault;
@@ -20,8 +23,6 @@ interface Props {
   isBigCarouselContainer: boolean;
   changeDragBlockSize: (isBig: boolean) => void;
 }
-
-const containerFlexSize = isSmallScreenDeviceWidth ? 0.53 : 0.5;
 
 const pages: Page[] = [
   {
@@ -64,7 +65,11 @@ export const VaultVerticalCarousel: React.FC<Props> = ({
       <View
         style={[
           styles.listContainer,
-          {flex: isBigCarouselContainer ? 0.6 : containerFlexSize},
+          {
+            height: isBigCarouselContainer
+              ? CHART_CAROUSEL_BLOCK_HEIGHT
+              : INFO_CAROUSEL_BLOCK_HEIGHT,
+          },
         ]}>
         <Pressable style={styles.closeIconContainer} onPress={goBack}>
           <CloseIcon />

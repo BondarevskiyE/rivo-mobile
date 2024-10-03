@@ -195,7 +195,9 @@ export const DragUpFromBottom = React.forwardRef<
       <GestureDetector gesture={gesture}>
         <ReAnimated.View
           style={[styles.bottomSheetContainer, rBottomSheetStyle]}
-          onLayout={e => setInitialYCoordinate(e.nativeEvent.layout.y)}>
+          onLayout={e => {
+            setInitialYCoordinate(e.nativeEvent.layout.y);
+          }}>
           {!hideDragLine && (
             <Pressable onPress={onPressDragLine}>
               <View style={styles.line} />

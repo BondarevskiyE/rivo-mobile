@@ -1,6 +1,4 @@
 import {LinkingOptions} from '@react-navigation/native';
-import messaging from '@react-native-firebase/messaging';
-import {Linking} from 'react-native';
 
 import {ROOT_STACKS} from './types/rootStack';
 import {HOME_SCREENS, HOME_SCREEN_TABS} from './types/homeStack';
@@ -54,51 +52,4 @@ export const deepLinksConf = {
 export const linking: LinkingOptions<{}> = {
   prefixes: ['rivomobile://', 'https://app.rivomobile.com'],
   config: deepLinksConf,
-  async getInitialURL() {
-    // Check if app was opened from a deep link
-    const url = await Linking.getInitialURL();
-
-    console.log('initial url: ', url);
-
-    if (url != null) {
-      return url;
-    }
-
-    // Check if there is an initial firebase notification
-    const message = await messaging().getInitialNotification();
-
-    console.log('message?.data?.link: ', message);
-
-    // Get deep link from data
-    // if this is undefined, the app will open the default/home page
-    return message?.data?.link as string;
-  },
-  subscribe(listener) {
-    const onReceiveURL = ({url}: {url: string}) => listener(url);
-
-    // Listen to incoming links from deep linking
-    Linking.addEventListener('url', onReceiveURL);
-
-    // Listen to firebase push notifications
-    const unsubscribeNotification = messaging().onNotificationOpenedApp(
-      message => {
-        const url = message?.data?.link as string;
-
-        console.log('subscribe', message);
-
-        if (url) {
-          // Any custom logic to check whether the URL needs to be handled
-
-          // Call the listener to let React Navigation handle the URL
-          listener(url);
-        }
-      },
-    );
-
-    return () => {
-      // Clean up the event listeners
-      Linking.removeAllListeners('url');
-      unsubscribeNotification();
-    };
-  },
 };
