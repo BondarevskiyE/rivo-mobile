@@ -21,33 +21,34 @@ const redirectUrl = getDeepLink('openlogin');
 
 const SdkInitParams = {
   clientId: WEB3AUTH_API_KEY,
-  network: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
+  network: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
   redirectUrl,
 };
 // arbitrum mainnet
-// const chainConfig = {
-//   chainNamespace: 'eip155',
-//   chainId: '0xA4B1', // hex of 42161
-//   rpcTarget: 'https://rpc.ankr.com/arbitrum',
-//   // Avoid using public rpcTarget in production.
-//   // Use services like Infura, Quicknode etc
-//   displayName: 'Arbitrum Mainnet',
-//   blockExplorer: 'https://arbiscan.io',
-//   ticker: 'AETH',
-//   tickerName: 'AETH',
-// };
-// arbitrum testnet
 const chainConfig = {
   chainNamespace: ChainNamespace.EIP155,
-  chainId: '0x66eee', // Hex of 421614
+  chainId: '0xA4B1', // hex of 42161
+  rpcTarget: 'https://rpc.ankr.com/arbitrum',
   // Avoid using public rpcTarget in production.
   // Use services like Infura, Quicknode etc
-  rpcTarget: 'https://rpc.ankr.com/arbitrum_sepolia',
-  displayName: 'Arbitrum Sepolia Testnet',
-  blockExplorer: 'https://sepolia.arbiscan.io/',
+  displayName: 'Arbitrum Mainnet',
+  blockExplorer: 'https://arbiscan.io',
   ticker: 'AETH',
   tickerName: 'AETH',
 };
+
+// arbitrum testnet
+// const chainConfig = {
+//   chainNamespace: ChainNamespace.EIP155,
+//   chainId: '0x66eee', // Hex of 421614
+//   // Avoid using public rpcTarget in production.
+//   // Use services like Infura, Quicknode etc
+//   rpcTarget: 'https://rpc.ankr.com/arbitrum_sepolia',
+//   displayName: 'Arbitrum Sepolia Testnet',
+//   blockExplorer: 'https://sepolia.arbiscan.io/',
+//   ticker: 'AETH',
+//   tickerName: 'AETH',
+// };
 
 const ethereumPrivateKeyProvider = new EthereumPrivateKeyProvider({
   config: {
@@ -103,6 +104,7 @@ export const web3AuthLogin = async (loginProvider: LOGIN_PROVIDER_TYPE) => {
         // @ts-ignore
         ethereumPrivateKeyProvider,
       );
+      console.log('smartAccountSigner.address: ', smartAccountSigner.address);
 
       return {smartAccountSigner, user};
     }

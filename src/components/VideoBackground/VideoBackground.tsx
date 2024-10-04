@@ -12,6 +12,8 @@ export const VideoBackground: React.FC<Props> = ({source}) => {
       resizeMode="contain"
       muted
       repeat
+      disableFocus
+      focusable={false}
       // @ts-ignore NodeRequire is a right type here
       source={source}
       style={styles.backgroundVideo}

@@ -24,8 +24,8 @@ export const registerForegroundService = () => {
         console.log('User dismissed notification', detail.notification);
         break;
       case EventType.PRESS:
-        if (detail.notification?.data?.link) {
-          openNotificationLink(`${detail.notification?.data?.link}`);
+        if (detail.notification?.data?.deep_link) {
+          openNotificationLink(`${detail.notification?.data?.deep_link}`);
         } else {
           openNotificationLink('tabs/notifications');
         }
@@ -39,7 +39,7 @@ export const checkInitialNotification = async () => {
   const initialNotification = await messaging().getInitialNotification();
 
   if (initialNotification) {
-    const link = `${initialNotification?.data?.link}`;
+    const link = `${initialNotification?.data?.deep_link}`;
 
     if (link) {
       openNotificationLink(link);

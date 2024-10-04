@@ -24,12 +24,12 @@ export const NotificationItem: React.FC<Props> = ({message}) => {
   const time = getTimeString(+(message.sentTime || 0));
 
   const handleOpenNotificationModal = () => {
-    if (message.data?.link) {
+    if (message.data?.deep_link) {
       // it is weird, yes. It is here because a system change appState to background when you open deepLink on android
       // but we need consider appState to show PassCodeScreen, so wothout it a user always will see passCode before navigationing to deepLink
       setIsSystemAlertOpen(true);
 
-      openNotificationLink(`${message.data?.link}`);
+      openNotificationLink(`${message.data?.deep_link}`);
 
       setTimeout(() => {
         setIsSystemAlertOpen(false);
