@@ -29,7 +29,7 @@ export const TransakWidget: React.FC<Props> = ({
 
   const transakConfig: TransakConfig = {
     apiKey: TRANSAK_API_KEY,
-    environment: Environments.STAGING,
+    environment: Environments.PRODUCTION,
     partnerOrderId: walletAddress, // Required to receive order events
     productsAvailed: widgetType,
     defaultNetwork: 'arbitrum',
