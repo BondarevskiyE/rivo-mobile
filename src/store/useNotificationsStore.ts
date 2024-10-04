@@ -16,7 +16,7 @@ interface NotificationsStore {
 
 const notificationsMock = [
   {
-    data: {link: 'points'},
+    data: {deep_link: 'points'},
     sentTime: 1726481239214,
     from: '235832681635',
     messageId: '1726231555062341',
@@ -27,7 +27,7 @@ const notificationsMock = [
   },
 
   {
-    data: {link: 'tabs/charts'},
+    data: {deep_link: 'tabs/charts'},
     sentTime: 1716239187997,
     from: '235832681635',
     messageId: '17262315562341',
@@ -37,7 +37,7 @@ const notificationsMock = [
     },
   },
   {
-    data: {link: 'send'},
+    data: {deep_link: 'send'},
     sentTime: 1426239187997,
     from: '235832681635',
     messageId: '17231555062341',
