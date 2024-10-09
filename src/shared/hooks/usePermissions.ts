@@ -6,6 +6,8 @@ import {
   RESULTS,
   request,
   requestNotifications,
+  check,
+  checkNotifications,
 } from 'react-native-permissions';
 import {isIos, isAndroid} from '../helpers/system';
 import {useSettingsStore} from '@/store/useSettingsStore';
@@ -127,7 +129,63 @@ export const usePermissions = (typeOfPermission: EPermissionTypes) => {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [getPermission]);
 
+  const checkPermissions =
+    useCallback(async (): Promise<TUsePermissionsReturnType> => {
+      return new Promise<TUsePermissionsReturnType>(async (resolve, reject) => {
+        //check permissions from user
+        //if error present, return error
+        try {
+          const permissionType = getPermission();
+
+          const checkPromise =
+            permissionType === EPermissionTypes.PUSH_NOTIFICATIONS
+              ? // there is independent method for checking push notifications access
+                checkNotifications()
+              : check(permissionType);
+
+          await checkPromise.then(result => {
+            const status = isPushNotificationsResponse(result)
+              ? result.status
+              : result;
+
+            switch (status) {
+              case RESULTS.UNAVAILABLE:
+                return reject({
+                  type: RESULTS.UNAVAILABLE,
+                });
+              case RESULTS.DENIED:
+                return reject({
+                  type: RESULTS.DENIED,
+                });
+              case RESULTS.GRANTED:
+                return resolve({
+                  type: RESULTS.GRANTED,
+                });
+              case RESULTS.BLOCKED:
+                return reject({
+                  type: RESULTS.BLOCKED,
+                });
+              case RESULTS.LIMITED:
+                return resolve({
+                  type: RESULTS.LIMITED,
+                });
+            }
+          });
+        } catch (e: {data: {message: string | undefined}} | any) {
+          return reject({
+            isError: true,
+            errorMessage:
+              e?.data?.message ||
+              e.message ||
+              'Something went wrong while checking permissions.',
+          });
+        }
+      });
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [getPermission]);
+
   return {
     askPermissions,
+    checkPermissions,
   };
 };

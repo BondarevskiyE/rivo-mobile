@@ -1,4 +1,4 @@
-import {useEffect} from 'react';
+import {useEffect, useMemo} from 'react';
 import messaging from '@react-native-firebase/messaging';
 
 import Modal from '@/modal-manager';
@@ -60,11 +60,34 @@ export const useInitializeApp = () => {
 
   const reconnectZeroDev = useZeroDevStore(state => state.reconnectZeroDev);
 
+  const createBlockScreenWithPasscodeMethod = () => {
+    let timeoutId: NodeJS.Timeout;
+
+    return (isNeedToBlock: boolean) => {
+      if (isNeedToBlock) {
+        timeoutId && clearTimeout(timeoutId);
+
+        timeoutId = setTimeout(() => {
+          setIsPassCodeEntered(false);
+        }, FIVE_MINUTES_IN_MILISECONDS);
+      } else {
+        timeoutId && clearTimeout(timeoutId);
+      }
+    };
+  };
+
+  const blockScreenWithPasscode = useMemo(
+    () => createBlockScreenWithPasscodeMethod(),
+    [],
+  );
+
   const {appState} = useAppState({
     onChange: () => {},
-    onForeground: () => {},
+    onForeground: () => {
+      blockScreenWithPasscode(false);
+    },
     onBackground: () => {
-      setIsPassCodeEntered(false);
+      blockScreenWithPasscode(true);
       Modal.hide();
       clearHighlight();
     },

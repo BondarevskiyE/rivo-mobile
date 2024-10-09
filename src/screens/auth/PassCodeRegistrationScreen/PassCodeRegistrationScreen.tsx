@@ -40,15 +40,62 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
 
   const user = useUserStore(state => state.userInfo);
 
-  const setIsPassCodeEntered = useLoginStore(
-    state => state.setIsPassCodeEntered,
-  );
-  const {setIsBiometryEnabled, setBiometryType} = useSettingsStore(state => ({
-    setIsBiometryEnabled: state.setIsBiometryEnabled,
-    setBiometryType: state.setBiometryType,
+  const {setIsPassCodeEntered, setIsLoggedIn} = useLoginStore(state => ({
+    setIsPassCodeEntered: state.setIsPassCodeEntered,
+    setIsLoggedIn: state.setIsLoggedIn,
   }));
+  const {setIsBiometryEnabled, setBiometryType, setIsNotificationsEnabled} =
+    useSettingsStore(state => ({
+      setIsBiometryEnabled: state.setIsBiometryEnabled,
+      setBiometryType: state.setBiometryType,
+      setIsNotificationsEnabled: state.setIsNotificationsEnabled,
+    }));
 
-  const {askPermissions} = usePermissions(EPermissionTypes.BIOMETRY);
+  const {askPermissions: askBiometryPermissions} = usePermissions(
+    EPermissionTypes.BIOMETRY,
+  );
+
+  const {checkPermissions: checkPushNotificationsPermissions} = usePermissions(
+    EPermissionTypes.PUSH_NOTIFICATIONS,
+  );
+
+  const onRedirectToNextScreen = async () => {
+    checkPushNotificationsPermissions()
+      .then(response => {
+        //permission given for notifications
+        if (
+          response.type === RESULTS.LIMITED ||
+          response.type === RESULTS.GRANTED
+        ) {
+          setIsNotificationsEnabled(true);
+          setIsLoggedIn(true);
+        }
+      })
+      .catch(error => {
+        //permission is denied/blocked or camera feature not supported
+        if ('isError' in error && error.isError) {
+          Alert.alert(
+            error.errorMessage ||
+              'Something went wrong while checking notifications permission',
+          );
+          setIsLoggedIn(true);
+        }
+        if ('type' in error) {
+          if (error.type === RESULTS.UNAVAILABLE) {
+            Alert.alert('This feature is not supported on this device');
+            setIsLoggedIn(true);
+            // user blocked permissions, pass them to the app
+          } else if (error.type === RESULTS.BLOCKED) {
+            setIsLoggedIn(true);
+            setIsNotificationsEnabled(false);
+
+            // permissions wasn't asked
+          } else if (error.type === RESULTS.DENIED) {
+            navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
+          }
+        }
+      });
+  };
 
   const onPinCodeFulfilled = async (pinCode: string) => {
     switch (step) {
@@ -92,7 +139,7 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
         setBiometryType(biometryType || null);
 
         if (biometryType) {
-          await askPermissions()
+          await askBiometryPermissions()
             .then(status => {
               if (
                 status.type === RESULTS.LIMITED ||
@@ -125,7 +172,7 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
 
         setIsPassCodeEntered(true);
 
-        navigation.navigate(AUTH_SCREENS.ENABLE_NOTIFICATIONS);
+        onRedirectToNextScreen();
       }
     }
   };

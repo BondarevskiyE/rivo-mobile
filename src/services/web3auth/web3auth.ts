@@ -21,7 +21,7 @@ const redirectUrl = getDeepLink('openlogin');
 
 const SdkInitParams = {
   clientId: WEB3AUTH_API_KEY,
-  network: OPENLOGIN_NETWORK.SAPPHIRE_MAINNET,
+  network: OPENLOGIN_NETWORK.SAPPHIRE_DEVNET,
   redirectUrl,
 };
 // arbitrum mainnet
@@ -104,7 +104,6 @@ export const web3AuthLogin = async (loginProvider: LOGIN_PROVIDER_TYPE) => {
         // @ts-ignore
         ethereumPrivateKeyProvider,
       );
-      console.log('smartAccountSigner.address: ', smartAccountSigner.address);
 
       return {smartAccountSigner, user};
     }

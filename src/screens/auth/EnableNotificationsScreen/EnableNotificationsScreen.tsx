@@ -24,7 +24,7 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
     state => state.setIsNotificationsEnabled,
   );
 
-  const setIsloggedIn = useLoginStore(state => state.setIsLoggedIn);
+  const setIsLoggedIn = useLoginStore(state => state.setIsLoggedIn);
 
   const {askPermissions} = usePermissions(EPermissionTypes.PUSH_NOTIFICATIONS);
 
@@ -55,12 +55,12 @@ export const EnableNotificationsScreen: React.FC<Props> = () => {
       })
       .finally(() => {
         // pass the user in the app in any way
-        setIsloggedIn(true);
+        setIsLoggedIn(true);
       });
   };
 
   const onFinishRegistration = () => {
-    setIsloggedIn(true);
+    setIsLoggedIn(true);
   };
 
   return (
