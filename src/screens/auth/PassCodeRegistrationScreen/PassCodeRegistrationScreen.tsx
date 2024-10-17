@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {View, StyleSheet, Text, Alert} from 'react-native';
 import {RESULTS} from 'react-native-permissions';
 
@@ -35,7 +35,7 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
     REGISTER_PASSCODE_STEPS.ENTER_PASSCODE,
   );
 
-  const [attemptCounter, setAttemptCounter] = useState<number>(1);
+  const [_, setAttemptCounter] = useState<number>(0);
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
@@ -58,6 +58,24 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
   const {checkPermissions: checkPushNotificationsPermissions} = usePermissions(
     EPermissionTypes.PUSH_NOTIFICATIONS,
   );
+
+  const getHideErrorCallback = () => {
+    let timeout: NodeJS.Timeout;
+
+    return (timeoutTime?: number) => {
+      if (timeoutTime) {
+        timeout = setTimeout(() => {
+          setIsError(false);
+        }, timeoutTime);
+        return;
+      }
+
+      clearInterval(timeout);
+      setIsError(false);
+    };
+  };
+
+  const hideError = useMemo(() => getHideErrorCallback(), []);
 
   const onRedirectToNextScreen = async () => {
     checkPushNotificationsPermissions()
@@ -120,17 +138,19 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
         const isPassCodesMatch = pinCode === storedPassCode;
 
         if (!isPassCodesMatch) {
-          setAttemptCounter(prev => prev + 1);
+          setAttemptCounter(prev => {
+            if (prev + 1 === 3) {
+              setStoredPassCode('');
+              setStep(REGISTER_PASSCODE_STEPS.ENTER_PASSCODE);
+
+              return 0;
+            }
+
+            return prev + 1;
+          });
           setIsError(true);
 
-          setTimeout(() => {
-            setIsError(false);
-            if (attemptCounter === 3) {
-              setStoredPassCode('');
-              setAttemptCounter(1);
-              setStep(REGISTER_PASSCODE_STEPS.ENTER_PASSCODE);
-            }
-          }, 1500);
+          hideError(1500);
           return;
         }
 
@@ -187,6 +207,7 @@ export const PassCodeRegistrationScreen: React.FC<Props> = ({navigation}) => {
         onPinCodeFulfilled={onPinCodeFulfilled}
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}
+        hideError={hideError}
       />
     </View>
   );

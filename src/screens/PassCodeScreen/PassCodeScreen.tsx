@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
@@ -38,6 +38,24 @@ export const PassCodeScreen: React.FC = () => {
     },
   });
 
+  const getHideErrorCallback = () => {
+    let timeout: NodeJS.Timeout;
+
+    return (timeoutTime?: number) => {
+      if (timeoutTime) {
+        timeout = setTimeout(() => {
+          setIsError(false);
+        }, timeoutTime);
+        return;
+      }
+
+      clearInterval(timeout);
+      setIsError(false);
+    };
+  };
+
+  const hideError = useMemo(() => getHideErrorCallback(), []);
+
   const onPinCodeFulfilled = async (pinCode: string) => {
     const credentials = await getCredentialsWithPassword();
 
@@ -56,9 +74,7 @@ export const PassCodeScreen: React.FC = () => {
 
     setIsError(true);
 
-    setTimeout(() => {
-      setIsError(false);
-    }, 2000);
+    hideError(1500);
   };
 
   const onClickBiometry = async () => {
@@ -114,6 +130,7 @@ export const PassCodeScreen: React.FC = () => {
         onExit={onExit}
         isError={isError}
         pinCodeLength={PINCODE_LENGTH}
+        hideError={hideError}
       />
     </SafeAreaView>
   );

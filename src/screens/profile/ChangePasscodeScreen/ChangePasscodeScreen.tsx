@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {View, StyleSheet, Text, Pressable} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import LinearGradient from 'react-native-linear-gradient';
@@ -35,7 +35,7 @@ export const ChangePasscodeScreen: React.FC<Props> = ({navigation}) => {
 
   const [step, setStep] = useState(CHANGE_PASSCODE_STEPS.ENTER_OLD_PASSCODE);
 
-  const [attemptCounter, setAttemptCounter] = useState<number>(1);
+  const [_, setAttemptCounter] = useState<number>(0);
   const [isError, setIsError] = useState<boolean>(false);
 
   const user = useUserStore(state => state.userInfo);
@@ -44,14 +44,23 @@ export const ChangePasscodeScreen: React.FC<Props> = ({navigation}) => {
     navigation.goBack();
   };
 
-  const throwError = (cb?: () => void) => {
-    setIsError(true);
+  const getHideErrorCallback = () => {
+    let timeout: NodeJS.Timeout;
 
-    setTimeout(() => {
+    return (timeoutTime?: number) => {
+      if (timeoutTime) {
+        timeout = setTimeout(() => {
+          setIsError(false);
+        }, timeoutTime);
+        return;
+      }
+
+      clearInterval(timeout);
       setIsError(false);
-      cb?.();
-    }, 1500);
+    };
   };
+
+  const hideError = useMemo(() => getHideErrorCallback(), []);
 
   const onPinCodeFulfilled = async (pinCode: string) => {
     switch (step) {
@@ -61,7 +70,9 @@ export const ChangePasscodeScreen: React.FC<Props> = ({navigation}) => {
         if (oldPasscode && oldPasscode?.password === pinCode) {
           setStep(CHANGE_PASSCODE_STEPS.SET_UP_NEW_PASSCODE);
         } else {
-          throwError();
+          setIsError(true);
+
+          hideError(1500);
         }
         break;
       }
@@ -79,15 +90,19 @@ export const ChangePasscodeScreen: React.FC<Props> = ({navigation}) => {
           await saveCredentialsWithPassword(user?.email, pinCode);
           handleGoBack();
         } else {
-          setAttemptCounter(prev => prev + 1);
-
-          throwError(() => {
-            if (attemptCounter === 3) {
+          setAttemptCounter(prev => {
+            if (prev + 1 === 3) {
               setStoredPassCode('');
-              setAttemptCounter(1);
               setStep(CHANGE_PASSCODE_STEPS.SET_UP_NEW_PASSCODE);
+
+              return 0;
             }
+
+            return prev + 1;
           });
+          setIsError(true);
+
+          hideError(1500);
         }
       }
     }
@@ -110,6 +125,7 @@ export const ChangePasscodeScreen: React.FC<Props> = ({navigation}) => {
           onPinCodeFulfilled={onPinCodeFulfilled}
           isError={isError}
           pinCodeLength={PINCODE_LENGTH}
+          hideError={hideError}
         />
       </View>
     </LinearGradient>

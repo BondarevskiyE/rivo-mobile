@@ -8,6 +8,7 @@ import {AnimatedDot} from './AnimatedDot';
 interface Props {
   onPinCodeFulfilled: (pinCode: string) => void;
   isError: boolean;
+  hideError: (timeoutTime?: number) => void;
   onClickBiometry?: () => void;
   onExit?: () => void;
   pinCodeLength?: number;
@@ -19,6 +20,7 @@ export const PasswordKeyboard: React.FC<Props> = ({
   onExit,
   isError,
   pinCodeLength = 4,
+  hideError,
 }) => {
   const [pinCode, setPinCode] = useState<(string | number)[]>([]);
 
@@ -29,7 +31,7 @@ export const PasswordKeyboard: React.FC<Props> = ({
 
   const onPressSymbol = async (symbol: string | number) => {
     if (isError) {
-      return;
+      hideError();
     }
 
     if (symbol === 'del') {
