@@ -1,20 +1,26 @@
-
-import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {ImageBackground, Pressable, StyleSheet, Text, View} from 'react-native';
+import * as RootNavigation from '@/navigation/RootNavigation';
 
 import {formatNumber, shortenAddress} from '@/shared/lib/format';
 import {Colors, Fonts, Images} from '@/shared/ui';
 import {useBalanceStore} from '@/store/useBalanceStore';
 import {useUserStore} from '@/store/useUserStore';
+import {HOME_SCREENS} from '@/navigation/types/homeStack';
 
 export const CardWallet = () => {
   const userBalance = useBalanceStore(state => state.userBalance);
   const totalEarned = useBalanceStore(state => state.totalEarned);
   const walletAddress = useUserStore(state => state.walletAddress);
+
   const [userBalanceInteger, userBalanceFraction] =
     formatNumber(userBalance).split('.');
 
+  const openReceiveFundsScreen = () => {
+    RootNavigation.navigate(HOME_SCREENS.RECEIVE_SCREEN);
+  };
+
   return (
-    <View style={styles.container}>
+    <Pressable onPress={openReceiveFundsScreen} style={styles.container}>
       <ImageBackground
         source={Images.userCard}
         resizeMode="cover"
@@ -42,7 +48,7 @@ export const CardWallet = () => {
           <Text style={styles.address}>{shortenAddress(walletAddress)}</Text>
         </View>
       </ImageBackground>
-    </View>
+    </Pressable>
   );
 };
 
